@@ -1,0 +1,42 @@
+@using TGDH.Core.Utility
+
+@helper RenderPaging(Paging paging, int currentId)
+{
+    var umbracoHelper = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
+    var queryString = string.Empty;
+
+    foreach (var key in Request.QueryString)
+    {
+        if (key != null && (string)key != "page")
+        {
+            queryString = queryString + "&" + key + "=" + Request.QueryString[(string)key];
+        }
+    }
+
+    if (paging.CurrentPage > 1)
+    {
+        <a href="@umbracoHelper.TypedContent(currentId).Url">First</a>
+
+        <a href="@umbracoHelper.TypedContent(currentId).Url?page=@(paging.CurrentPage - 1)@queryString" class="c-pagination__link c-pagination__link--prev" rel="prev">
+            < Previous
+        </a>
+    }
+
+    for (var page = paging.StartPage; page <= paging.EndPage; page++)
+    {
+        var activeClass = paging.CurrentPage == page ? "is-active" : "";
+
+        <a href="@umbracoHelper.TypedContent(currentId).Url?page=@page@queryString" class="c-pagination__link c-pagination__link--index @activeClass">
+            @page
+        </a>
+    }
+
+    if (paging.CurrentPage < paging.TotalPages)
+    {
+        <a href="@umbracoHelper.TypedContent(currentId).Url?page=@(paging.CurrentPage + 1)@queryString" class="c-pagination__link c-pagination__link--next" rel="next">
+            Next >
+        </a>
+
+        <a href="@umbracoHelper.TypedContent(currentId).Url?page=@(paging.TotalPages)">Last</a>
+    }
+}
