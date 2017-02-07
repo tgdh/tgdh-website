@@ -30,7 +30,7 @@
         <!--[if lt IE 9]>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
         <![endif]-->
-
+		<script src="/assets/js/modernizr.js" async></script>
 		<script>
 			var $html = document.documentElement;
 			var enhance = 'querySelector' in document
@@ -49,9 +49,11 @@
 		</script>
     </head>
     <body class="o-page">
-		@Html.Partial("~/Views/Partials/Page/Notifications.cshtml")
-        @Html.Partial("~/Views/Partials/Page/Header.cshtml")
-        @RenderBody()
+		<div class="o-page__inner">
+			@Html.Partial("~/Views/Partials/Page/Notifications.cshtml")
+	        @Html.Partial("~/Views/Partials/Page/Header.cshtml")
+	        @RenderBody()
+		</div>
         @Html.Partial("~/Views/Partials/Page/Footer.cshtml")
 
         <!--[if gte IE 9]><!-->

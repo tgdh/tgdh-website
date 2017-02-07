@@ -56,7 +56,7 @@
 
 .enhance {
 
-	.c-nav__list {
+	.c-nav {
 		position: absolute;
 		left: 0;
 		right: 0;
@@ -76,7 +76,7 @@
 			visibility: visible;
 		}
 
-		.c-nav__list {
+		.c-nav {
 			opacity: 1;
 			visibility: visible;
 			transform: translateY(0);

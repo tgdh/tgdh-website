@@ -1052,7 +1052,7 @@ img {
   .c-nav__link.is-active {
     opacity: .65; }
 
-.enhance .c-nav__list {
+.enhance .c-nav {
   position: absolute;
   left: 0;
   right: 0;
@@ -1071,7 +1071,7 @@ img {
   opacity: .7;
   visibility: visible; }
 
-.enhance.s-mainNavigation-is-visible .c-nav__list {
+.enhance.s-mainNavigation-is-visible .c-nav {
   opacity: 1;
   visibility: visible;
   -webkit-transform: translateY(0);
@@ -1207,6 +1207,7 @@ img {
 .c-notify {
   color: #FFFFFF;
   padding: 1rem 2rem;
+  margin-top: 1.4em;
   border-radius: 0.3rem;
   -webkit-transition: opacity 0.3s ease, color 0.3s ease, background 0.3s ease, visibility 0.3s ease;
   transition: opacity 0.3s ease, color 0.3s ease, background 0.3s ease, visibility 0.3s ease; }

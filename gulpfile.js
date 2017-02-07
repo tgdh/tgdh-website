@@ -123,10 +123,14 @@ gulp.task('modernizr', function(){
         paths.assetsFolder + '/js/**/*.js',
         paths.assetsFolder + '/sass/**/*.scss'
     ])
+	.pipe( $.newer('.tmp/scripts') )
+	.pipe( gulp.dest('.tmp/scripts') )
     .pipe( $.modernizr({
         'options': ['setClasses']
-    }) )
-    .pipe( gulp.dest( paths.assetsFolder + '/js/lib') );
+    }))
+	.pipe( $.if( isProduction, $.uglify({preserveComments: 'some'}) ) )
+	.pipe( $.if( isProduction, cachebust.resources() ) )
+    .pipe( gulp.dest( paths.assetsBuildFolder + '/js') );
 });
 
 // IE
@@ -211,9 +215,9 @@ gulp.task('refAssets', ['css','js'], function() {
 });
 
 // gulp dev
-gulp.task('dev', ['clean','modernizr'], function() {
+gulp.task('dev', ['clean'], function() {
     isProduction = false;
-    gulp.start('refAssets', 'images', 'watch', 'copyfonts');
+    gulp.start('refAssets', 'images', 'watch', 'copyfonts', 'modernizr');
 });
 
 // gulp build

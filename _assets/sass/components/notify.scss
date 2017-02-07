@@ -7,6 +7,7 @@
 .c-notify {
 	color: $white;
 	padding: 1rem 2rem;
+	margin-top: $line-height;
 	border-radius: $border-radius;
 	transition: opacity $speed $ease,
 				color $speed $ease,
