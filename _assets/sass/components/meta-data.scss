@@ -1,0 +1,23 @@
+/* ===========================================================
+
+	# Meta data
+
+=========================================================== */
+
+.c-meta-data__item {
+	list-style: none;
+	margin: 0;
+}
+
+@include respond-min( $mq-small ) {
+
+	.c-meta-data__item {
+		display: inline-block;
+		margin: 0;
+
+		& + .c-meta-data__item {
+			margin-left: 1rem;
+		}
+	}
+
+}

@@ -1,0 +1,31 @@
+/* ===========================================================
+
+	# Page
+
+=========================================================== */
+
+html {
+	height: 100%;
+}
+
+.o-page {
+	background: $background-colour;
+	min-height: 100%;
+}
+
+.o-page__inner {
+	width: 100%;
+}
+
+.flexbox {
+
+	.o-page {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.o-page__inner {
+		flex: 1 1 auto;
+	}
+
+}

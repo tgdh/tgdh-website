@@ -1,0 +1,27 @@
+/* ===========================================================
+
+	# Pagination
+
+=========================================================== */
+
+.c-pagination {
+	margin-top: $line-height;
+}
+
+.c-pagination__link {
+	padding: 1.7rem;
+	color: $text-colour;
+	display: inline-block;
+
+	&.is-active {
+		font-weight: $bold;
+	}
+}
+
+@include respond-min( $mq-medium ) {
+
+	.c-pagination {
+		text-align: right;
+	}
+
+}

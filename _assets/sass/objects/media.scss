@@ -1,0 +1,41 @@
+/* ===========================================================
+
+	# Media
+
+=========================================================== */
+
+img {
+  	max-width: 100%;
+  	vertical-align: top;
+}
+
+.o-media {
+	position: relative;
+
+	img {
+		width: 100%;
+		border-radius: $border-radius;
+	}
+
+}
+
+.o-media--video {
+	position: relative;
+	background-color: $placeholder-colour;
+
+	&:before {
+		content: '';
+		display: block;
+		padding-top: 56.25%;
+	}
+
+	iframe,
+	object,
+	embed {
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+	}
+}
