@@ -15,7 +15,6 @@
 		'tools/jeet/_functions',
 		'tools/jeet/_grid';
 
-
 @import 'generic/reset',
 		'generic/js-breakpoints';
 
@@ -31,7 +30,6 @@
 		'objects/wrap',
 		'objects/section',
 		'objects/columns',
-		'objects/grid',
 		'objects/table',
 		'objects/forms',
 		'objects/aspect',
@@ -47,14 +45,7 @@
 		'components/quote',
 		'components/footer',
 		'components/caption',
-//		'components/carousel',
-//		'components/breadcrumb',
-//		'components/map',
-//		'components/social',
-//		'components/tile',
-//		'components/pagination',
-		'components/alert',
-		'components/tabs',
+		'components/notify',
 		'components/sitemap';
 
 @import 'trumps/overrides',

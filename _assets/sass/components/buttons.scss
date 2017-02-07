@@ -5,19 +5,16 @@
 =========================================================== */
 
 .c-button {
-	border-radius: $border-radius;
 	display: block;
 	line-height: 1;
 	text-align: center;
 	padding: 1.5rem 2rem;
+	border: .1rem solid transparent;
+	background-color: transparent;
 	transition: background $speed $ease,
 				box-shadow $speed $ease,
+				border $speed $ease,
 				color $speed $ease;
-
-	&:hover,
-	&:focus {
-		color: $white;
-	}
 
 	&:focus {
 		box-shadow: 0 .3rem 0 0 rgba( $black, .1 );
@@ -36,24 +33,28 @@
 }
 
 .c-button--primary {
-	background: $pri;
-	color: $white;
+	color: $pri;
+	border-color: $pri;
 
 	&:hover,
 	&:focus {
-		background: $black;
+		color: $white;
+		background-color: $black;
 	}
 }
 
-.c-button--secondary {
-	background: $sec;
+.c-button--skiplink {
 	color: $white;
+	background-color: $pri;
+	position: fixed;
+	left: 100%; // Moves button off screen
+	top: 1rem;
 
-	&:hover,
 	&:focus {
-		background: $black;
+		left: 1rem; // Moves button back on screen
 	}
 }
+
 
 @include respond-max( $mq-small ) {
 

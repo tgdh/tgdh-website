@@ -23,12 +23,10 @@ $green:						#4caf50;
 
 $dark-1:					#1d1d1d;
 
-$light-1:					#f7f7f7;
-$light-2:					darken( $light-1, 5% );
+$light-1:					#f9f9f9;
 
-$pri: 						#00b7ce;
-$sec: 						#ed1165;
-$ter:				 		#fad620;
+$pri: 						$black;
+$sec:                        $dark-1;
 
 $facebook: 					#3b5998;
 $twitter: 					#55acee;
@@ -60,14 +58,13 @@ $text-colour:				$black;
 $background-colour:			$white;
 $border-colour:				#ccc;
 $link-colour:				$pri;
-$link-colour-hover:			$sec;
 $form-placeholder-colour:	#ccc;
-$placeholder-colour:		$light-1;
+$placeholder-colour:		#999;
 $highlight-colour:			lighten( $pri, 50 );
 
 $error:						$red;
 $success:					$green;
-$disabled:					$light-1;
+$disabled:					#ccc;
 
 // section padding
 $padding-small:				4rem;

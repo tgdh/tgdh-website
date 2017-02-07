@@ -1,10 +1,10 @@
 /* ===========================================================
 
-	# Alert
+	# notify
 
 =========================================================== */
 
-.c-alert {
+.c-notify {
 	color: $white;
 	padding: 1rem 2rem;
 	border-radius: $border-radius;
@@ -24,15 +24,14 @@
 	}
 }
 
-.c-alert--success {
+.c-notify--success {
 	background-color: $success;
 }
 
-.c-alert--error {
+.c-notify--error {
 	background-color: $error;
 }
 
-.c-alert--info {
+.c-notify--info {
 	background-color: $pri;
 }
-

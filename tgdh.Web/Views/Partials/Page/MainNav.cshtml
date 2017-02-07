@@ -1,0 +1,62 @@
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+    var homePage = Model.Site();
+    var menuItems = homePage.Children.Where(x => x.IsVisible() && x.TemplateId > 0);
+}
+
+<button class="c-nav-toggle" id="nav-toggle" type="button" aria-haspopup="true">
+	<span class="c-nav-toggle__text">Menu</span>
+</button>
+
+<nav id="mainNavigation" class="c-nav c-nav--main js-nav" role="navigation" aria-labelledby="nav-toggle">
+    <ul class="c-nav__list">
+        @foreach (var item in menuItems)
+        {
+            var modifierClass = item.IsAncestorOrSelf(Model) ? "is-active" : null;
+
+            <li class="c-nav__item c-nav__item--parent">
+                <a href="@item.Url" class="c-nav__link @modifierClass">
+                    @item.Name
+                </a>
+            </li>
+        }
+    </ul>
+</nav>
+
+@helper Traverse(IPublishedContent node)
+{
+    const int maxLevelForNav = 3;
+
+    var items = node.Children
+        .Where(DocumentTypeIsNotIgnored)
+        .Where(x => x.IsVisible() && x.TemplateId > 0 && x.Level <= maxLevelForNav)
+        .ToList();
+
+    if (items.Any())
+    {
+        <ul class="c-nav__list c-nav__list--sub js-nav-sub">
+            @foreach (var item in items)
+            {
+                var activeStateClass = Model.Id == item.Id ? "is-active" : null;
+
+                <li class="c-nav__item">
+                    <a href="@item.Url" class="c-nav__link @activeStateClass">
+                        @item.Name
+                    </a>
+                    @Traverse(item)
+                </li>
+            }
+        </ul>
+    }
+}
+
+@functions {
+
+    private static bool DocumentTypeIsNotIgnored(IPublishedContent arg)
+    {
+        const string ignoredDocTypes = "errorPage,notFound,generalNews,inTheMedia,pressRelease,post";
+
+        return ignoredDocTypes.Split(',').All(docType => docType != arg.DocumentTypeAlias);
+    }
+
+}

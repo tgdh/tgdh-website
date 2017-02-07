@@ -1,0 +1,12 @@
+@inherits UmbracoViewPage<IPublishedContent>
+
+<a href="#main" class="c-button c-button--skiplink">Skip to main content</a>
+
+<header class="c-header" role="banner">
+	<a href="/" class="c-header__logo">
+        <span class="c-header__logo-mark"></span>
+		<span class="u-visually-hidden">The Graphic Design House</span>
+    </a>
+
+	@Html.Partial("~/Views/Partials/Page/MainNav.cshtml")
+</header>
