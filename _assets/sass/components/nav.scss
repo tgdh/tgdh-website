@@ -12,6 +12,8 @@
 	text-transform: uppercase;
 	background-color: $pri;
 	cursor: pointer;
+	float: right;
+	font-weight: $bold;
 	transition: background $speed $ease;
 
 	&:hover {
@@ -21,6 +23,65 @@
 	&:focus {
 		outline: .2rem solid $pri;
 		outline-offset: .2rem;
+	}
+
+}
+
+.c-nav {
+	clear: both;
+}
+
+.c-nav__list {
+	list-style: none;
+}
+
+.c-nav__item {
+	margin: 0;
+}
+
+.c-nav__link {
+	display: block;
+	font-size: 4.8rem;
+	line-height: 1;
+	font-weight: $bold;
+	font-family: $font-family-sec;
+	text-align: center;
+	padding: 2rem;
+
+	&.is-active {
+		opacity: .65;
+	}
+}
+
+
+.enhance {
+
+	.c-nav__list {
+		position: absolute;
+		left: 0;
+		right: 0;
+		background-color: $white;
+		opacity: 0;
+		visibility: hidden;
+		transform: translateY( -1rem );
+		transition: opacity $speed $ease,
+					visibility $speed $ease,
+					transform $speed $ease;
+	}
+
+	&.s-mainNavigation-is-visible {
+
+		.o-page:before {
+			opacity: .7;
+			visibility: visible;
+		}
+
+		.c-nav__list {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0);
+		}
+
 	}
 
 }

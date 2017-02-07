@@ -13,13 +13,6 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = function (name, fn
 	});
 };
 
-// Named Export
-
-var url = 'http://wesbos.com';
-function sayHi(name) {
-	console.log('Hello there ' + name);
-}
-
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -44,58 +37,64 @@ var createClass = function () {
   };
 }();
 
-var Dog = function () {
-	function Dog(name, breed) {
-		classCallCheck(this, Dog);
+var ToggleNav = function () {
+	function ToggleNav(el) {
+		classCallCheck(this, ToggleNav);
 
-		this.name = name;
-		this.breed = breed;
+		this.toggle = el;
+		this.html = $('html');
+		this.classes = {
+			scopePrefix: 's-',
+			visibleClass: 'is-visible',
+			hiddenClass: 'is-hidden',
+			targetClass: this.toggle.getAttribute('data-toggle')
+		};
+		this.target = $('#' + this.classes.targetClass);
 	}
 
-	createClass(Dog, [{
-		key: 'bark',
-		value: function bark() {
-			console.log('Bark Bark! My name is ' + this.name);
+	createClass(ToggleNav, [{
+		key: 'setAriaHidden',
+		value: function setAriaHidden() {
+			if (this.target.offsetHeight > 0) {
+				this.target.setAttribute('aria-hidden', false);
+			} else {
+				this.target.setAttribute('aria-hidden', true);
+			}
 		}
 	}, {
-		key: 'cuddle',
-		value: function cuddle() {
-			console.log('I love you owner! says ' + this.name);
+		key: 'attachEventHandlers',
+		value: function attachEventHandlers() {
+			var _this = this;
+
+			var scopeSelector = '' + this.classes.scopePrefix + this.classes.targetClass + '-';
+			this.toggle.on('click', function () {
+				if (_this.html.classList.contains(scopeSelector + _this.classes.visibleClass)) {
+					_this.html.classList.remove(scopeSelector + _this.classes.visibleClass);
+					_this.html.classList.add(scopeSelector + _this.classes.hiddenClass);
+					_this.target.setAttribute('aria-hidden', true);
+				} else {
+					_this.html.classList.remove(scopeSelector + _this.classes.hiddenClass);
+					_this.html.classList.add(scopeSelector + _this.classes.visibleClass);
+					_this.target.setAttribute('aria-hidden', false);
+				}
+			});
 		}
 	}, {
-		key: 'description',
-		get: function get$$1() {
-			return this.name + ' is a ' + this.breed + ' type of dog';
-		}
-	}, {
-		key: 'nicknames',
-		set: function set$$1(value) {
-			this.nick = value.trim();
-		},
-		get: function get$$1() {
-			return this.nick.toUpperCase();
-		}
-	}], [{
-		key: 'info',
-		value: function info() {
-			console.log('A dog is better than a cat by 10 times');
+		key: 'init',
+		value: function init() {
+			this.setAriaHidden();
+			this.attachEventHandlers();
 		}
 	}]);
-	return Dog;
+	return ToggleNav;
 }();
 
-var snickers = new Dog('Snickers', 'King Charles');
-var sunny = new Dog('Sunny', 'Golden Doodle');
-console.log(snickers);
-console.log(sunny);
-console.log(url);
-sayHi('test');
+/*
 // add click evt to body and log target el
-$('body').on('click', function (el) {
-  return console.log(el.target);
-});
+$('body').on('click', el => console.log(el.target));
 // loop over all paragph elements and log
-$$('p').forEach(function (el) {
-  return console.log(el);
-});
+$$('p').forEach(el => console.log(el));
+*/
+
+new ToggleNav($('.js-nav-toggle')).init();
 //# sourceMappingURL=main.js.map

@@ -4,7 +4,7 @@
     var menuItems = homePage.Children.Where(x => x.IsVisible() && x.TemplateId > 0);
 }
 
-<button class="c-nav-toggle" id="nav-toggle" type="button" aria-haspopup="true">
+<button class="c-nav-toggle js-nav-toggle" id="nav-toggle" type="button" aria-haspopup="true" data-toggle="mainNavigation">
 	<span class="c-nav-toggle__text">Menu</span>
 </button>
 
