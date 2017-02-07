@@ -2,6 +2,7 @@ import { $ } from './Bling';
 
 class ToggleNav {
 	constructor(el) {
+		this.isOpen = false;
 		this.toggle = el;
 		this.html = $('html');
 		this.classes = {
@@ -11,6 +12,7 @@ class ToggleNav {
 			targetClass: this.toggle.getAttribute('data-toggle')
 		};
 		this.target = $(`#${this.classes.targetClass}`);
+		this.scopeSelector = `${this.classes.scopePrefix}${this.classes.targetClass}-`;
 	}
 	setAriaHidden() {
 		if (this.target.offsetHeight > 0) {
@@ -19,18 +21,31 @@ class ToggleNav {
 			this.target.setAttribute('aria-hidden', true);
 		}
 	}
+	openTarget() {
+		this.html.classList.remove(this.scopeSelector + this.classes.hiddenClass);
+		this.html.classList.add(this.scopeSelector + this.classes.visibleClass);
+		this.target.setAttribute('aria-hidden', false);
+	}
+	closeTarget() {
+		this.html.classList.remove(this.scopeSelector + this.classes.visibleClass);
+		this.html.classList.add(this.scopeSelector + this.classes.hiddenClass);
+		this.target.setAttribute('aria-hidden', true);
+	}
+	checkIsOpen() {
+		if (this.html.classList.contains(this.scopeSelector + this.classes.visibleClass)) {
+			this.isOpen = true;
+		} else {
+			this.isOpen = false;
+		}
+	}
 	attachEventHandlers() {
-		const scopeSelector = `${this.classes.scopePrefix}${this.classes.targetClass}-`;
 		this.toggle.on('click', () => {
-			if (this.html.classList.contains(scopeSelector + this.classes.visibleClass)) {
-				this.html.classList.remove(scopeSelector + this.classes.visibleClass);
-				this.html.classList.add(scopeSelector + this.classes.hiddenClass);
-				this.target.setAttribute('aria-hidden', true);
+			if (this.isOpen) {
+				this.closeTarget();
 			} else {
-				this.html.classList.remove(scopeSelector + this.classes.hiddenClass);
-				this.html.classList.add(scopeSelector + this.classes.visibleClass);
-				this.target.setAttribute('aria-hidden', false);
+				this.openTarget();
 			}
+			this.checkIsOpen();
 		});
 	}
 	init() {

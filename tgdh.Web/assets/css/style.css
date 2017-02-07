@@ -1005,6 +1005,10 @@ img {
   display: inline-block;
   background: url("/assets/img/tgdh-mark.svg") no-repeat; }
 
+@media only screen and (max-width: 999px) {
+  .c-header {
+    background-color: #FFFFFF; } }
+
 /* ===========================================================
 
 	# Nav

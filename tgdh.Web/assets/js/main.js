@@ -41,6 +41,7 @@ var ToggleNav = function () {
 	function ToggleNav(el) {
 		classCallCheck(this, ToggleNav);
 
+		this.isOpen = false;
 		this.toggle = el;
 		this.html = $('html');
 		this.classes = {
@@ -50,6 +51,7 @@ var ToggleNav = function () {
 			targetClass: this.toggle.getAttribute('data-toggle')
 		};
 		this.target = $('#' + this.classes.targetClass);
+		this.scopeSelector = '' + this.classes.scopePrefix + this.classes.targetClass + '-';
 	}
 
 	createClass(ToggleNav, [{
@@ -62,21 +64,40 @@ var ToggleNav = function () {
 			}
 		}
 	}, {
+		key: 'openTarget',
+		value: function openTarget() {
+			this.html.classList.remove(this.scopeSelector + this.classes.hiddenClass);
+			this.html.classList.add(this.scopeSelector + this.classes.visibleClass);
+			this.target.setAttribute('aria-hidden', false);
+		}
+	}, {
+		key: 'closeTarget',
+		value: function closeTarget() {
+			this.html.classList.remove(this.scopeSelector + this.classes.visibleClass);
+			this.html.classList.add(this.scopeSelector + this.classes.hiddenClass);
+			this.target.setAttribute('aria-hidden', true);
+		}
+	}, {
+		key: 'checkIsOpen',
+		value: function checkIsOpen() {
+			if (this.html.classList.contains(this.scopeSelector + this.classes.visibleClass)) {
+				this.isOpen = true;
+			} else {
+				this.isOpen = false;
+			}
+		}
+	}, {
 		key: 'attachEventHandlers',
 		value: function attachEventHandlers() {
 			var _this = this;
 
-			var scopeSelector = '' + this.classes.scopePrefix + this.classes.targetClass + '-';
 			this.toggle.on('click', function () {
-				if (_this.html.classList.contains(scopeSelector + _this.classes.visibleClass)) {
-					_this.html.classList.remove(scopeSelector + _this.classes.visibleClass);
-					_this.html.classList.add(scopeSelector + _this.classes.hiddenClass);
-					_this.target.setAttribute('aria-hidden', true);
+				if (_this.isOpen) {
+					_this.closeTarget();
 				} else {
-					_this.html.classList.remove(scopeSelector + _this.classes.hiddenClass);
-					_this.html.classList.add(scopeSelector + _this.classes.visibleClass);
-					_this.target.setAttribute('aria-hidden', false);
+					_this.openTarget();
 				}
+				_this.checkIsOpen();
 			});
 		}
 	}, {
@@ -96,5 +117,8 @@ $('body').on('click', el => console.log(el.target));
 $$('p').forEach(el => console.log(el));
 */
 
-new ToggleNav($('.js-nav-toggle')).init();
+var $toggleButton = $('.js-nav-toggle');
+if ($toggleButton) {
+	new ToggleNav($toggleButton).init();
+}
 //# sourceMappingURL=main.js.map

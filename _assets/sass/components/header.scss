@@ -21,3 +21,11 @@
 	display: inline-block;
 	background: url('/assets/img/tgdh-mark.svg') no-repeat;
 }
+
+@include respond-max( $mq-large ) {
+
+	.c-header {
+		background-color: $white;
+	}
+
+}

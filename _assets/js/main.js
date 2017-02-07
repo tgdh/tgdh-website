@@ -8,4 +8,7 @@ $('body').on('click', el => console.log(el.target));
 $$('p').forEach(el => console.log(el));
 */
 
-new ToggleNav($('.js-nav-toggle')).init();
+const $toggleButton = $('.js-nav-toggle');
+if ($toggleButton) {
+	new ToggleNav($toggleButton).init();
+}
