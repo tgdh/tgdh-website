@@ -608,18 +608,6 @@ html {
       -ms-flex: 1 1 auto;
           flex: 1 1 auto; }
 
-.enhance .o-page:before {
-  content: "";
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  opacity: 0;
-  visibility: hidden;
-  background-color: #000000;
-  z-index: 10;
-  -webkit-transition: opacity 0.3s ease, visibility 0.3s ease;
-  transition: opacity 0.3s ease, visibility 0.3s ease; }
-
 @media only screen and (min-width: 1000px) {
   .enhance .o-page {
     padding-right: 9.4rem; } }
@@ -1083,6 +1071,17 @@ img {
   .c-nav__link.is-active {
     opacity: .65; }
 
+.enhance .c-nav-backdrop {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  opacity: 0;
+  visibility: hidden;
+  background-color: #000000;
+  z-index: 10;
+  -webkit-transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease; }
+
 .enhance .c-nav {
   position: absolute;
   background-color: #FFFFFF;
@@ -1101,7 +1100,7 @@ img {
   -webkit-transition-delay: .2s;
           transition-delay: .2s; }
 
-.enhance.s-mainNavigation-is-visible .o-page:before {
+.enhance.s-mainNavigation-is-visible .c-nav-backdrop {
   opacity: .7;
   visibility: visible; }
 

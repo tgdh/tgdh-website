@@ -44,6 +44,7 @@ var ToggleNav = function () {
 		this.isOpen = false;
 		this.toggle = el;
 		this.html = $('html');
+		this.body = this.html.querySelector('body');
 		this.classes = {
 			scopePrefix: 's-',
 			visibleClass: 'is-visible',
@@ -52,6 +53,8 @@ var ToggleNav = function () {
 		};
 		this.target = $('#' + this.classes.targetClass);
 		this.scopeSelector = '' + this.classes.scopePrefix + this.classes.targetClass + '-';
+		this.backdrop = document.createElement('div');
+		this.backdrop.classList.add('c-nav-backdrop');
 	}
 
 	createClass(ToggleNav, [{
@@ -87,25 +90,36 @@ var ToggleNav = function () {
 			}
 		}
 	}, {
+		key: 'toggleOpen',
+		value: function toggleOpen() {
+			if (this.isOpen) {
+				this.close();
+			} else {
+				this.open();
+			}
+			this.checkIsOpen();
+		}
+	}, {
 		key: 'attachEventHandlers',
 		value: function attachEventHandlers() {
 			var _this = this;
 
 			this.toggle.on('click', function () {
 				_this.toggle.blur();
-				if (_this.isOpen) {
-					_this.close();
-				} else {
-					_this.open();
-				}
-				_this.checkIsOpen();
+				_this.toggleOpen();
+			});
+
+			this.backdrop.on('click', function () {
+				_this.toggleOpen();
 			});
 		}
 	}, {
 		key: 'init',
 		value: function init() {
 			this.setAriaHidden();
+			$('body').appendChild(this.backdrop);
 			this.attachEventHandlers();
+			this.body.appendChild(this.backdrop);
 		}
 	}]);
 	return ToggleNav;

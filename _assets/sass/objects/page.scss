@@ -30,28 +30,6 @@ html {
 
 }
 
-
-.enhance {
-
-	.o-page {
-
-		&:before {
-			content: "";
-			width: 100%;
-			height: 100%;
-			position: fixed;
-			opacity: 0;
-			visibility: hidden;
-			background-color: $pri;
-			z-index: 10;
-			transition: opacity $speed $ease,
-						visibility $speed $ease;
-		}
-
-	}
-
-}
-
 @include respond-min( $mq-large ) {
 
 	.enhance {

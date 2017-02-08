@@ -65,6 +65,18 @@
 
 .enhance {
 
+	.c-nav-backdrop {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		opacity: 0;
+		visibility: hidden;
+		background-color: $pri;
+		z-index: 10;
+		transition: opacity $speed $ease,
+					visibility $speed $ease;
+	}
+
 	.c-nav {
 		position: absolute;
 		background-color: $white;
@@ -86,7 +98,7 @@
 
 	&.s-mainNavigation-is-visible {
 
-		.o-page:before {
+		.c-nav-backdrop {
 			opacity: .7;
 			visibility: visible;
 		}
