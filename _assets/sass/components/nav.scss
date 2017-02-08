@@ -14,6 +14,7 @@
 	cursor: pointer;
 	float: right;
 	font-weight: $bold;
+	display: none;
 	transition: background $speed $ease;
 
 	&:hover {
@@ -23,6 +24,14 @@
 	&:focus {
 		outline: .2rem solid $pri;
 		outline-offset: .2rem;
+	}
+
+}
+
+.enhance {
+
+	.c-nav-toggle {
+		display: block;
 	}
 
 }
@@ -58,15 +67,21 @@
 
 	.c-nav {
 		position: absolute;
-		left: 0;
-		right: 0;
 		background-color: $white;
 		opacity: 0;
 		visibility: hidden;
-		transform: translateY( -1rem );
 		transition: opacity $speed $ease,
 					visibility $speed $ease,
 					transform $speed $ease;
+		will-change: opacity,
+					visibility,
+					transform;
+	}
+
+	.c-nav__list {
+		opacity: 0;
+		transition: opacity $speed $ease;
+		transition-delay: .2s;
 	}
 
 	&.s-mainNavigation-is-visible {
@@ -79,7 +94,62 @@
 		.c-nav {
 			opacity: 1;
 			visibility: visible;
-			transform: translateY(0);
+		}
+
+		.c-nav__list {
+			opacity: 1;
+		}
+
+	}
+
+}
+
+
+@include respond-max( $mq-large ) {
+
+	.enhance {
+
+		.c-nav {
+			left: 0;
+			right: 0;
+			transform: translateY( -1rem );
+
+		}
+
+		&.s-mainNavigation-is-visible {
+
+			.c-nav {
+				transform: translateY(0);
+			}
+
+		}
+
+	}
+
+}
+
+@include respond-min( $mq-large ) {
+
+	.enhance {
+
+		.c-nav-toggle {
+			padding: 4.1rem 2.9rem;
+		}
+
+		.c-nav {
+			width: 33vw;
+			height: 100%;
+			z-index: -1;
+			right: 9.4rem;
+			transform: translateX(100%);
+		}
+
+		&.s-mainNavigation-is-visible {
+
+			.c-nav {
+				transform: translateX(0);
+			}
+
 		}
 
 	}

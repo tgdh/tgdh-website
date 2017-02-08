@@ -21,12 +21,12 @@ class ToggleNav {
 			this.target.setAttribute('aria-hidden', true);
 		}
 	}
-	openTarget() {
+	open() {
 		this.html.classList.remove(this.scopeSelector + this.classes.hiddenClass);
 		this.html.classList.add(this.scopeSelector + this.classes.visibleClass);
 		this.target.setAttribute('aria-hidden', false);
 	}
-	closeTarget() {
+	close() {
 		this.html.classList.remove(this.scopeSelector + this.classes.visibleClass);
 		this.html.classList.add(this.scopeSelector + this.classes.hiddenClass);
 		this.target.setAttribute('aria-hidden', true);
@@ -40,10 +40,11 @@ class ToggleNav {
 	}
 	attachEventHandlers() {
 		this.toggle.on('click', () => {
+			this.toggle.blur();
 			if (this.isOpen) {
-				this.closeTarget();
+				this.close();
 			} else {
-				this.openTarget();
+				this.open();
 			}
 			this.checkIsOpen();
 		});

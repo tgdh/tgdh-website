@@ -64,15 +64,15 @@ var ToggleNav = function () {
 			}
 		}
 	}, {
-		key: 'openTarget',
-		value: function openTarget() {
+		key: 'open',
+		value: function open() {
 			this.html.classList.remove(this.scopeSelector + this.classes.hiddenClass);
 			this.html.classList.add(this.scopeSelector + this.classes.visibleClass);
 			this.target.setAttribute('aria-hidden', false);
 		}
 	}, {
-		key: 'closeTarget',
-		value: function closeTarget() {
+		key: 'close',
+		value: function close() {
 			this.html.classList.remove(this.scopeSelector + this.classes.visibleClass);
 			this.html.classList.add(this.scopeSelector + this.classes.hiddenClass);
 			this.target.setAttribute('aria-hidden', true);
@@ -92,10 +92,11 @@ var ToggleNav = function () {
 			var _this = this;
 
 			this.toggle.on('click', function () {
+				_this.toggle.blur();
 				if (_this.isOpen) {
-					_this.closeTarget();
+					_this.close();
 				} else {
-					_this.openTarget();
+					_this.open();
 				}
 				_this.checkIsOpen();
 			});

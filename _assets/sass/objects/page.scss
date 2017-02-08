@@ -51,3 +51,15 @@ html {
 	}
 
 }
+
+@include respond-min( $mq-large ) {
+
+	.enhance {
+
+		.o-page {
+			padding-right: 9.4rem;
+		}
+
+	}
+
+}
