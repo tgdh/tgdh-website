@@ -186,6 +186,10 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Our.Umbraco.NestedContent, Version=0.3.6033.18955, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Our.Umbraco.NestedContent.0.3.0\lib\net45\Our.Umbraco.NestedContent.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
@@ -325,6 +329,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Plugins\NestedContent\Css\nestedcontent.css" />
+    <Content Include="App_Plugins\NestedContent\Js\nestedcontent.controllers.js" />
+    <Content Include="App_Plugins\NestedContent\Js\nestedcontent.directives.js" />
+    <Content Include="App_Plugins\NestedContent\Js\nestedcontent.resources.js" />
+    <Content Include="App_Plugins\NestedContent\Views\nestedcontent.doctypepicker.html" />
+    <Content Include="App_Plugins\NestedContent\Views\nestedcontent.editor.html" />
+    <Content Include="App_Plugins\NestedContent\Views\nestedcontent.html" />
     <Content Include="bin\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
     <Content Include="bin\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
     <Content Include="bin\amd64\sqlceca40.dll" />
@@ -488,6 +499,7 @@
     <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
     <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
+    <Content Include="App_Plugins\NestedContent\package.manifest" />
     <None Include="bin\TGDH.Web.dll.config" />
     <Content Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
