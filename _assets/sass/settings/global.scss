@@ -26,7 +26,7 @@ $dark-1:					#1d1d1d;
 $light-1:					#f9f9f9;
 
 $pri: 						$black;
-$sec:                        $dark-1;
+$sec:                       $dark-1;
 
 $facebook: 					#3b5998;
 $twitter: 					#55acee;
@@ -49,9 +49,9 @@ $font-family-sec:			'Playfair Display', Georgia, serif;
 $font-size-small:			1.6rem;
 $font-size-large:			1.6rem;
 $line-height:				1.4em;
-$type-scale-small:			1.125;
-$type-scale-medium:			1.150;
-$type-scale-large:			1.175;
+$type-scale-small:			1.175;
+$type-scale-medium:			1.200;
+$type-scale-large:			1.250;
 
 $heading-colour:			$black;
 $text-colour:				$black;
@@ -79,8 +79,9 @@ $ease:						ease;
 $light:						300;
 $regular:					500;
 $bold:						700;
+$bolder:					900;
 
-$wrap-small:				75rem;
+$wrap-small:				64rem;
 $wrap-medium:				92rem;
 $wrap-large:				108rem;
 $wrap-x-large:				140rem;

@@ -276,17 +276,17 @@ em {
 
 small,
 .u-small {
-  font-size: 1.4222222222rem; }
+  font-size: 1.3617021277rem; }
 
 @media only screen and (min-width: 600px) and (max-width: 799px) {
   small,
   .u-small {
-    font-size: 1.3913043478rem; } }
+    font-size: 1.3333333333rem; } }
 
 @media only screen and (min-width: 800px) {
   small,
   .u-small {
-    font-size: 1.3617021277rem; } }
+    font-size: 1.28rem; } }
 
 ::-moz-selection {
   background: gray; }
@@ -323,7 +323,7 @@ h2,
 h3,
 h4 {
   color: #000000;
-  font-weight: 700; }
+  font-weight: 900; }
 
 h1,
 h2,
@@ -340,39 +340,39 @@ h6,
   line-height: 1.1; }
 
 .u-tera {
-  font-size: 4.1052552223rem;
-  padding-bottom: 2.0526276112rem; }
+  font-size: 5.8133024077rem;
+  padding-bottom: 2.9066512038rem; }
 
 .u-giga {
-  font-size: 3.6491157532rem;
-  padding-bottom: 1.8245578766rem; }
+  font-size: 4.9474914108rem;
+  padding-bottom: 2.4737457054rem; }
 
 .u-mega {
-  font-size: 3.2436584473rem;
-  padding-bottom: 1.6218292236rem; }
+  font-size: 4.2106309879rem;
+  padding-bottom: 2.1053154939rem; }
 
 h1,
 .u-alpha {
-  font-size: 2.8832519531rem;
-  padding-bottom: 1.4416259766rem; }
+  font-size: 3.5835157344rem;
+  padding-bottom: 1.7917578672rem; }
 
 .u-beta {
-  font-size: 2.562890625rem;
-  padding-bottom: 1.2814453125rem; }
+  font-size: 3.049800625rem;
+  padding-bottom: 1.5249003125rem; }
 
 h2,
 .u-gamma {
-  font-size: 2.278125rem;
-  padding-bottom: 1.1390625rem; }
+  font-size: 2.595575rem;
+  padding-bottom: 1.2977875rem; }
 
 .u-delta {
-  font-size: 2.025rem;
-  padding-bottom: 1.0125rem; }
+  font-size: 2.209rem;
+  padding-bottom: 1.1045rem; }
 
 h3,
 .u-epsilon {
-  font-size: 1.8rem;
-  padding-bottom: 0.9rem; }
+  font-size: 1.88rem;
+  padding-bottom: 0.94rem; }
 
 h4,
 .u-zeta {
@@ -380,88 +380,88 @@ h4,
   padding-bottom: 0.8rem; }
 
 .u-intro {
-  font-size: 1.8rem;
+  font-size: 1.88rem;
   line-height: 1.4; }
 
 caption,
 figcaption {
-  font-size: 1.4222222222rem; }
+  font-size: 1.3617021277rem; }
 
 @media only screen and (min-width: 600px) and (max-width: 799px) {
   .u-tera {
-    font-size: 4.8944365801rem;
-    padding-bottom: 2.44721829rem; }
+    font-size: 6.879707136rem;
+    padding-bottom: 3.439853568rem; }
   .u-giga {
-    font-size: 4.2560318087rem;
-    padding-bottom: 2.1280159044rem; }
+    font-size: 5.73308928rem;
+    padding-bottom: 2.86654464rem; }
   .u-mega {
-    font-size: 3.700897225rem;
-    padding-bottom: 1.8504486125rem; }
+    font-size: 4.7775744rem;
+    padding-bottom: 2.3887872rem; }
   h1,
   .u-alpha {
-    font-size: 3.2181715rem;
-    padding-bottom: 1.60908575rem; }
+    font-size: 3.981312rem;
+    padding-bottom: 1.990656rem; }
   .u-beta {
-    font-size: 2.79841rem;
-    padding-bottom: 1.399205rem; }
+    font-size: 3.31776rem;
+    padding-bottom: 1.65888rem; }
   h2,
   .u-gamma {
-    font-size: 2.4334rem;
-    padding-bottom: 1.2167rem; }
+    font-size: 2.7648rem;
+    padding-bottom: 1.3824rem; }
   .u-delta {
-    font-size: 2.116rem;
-    padding-bottom: 1.058rem; }
+    font-size: 2.304rem;
+    padding-bottom: 1.152rem; }
   h3,
   .u-epsilon {
-    font-size: 1.84rem;
-    padding-bottom: 0.92rem; }
+    font-size: 1.92rem;
+    padding-bottom: 0.96rem; }
   h4,
   .u-zeta {
     font-size: 1.6rem;
     padding-bottom: 0.8rem; }
   .u-intro {
-    font-size: 1.84rem; }
+    font-size: 1.92rem; }
   caption,
   figcaption {
-    font-size: 1.3913043478rem; } }
+    font-size: 1.3333333333rem; } }
 
 @media only screen and (min-width: 800px) {
   .u-tera {
-    font-size: 5.8133024077rem;
-    padding-bottom: 2.9066512038rem; }
+    font-size: 9.5367431641rem;
+    padding-bottom: 4.768371582rem; }
   .u-giga {
-    font-size: 4.9474914108rem;
-    padding-bottom: 2.4737457054rem; }
+    font-size: 7.6293945312rem;
+    padding-bottom: 3.8146972656rem; }
   .u-mega {
-    font-size: 4.2106309879rem;
-    padding-bottom: 2.1053154939rem; }
+    font-size: 6.103515625rem;
+    padding-bottom: 3.0517578125rem; }
   h1,
   .u-alpha {
-    font-size: 3.5835157344rem;
-    padding-bottom: 1.7917578672rem; }
+    font-size: 4.8828125rem;
+    padding-bottom: 2.44140625rem; }
   .u-beta {
-    font-size: 3.049800625rem;
-    padding-bottom: 1.5249003125rem; }
+    font-size: 3.90625rem;
+    padding-bottom: 1.953125rem; }
   h2,
   .u-gamma {
-    font-size: 2.595575rem;
-    padding-bottom: 1.2977875rem; }
+    font-size: 3.125rem;
+    padding-bottom: 1.5625rem; }
   .u-delta {
-    font-size: 2.209rem;
-    padding-bottom: 1.1045rem; }
+    font-size: 2.5rem;
+    padding-bottom: 1.25rem; }
   h3,
   .u-epsilon {
-    font-size: 1.88rem;
-    padding-bottom: 0.94rem; }
+    font-size: 2rem;
+    padding-bottom: 1rem; }
   h4,
   .u-zeta {
     font-size: 1.6rem;
     padding-bottom: 0.8rem; }
   .u-intro {
-    font-size: 1.88rem; }
+    font-size: 2rem; }
   caption,
   figcaption {
-    font-size: 1.3617021277rem; } }
+    font-size: 1.28rem; } }
 
 /* ===========================================================
 
@@ -644,7 +644,7 @@ html {
   margin-right: auto; }
 
 .o-wrap--small {
-  max-width: 75rem; }
+  max-width: 64rem; }
 
 .o-wrap--medium {
   max-width: 92rem; }
@@ -952,6 +952,16 @@ html {
 
 /* ===========================================================
 
+	# List
+
+=========================================================== */
+.o-list--inline {
+  list-style: none; }
+  .o-list--inline .o-list__item {
+    display: inline-block; }
+
+/* ===========================================================
+
 	# Media
 
 =========================================================== */
@@ -1241,6 +1251,15 @@ img {
     color: inherit; }
   .c-footer a {
     color: inherit; }
+
+.c-footer__cta {
+  padding-top: 10rem;
+  padding-bottom: 10rem;
+  text-align: center; }
+
+.c-footer__headline {
+  font-weight: 700;
+  font-family: "Playfair Display", Georgia, serif; }
 
 /* ===========================================================
 
