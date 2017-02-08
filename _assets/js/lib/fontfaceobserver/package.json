@@ -1,0 +1,83 @@
+{
+  "name": "fontfaceobserver",
+  "version": "2.0.8",
+  "description": "Detect if web fonts are available",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bramstein/fontfaceobserver.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bramstein/fontfaceobserver/issues"
+  },
+  "homepage": "https://fontfaceobserver.com/",
+  "main": "fontfaceobserver.standalone.js",
+  "keywords": [
+    "fontloader",
+    "fonts",
+    "font",
+    "font-face",
+    "web font",
+    "font load",
+    "font events"
+  ],
+  "files": [
+    "fontfaceobserver.js",
+    "fontfaceobserver.standalone.js",
+    "src/*.js",
+    "externs.js"
+  ],
+  "author": {
+    "name": "Bram Stein",
+    "email": "b.l.stein@gmail.com",
+    "url": "http://www.bramstein.com/"
+  },
+  "license": "BSD-3-Clause",
+  "dependencies": {},
+  "devDependencies": {
+    "closure-dom": "=0.2.6",
+    "extend": "^3.0.0",
+    "google-closure-compiler": "=20161024.0.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-exec": "~1.0.0",
+    "mocha": "^2.5.3",
+    "mocha-phantomjs-core": "^2.0.0",
+    "phantomjs-prebuilt": "^2.1.7",
+    "promis": "=1.1.4",
+    "sinon": "^1.17.4",
+    "unexpected": "^10.14.2"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "gitHead": "fa6370dfd928e4a778778e67474d12a599b7c465",
+  "_id": "fontfaceobserver@2.0.8",
+  "_shasum": "9f7373e3a081ec7128ac62045abcf3199b70207e",
+  "_from": "fontfaceobserver@latest",
+  "_npmVersion": "3.8.6",
+  "_nodeVersion": "5.5.0",
+  "_npmUser": {
+    "name": "bramstein",
+    "email": "b.l.stein@gmail.com"
+  },
+  "dist": {
+    "shasum": "9f7373e3a081ec7128ac62045abcf3199b70207e",
+    "tarball": "https://registry.npmjs.org/fontfaceobserver/-/fontfaceobserver-2.0.8.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "bramstein",
+      "email": "b.l.stein@gmail.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/fontfaceobserver-2.0.8.tgz_1486133328021_0.12621315103024244"
+  },
+  "_resolved": "https://registry.npmjs.org/fontfaceobserver/-/fontfaceobserver-2.0.8.tgz"
+}

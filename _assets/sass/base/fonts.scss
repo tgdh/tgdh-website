@@ -1,0 +1,55 @@
+/* ===========================================================
+
+	Base - Fonts
+
+=========================================================== */
+
+@font-face {
+    font-family: 'lato';
+    src: url('#{$fonts}/lato/lato-regular-webfont.woff2') format('woff2'),
+         url('#{$fonts}/lato/lato-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'lato';
+    src: url('#{$fonts}/lato/lato-bold-webfont.woff2') format('woff2'),
+         url('#{$fonts}/lato/lato-bold-webfont.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'lato';
+    src: url('#{$fonts}/lato/lato-black-webfont.woff2') format('woff2'),
+         url('#{$fonts}/lato/lato-black-webfont.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'playfair_display';
+    src: url('#{$fonts}/playfair/playfairdisplay-regular-webfont.woff2') format('woff2'),
+         url('#{$fonts}/playfair/playfairdisplay-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'playfair_display';
+    src: url('#{$fonts}/playfair/playfairdisplay-bold-webfont.woff2') format('woff2'),
+         url('#{$fonts}/playfair/playfairdisplay-bold-webfont.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/*
+@font-face {
+    font-family: 'playfair_display';
+    src: url('#{$fonts}/playfair/playfairdisplay-bolditalic-webfont.woff2') format('woff2'),
+         url('#{$fonts}/playfair/playfairdisplay-bolditalic-webfont.woff') format('woff');
+    font-weight: 700;
+    font-style: italic;
+}
+*/

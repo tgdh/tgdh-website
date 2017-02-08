@@ -40,13 +40,15 @@
 			$html.classList.remove( 'no-js' );
 			$html.classList.add( 'js' );
 			if( enhance ) {
-				$html.classList.remove( 'no-enhance' );
-				$html.classList.add( 'enhance' );
+			  	$html.classList.remove( 'no-enhance' );
+			  	$html.classList.add( 'enhance' );
 				if( localStorage.getItem( 'fonts-loaded' ) ) {
-					$html.classList.add( 'fonts-loaded' );
-				}
+		        	$html.classList.add( 'fonts-loaded' );
+			    }
 			}
 		</script>
+
+		<link href="https://fonts.googleapis.com/css?family=Lato:400,700,900|Playfair+Display:400,700" rel="stylesheet">
     </head>
     <body class="o-page">
 		<div class="o-page__inner">

@@ -71,7 +71,7 @@ gulp.task('js', function () {
   return rollup.rollup({
     entry: paths.assetsFolder + '/js/main.js',
     plugins: [
-      babel()
+        babel()
     ],
   })
     .then(function (bundle) {
