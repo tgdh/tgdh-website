@@ -236,7 +236,7 @@ textarea,
 select,
 button {
   color: #000000;
-  font-family: "Lato", Helvetica, Arial, Geneva, sans-serif;
+  font-family: Arial, Geneva, sans-serif;
   font-size: 1.6rem;
   -webkit-font-feature-settings: 'liga', 'kern';
      -moz-font-feature-settings: 'liga', 'kern';
@@ -1127,7 +1127,6 @@ img {
   font-size: 4.8rem;
   line-height: 1;
   font-weight: 700;
-  font-family: "Playfair Display", Georgia, serif;
   text-align: center;
   padding: 2rem; }
   .c-nav__link.is-active {
@@ -1307,7 +1306,6 @@ img {
     margin-top: 1.6em; }
 
 .c-meta__item {
-  font-family: "Playfair Display", Georgia, serif;
   display: inline-block;
   font-style: italic;
   margin: 0;
@@ -1358,8 +1356,7 @@ img {
   text-align: center; }
 
 .c-footer__headline {
-  font-weight: 700;
-  font-family: "Playfair Display", Georgia, serif; }
+  font-weight: 700; }
 
 /* ===========================================================
 
@@ -1511,5 +1508,22 @@ img {
 @media only screen and (min-width: 800px) {
   .s-free-content .o-table {
     margin: 4rem 0; } }
+
+/* ===========================================================
+
+  # Utility - text
+
+=========================================================== */
+.u-font-pri {
+  font-family: Arial, Geneva, sans-serif; }
+
+.u-font-sec {
+  font-family: Georgia, serif; }
+
+.fonts-loaded .u-font-pri {
+  font-family: "Lato"; }
+
+.fonts-loaded .u-font-sec {
+  font-family: "Playfair Display"; }
 
 /*# sourceMappingURL=ie.css.map */

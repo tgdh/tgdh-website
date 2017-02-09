@@ -44,8 +44,12 @@ $flcikr: 					#0063dc;
 
 =========================================================== */
 
-$font-family:				'Lato', Helvetica, Arial, Geneva, sans-serif;
-$font-family-sec:			'Playfair Display', Georgia, serif;
+$ff-pri-fallback:			Arial, Geneva, sans-serif;
+$ff-pri-webfont:			'Lato';
+
+$ff-sec-fallback:			Georgia, serif;
+$ff-sec-webfont:			'Playfair Display';
+
 $font-size-small:			1.6rem;
 $font-size-large:			1.6rem;
 $line-height:				1.6em;

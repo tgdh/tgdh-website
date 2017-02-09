@@ -14,7 +14,7 @@ textarea,
 select,
 button {
 	color: $text-colour;
-	font-family: $font-family;
+	font-family: $ff-pri-fallback;
 	font-size: $font-size-small;
 	font-feature-settings: 'liga', 'kern'; // http://elliotjaystocks.com/blog/kerning/
 	font-kerning: normal;

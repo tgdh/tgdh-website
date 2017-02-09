@@ -4,6 +4,22 @@
 
 =========================================================== */
 
-.u-text--serif {
-	font-family: $font-family-sec;
+.u-font-pri {
+	font-family: $ff-pri-fallback;
+}
+
+.u-font-sec {
+	font-family: $ff-sec-fallback;
+}
+
+.fonts-loaded {
+
+	.u-font-pri {
+		font-family: $ff-pri-webfont;
+	}
+
+	.u-font-sec {
+		font-family: $ff-sec-webfont;
+	}
+
 }
