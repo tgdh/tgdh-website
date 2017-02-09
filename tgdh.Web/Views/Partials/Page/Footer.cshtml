@@ -1,5 +1,10 @@
 @inherits UmbracoViewPage<IPublishedContent>
 
+
+<button class="o-page__to-top js-scroll-top" type="button">
+	<span class="u-visually-hidden">Back to top</span>
+</button>
+
 <footer class="c-footer">
 	<div class="c-footer__cta o-wrap">
 		<h2 class="c-footer__headline u-alpha u-font-sec">Want more?</h2>
@@ -9,17 +14,19 @@
 			<li class="o-list__item"><a href="mailto:studio@tgdh.co.uk">studio@tgdh.co.uk</a></li>
 		</ul>
 	</div>
+	<div class="c-footer__sub">
+		@Html.Partial("~/Views/Partials/Components/SocialLinks.cshtml")
 
-	<p>Walton Road Farlington Portsmouth P06 1TR
-© 2015 all rights reserved
-	<ul class="o-list--inline u-space-top">
-		<li class="o-list__item">
-			<a href="" class="o-list__link">T &amp; C</a>
-		</li>
-		<li class="o-list__item">
-			<a href="" class="o-list__link">Sitemap</a>
-		</li>
-	</ul>
-</p>
+		<p>Walton Road Farlington Portsmouth P06 1TR</p>
 
+		<p>&copy; 2015 all rights reserved</p>
+		<ul class="o-list--inline u-space-top">
+			<li class="o-list__item">
+				<a href="" class="o-list__link">T &amp; C</a>
+			</li>
+			<li class="o-list__item">
+				<a href="" class="o-list__link">Sitemap</a>
+			</li>
+		</ul>
+	</div>
 </footer>

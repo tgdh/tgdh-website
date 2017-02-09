@@ -21,6 +21,7 @@ var gulp = require('gulp'),
     fileinclude = require('gulp-file-include'),
 	commonjs = require('rollup-plugin-commonjs'),
 	nodeResolve = require('rollup-plugin-node-resolve'),
+    svgSprite = require('gulp-svg-sprite'),
     $ = require('gulp-load-plugins')({
         pattern: ['gulp-*', 'gulp.*'],
         replaceString: /\bgulp[\-.]/
@@ -150,6 +151,34 @@ gulp.task('modernizr', function(){
     .pipe( gulp.dest( paths.assetsBuildFolder + '/js') );
 });
 
+// icons
+gulp.task('icons', function() {
+    return gulp.src(paths.assetsFolder + '/img/icons/**/*.svg')
+		.pipe($.svgmin())
+        .pipe(svgSprite({
+            mode: {
+                symbol: { // symbol mode to build the SVG
+                    dest: 'icons', // destination foldeer
+                    sprite: 'icons.svg', //sprite name
+                    example: true, // Build sample page
+					prefix: "u-icon-"
+                }
+            },
+            svg: {
+                xmlDeclaration: false, // strip out the XML attribute
+                doctypeDeclaration: false // don't include the !DOCTYPE declaration
+            }
+        }))
+        .pipe(gulp.dest(paths.assetsBuildFolder));
+});
+
+/*
+gulp.task('sprite-shortcut', function() {
+  return gulp.src('sprite/sprite.svg')
+    .pipe(gulp.dest('.'));
+});
+*/
+
 // IE
 gulp.task( 'ie', function() {
     return gulp.src( '.tmp/styles/ie.css' )
@@ -219,7 +248,8 @@ gulp.task('templates', function() {
 gulp.task( 'watch', function() {
     gulp.watch( paths.assetsFolder + '/sass/**/*.scss', [ 'css' ] );
     gulp.watch( paths.assetsFolder + '/js/**/*.js', [ 'js' ] );
-    gulp.watch( paths.assetsFolder + '/images/**/*', ['images'] );
+    gulp.watch( paths.assetsFolder + '/img/**/*', ['images'] );
+	gulp.watch( paths.assetsFolder + '/img/icons/**/*.svg', ['icons'] );
 //	gulp.watch( paths.templates + '/**/*.html', ['templates'] );
 } );
 

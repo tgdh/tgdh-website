@@ -30,6 +30,10 @@ html {
 
 }
 
+.o-page__to-top {
+	display: none;
+}
+
 @include respond-min( $mq-large ) {
 
 	.enhance {
@@ -42,6 +46,16 @@ html {
 
 	.o-page__content {
 		margin-top: 10rem;
+	}
+
+	.o-page__to-top {
+		color: $white;
+		background-color: $pri;
+		display: block;
+		position: fixed;
+		z-index: 1;
+		bottom: 0;
+		right: 0;
 	}
 
 }
