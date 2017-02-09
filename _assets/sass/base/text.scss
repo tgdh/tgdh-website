@@ -23,6 +23,18 @@ button {
 	-webkit-font-smoothing: antialiased;
 }
 
+.fonts-loaded {
+
+	body,
+	input,
+	textarea,
+	select,
+	button {
+		font-family: $ff-pri-webfont;
+	}
+
+}
+
 p + p,
 p + ul,
 p + ol,

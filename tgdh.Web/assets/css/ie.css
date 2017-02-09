@@ -248,6 +248,13 @@ button {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased; }
 
+.fonts-loaded body,
+.fonts-loaded input,
+.fonts-loaded textarea,
+.fonts-loaded select,
+.fonts-loaded button {
+  font-family: "Lato"; }
+
 p + p,
 p + ul,
 p + ol,
@@ -521,7 +528,6 @@ a {
   -webkit-transition: color 0.3s ease;
   transition: color 0.3s ease; }
   a:not([class]) {
-    font-weight: 900;
     -webkit-transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     box-shadow: inset 0 -2px 0 #000000; }
@@ -1375,7 +1381,6 @@ img {
   .c-footer a {
     color: inherit; }
     .c-footer a:not([class]) {
-      font-weight: 900;
       -webkit-transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
       transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
       box-shadow: inset 0 -2px 0 #FFFFFF; }

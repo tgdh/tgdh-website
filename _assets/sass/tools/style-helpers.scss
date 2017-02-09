@@ -5,7 +5,6 @@
 =========================================================== */
 
 @mixin inline-link( $invert: false ) {
-	font-weight: $bolder;
 	transition: color $speed $ease,
 				background-color $speed $ease,
 				box-shadow $speed $ease;
