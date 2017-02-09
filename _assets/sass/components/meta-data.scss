@@ -4,20 +4,28 @@
 
 =========================================================== */
 
-.c-meta-data__item {
+.c-meta {
 	list-style: none;
-	margin: 0;
+
+	&:after {
+		content: "";
+		width: 2.7rem;
+		height: .1rem;
+		background-color: $pri;
+		display: block;
+		margin-top: $line-height;
+	}
 }
 
-@include respond-min( $mq-small ) {
+.c-meta__item {
+	font-family: $font-family-sec;
+	display: inline-block;
+	font-style: italic;
+	margin: 0;
+	opacity: .65;
 
-	.c-meta-data__item {
-		display: inline-block;
-		margin: 0;
-
-		& + .c-meta-data__item {
-			margin-left: 1rem;
-		}
+	& + .c-meta__item:before {
+		content: "/";
+		margin: 0 1rem;
 	}
-
 }
