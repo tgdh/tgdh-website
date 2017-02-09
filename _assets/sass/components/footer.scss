@@ -18,11 +18,13 @@
 	a {
 		color: inherit;
 
-		@include inline-link(true);
-
 		&:not([class]) {
 			@include inline-link(true);
 		}
+	}
+
+	.u-icon {
+		fill: $white;
 	}
 }
 

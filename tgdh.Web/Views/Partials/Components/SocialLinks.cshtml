@@ -11,7 +11,7 @@
 @if( hasSocialLinks )
 {
     <article class="c-social u-clearfix">
-		<h2 class="c-social__headline u-zeta">Follow us: </h2>
+		<h2 class="c-social__headline u-visually-hidden">Follow us: </h2>
         @foreach( IPublishedContent socialChannel in socialChannels )
         {
             string channelName = socialChannel.GetPropertyValue<string>("socialChannelName");
@@ -28,7 +28,7 @@
             if( !string.IsNullOrEmpty(url) )
             {
                 <a href="@url" title="Go to our @channelName page (external url)" class="c-social__link c-social__link--@cssClass" target="_blank">
-					<svg class="u-icon--@cssClass">
+					<svg class="u-icon u-icon--24 u-icon--@cssClass">
 						<use xlink:href="/assets/icons/icons.svg#@cssClass"></use>
 					</svg>
 					<span class="u-visually-hidden">@channelName</span>

@@ -5,104 +5,102 @@
 =========================================================== */
 
 .c-social__link {
-	color: $white;
-	font-size: 1.6rem;
 	display: inline-block;
-	background-color: $pri;
 	padding: .7rem 1rem;
 	float: left;
-	transition: background $speed $ease,
-				color $speed $ease;
 
-	i {
-		vertical-align: middle;
-	}
-
-	&:hover,
-	&:focus {
-		color: $dark-1;
-		background-color: $light-1;
+	.u-icon {
+		transition: fill $speed $ease;
 	}
 
 }
 .c-social__link--facebook {
-	background-color: $facebook;
 
 	&:hover,
 	&:focus {
-		color: $facebook;
+
+		.u-icon {
+			fill: $facebook;
+		}
+
 	}
 }
 
 .c-social__link--twitter {
-	background-color: $twitter;
 
 	&:hover,
 	&:focus {
-		color: $twitter;
+		.u-icon {
+			fill: $twitter;
+		}
 	}
 }
 
 .c-social__link--google {
-	background-color: $google;
 
 	&:hover,
 	&:focus {
-		color: $google;
+		.u-icon {
+			fill: $google;
+		}
 	}
 }
 
 .c-social__link--instagram {
-	background-color: $instagram;
 
 	&:hover,
 	&:focus {
-		color: $instagram;
+		.u-icon {
+			fill: $instagram;
+		}
 	}
 }
 
-.c-social__link--linkedin {
-	background-color: $linkedin;
+.c-social__link--linkedIn {
 
 	&:hover,
 	&:focus {
-		color: $linkedin;
+		.u-icon {
+			fill: $linkedin;
+		}
 	}
 }
 
 .c-social__link--pinterest {
-	background-color: $pinterest;
-
 	&:hover,
 	&:focus {
-		color: $pinterest;
+		.u-icon {
+			fill: $pinterest;
+		}
 	}
 }
 
 .c-social__link--youtube {
-	background-color: $youtube;
 
 	&:hover,
 	&:focus {
-		color: $youtube;
+		.u-icon {
+			fill: $youtube;
+		}
 	}
 }
 
 .c-social__link--vimeo {
-	background-color: $vimeo;
 
 	&:hover,
 	&:focus {
-		color: $vimeo;
+		.u-icon {
+			fill: $vimeo;
+		}
 	}
 }
 
 .c-social__link--flcikr {
-	background-color: $flcikr;
-
 	&:hover,
 	&:focus {
-		color: $flcikr;
+		.u-icon {
+			fill: $flcikr;
+		}
 	}
 }
 
@@ -124,4 +122,3 @@
 	}
 
 }
-
