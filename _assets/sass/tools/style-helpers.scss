@@ -4,13 +4,13 @@
 
 =========================================================== */
 
-@mixin inline-link( $invert: false ) {
+@mixin inline-link( $invert: false, $borderSize: 2px ) {
 	transition: color $speed $ease,
 				background-color $speed $ease,
 				box-shadow $speed $ease;
 
 	@if $invert {
-		box-shadow: inset 0 -2px 0 $white;
+		box-shadow: inset 0 (-$borderSize) 0 $white;
 
 		&:hover,
 		&:focus {
@@ -26,7 +26,7 @@
 	}
 
 	@if $invert == false {
-		box-shadow: inset 0 -2px 0 $pri;
+		box-shadow: inset 0 (-$borderSize) 0 $pri;
 
 		&:hover,
 		&:focus {

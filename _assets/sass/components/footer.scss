@@ -19,7 +19,7 @@
 		color: inherit;
 
 		&:not([class]) {
-			@include inline-link(true);
+			@include inline-link(true, 1px);
 		}
 	}
 
@@ -39,12 +39,46 @@
 	font-weight: $bold;
 }
 
+.c-footer__copyright {
+	margin-right: 2rem;
+}
+
+.c-footer__nav {
+	margin: 0;
+}
+
+.c-footer__meta {
+	clear: both;
+}
+
 @include respond-min( $mq-large ) {
 
 	.c-footer__sub {
 		padding-left: 10rem;
 		padding-right: 10rem;
 		margin-bottom: 6rem;
+	}
+
+	.c-footer {
+
+		.c-social {
+			float: right;
+			vertical-align: bottom;
+		}
+
+		.u-icon {
+			vertical-align: bottom;
+		}
+
+	}
+
+	.c-footer__adr {
+		float: left;
+	}
+
+	.c-footer__copyright,
+	.c-footer__nav {
+		float: left;
 	}
 
 }

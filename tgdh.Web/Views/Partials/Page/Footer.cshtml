@@ -1,7 +1,7 @@
 @inherits UmbracoViewPage<IPublishedContent>
 
 
-<button class="o-page__to-top js-scroll-top" type="button">
+<button class="o-page__scroll-top js-scroll-top" type="button">
 	<span class="u-visually-hidden">Back to top</span>
 </button>
 
@@ -9,7 +9,7 @@
 	<div class="c-footer__cta o-wrap">
 		<h2 class="c-footer__headline u-alpha u-font-sec">Want more?</h2>
 		<div>Get in touch</div>
-		<ul class="o-list--inline">
+		<ul class="o-list--inline u-space-top">
 			<li class="o-list__item">023 9233 4971</li>
 			<li class="o-list__item"><a href="mailto:studio@tgdh.co.uk">studio@tgdh.co.uk</a></li>
 		</ul>
@@ -17,16 +17,17 @@
 	<div class="c-footer__sub">
 		@Html.Partial("~/Views/Partials/Components/SocialLinks.cshtml")
 
-		<p>Walton Road Farlington Portsmouth P06 1TR</p>
-
-		<p>&copy; 2015 all rights reserved</p>
-		<ul class="o-list--inline u-space-top">
-			<li class="o-list__item">
-				<a href="" class="o-list__link">T &amp; C</a>
-			</li>
-			<li class="o-list__item">
-				<a href="" class="o-list__link">Sitemap</a>
-			</li>
-		</ul>
+		<p class="c-footer__adr">Walton Road Farlington Portsmouth P06 1TR</p>
+		<div class="c-footer__meta u-clearfix">
+			<p class="c-footer__copyright">&copy; 2015 all rights reserved</p>
+			<ul class="c-footer__nav o-list--inline">
+				<li class="o-list__item">
+					<a href="">T &amp; C</a>
+				</li>
+				<li class="o-list__item">
+					<a href="">Sitemap</a>
+				</li>
+			</ul>
+		</div>
 	</div>
 </footer>
