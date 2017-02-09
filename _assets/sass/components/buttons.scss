@@ -49,6 +49,7 @@
 	position: fixed;
 	left: 100%; // Moves button off screen
 	top: 1rem;
+	z-index: 20;
 
 	&:focus {
 		left: 1rem; // Moves button back on screen
