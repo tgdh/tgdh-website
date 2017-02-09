@@ -19,6 +19,8 @@ var gulp = require('gulp'),
     rollup = require('rollup'),
     babel = require('rollup-plugin-babel'),
     fileinclude = require('gulp-file-include'),
+	commonjs = require('rollup-plugin-commonjs'),
+	nodeResolve = require('rollup-plugin-node-resolve'),
     $ = require('gulp-load-plugins')({
         pattern: ['gulp-*', 'gulp.*'],
         replaceString: /\bgulp[\-.]/
@@ -68,20 +70,35 @@ gulp.task( 'css', function() {
 
 // js
 gulp.task('js', function () {
-  return rollup.rollup({
-    entry: paths.assetsFolder + '/js/main.js',
-    plugins: [
-        babel()
-    ],
-  })
-    .then(function (bundle) {
-      bundle.write({
-        format: "es",
-        moduleName: "tgdh",
-        dest: paths.assetsBuildFolder + '/js/main.js',
-        sourceMap: true
-      });
-  });
+	return rollup.rollup({
+		entry: paths.assetsFolder + '/js/main.js',
+		plugins: [
+			nodeResolve({
+				jsnext: true,
+				main: true
+			}),
+			commonjs({
+				// non-CommonJS modules will be ignored, but you can also
+				// specifically include/exclude files
+				include: 'node_modules/**',
+				//exclude: [ 'node_modules/foo/**', 'node_modules/bar/**' ],  // Default: undefined
+				extensions: ['.js'],
+				ignoreGlobal: false,
+				sourceMap: true,
+				// explicitly specify unresolvable named exports
+				//namedExports: { './module.js': ['foo', 'bar' ] }  // Default: undefined
+			}),
+			babel()
+		],
+	})
+	.then(function (bundle) {
+		bundle.write({
+			format: "es",
+			moduleName: "tgdh",
+			dest: paths.assetsBuildFolder + '/js/main.js',
+			sourceMap: true
+		});
+	});
 });
 
 /*
