@@ -1,12 +1,13 @@
-import * as FontFaceObserver from '../lib/fontfaceobserver/fontfaceobserver.standalone';
+// import * as FontFaceObserver from '../lib/fontfaceobserver/fontfaceobserver.standalone';
+import FontFaceObserver from 'fontfaceobserver';
 
 const Fonts = () => {
-	const lato = new FontFaceObserver('lato');
-	const playfair = new FontFaceObserver('playfair_display');
+	const lato = new FontFaceObserver('Lato');
+	const playfair = new FontFaceObserver('Playfair Display');
 
 	Promise.all([
-		lato.check(),
-		playfair.check()
+		lato.load(),
+		playfair.load()
 	]).then(() => {
 		// Add fonts-loaded class to html to apply fonts to the page
 		document.documentElement.classList.add('fonts-loaded');

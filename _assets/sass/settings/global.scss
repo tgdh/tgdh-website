@@ -48,7 +48,7 @@ $font-family:				'Lato', Helvetica, Arial, Geneva, sans-serif;
 $font-family-sec:			'Playfair Display', Georgia, serif;
 $font-size-small:			1.6rem;
 $font-size-large:			1.6rem;
-$line-height:				1.4em;
+$line-height:				1.6em;
 $type-scale-small:			1.175;
 $type-scale-medium:			1.200;
 $type-scale-large:			1.250;
@@ -59,7 +59,7 @@ $background-colour:			$white;
 $border-colour:				#ccc;
 $link-colour:				$pri;
 $form-placeholder-colour:	#ccc;
-$placeholder-colour:		#999;
+$placeholder-colour:		$light-1;
 $highlight-colour:			lighten( $pri, 50 );
 
 $error:						$red;
