@@ -1,0 +1,47 @@
+/* ===========================================================
+
+	# Mixins
+
+=========================================================== */
+
+@mixin inline-link( $invert: false ) {
+	font-weight: $bolder;
+	transition: color $speed $ease,
+				background-color $speed $ease,
+				box-shadow $speed $ease;
+
+	@if $invert {
+		box-shadow: inset 0 -2px 0 $white;
+
+		&:hover,
+		&:focus {
+			color: $pri;
+			background-color: $white;
+			box-shadow: none;
+		}
+
+		&:focus {
+			outline: 0.2rem solid white;
+		}
+
+	}
+
+	@if $invert == false {
+		box-shadow: inset 0 -2px 0 $pri;
+
+		&:hover,
+		&:focus {
+			color: $white;
+			background-color: $pri;
+			box-shadow: none;
+		}
+
+		&:focus {
+			outline: 0.2rem solid #000000;
+		}
+	}
+
+
+
+
+}

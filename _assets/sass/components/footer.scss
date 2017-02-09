@@ -17,12 +17,10 @@
 	a {
 		color: inherit;
 
-		&:hover {
+		@include inline-link(true);
 
-		}
-
-		&:focus {
-
+		&:not([class]) {
+			@include inline-link(true);
 		}
 	}
 }
