@@ -1113,6 +1113,7 @@ img {
   float: right;
   font-weight: 700;
   display: none;
+  position: relative;
   -webkit-transition: background 0.3s ease;
   transition: background 0.3s ease; }
   .c-nav-toggle:hover {
@@ -1123,6 +1124,26 @@ img {
 
 .enhance .c-nav-toggle {
   display: block; }
+
+.enhance .c-nav-toggle__text,
+.enhance .c-nav-toggle__icon {
+  -webkit-transition: opacity 0.3s ease, -webkit-transform 0.3s ease;
+  transition: opacity 0.3s ease, -webkit-transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease, -webkit-transform 0.3s ease; }
+
+.enhance .c-nav-toggle__text {
+  display: block;
+  opacity: 1; }
+
+.enhance .c-nav-toggle__icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  -webkit-transform: translate(-50%, -50%) scale(0);
+      -ms-transform: translate(-50%, -50%) scale(0);
+          transform: translate(-50%, -50%) scale(0); }
 
 .c-nav {
   clear: both; }
@@ -1171,6 +1192,18 @@ img {
   transition: opacity 0.3s ease;
   -webkit-transition-delay: .2s;
           transition-delay: .2s; }
+
+.enhance.s-mainNavigation-is-visible .c-nav-toggle__icon {
+  -webkit-transform: translate(-50%, -50%) scale(1);
+      -ms-transform: translate(-50%, -50%) scale(1);
+          transform: translate(-50%, -50%) scale(1);
+  opacity: 1; }
+
+.enhance.s-mainNavigation-is-visible .c-nav-toggle__text {
+  opacity: 0;
+  -webkit-transform: scale(0);
+      -ms-transform: scale(0);
+          transform: scale(0); }
 
 .enhance.s-mainNavigation-is-visible .c-nav-backdrop {
   opacity: .7;

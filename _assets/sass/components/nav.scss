@@ -15,6 +15,7 @@
 	float: right;
 	font-weight: $bold;
 	display: none;
+	position: relative;
 	transition: background $speed $ease;
 
 	&:hover {
@@ -32,6 +33,25 @@
 
 	.c-nav-toggle {
 		display: block;
+	}
+
+	.c-nav-toggle__text,
+	.c-nav-toggle__icon {
+		transition: opacity $speed $ease,
+					transform $speed $ease;
+	}
+
+	.c-nav-toggle__text {
+		display: block;
+		opacity: 1;
+	}
+
+	.c-nav-toggle__icon {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0);
 	}
 
 }
@@ -96,6 +116,16 @@
 	}
 
 	&.s-mainNavigation-is-visible {
+
+		.c-nav-toggle__icon {
+			transform: translate(-50%, -50%) scale(1);
+			opacity: 1;
+		}
+
+		.c-nav-toggle__text {
+			opacity: 0;
+			transform: scale(0);
+		}
 
 		.c-nav-backdrop {
 			opacity: .7;
