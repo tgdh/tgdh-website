@@ -6,15 +6,8 @@
 <main id="main" class="o-page__content" role="main">
 	@Html.Partial("~/Views/Partials/Components/Cover.cshtml")
 	@RenderIntro()
+	@RenderIntroImages()
 
-	<section class="o-span--two u-clearfix">
-		<div class="o-span__col">
-			img
-		</div>
-		<div class="o-span__col">
-			img
-		</div>
-	</section>
 	<section class="o-section u-background--pri">
 		<blockquote class="c-quote o-section__inner o-wrap o-wrap--large">
 	        <div class="c-quote__copy u-gamma u-font-sec">
@@ -26,8 +19,6 @@
 	    </blockquote>
 	</section>
 	@RenderCityCulture()
-
-
 </main>
 
 @helper RenderIntro() {
@@ -38,18 +29,39 @@
 	<section class="o-section u-background--light">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
-			<div class="u-clearfix">
-				<div class="o-section__con">
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
 					<p>Hull Truck are a pioneering theatre with a unique, powerful, contemporary Northern Voice, locally rooted and national in reach, inspiring artists, exciting audiences and supporting communities to reach their greatest potential.</p>
 					<p>They produce and present exciting and culturally relevant theatre in our building, our community and out on tour. </p>
 				</div>
-
-
-				<div class="o-stat">
-					<span class="o-stat__label">ROI Statistic</span>
-					<span class="o-stat__fig u-font-sec u-giga">23:1</span>
+				<div class="o-col o-col--last">
+					<div class="o-stat">
+						<span class="o-stat__label">ROI statistic</span>
+						<span class="o-stat__fig u-font-sec u-giga">23:1</span>
+					</div>
+					<div class="o-stat">
+						<span class="o-stat__label">Usage statistic</span>
+						<span class="o-stat__fig u-font-sec u-giga">66<sup>%</sup></span>
+					</div>
 				</div>
 			</div>
+		</div>
+	</section>
+}
+
+@helper RenderIntroImages() {
+	var image1 = Umbraco.TypedMedia(1107);
+	var image1Url = image1 != null ? image1.Url : "";
+
+	var image2 = Umbraco.TypedMedia(1108);
+	var image2Url = image2 != null ? image2.Url : "";
+
+	<section class="o-span--two u-clearfix">
+		<div class="o-span__col">
+			<img src="@image1Url" alt="">
+		</div>
+		<div class="o-span__col">
+			<img src="@image2Url" alt="">
 		</div>
 	</section>
 }

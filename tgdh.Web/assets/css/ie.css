@@ -248,6 +248,9 @@ button {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased; }
 
+sup {
+  font-size: 50%; }
+
 .fonts-loaded body,
 .fonts-loaded input,
 .fonts-loaded textarea,
@@ -773,6 +776,70 @@ html {
     .o-col--three .o-col:last-child {
       margin-right: 0%; } }
 
+@media only screen and (min-width: 600px) and (max-width: 999px) {
+  .o-col--two-one .o-col--first {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 65.6666666667%;
+    margin-left: 0%;
+    margin-right: 3%; }
+    .o-col--two-one .o-col--first:before, .o-col--two-one .o-col--first:after {
+      content: '';
+      display: table; }
+    .o-col--two-one .o-col--first:after {
+      clear: both; }
+    .o-col--two-one .o-col--first:last-child {
+      margin-right: 0%; }
+  .o-col--two-one .o-col--last {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 31.3333333333%;
+    margin-left: 0%;
+    margin-right: 3%; }
+    .o-col--two-one .o-col--last:before, .o-col--two-one .o-col--last:after {
+      content: '';
+      display: table; }
+    .o-col--two-one .o-col--last:after {
+      clear: both; }
+    .o-col--two-one .o-col--last:last-child {
+      margin-right: 0%; } }
+
+@media only screen and (min-width: 1000px) {
+  .o-col--two-one .o-col--first {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 54.1666666667%;
+    margin-left: 0%;
+    margin-right: 10%; }
+    .o-col--two-one .o-col--first:before, .o-col--two-one .o-col--first:after {
+      content: '';
+      display: table; }
+    .o-col--two-one .o-col--first:after {
+      clear: both; }
+    .o-col--two-one .o-col--first:last-child {
+      margin-right: 0%; }
+  .o-col--two-one .o-col--last {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 35.8333333333%;
+    margin-left: 0%;
+    margin-right: 10%; }
+    .o-col--two-one .o-col--last:before, .o-col--two-one .o-col--last:after {
+      content: '';
+      display: table; }
+    .o-col--two-one .o-col--last:after {
+      clear: both; }
+    .o-col--two-one .o-col--last:last-child {
+      margin-right: 0%; } }
+
 /* ===========================================================
 
   # Tables
@@ -1094,6 +1161,10 @@ img {
 	# Stat
 
 =========================================================== */
+.o-stat {
+  width: 50%;
+  float: left; }
+
 .o-stat__label,
 .o-stat__fig {
   display: block;
