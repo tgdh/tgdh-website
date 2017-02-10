@@ -8,22 +8,23 @@
 	@RenderImage(image)
 	<div class="c-cover__content o-wrap">
 		<div class="c-cover__copy">
-			<h2 class="c-cover__headline u-mega">We are a strategic creative agency</h2>
+			<h2 class="c-cover__headline u-mega">Hull Truck Theatre</h2>
 			<ul class="c-meta u-epsilon u-font-sec">
 				<li class="c-meta__item">
-					<span class="c-meta__value">Strategy</span>
+					<span class="c-meta__value">Creative</span>
 				</li>
 				<li class="c-meta__item">
-					<span class="c-meta__value">Brand</span>
+					<span class="c-meta__value">Photography</span>
 				</li>
 				<li class="c-meta__item">
-					<span class="c-meta__value">Digital</span>
+					<span class="c-meta__value">Website</span>
 				</li>
 				<li class="c-meta__item">
-					<span class="c-meta__value">Design</span>
+					<span class="c-meta__value">Advertising</span>
 				</li>
 			</ul>
-			<p>We <a href="#"><strong>work</strong></a> with our clients, producing online and offline material, to empower their brands, engage with their audiences, and drive business.</p>
+			<p>Website creation and integration with Spektrix booking system.</p>
+			<a href="" class="c-button c-button--primary u-space-top--large">Launch site</a>
 		</div>
 	</div>
 </secetion>
@@ -33,54 +34,56 @@
 
 	string smallImageUrl = Url.GetCropUrl(
 		image,
-		cropAlias: "1:1",
+		cropAlias: "5:54",
 		width: 800,
 		htmlEncode: false
 	).ToString();
 
 	string mediumImageUrl = Url.GetCropUrl(
 		image,
-		cropAlias: "1:1",
+		cropAlias: "5:54",
 		width: 1000,
 		htmlEncode: false
 	).ToString();
 
 	string largeImageUrl = Url.GetCropUrl(image,
-		cropAlias: "1:1",
+		cropAlias: "5:54",
 		width: 1350,
 		htmlEncode: false
 	).ToString();
 
 	string xLargeImageUrl = Url.GetCropUrl(
 		image,
-		cropAlias: "1:1",
+		cropAlias: "5:54",
 		width: 1500,
 		htmlEncode: false
 	).ToString();
 
 	string xxLargeImageUrl = Url.GetCropUrl(image,
-		cropAlias: "1:1",
+		cropAlias: "5:54",
 		width: 900,
 		htmlEncode: false
 	).ToString();
 
 	string xxxLargeImageUrl = Url.GetCropUrl(
 		image,
-		cropAlias: "1:1",
+		cropAlias: "5:54",
 		width: 1200,
 		htmlEncode: false
 	).ToString();
 
-	<img src="/assets/img/house-cover-top.svg" alt="">
-	<picture class="c-cover__image-wrap">
-		<!--[if IE 9]><video style="display: none;"><![endif]-->
-		<source srcset="@xxxLargeImageUrl" data-srcset="@xxxLargeImageUrl" media="(min-width: 1800px)">
-		<source srcset="@xxLargeImageUrl" data-srcset="@xxLargeImageUrl" media="(min-width: 1500px)">
-		<source srcset="@xLargeImageUrl" data-srcset="@xLargeImageUrl" media="(min-width: 1280px)">
-		<source srcset="@largeImageUrl" data-srcset="@largeImageUrl" media="(min-width: 800px)">
-		<source srcset="@mediumImageUrl" data-srcset="@mediumImageUrl" media="(min-width: 600px)">
-		<source srcset="@smallImageUrl" data-srcset="@smallImageUrl" media="(max-width: 599px)">
-		<!--[if IE 9]></video><![endif]-->
-		<img src="@xLargeImageUrl&quality=18" data-src="@xLargeImageUrl" alt="@altText" class="c-cover__image js-lazyload" alt="@altText">
-	</picture>
+	<div class="c-cover__media">
+		<div class="c-cover__decoration" role="decoration"></div>
+		<picture class="c-cover__media-wrap">
+			<!--[if IE 9]><video style="display: none;"><![endif]-->
+			<source srcset="@xxxLargeImageUrl" data-srcset="@xxxLargeImageUrl" media="(min-width: 1800px)">
+			<source srcset="@xxLargeImageUrl" data-srcset="@xxLargeImageUrl" media="(min-width: 1500px)">
+			<source srcset="@xLargeImageUrl" data-srcset="@xLargeImageUrl" media="(min-width: 1280px)">
+			<source srcset="@largeImageUrl" data-srcset="@largeImageUrl" media="(min-width: 800px)">
+			<source srcset="@mediumImageUrl" data-srcset="@mediumImageUrl" media="(min-width: 600px)">
+			<source srcset="@smallImageUrl" data-srcset="@smallImageUrl" media="(max-width: 599px)">
+			<!--[if IE 9]></video><![endif]-->
+			<img src="@xLargeImageUrl&quality=18" data-src="@xLargeImageUrl" alt="@altText" class="c-cover__image js-lazyload" alt="@altText">
+		</picture>
+	</div>
 }

@@ -15,8 +15,4 @@ const $toggleButton = $('.js-nav-toggle');
 if ($toggleButton) {
 	const toggleNavInstance = new ToggleNav($toggleButton);
 	toggleNavInstance.init();
-
-	$('.c-header').on('click', () => {
-		toggleNavInstance.toggleOpen();
-	});
 }

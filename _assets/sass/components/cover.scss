@@ -4,32 +4,71 @@
 
 =========================================================== */
 
-.c-cover__image-wrap {
+.c-cover__headline {
+	padding-bottom: 2rem;
+}
+
+.c-cover__media-wrap {
 	position: relative;
+}
+
+.c-cover__media {
+	display: block;
+	position: relative;
+	overflow: hidden;
 	background-color: $placeholder-colour;
 
 	&:before {
 		content: "";
-		padding-top: 100%;
+		@include pad-top(500,540);
 	}
 }
 
-.c-cover__image {
+.c-cover__media-wrap {
 	position: absolute;
 	top: 0;
 }
 
 @include respond-min( $mq-medium ) {
 
-	.c-cover__image-wrap,
+	.c-cover__media,
 	.c-cover__content {
 		@include column( 1/2 );
 	}
 
 	.c-cover__copy {
-		font-size: 2rem;
 		line-height: $line-height;
 		max-width: $mq-x-large / 2;
+	}
+
+	.c-cover__decoration {
+		width: calc( 100% + 1rem );
+		background: url('/assets/img/house-cover-top.svg') no-repeat;
+		background-size: 100%;
+		position: absolute;
+		top: -1px;
+		left: -.5rem;
+		z-index: 2;
+
+		&:before {
+			content: "";
+			display: block;
+			@include pad-top(33,15);
+
+		}
+	}
+
+	.flexbox {
+
+		.c-cover {
+			display: flex;
+		}
+
+		.c-cover__copy {
+			position: relative;
+			top: 20%;;
+		}
+
 	}
 
 }

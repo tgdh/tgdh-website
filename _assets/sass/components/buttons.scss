@@ -5,11 +5,15 @@
 =========================================================== */
 
 .c-button {
+	min-width: 15rem;
 	display: block;
 	line-height: 1;
 	text-align: center;
-	padding: 1.5rem 2rem;
-	border: .1rem solid transparent;
+	font-size: 1.4rem;
+	font-weight: $bold;
+	text-align: center;
+	padding: 1.6rem 2rem;
+	border: $border-width solid transparent;
 	background-color: transparent;
 	transition: background $speed $ease,
 				box-shadow $speed $ease,
