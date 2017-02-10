@@ -1,16 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="6 4 32 32" enable-background="new 6 4 32 32" xml:space="preserve">
-<title>LinkedIn-black</title>
-<desc>Created with Sketch.</desc>
-<g id="Icons">
-	<g id="Black" transform="translate(-702.000000, -265.000000)">
-		<path id="LinkedIn" d="M740,299.5h-7.1v-10.2c0-2.7-1.1-4.5-3.5-4.5c-1.9,0-2.9,1.2-3.4,2.4c-0.2,0.4-0.2,1-0.2,1.6v10.7h-7
-			c0,0,0.1-18.1,0-19.8h7v3.1c0.4-1.4,2.7-3.3,6.2-3.3c4.4,0,7.9,2.8,7.9,9V299.5L740,299.5z M711.8,277.3L711.8,277.3
-			c-2.3,0-3.8-1.5-3.8-3.4c0-2,1.5-3.4,3.8-3.4c2.3,0,3.7,1.5,3.8,3.4C715.6,275.8,714.1,277.3,711.8,277.3L711.8,277.3L711.8,277.3
-			z M708.8,279.8h6.2v19.8h-6.2V279.8L708.8,279.8z"/>
-	</g>
-</g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" fill-rule="nonzero" fill="#000000">
+            <g id="linkedIn" transform="translate(2.000000, 3.000000)">
+                <g id="Layer_1">
+                    <g id="Icons">
+                        <g id="Black">
+                            <path d="M28,25.8125 L21.7875,25.8125 L21.7875,16.8875 C21.7875,14.525 20.825,12.95 18.725,12.95 C17.0625,12.95 16.1875,14 15.75,15.05 C15.575,15.4 15.575,15.925 15.575,16.45 L15.575,25.8125 L9.45,25.8125 C9.45,25.8125 9.5375,9.975 9.45,8.4875 L15.575,8.4875 L15.575,11.2 C15.925,9.975 17.9375,8.3125 21,8.3125 C24.85,8.3125 27.9125,10.7625 27.9125,16.1875 L27.9125,25.8125 L28,25.8125 Z M3.325,6.3875 L3.325,6.3875 C1.3125,6.3875 0,5.075 0,3.4125 C0,1.6625 1.3125,0.4375 3.325,0.4375 C5.3375,0.4375 6.5625,1.75 6.65,3.4125 C6.65,5.075 5.3375,6.3875 3.325,6.3875 L3.325,6.3875 L3.325,6.3875 Z M0.7,8.575 L6.125,8.575 L6.125,25.9 L0.7,25.9 L0.7,8.575 L0.7,8.575 Z" id="LinkedIn"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
 </svg>

@@ -243,6 +243,13 @@ Fonts$1();
 
 var $toggleButton = $('.js-nav-toggle');
 if ($toggleButton) {
-	new ToggleNav($toggleButton).init();
+	(function () {
+		var toggleNavInstance = new ToggleNav($toggleButton);
+		toggleNavInstance.init();
+
+		$('.c-header').on('click', function () {
+			toggleNavInstance.toggleOpen();
+		});
+	})();
 }
 //# sourceMappingURL=main.js.map
