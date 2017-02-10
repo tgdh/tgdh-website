@@ -1,0 +1,32 @@
+/* ===========================================================
+
+	# Heading
+
+=========================================================== */
+
+.o-heading {
+	margin-bottom: $line-height;
+
+	&:after {
+		content: "";
+		width: 2.7rem;
+		height: .1rem;
+		background-color: $pri;
+		display: block;
+		margin-top: 1rem;
+	}
+
+}
+
+.o-heading__headline {
+	font-weight: $bolder;
+	padding-bottom: 0;
+}
+
+.o-heading__subtitle {
+	opacity: .65;
+	font-size: 1.4rem;
+	display: block;
+	font-style: italic;
+	margin-top: 1rem;
+}

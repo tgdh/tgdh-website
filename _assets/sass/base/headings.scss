@@ -195,7 +195,7 @@ figcaption {
 
 	h3,
 	.u-epsilon {
-		@include heading-font-size( $epsilon-large );
+		@include heading-font-size( 1.8rem );
 	}
 
 	h4,

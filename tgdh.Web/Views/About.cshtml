@@ -5,11 +5,66 @@
 
 <main id="main" class="o-page__content" role="main">
 	@Html.Partial("~/Views/Partials/Components/Cover.cshtml")
+	@RenderIntro()
+
+	<section class="o-span--two u-clearfix">
+		<div class="o-span__col">
+			img
+		</div>
+		<div class="o-span__col">
+			img
+		</div>
+	</section>
+	<section class="o-section u-background--pri">
+		<blockquote class="c-quote o-section__inner o-wrap o-wrap--large">
+	        <div class="c-quote__copy u-gamma u-font-sec">
+	            <p>First quote. We've had great feedback on the new site...</p>
+	        </div>
+            <footer class="c-quote__src">
+				source
+			</footer>
+	    </blockquote>
+	</section>
+	@RenderCityCulture()
 
 
-	<div class="o-section o-wrap o-wrap--small">
-		<h1>Can I have a moment to talk to you about performance?</h1>
-		<p><strong>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</strong></p>
-		<p>Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Donec sed odio dui. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-	</div>
 </main>
+
+@helper RenderIntro() {
+	var heading = new HeadingViewModel {
+        Headline = "Intro",
+        Subtitle = "A pioneering northern voice"
+    };
+	<section class="o-section u-background--light">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="u-clearfix">
+				<div class="o-section__con">
+					<p>Hull Truck are a pioneering theatre with a unique, powerful, contemporary Northern Voice, locally rooted and national in reach, inspiring artists, exciting audiences and supporting communities to reach their greatest potential.</p>
+					<p>They produce and present exciting and culturally relevant theatre in our building, our community and out on tour. </p>
+				</div>
+
+
+				<div class="o-stat">
+					<span class="o-stat__label">ROI Statistic</span>
+					<span class="o-stat__fig u-font-sec u-giga">23:1</span>
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+@helper RenderCityCulture() {
+	var heading = new HeadingViewModel {
+        Headline = "Hull, city of culture",
+        Subtitle = "Helping Hull acheive their city of culture status"
+    };
+
+	<section class="o-section">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<p>Every 4 years a city is award the title of city of culture. This title is given to a city that believes in the transformational power of culture. 2017 is the turn of Hull.</p>
+			<p>Hull Truck Theatre had a key role in the representation of their city. As such they wanted a new look and feel for all their creative output. TGDH were lucky enough to win the pitch and have been instrumental in the creation of all the show artwork.</p>
+		</div>
+	</section>
+}

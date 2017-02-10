@@ -39,7 +39,10 @@
 		'objects/list',
 //		'objects/logos',
 		'objects/media',
-		'objects/page-components';
+		'objects/page-components',
+		'objects/heading',
+		'objects/stat',
+		'objects/span';
 
 @import 'components/header',
 		'components/nav',
@@ -54,4 +57,5 @@
 @import 'trumps/overrides',
 		'trumps/free-content',
 		'trumps/text',
-		'trumps/icons';
+		'trumps/icons',
+		'trumps/colours';

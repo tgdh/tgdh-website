@@ -1,0 +1,29 @@
+/* ===========================================================
+
+  # Colours
+
+=========================================================== */
+
+.u-background--light {
+	background-color: $light-1;
+}
+
+.u-background--pri {
+	color: $white;
+
+	h1,
+	h2,
+	h3 {
+		color: inherit;
+	}
+
+	a {
+		color: inherit;
+
+		&:not([class]) {
+			@include inline-link(true, 1px);
+		}
+	}
+
+	background-color: $pri;
+}

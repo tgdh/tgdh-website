@@ -359,15 +359,12 @@ hr {
   font-weight: 700;
   font-style: normal; }
 
-/*
 @font-face {
-    font-family: 'Playfair Display';
-    src: url('/assets/fonts/playfair/playfairdisplay-bolditalic-webfont.woff2') format('woff2'),
-         url('/assets/fonts/playfair/playfairdisplay-bolditalic-webfont.woff') format('woff');
-    font-weight: 700;
-    font-style: italic;
-}
-*/
+  font-family: 'Playfair Display';
+  src: url("/assets/fonts/playfair/playfairdisplay-bolditalic-webfont.woff2") format("woff2"), url("/assets/fonts/playfair/playfairdisplay-bolditalic-webfont.woff") format("woff");
+  font-weight: 700;
+  font-style: italic; }
+
 /* ===========================================================
 
 	# Headings
@@ -506,8 +503,8 @@ figcaption {
     padding-bottom: 1.25rem; }
   h3,
   .u-epsilon {
-    font-size: 2rem;
-    padding-bottom: 1rem; }
+    font-size: 1.8rem;
+    padding-bottom: 0.9rem; }
   h4,
   .u-zeta {
     font-size: 1.6rem;
@@ -719,7 +716,7 @@ html {
   max-width: 108rem; }
 
 .o-wrap--x-large {
-  max-width: 140rem; }
+  max-width: 130rem; }
 
 @media only screen and (min-width: 600px) and (max-width: 799px) {
   .o-wrap {
@@ -1068,6 +1065,66 @@ img {
 
 /* ===========================================================
 
+	# Heading
+
+=========================================================== */
+.o-heading {
+  margin-bottom: 1.6em; }
+  .o-heading:after {
+    content: "";
+    width: 2.7rem;
+    height: .1rem;
+    background-color: #000000;
+    display: block;
+    margin-top: 1rem; }
+
+.o-heading__headline {
+  font-weight: 900;
+  padding-bottom: 0; }
+
+.o-heading__subtitle {
+  opacity: .65;
+  font-size: 1.4rem;
+  display: block;
+  font-style: italic;
+  margin-top: 1rem; }
+
+/* ===========================================================
+
+	# Stat
+
+=========================================================== */
+.o-stat__label,
+.o-stat__fig {
+  display: block;
+  font-weight: 900; }
+
+.o-stat__fig {
+  line-height: 1;
+  padding: 0; }
+
+/* ===========================================================
+
+	# Span
+
+=========================================================== */
+@media only screen and (min-width: 600px) {
+  .o-span--two .o-span__col {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: 0%; }
+    .o-span--two .o-span__col:before, .o-span--two .o-span__col:after {
+      content: '';
+      display: table; }
+    .o-span--two .o-span__col:after {
+      clear: both; } }
+
+/* ===========================================================
+
 	# Header
 
 =========================================================== */
@@ -1356,7 +1413,7 @@ img {
     background: url("/assets/img/house-cover-top.svg") no-repeat;
     background-size: 100%;
     position: absolute;
-    top: -1px;
+    top: -.5px;
     left: -.5rem;
     z-index: 2; }
     .c-cover__decoration:before {
@@ -1677,7 +1734,8 @@ img {
   font-family: "Lato"; }
 
 .fonts-loaded .u-font-sec {
-  font-family: "Playfair Display"; }
+  font-family: "Playfair Display";
+  letter-spacing: .5px; }
 
 /* ===========================================================
 
@@ -1701,5 +1759,33 @@ img {
 .u-icon--32 {
   width: 3.2rem;
   height: 3.2rem; }
+
+/* ===========================================================
+
+  # Colours
+
+=========================================================== */
+.u-background--light {
+  background-color: #f9f9f9; }
+
+.u-background--pri {
+  color: #FFFFFF;
+  background-color: #000000; }
+  .u-background--pri h1,
+  .u-background--pri h2,
+  .u-background--pri h3 {
+    color: inherit; }
+  .u-background--pri a {
+    color: inherit; }
+    .u-background--pri a:not([class]) {
+      -webkit-transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+      transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: inset 0 -1px 0 #FFFFFF; }
+      .u-background--pri a:not([class]):hover, .u-background--pri a:not([class]):focus {
+        color: #000000;
+        background-color: #FFFFFF;
+        box-shadow: none; }
+      .u-background--pri a:not([class]):focus {
+        outline: 0.2rem solid white; }
 
 /*# sourceMappingURL=style.css.map */
