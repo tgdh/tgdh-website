@@ -1,0 +1,22 @@
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+    Layout = "Master.cshtml";
+	var selection = Model.Descendants().Where( x => x.IsVisible());
+}
+
+<main id="main" class="o-page__content" role="main">
+
+	<div class="o-wrap o-wrap--small">
+		<h1>@Model.Name</h1>
+		@if( selection.Any() ) {
+			<ul>
+			@foreach( var item in selection ) {
+				<li>
+					<a href="@item.Url">@item.Name</a>
+				</li>
+			}
+			</ul>
+		}
+	</div>
+
+</main>
