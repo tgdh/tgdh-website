@@ -7,18 +7,10 @@
 	@Html.Partial("~/Views/Partials/Components/Cover.cshtml")
 	@RenderIntro()
 	@RenderIntroImages()
-
-	<section class="o-section u-background--pri">
-		<blockquote class="c-quote o-section__inner o-wrap o-wrap--large">
-	        <div class="c-quote__copy u-gamma u-font-sec">
-	            <p>First quote. We've had great feedback on the new site...</p>
-	        </div>
-            <footer class="c-quote__src">
-				source
-			</footer>
-	    </blockquote>
-	</section>
+    @RenderQuote1()
 	@RenderCityCulture()
+
+    @RenderCreative()
 </main>
 
 @helper RenderIntro() {
@@ -66,17 +58,55 @@
 	</section>
 }
 
+@helper RenderQuote1() {
+    <section class="o-section u-background--pri">
+		<blockquote class="c-quote o-section__inner o-wrap o-wrap--large">
+	        <div class="c-quote__copy u-gamma u-font-sec">
+	            <p>First quote. We've had great feedback on the new site...</p>
+	        </div>
+            <footer class="c-quote__src">
+				Ruth, Hull Truck Theatre
+			</footer>
+	    </blockquote>
+	</section>
+}
+
 @helper RenderCityCulture() {
 	var heading = new HeadingViewModel {
         Headline = "Hull, city of culture",
         Subtitle = "Helping Hull acheive their city of culture status"
     };
 
-	<section class="o-section">
+    <section class="o-section">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
-			<p>Every 4 years a city is award the title of city of culture. This title is given to a city that believes in the transformational power of culture. 2017 is the turn of Hull.</p>
-			<p>Hull Truck Theatre had a key role in the representation of their city. As such they wanted a new look and feel for all their creative output. TGDH were lucky enough to win the pitch and have been instrumental in the creation of all the show artwork.</p>
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+                <p>Every 4 years a city is award the title of city of culture. This title is given to a city that believes in the transformational power of culture. 2017 is the turn of Hull.</p>
+                <p>Hull Truck Theatre had a key role in the representation of their city. As such they wanted a new look and feel for all their creative output. TGDH were lucky enough to win the pitch and have been instrumental in the creation of all the show artwork.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+
+
+@helper RenderCreative() {
+	var heading = new HeadingViewModel {
+        Headline = "Creative",
+        Subtitle = "Powerful and intriguing meets gritty and modern."
+    };
+
+    <section class="o-section">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+                    <p>It was important the artwork was as flexible as possible in layout and construction. It is not constrained by background colour or texture – therefore removal of the background makes it flexible and adaptable when applied to various formats.</p>
+                    <p>All the show artwork is visually powerful and intriguing to attract audiences with built-in references to the plays story and/or characters. </p>
+				</div>
+			</div>
 		</div>
 	</section>
 }
