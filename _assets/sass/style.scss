@@ -55,11 +55,15 @@
 		'components/social',
 		'components/quote',
 		'components/image-columns',
-		'components/pager';
+		'components/pager',
+		'components/card';
 
-@import 'trumps/overrides',
-		'trumps/free-content',
-		'trumps/text',
-		'trumps/icons',
-		'trumps/colours',
+@import 'utility/overrides',
+		'utility/hide',
+		'utility/spacers',
+		'utility/colours',
+		'utility/icons',
+		'utility/text';
+
+@import 'trumps/free-content',
 		'trumps/hull-truck-case';

@@ -192,6 +192,14 @@
         Subtitle = "Maecenas sed diam eget risus."
     };
 
+	var cardModel = new CardViewModel {
+        Id = 0,
+        Headline = "Taking the pain out of integrating third party software into your website.",
+        CoverImage = Umbraco.TypedMedia(1077),
+		Thumbnail = Umbraco.TypedMedia(1088),
+        Url = "#"
+    };
+
 	<section class="o-section u-background--light">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			<div class="o-col--two-one u-clearfix">
@@ -201,6 +209,7 @@
 				</div>
 				<div class="o-col o-col--last">
 					<h3 class="u-zeta">Further reading</h3>
+					@Html.Partial("~/Views/Partials/Components/Card.cshtml", cardModel)
 				</div>
 			</div>
 		</div>

@@ -1,0 +1,26 @@
+/* ===========================================================
+
+	# Card
+
+=========================================================== */
+
+.c-card__link {
+	background-color: $white;
+	box-shadow: 0 0 10px rgba(0,0,0,.1);
+	display: block;
+	transition: box-shadow $speed $ease;
+
+	&:hover,
+	&:focus {
+		box-shadow: 0 0 10px rgba(0,0,0,.2);
+	}
+}
+
+.c-card__content {
+	padding: 3rem 2.5rem;
+}
+
+.c-card__headline {
+	font-weight: $bolder;
+	padding-bottom: 0;
+}
