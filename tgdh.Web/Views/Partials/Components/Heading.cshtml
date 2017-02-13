@@ -4,9 +4,10 @@
 		return;
 	}
 	var subtitle = Model.Subtitle;
+	var modifierClass = Model.IsCenter ? "o-heading--center" : "";
 }
 
-<header class="o-heading">
+<header class="o-heading @modifierClass">
 	<h2 class="o-heading__headline u-beta">@Model.Headline</h2>
 	@if(!String.IsNullOrEmpty(subtitle)) {
 		<span class="o-heading__subtitle u-font-sec">@subtitle</span>

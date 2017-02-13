@@ -1,7 +1,6 @@
 import LoadFonts from './modules/LoadFonts';
 import { $ } from './modules/Bling';
 import ToggleNav from './modules/ToggleNav';
-
 /*
 // add click evt to body and log target el
 $('body').on('click', el => console.log(el.target));

@@ -17,6 +17,14 @@
 	}
 }
 
+.c-meta--invert {
+
+	&:after {
+		background-color: $white;
+	}
+
+}
+
 .c-meta__item {
 	display: inline-block;
 	font-style: italic;

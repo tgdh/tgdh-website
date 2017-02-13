@@ -714,7 +714,7 @@ html {
   max-width: 64rem; }
 
 .o-wrap--medium {
-  max-width: 92rem; }
+  max-width: 84rem; }
 
 .o-wrap--large {
   max-width: 108rem; }
@@ -1236,6 +1236,7 @@ img {
     background-color: #FFFFFF;
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
     position: fixed;
+    top: 0;
     right: 0; } }
 
 /* ===========================================================
@@ -1309,6 +1310,8 @@ img {
   width: 100%;
   height: 100%;
   position: fixed;
+  top: 0;
+  left: 0;
   opacity: 0;
   visibility: hidden;
   background-color: #000000;
@@ -1521,6 +1524,9 @@ img {
     background-color: #000000;
     display: block;
     margin-top: 0.8em; }
+
+.c-meta--invert:after {
+  background-color: #FFFFFF; }
 
 .c-meta__item {
   display: inline-block;
@@ -1788,6 +1794,153 @@ img {
 
 /* ===========================================================
 
+	# Pager
+
+=========================================================== */
+.c-pager__page {
+  background-size: cover;
+  background-position: center;
+  overflow: hidden; }
+
+.c-pager__page {
+  padding: 3rem;
+  color: #FFFFFF;
+  display: block;
+  background-color: #000000;
+  position: relative; }
+  .c-pager__page:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 1;
+    background-color: #000000;
+    opacity: .3;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  .c-pager__page:hover .c-pager__page__image, .c-pager__page:focus .c-pager__page__image {
+    -webkit-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+            transform: scale(1.1); }
+
+.c-pager__page__image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transition: -webkit-transform 0.3s ease;
+  transition: -webkit-transform 0.3s ease;
+  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, -webkit-transform 0.3s ease; }
+
+.c-pager__page__icon {
+  z-index: 2;
+  position: absolute; }
+
+.c-pager__page__headline,
+.c-pager__meta {
+  position: relative;
+  z-index: 2; }
+
+.c-pager__page__headline {
+  font-size: 3.6rem;
+  font-weight: 900; }
+
+.c-pager__meta {
+  list-style: none;
+  margin-top: 0.4em; }
+  .c-pager__meta:after {
+    content: "";
+    width: 2.7rem;
+    height: .1rem;
+    background-color: #FFFFFF;
+    display: block;
+    margin-top: 0.8em; }
+
+.c-pager__meta__item {
+  display: inline-block;
+  margin: 0; }
+  .c-pager__meta__item + .c-pager__meta__item:before {
+    content: "|";
+    margin: 0 1rem; }
+
+@media only screen and (max-width: 599px) {
+  .c-pager__page {
+    border: 0.5rem solid #FFFFFF; }
+  .c-pager__page--next {
+    border-top: 0; }
+  .c-pager__cta {
+    display: none; }
+  .c-pager__page--prev {
+    text-align: right; }
+    .c-pager__page--prev .c-pager__page__icon {
+      -webkit-transform: rotate(180deg);
+          -ms-transform: rotate(180deg);
+              transform: rotate(180deg); } }
+
+@media only screen and (min-width: 600px) {
+  .c-pager__page,
+  .c-pager__cta {
+    float: left; }
+  .flexbox .c-pager {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; }
+  .flexbox .c-pager__page {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+        -ms-flex: 1 1 auto;
+            flex: 1 1 auto; }
+  .c-pager__page,
+  .c-pager__cta {
+    min-height: 21rem; }
+  .c-pager__page {
+    width: 37.5%; }
+  .c-pager__cta {
+    background-color: #FFFFFF; }
+  .c-pager__page__headline {
+    font-size: 2.4rem; }
+  .c-pager__page--prev {
+    text-align: right; }
+    .c-pager__page--prev .c-pager__meta:after {
+      margin-left: auto; }
+    .c-pager__page--prev .c-pager__page__icon {
+      left: 4rem; }
+    .c-pager__page--prev .c-pager__page__image {
+      -webkit-transform-origin: center right;
+          -ms-transform-origin: center right;
+              transform-origin: center right; }
+  .c-pager__page--next .c-pager__page__icon {
+    right: 4rem; }
+  .c-pager__page--next .c-pager__page__image {
+    -webkit-transform-origin: center left;
+        -ms-transform-origin: center left;
+            transform-origin: center left; }
+  .c-pager__cta {
+    text-align: center;
+    width: 25%;
+    padding: 3rem; }
+  .c-pager__cta__headline {
+    display: block;
+    font-size: 2.4rem;
+    font-weight: 900;
+    margin-bottom: 0.5333333333em; }
+  .c-pager__cta__icon {
+    width: 4.4rem;
+    height: 4.4rem; } }
+
+@media only screen and (min-width: 1000px) {
+  .c-pager__page {
+    padding: 6rem 6rem; }
+  .c-pager__cta {
+    padding: 6rem 2rem; } }
+
+/* ===========================================================
+
   # Overrides
 
 =========================================================== */
@@ -1907,6 +2060,10 @@ img {
 .u-icon--32 {
   width: 3.2rem;
   height: 3.2rem; }
+
+.u-icon--42 {
+  width: 4.2rem;
+  height: 4.2rem; }
 
 /* ===========================================================
 

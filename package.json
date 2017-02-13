@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "fontfaceobserver": "^2.0.8",
-    "lory.js": "^2.2.1"
+    "lory.js": "^2.2.1",
+    "swiper": "^3.4.1"
   }
 }
