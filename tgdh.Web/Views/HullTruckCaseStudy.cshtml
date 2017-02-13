@@ -9,7 +9,7 @@
 	@RenderIntroImages()
     @RenderQuote1()
 	@RenderCityCulture()
-
+	@RenderCityCultureImages()
     @RenderCreative()
 </main>
 
@@ -86,6 +86,23 @@
                 <p>Hull Truck Theatre had a key role in the representation of their city. As such they wanted a new look and feel for all their creative output. TGDH were lucky enough to win the pitch and have been instrumental in the creation of all the show artwork.</p>
 				</div>
 			</div>
+		</div>
+	</section>
+}
+
+@helper RenderCityCultureImages() {
+	var image1 = Umbraco.TypedMedia(1104);
+	var image1Url = image1 != null ? image1.Url : "";
+
+	var image2 = Umbraco.TypedMedia(1105);
+	var image2Url = image2 != null ? image2.Url : "";
+
+	<section class="c-image-col s-hullTruckCaseStudy__image-cols--city-culture u-clearfix">
+		<div class="c-image-col__col s-hullTruckCaseStudy__image-cols__col">
+			<img src="@image1Url" alt="" class="c-image-col__image">
+		</div>
+		<div class="c-image-col__col s-hullTruckCaseStudy__image-cols__col">
+			<img src="@image2Url" alt="" class="c-image-col__image">
 		</div>
 	</section>
 }
