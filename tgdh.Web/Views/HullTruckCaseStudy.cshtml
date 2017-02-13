@@ -48,19 +48,19 @@
 	var image2 = Umbraco.TypedMedia(1108);
 	var image2Url = image2 != null ? image2.Url : "";
 
-	<section class="o-span--two u-clearfix">
-		<div class="o-span__col">
-			<img src="@image1Url" alt="">
+	<section class="c-image-col s-hullTruckCaseStudy__image-cols--intro u-clearfix">
+		<div class="c-image-col__col s-hullTruckCaseStudy__image-cols__col">
+			<img src="@image1Url" alt="" class="c-image-col__image">
 		</div>
-		<div class="o-span__col">
-			<img src="@image2Url" alt="">
+		<div class="c-image-col__col s-hullTruckCaseStudy__image-cols__col">
+			<img src="@image2Url" alt="" class="c-image-col__image">
 		</div>
 	</section>
 }
 
 @helper RenderQuote1() {
     <section class="o-section u-background--pri">
-		<blockquote class="c-quote o-section__inner o-wrap o-wrap--large">
+		<blockquote class="c-quote o-section__inner o-wrap o-wrap--medium">
 	        <div class="c-quote__copy u-gamma u-font-sec">
 	            <p>First quote. We've had great feedback on the new site...</p>
 	        </div>

@@ -3,3 +3,12 @@
   # Hull Truck case study
 
 =========================================================== */
+
+
+.s-hullTruckCaseStudy__image-cols--intro {
+
+	.s-hullTruckCaseStudy__image-cols__col:before {
+		@include pad-top(753,600);
+	}
+
+}

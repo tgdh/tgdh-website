@@ -7,6 +7,25 @@
 
 	<div class="o-wrap o-wrap--small">
 		<h1>@Model.Name</h1>
+		@RenderCarosuel()
 	</div>
 
 </main>
+
+
+@helper RenderCarosuel() {
+
+	<div class="slider js-carousel">
+	    <div class="frame js-carousel-frame">
+	        <ul class="slides js-carousel-slides">
+	            <li class="js-carousel-slide">1</li>
+	            <li class="js-carousel-slide">2</li>
+	            <li class="js-carousel-slide">3</li>
+	            <li class="js-carousel-slide">4</li>
+	            <li class="js-carousel-slide">5</li>
+	            <li class="js-carousel-slide">6</li>
+	        </ul>
+	    </div>
+	</div>
+
+}

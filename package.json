@@ -51,6 +51,7 @@
     "run-sequence": "^1.2.2"
   },
   "dependencies": {
-    "fontfaceobserver": "^2.0.8"
+    "fontfaceobserver": "^2.0.8",
+    "lory.js": "^2.2.1"
   }
 }

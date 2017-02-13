@@ -1,0 +1,40 @@
+/* ===========================================================
+
+	# Image columns
+
+=========================================================== */
+
+.c-image-col__col {
+	overflow: hidden;
+	position: relative;
+
+	&:before {
+		content: "";
+		display: block;
+		background-color: $placeholder-colour;
+		padding-top: 100%;
+	}
+}
+
+.c-image-col__image {
+	position: absolute;
+	top: 0;
+}
+
+.enhance {
+
+	.c-image-col__image {
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+}
+
+@include respond-min( $mq-medium ) {
+
+	.c-image-col__col {
+		width: 50%;
+		float: left;
+	}
+
+}

@@ -1725,8 +1725,8 @@ img {
   position: relative;
   line-height: 1.3;
   text-align: center;
-  padding-left: 8rem;
-  padding-right: 8rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
   quotes: "“" "”" "‘" "’"; }
   .c-quote:before, .c-quote:after {
     color: #000000;
@@ -1738,10 +1738,10 @@ img {
     top: .7rem; }
   .c-quote:before {
     content: open-quote;
-    left: 0; }
+    left: 2rem; }
   .c-quote:after {
     content: close-quote;
-    right: 0; }
+    right: 2rem; }
 
 .c-quote__copy {
   display: block;
@@ -1756,6 +1756,35 @@ img {
 @media only screen and (min-width: 800px) {
   .c-quote__copy {
     font-size: 3rem; } }
+
+/* ===========================================================
+
+	# Image columns
+
+=========================================================== */
+.c-image-col__col {
+  overflow: hidden;
+  position: relative; }
+  .c-image-col__col:before {
+    content: "";
+    display: block;
+    background-color: #f9f9f9;
+    padding-top: 100%; }
+
+.c-image-col__image {
+  position: absolute;
+  top: 0; }
+
+.enhance .c-image-col__image {
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%); }
+
+@media only screen and (min-width: 800px) {
+  .c-image-col__col {
+    width: 50%;
+    float: left; } }
 
 /* ===========================================================
 
@@ -1914,5 +1943,7 @@ img {
   # Hull Truck case study
 
 =========================================================== */
+.s-hullTruckCaseStudy__image-cols--intro .s-hullTruckCaseStudy__image-cols__col:before {
+  padding-top: 79.6812749004%; }
 
 /*# sourceMappingURL=ie.css.map */
