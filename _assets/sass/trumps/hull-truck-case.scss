@@ -12,6 +12,17 @@
 
 }
 
+// advertisting
+
+.s-hullTruckCaseStudy__advertisting__image-col--first {
+	@include column(2.5/7);
+}
+
+.s-hullTruckCaseStudy__advertisting__image-col--last {
+	@include column(4/7);
+	float: right;
+}
+
 
 @include respond-min( $mq-medium ) {
 
@@ -21,6 +32,23 @@
 			max-width: 38rem;
 		}
 
+	}
+
+	// advertisting
+	.s-hullTruckCaseStudy__advertisting {
+		min-height: 112rem;
+	}
+
+	.s-hullTruckCaseStudy__advertisting__content {
+		position: relative;
+	}
+
+	.s-hullTruckCaseStudy__advertisting__image-main {
+		width: 50%;
+		max-width: 60rem;
+		position: absolute;
+		left: 64.1666666667%;
+	    top: -10rem;
 	}
 
 }

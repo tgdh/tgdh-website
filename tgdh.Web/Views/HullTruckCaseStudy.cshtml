@@ -27,6 +27,18 @@
     @RenderPhotography()
 	@RenderWebsite()
 
+	@{
+		var websiteImage = new ImageViewModel
+        {
+            ImageId = 1113,
+            Alignment = "Full width",
+            AspectRatio = "16:9",
+            ImageWidth = 1600
+        };
+
+        @Html.Partial("~/Views/Partials/Components/Image.cshtml", websiteImage)
+	}
+
 	@RenderAdvertising()
 	@RenderIntegration()
 
@@ -175,8 +187,13 @@
     };
 
 	var heading2  = new HeadingViewModel {
-        Headline = "Big personality",
-    };
+		Headline = "Big personality",
+	};
+
+	var heading3  = new HeadingViewModel {
+		Headline = "Theatre on the move",
+	};
+
 
 	<section>
 		<div class="o-section o-wrap o-wrap--x-large">
@@ -189,9 +206,23 @@
 			</div>
 		</div>
 
+
+
 		<div class="o-section o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
 			<p>The personality of each show is really given the chance to shine with full bleed large scale images and minimal intrusion form the text.</p>
+		</div>
+
+
+
+		<div class="o-section o-wrap o-wrap--x-large">
+			<div class="">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading3)
+				<p>A fully responsive site means that the user wont get a lesser experience just because they’re using a smaller device. From watching trailers to booking tickets, everything can be done no matter what device their using.</p>
+			</div>
+			<div class="">
+
+			</div>
 		</div>
 	</section>
 }
@@ -203,14 +234,40 @@
         Subtitle = "An adaptable approach"
     };
 
+	<section class="o-section s-hullTruckCaseStudy__advertisting">
+		@{
+			var image1 = new ImageViewModel
+			{
+				ImageId = 1100,
+				ImageWidth = 400,
+				AdditionalClass = "s-hullTruckCaseStudy__advertisting__image-col s-hullTruckCaseStudy__advertisting__image-col--first"
+			};
+			var image2 = new ImageViewModel
+			{
+				ImageId = 1098,
+				ImageWidth = 400,
+				AdditionalClass = "s-hullTruckCaseStudy__advertisting__image-col s-hullTruckCaseStudy__advertisting__image-col--last"
+			};
 
+			var image3 = new ImageViewModel
+			{
+				ImageId = 1099,
+				ImageWidth = 800,
+				AdditionalClass = "s-hullTruckCaseStudy__advertisting__image-main"
+			};
+		}
 
-	<section class="o-section">
-		<div class="o-section__inner o-wrap o-wrap--x-large">
+		<div class="o-section__inner o-wrap o-wrap--x-large s-hullTruckCaseStudy__advertisting__content">
+			@Html.Partial("~/Views/Partials/Components/Image.cshtml", image3)
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
 					<p>The creative concept for the new shows lends itself perfectly to advertising no matter what format. By using strong colours with simple unconstrained images, each show can be represented with the same presence and impact.</p>
+
+					<div class="s-hullTruckCaseStudy__advertisting__image-cols u-clearfix u-space-top--large">
+						@Html.Partial("~/Views/Partials/Components/Image.cshtml", image1)
+						@Html.Partial("~/Views/Partials/Components/Image.cshtml", image2)
+					</div>
 				</div>
 			</div>
 		</div>

@@ -2335,8 +2335,51 @@ img {
 .s-hullTruckCaseStudy__image-cols--intro .s-hullTruckCaseStudy__image-cols__col:before {
   padding-top: 79.6812749004%; }
 
+.s-hullTruckCaseStudy__advertisting__image-col--first {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 33.7857142857%;
+  margin-left: 0%;
+  margin-right: 3%; }
+  .s-hullTruckCaseStudy__advertisting__image-col--first:before, .s-hullTruckCaseStudy__advertisting__image-col--first:after {
+    content: '';
+    display: table; }
+  .s-hullTruckCaseStudy__advertisting__image-col--first:after {
+    clear: both; }
+  .s-hullTruckCaseStudy__advertisting__image-col--first:last-child {
+    margin-right: 0%; }
+
+.s-hullTruckCaseStudy__advertisting__image-col--last {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 55.8571428571%;
+  margin-left: 0%;
+  margin-right: 3%;
+  float: right; }
+  .s-hullTruckCaseStudy__advertisting__image-col--last:before, .s-hullTruckCaseStudy__advertisting__image-col--last:after {
+    content: '';
+    display: table; }
+  .s-hullTruckCaseStudy__advertisting__image-col--last:after {
+    clear: both; }
+  .s-hullTruckCaseStudy__advertisting__image-col--last:last-child {
+    margin-right: 0%; }
+
 @media only screen and (min-width: 800px) {
   .s-hullTruckCaseStudy .c-card {
-    max-width: 38rem; } }
+    max-width: 38rem; }
+  .s-hullTruckCaseStudy__advertisting {
+    min-height: 112rem; }
+  .s-hullTruckCaseStudy__advertisting__content {
+    position: relative; }
+  .s-hullTruckCaseStudy__advertisting__image-main {
+    width: 50%;
+    max-width: 60rem;
+    position: absolute;
+    left: 64.1666666667%;
+    top: -10rem; } }
 
 /*# sourceMappingURL=ie.css.map */
