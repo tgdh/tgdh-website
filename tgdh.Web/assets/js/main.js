@@ -7903,7 +7903,6 @@ var swiper = createCommonjsModule(function (module) {
 });
 
 var Carousel$1 = function Carousel() {
-	console.log('init carousel');
 	document.addEventListener('DOMContentLoaded', function () {
 		var carousels = $$('.js-carousel');
 

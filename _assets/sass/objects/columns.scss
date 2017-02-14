@@ -24,7 +24,7 @@
 
 }
 
-@include respond-min-max( $mq-small, $mq-large ) {
+@include respond-min-max( $mq-medium, $mq-large ) {
 
 	.o-col--two-one {
 

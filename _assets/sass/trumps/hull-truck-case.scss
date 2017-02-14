@@ -12,6 +12,11 @@
 
 }
 
+// city of culture {
+.s-hullTruckCaseStudy__city-culture__image {
+	display: none;
+}
+
 // advertisting
 
 .s-hullTruckCaseStudy__advertisting__image-col--first {
@@ -23,6 +28,32 @@
 	float: right;
 }
 
+@include respond-min( $mq-medium ) {
+
+	// city of culture
+	.s-hullTruckCaseStudy__city-culture {
+		position: relative;
+		min-height: 64rem;
+	}
+
+	.s-hullTruckCaseStudy__city-culture__image {
+		max-width: 56rem;
+		display: block;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+
+}
+
+@include respond-min-max( $mq-medium, $mq-large ) {
+
+	// city of culture
+	.s-hullTruckCaseStudy__city-culture__image {
+		width: 40%;
+	}
+
+}
 
 @include respond-min( $mq-medium ) {
 
@@ -49,6 +80,16 @@
 		position: absolute;
 		left: 64.1666666667%;
 	    top: -10rem;
+	}
+
+}
+
+
+@include respond-min( $mq-large ) {
+
+	// city of culture
+	.s-hullTruckCaseStudy__city-culture__image {
+		width: 50%;
 	}
 
 }

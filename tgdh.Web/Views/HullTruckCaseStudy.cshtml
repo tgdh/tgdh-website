@@ -105,13 +105,20 @@
         Subtitle = "Helping Hull acheive their city of culture status"
     };
 
-    <section class="o-section">
+	var image = Umbraco.TypedMedia(1112);
+	var imageUrl = "";
+	if( image != null ) {
+		imageUrl = image.Url + "?width=560";
+	}
+
+    <section class="o-section s-hullTruckCaseStudy__city-culture">
+		<img src="@imageUrl" alt="" class="s-hullTruckCaseStudy__city-culture__image">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
-                <p>Every 4 years a city is award the title of city of culture. This title is given to a city that believes in the transformational power of culture. 2017 is the turn of Hull.</p>
-                <p>Hull Truck Theatre had a key role in the representation of their city. As such they wanted a new look and feel for all their creative output. TGDH were lucky enough to win the pitch and have been instrumental in the creation of all the show artwork.</p>
+	                <p>Every 4 years a city is award the title of city of culture. This title is given to a city that believes in the transformational power of culture. 2017 is the turn of Hull.</p>
+	                <p>Hull Truck Theatre had a key role in the representation of their city. As such they wanted a new look and feel for all their creative output. TGDH were lucky enough to win the pitch and have been instrumental in the creation of all the show artwork.</p>
 				</div>
 			</div>
 		</div>
