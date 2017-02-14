@@ -2824,8 +2824,6 @@ var initComparisonImages$1 = function initComparisonImages() {
 					label: ''
 				}]
 			});
-			console.log(imageComparisonObj);
-			imageComparisonObj();
 		});
 	});
 };

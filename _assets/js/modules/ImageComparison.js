@@ -19,8 +19,6 @@ const initComparisonImages = () => {
 					label: ''
 				}],
 			});
-			console.log(imageComparisonObj);
-			imageComparisonObj();
 		});
 	});
 };
