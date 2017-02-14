@@ -3,6 +3,7 @@ import { $ } from './modules/Bling';
 import ToggleNav from './modules/ToggleNav';
 import lazySizes from './modules/LazyLoad';
 import imageComparison from './modules/ImageComparison';
+import carousel from './modules/Carousel';
 
 /*
 // add click evt to body and log target el
@@ -13,6 +14,7 @@ $$('p').forEach(el => console.log(el));
 
 LoadFonts();
 lazySizes();
+carousel();
 imageComparison();
 
 const $toggleButton = $('.js-nav-toggle');

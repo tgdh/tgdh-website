@@ -7,25 +7,19 @@
 
 	<div class="o-wrap o-wrap--small">
 		<h1>@Model.Name</h1>
-		@RenderCarosuel()
 	</div>
-
+	@RenderCarosuel()
 </main>
 
 
 @helper RenderCarosuel() {
+	var gallery = new GalleryViewModel
+    {
+        MediaIds = "1095,1077,1093",
+        Alignment = "Full width",
+        AspectRatio = "16:9",
+        AdditionalClass = ""
+    };
 
-	<div class="slider js-carousel">
-	    <div class="frame js-carousel-frame">
-	        <ul class="slides js-carousel-slides">
-	            <li class="js-carousel-slide">1</li>
-	            <li class="js-carousel-slide">2</li>
-	            <li class="js-carousel-slide">3</li>
-	            <li class="js-carousel-slide">4</li>
-	            <li class="js-carousel-slide">5</li>
-	            <li class="js-carousel-slide">6</li>
-	        </ul>
-	    </div>
-	</div>
-
+    @Html.Partial("~/Views/Partials/Components/Gallery.cshtml", gallery)
 }

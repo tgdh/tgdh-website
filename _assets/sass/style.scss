@@ -44,12 +44,16 @@
 		'objects/stat',
 		'objects/span';
 
+@import 'lib/image-comparison',
+		'lib/swiper';
+
 @import 'components/header',
 		'components/nav',
 		'components/buttons',
 		'components/cover',
 		'components/meta-data',
 		'components/footer',
+		'components/carousel',
 		'components/notify',
 		'components/sitemap',
 		'components/social',
@@ -57,8 +61,6 @@
 		'components/image-columns',
 		'components/pager',
 		'components/card';
-
-@import 'lib/image-comparison';
 
 @import 'utility/overrides',
 		'utility/hide',

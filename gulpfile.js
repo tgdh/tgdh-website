@@ -114,7 +114,9 @@ gulp.task('js', function () {
 				ignoreGlobal: false,
 				sourceMap: true,
 				// explicitly specify unresolvable named exports
-				//namedExports: { './module.js': ['foo', 'bar' ] }  // Default: undefined
+//				namedExports: {
+//                    'node_modules/swiper/dist/js/swiper.js': ['Swiper']
+//                }
 			}),
 			babel()
 		],
