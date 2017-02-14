@@ -28,6 +28,17 @@
 	float: right;
 }
 
+@include respond-max( $mq-medium ) {
+
+	.s-hullTruckCaseStudy {
+		.o-stat {
+			text-align: center;
+			margin-top: $line-height * 2;
+		}
+	}
+
+}
+
 @include respond-min( $mq-medium ) {
 
 	// city of culture

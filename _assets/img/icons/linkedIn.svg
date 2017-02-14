@@ -1,20 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
-    <title>Artboard</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Artboard" fill-rule="nonzero" fill="#000000">
-            <g id="linkedIn" transform="translate(2.000000, 3.000000)">
-                <g id="Layer_1">
-                    <g id="Icons">
-                        <g id="Black">
-                            <path d="M28,25.8125 L21.7875,25.8125 L21.7875,16.8875 C21.7875,14.525 20.825,12.95 18.725,12.95 C17.0625,12.95 16.1875,14 15.75,15.05 C15.575,15.4 15.575,15.925 15.575,16.45 L15.575,25.8125 L9.45,25.8125 C9.45,25.8125 9.5375,9.975 9.45,8.4875 L15.575,8.4875 L15.575,11.2 C15.925,9.975 17.9375,8.3125 21,8.3125 C24.85,8.3125 27.9125,10.7625 27.9125,16.1875 L27.9125,25.8125 L28,25.8125 Z M3.325,6.3875 L3.325,6.3875 C1.3125,6.3875 0,5.075 0,3.4125 C0,1.6625 1.3125,0.4375 3.325,0.4375 C5.3375,0.4375 6.5625,1.75 6.65,3.4125 C6.65,5.075 5.3375,6.3875 3.325,6.3875 L3.325,6.3875 L3.325,6.3875 Z M0.7,8.575 L6.125,8.575 L6.125,25.9 L0.7,25.9 L0.7,8.575 L0.7,8.575 Z" id="LinkedIn"></path>
-                        </g>
-                    </g>
-                </g>
-            </g>
-        </g>
-    </g>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="linked_x5F_in" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve">
+<path d="M10.529,8.278c0,1.181-0.872,2.138-2.307,2.138C6.872,10.415,6,9.459,6,8.278c0-1.209,0.901-2.138,2.279-2.138
+	C9.657,6.139,10.501,7.068,10.529,8.278z M6.113,25.86V12.104h4.276V25.86H6.113z M12.948,16.492c0-1.716-0.056-3.15-0.113-4.388
+	h3.713l0.198,1.913h0.084c0.562-0.901,1.941-2.222,4.248-2.222c2.812,0,4.922,1.885,4.922,5.936v8.13h-4.276v-7.623
+	c0-1.772-0.62-2.982-2.167-2.982c-1.181,0-1.883,0.816-2.193,1.603c-0.113,0.281-0.141,0.674-0.141,1.069v7.933h-4.276V16.492z"/>
 </svg>

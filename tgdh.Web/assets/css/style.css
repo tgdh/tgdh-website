@@ -2907,6 +2907,11 @@ button.swiper-pagination-bullet {
   .s-hullTruckCaseStudy__advertisting__image-col--last:last-child {
     margin-right: 0%; }
 
+@media only screen and (max-width: 799px) {
+  .s-hullTruckCaseStudy .o-stat {
+    text-align: center;
+    margin-top: 3.2em; } }
+
 @media only screen and (min-width: 800px) {
   .s-hullTruckCaseStudy__city-culture {
     position: relative;
