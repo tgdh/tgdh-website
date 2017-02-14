@@ -1,0 +1,138 @@
+/* ===========================================================
+
+	# Image comparison
+	// https://github.com/M-Ulyanov/ImageComparison
+
+=========================================================== */
+
+.comparison-widget {
+	display: inline-block;
+	max-width: 100%;
+	max-height: 100%;
+	position: relative;
+	overflow: hidden;
+	vertical-align: top;
+	cursor: pointer;
+	user-select: none;
+
+	&:hover {
+
+		.comparison-separator,
+		.comparison-control:before,
+		.comparison-control:after,
+		.comparison-control {
+			opacity: 1;
+		}
+
+	}
+}
+
+.comparison-widget--hidden {
+	opacity: 0;
+}
+.comparison-item {
+	height: 100%;
+	width: 100%;
+	background-color: $white;
+}
+.comparison-item--first {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+}
+.comparison-item__content {
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+
+	&:hover {
+		.comparison-item__label {
+			background: $white;
+		}
+	}
+}
+.comparison-item--first .comparison-image {
+	width: auto;
+	max-width: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.comparison-item__image {
+	display: block;
+	max-width: 100%;
+	-webkit-user-drag: none;
+}
+
+.comparison-item--first .comparison-item__label {
+	left: 0;
+	right: inherit;
+}
+
+.comparison-item__label {
+	padding: 7px 10px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	text-transform: uppercase;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	color: #222;
+	background: rgba(255, 255, 255, 0.65);
+	z-index: 1;
+	transition: background-color $speed $ease;
+}
+.comparison-separator {
+	width: .4rem;
+	height: 100%;
+	position: absolute;
+	right: -1px;
+	top: 0;
+	z-index: 10;
+	background-color: $pri;
+	cursor: pointer;
+}
+.comparison-control {
+	width: 4rem;
+	height: 4rem;
+	margin-top: -2rem;
+	margin-left: -2rem;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	background-color: $white;
+	border-radius: 100%;
+	box-shadow: 0 0 10px rgba(0,0,0,.2);
+
+	&:before,
+	&:after {
+		content: '';
+		display: block;
+		width: 12px;
+		height: 20px;
+		margin-top: -10px;
+		position: absolute;
+		top: 50%;
+		background: url('arrow.png') 0 0 no-repeat;
+	}
+
+	&:before {
+		left: -15px;
+	}
+
+	&:after {
+		right: -15px;
+		background-position: -12px 0px;
+	}
+}
+
+.comparison-control__mask {
+	width: 50px;
+	height: 40px;
+	position: absolute;
+	top: -15px;
+	left: -18px;
+	background-color: $white;
+	opacity: 0;
+}

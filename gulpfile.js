@@ -9,6 +9,13 @@ var paths = {
 };
 
 /* ===========================================================
+	# Scripts
+=========================================================== */
+
+var legacyScripts = [
+];
+
+/* ===========================================================
 	# vars
 =========================================================== */
 
@@ -68,6 +75,26 @@ gulp.task( 'css', function() {
         .pipe( gulp.dest( paths.assetsBuildFolder + '/css' ) );
 //        .pipe( $.notify({ message: 'CSS: <%= file.relative %>' }) );
 });
+
+
+// JS
+gulp.task('js-legacy', function() {
+    var main = gulp.src( legacyScripts )
+//        .pipe( $.newer('.tmp/scripts') )
+        .pipe( $.sourcemaps.init() )
+        .pipe( $.sourcemaps.write() )
+//        .pipe( gulp.dest('.tmp/scripts') )
+        .pipe( $.concat('legacy.js') )
+        .pipe( $.if( isProduction, $.uglify({preserveComments: 'some'}) ) )
+//        .pipe( $.size({title: '[Main JS]'}) )
+        .pipe( $.sourcemaps.write('.') )
+        .pipe( $.if( isProduction, cachebust.resources() ) )
+        .pipe( gulp.dest( paths.assetsBuildFolder + '/js' ) );
+//        .pipe( $.notify({ message: 'JS: <%= file.relative %>' }) );
+
+    return merge( main );
+});
+
 
 // js
 gulp.task('js', function () {
@@ -255,7 +282,7 @@ gulp.task( 'watch', function() {
 
 
 // Copy master template with correct asset references
-gulp.task('refAssets', ['css','js'], function() {
+gulp.task('refAssets', ['css','js-legacy','js'], function() {
     return gulp.src( paths.templates + '/Master.cshtml')
         .pipe( $.if( isProduction, cachebust.references() ) )
         .pipe( gulp.dest( paths.siteFolder + '/Views' ) );

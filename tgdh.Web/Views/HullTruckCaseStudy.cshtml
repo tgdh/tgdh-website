@@ -151,10 +151,19 @@
 		IsCenter = true
     };
 
+	var comparisonImages = new ImageComparisonViewModel {
+        BeforeImageId = 1111,
+		AfterImageId = 1110
+    };
+
     <section class="o-section u-background--light">
 		<div class="o-section__inner o-wrap o-wrap--medium">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<p>Each new show of 2017 needed new imagary. Using our in-house talents, TGDH were able to craft simple photoshoots into powerful images, each containing backgrounds and props, specific to the show&#x27;s content. The overall style is contemporary, gritty and modern. </p>
+		</div>
+
+		<div class="o-wrap o-wrap--large u-space-top--large">
+			@Html.Partial("~/Views/Partials/Components/ImageComparison.cshtml", comparisonImages)
 		</div>
 	</section>
 }
