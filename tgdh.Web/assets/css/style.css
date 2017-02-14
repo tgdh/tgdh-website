@@ -391,8 +391,7 @@ h6,
 .u-giga,
 .u-mega,
 .u-alpha,
-.u-beta,
-.u-gamma {
+.u-beta {
   line-height: 1.1; }
 
 h3,
@@ -401,7 +400,8 @@ h5,
 h6,
 .u-delta,
 .u-epsilon,
-.u-zeta {
+.u-zeta,
+.u-gamma {
   line-height: 1.4; }
 
 .u-tera {
@@ -1761,7 +1761,9 @@ img {
 .c-quote__copy {
   display: block;
   font-style: italic;
-  font-size: 2rem; }
+  font-size: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem; }
 
 .c-quote__src {
   font-weight: 900;
@@ -1961,13 +1963,55 @@ img {
   transition: box-shadow 0.3s ease; }
   .c-card__link:hover, .c-card__link:focus {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+    .c-card__link:hover .c-card__image, .c-card__link:focus .c-card__image {
+      -webkit-transform: scale(1.1);
+          -ms-transform: scale(1.1);
+              transform: scale(1.1); }
+
+.c-card__image-wrap {
+  overflow: hidden; }
+
+.c-card__image {
+  -webkit-transition: -webkit-transform 0.3s ease;
+  transition: -webkit-transform 0.3s ease;
+  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, -webkit-transform 0.3s ease; }
 
 .c-card__content {
-  padding: 3rem 2.5rem; }
+  padding: 3rem 2.5rem;
+  position: relative; }
+
+.c-card__category {
+  font-style: italic;
+  opacity: .65; }
+  .c-card__category:after {
+    content: "";
+    width: 2.7rem;
+    height: .1rem;
+    display: block;
+    background-color: #000000;
+    margin: 1rem 0; }
 
 .c-card__headline {
   font-weight: 900;
-  padding-bottom: 0; }
+  padding-bottom: 0;
+  text-decoration: underline; }
+
+.c-card__thumb,
+.c-card__thumb-wrap {
+  border-radius: 50%; }
+
+.c-card__thumb-wrap {
+  width: 6.8rem;
+  position: absolute;
+  top: 0;
+  right: 1.4rem;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+  border: 0.4rem solid #FFFFFF; }
+  .c-card__thumb-wrap:before {
+    border-radius: 50%; }
 
 /* ===========================================================
 
@@ -2170,5 +2214,9 @@ img {
 =========================================================== */
 .s-hullTruckCaseStudy__image-cols--intro .s-hullTruckCaseStudy__image-cols__col:before {
   padding-top: 79.6812749004%; }
+
+@media only screen and (min-width: 800px) {
+  .s-hullTruckCaseStudy .c-card {
+    max-width: 38rem; } }
 
 /*# sourceMappingURL=style.css.map */

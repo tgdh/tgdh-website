@@ -6,9 +6,9 @@
 }
 <article class="c-card">
     <a href="@Model.Url" class="c-card__link">
-        @if (Model.CoverImage != null)
+		@if (Model.CoverImage != null)
         {
-            var imageUrl = Url.GetCropUrl(Model.CoverImage, cropAlias:  "21:9", width: 1000, quality: 85, htmlEncode: false).ToString();
+            var imageUrl = Url.GetCropUrl(Model.CoverImage, cropAlias:  "21:9", width: 400, quality: 95, htmlEncode: false).ToString();
 
             <div class="c-card__image-wrap o-aspect--21-9">
                 <img src="@imageUrl" class="c-card__image" alt="@Model.Headline"/>
@@ -16,8 +16,18 @@
         }
 
         <div class="c-card__content">
+			@if (Model.Thumbnail != null)
+	        {
+	            var imageUrl = Url.GetCropUrl(Model.Thumbnail, cropAlias:  "1:1", width: 124, quality: 95, htmlEncode: false).ToString();
+
+	            <div class="c-card__thumb-wrap o-aspect--1-1">
+	                <img src="@imageUrl" class="c-card__thumb" alt="@Model.Headline"/>
+	            </div>
+	        }
+
 			@if(!String.IsNullOrWhiteSpace(Model.Headline))
 			{
+				<div class="c-card__category u-font-sec">Blog</div>
 	            <h2 class="c-card__headline u-epsilon">@Model.Headline</h2>
 			}
         </div>

@@ -4,11 +4,23 @@
 
 =========================================================== */
 
-
 .s-hullTruckCaseStudy__image-cols--intro {
 
 	.s-hullTruckCaseStudy__image-cols__col:before {
 		@include pad-top(753,600);
+	}
+
+}
+
+
+@include respond-min( $mq-medium ) {
+
+	.s-hullTruckCaseStudy {
+
+		.c-card {
+			max-width: 38rem;
+		}
+
 	}
 
 }
