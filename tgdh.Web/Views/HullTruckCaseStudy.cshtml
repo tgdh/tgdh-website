@@ -11,6 +11,19 @@
 	@RenderCityCulture()
 	@RenderCityCultureImages()
     @RenderCreative()
+
+	@{
+		var creativeImage = new ImageViewModel
+        {
+            ImageId = 1102,
+            Alignment = "Full width",
+            AspectRatio = "16:9",
+            ImageWidth = 1600
+        };
+
+        @Html.Partial("~/Views/Partials/Components/Image.cshtml", creativeImage)
+	}
+
     @RenderPhotography()
 	@RenderWebsite()
 
