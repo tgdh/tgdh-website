@@ -174,17 +174,24 @@
         Subtitle = "Maecenas sed diam eget risus."
     };
 
+	var heading2  = new HeadingViewModel {
+        Headline = "Big personality",
+    };
 
-
-	<section class="o-section">
-		<div class="o-section__inner o-wrap o-wrap--x-large">
+	<section>
+		<div class="o-section o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
 					<p><strong>hulltruck.co.uk</strong> combines a creative solution with a powerful open source CMS and a cutting edge ticketing system.</p>
-					<a href="" class="c-button c-button--primary u-space-top--large">Launch site</a>
+					<a href="#" class="c-button c-button--primary u-space-top--large">Launch site</a>
 				</div>
 			</div>
+		</div>
+
+		<div class="o-section o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
+			<p>The personality of each show is really given the chance to shine with full bleed large scale images and minimal intrusion form the text.</p>
 		</div>
 	</section>
 }
