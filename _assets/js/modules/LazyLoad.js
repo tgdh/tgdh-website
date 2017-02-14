@@ -1,3 +1,4 @@
+import picturefill from 'picturefill';
 import lazysizes from 'lazysizes';
 
 const Lazyload = () => {
