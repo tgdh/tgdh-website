@@ -56,8 +56,9 @@
 		'components/quote',
 		'components/image-columns',
 		'components/pager',
-		'components/card',
-		'components/image-comparison';
+		'components/card';
+
+@import 'lib/image-comparison';
 
 @import 'utility/overrides',
 		'utility/hide',
