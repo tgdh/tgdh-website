@@ -12,18 +12,20 @@
 </button>
 
 <nav id="mainNavigation" class="c-nav c-nav--main js-nav" role="navigation" aria-labelledby="nav-toggle">
-    <ul class="c-nav__list">
-        @foreach (var item in menuItems)
-        {
-            var modifierClass = item.IsAncestorOrSelf(Model) ? "is-active" : null;
+	<div class="c-nav__inner">
+	    <ul class="c-nav__list">
+	        @foreach (var item in menuItems)
+	        {
+	            var modifierClass = item.IsAncestorOrSelf(Model) ? "is-active" : null;
 
-            <li class="c-nav__item c-nav__item--parent">
-                <a href="@item.Url" class="c-nav__link @modifierClass">
-                    @item.Name
-                </a>
-            </li>
-        }
-    </ul>
+	            <li class="c-nav__item c-nav__item--parent">
+	                <a href="@item.Url" class="c-nav__link @modifierClass">
+	                    <span class="c-nav__value">@item.Name</span>
+	                </a>
+	            </li>
+	        }
+	    </ul>
+	</div>
 </nav>
 
 @helper Traverse(IPublishedContent node)

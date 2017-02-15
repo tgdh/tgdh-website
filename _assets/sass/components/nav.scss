@@ -78,6 +78,29 @@
 
 	&.is-active {
 		opacity: .65;
+
+		.c-nav__value:before {
+			opacity: 1;
+		}
+	}
+}
+
+.c-nav__value {
+	display: inline-block;
+	position: relative;
+
+	&:before {
+		content: "";
+		width: 100%;
+		width: calc(100% + 2rem);
+		height: .2rem;
+		display: block;
+		background-color: $pri;
+		position: absolute;
+		top: 60%;
+		left: -1rem;
+		margin-top: -1px;
+		opacity: 0;
 	}
 }
 
@@ -192,6 +215,36 @@
 
 			.c-nav {
 				transform: translateX(0);
+			}
+
+		}
+
+		&.no-flexbox {
+
+			.c-nav__inner {
+				width: 100%;
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+
+		}
+
+		&.flexbox {
+
+			.c-nav--main {
+				display: flex;
+			}
+
+			.c-nav__inner {
+				width: 100%;
+			    display: flex;
+			    justify-content: center;
+			    flex-direction: column;
+			}
+
+			.c-nav__list {
+				width: 100%;
 			}
 
 		}
