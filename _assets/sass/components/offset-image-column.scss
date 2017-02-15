@@ -23,6 +23,18 @@
 
 	}
 
+	.c-image-offset-column--reverse {
+
+		.c-image-offset-column__col--content {
+			@include shift($ratios: 6.5/12, $col-or-span: column, $gutter: 10)
+		}
+
+		.c-image-offset-column__col--image {
+			@include shift($ratios: -5.5/12, $col-or-span: column, $gutter: 10)
+		}
+
+	}
+
 	.flexbox {
 
 		.c-image-offset-column {

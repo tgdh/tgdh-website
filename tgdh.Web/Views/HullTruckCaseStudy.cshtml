@@ -236,39 +236,51 @@
     			<p>The personality of each show is really given the chance to shine with full bleed large scale images and minimal intrusion form the text.</p>
             </div>
             <div class="c-image-offset-column__col--last c-image-offset-column__col--image">
-                @{
-                    var desktopImage = Umbraco.TypedMedia(1121);
-                    var desktopImageUrl = desktopImage != null ? desktopImage.Url + "?width=860&height=640&mode=crop&anchor=top" : "";
-                    <div class="c-desktop-frame">
-                        <img src="@desktopImageUrl" alt="" class="c-desktop-frame__image">
-                    </div>
-                }
+				@RenderDesktopImage(1121, "top")
             </div>
 		</div>
 
 
 
-		<div class="o-section o-wrap o-wrap--x-large">
-			<div class="">
+		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix">
+			<div class="c-image-offset-column__col--first c-image-offset-column__col--content">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading3)
 				<p>A fully responsive site means that the user wont get a lesser experience just because they’re using a smaller device. From watching trailers to booking tickets, everything can be done no matter what device their using.</p>
 			</div>
-			<div class="">
-
+			<div class="c-image-offset-column__col--last c-image-offset-column__col--image c-mobile-frame--wrap-two u-clearfix">
+				@RenderMobileImage(1124, "top")
+				@RenderMobileImage(1123, "top")
 			</div>
 		</div>
 
 
-		<div class="o-section o-wrap o-wrap--x-large u-clearfix">
-			<div class="c-image-offset-column__col--first">
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+			<div class="c-image-offset-column__col--first c-image-offset-column__col--content">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading4)
 				<p>Fewer clicks means happier customers and time saved at the box office. Features of the ticketing system such as best seat in the house, stored payment details and automatic renewal of memberships give users the best possible booking experience.</p>
 			</div>
-			<div class="c-image-offset-column__col--last">
-				<img src="" alt="">
+			<div class="c-image-offset-column__col--last c-image-offset-column__col--image">
+				@RenderDesktopImage(1122)
 			</div>
 		</div>
 	</section>
+}
+
+@helper RenderMobileImage(int imageId = 0, string cropAnchor = "") {
+	var image = Umbraco.TypedMedia(imageId);
+	var imageUrl = image != null ? image.Url + "?width=375&height=667&mode=crop&anchor=" + cropAnchor : "";
+
+	<div class="c-mobile-frame">
+		<img src="@imageUrl" alt="" class="c-mobile-frame__image">
+	</div>
+}
+
+@helper RenderDesktopImage(int imageId = 0, string cropAnchor = "") {
+	var image = Umbraco.TypedMedia(imageId);
+	var imageUrl = image != null ? image.Url + "?width=860&height=640&mode=crop&anchor=" + cropAnchor : "";
+	<div class="c-desktop-frame">
+		<img src="@imageUrl" alt="" class="c-desktop-frame__image">
+	</div>
 }
 
 

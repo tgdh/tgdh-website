@@ -12,6 +12,12 @@
 	background-color: $pri;
 	position: relative;
 
+	&:before {
+		content: "";
+		display: block;
+		@include pad-top(274,488);
+	}
+
 	&:after {
 		content: "";
 		width: 3rem;
@@ -23,4 +29,22 @@
 		left: 50%;
 		margin-left: -1.5rem;
 	}
+}
+
+.c-mobile-frame__image {
+	width: calc(100% - 1rem);
+	position: absolute;
+	top: 5rem;
+}
+
+@include respond-min( $mq-medium ) {
+
+	.c-mobile-frame--wrap-two {
+
+		.c-mobile-frame {
+			@include column( 1/2, $gutter: 10 );
+		}
+
+	}
+
 }
