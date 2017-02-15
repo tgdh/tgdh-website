@@ -30,6 +30,18 @@
 
 }
 
+@include respond-max( $mq-medium ) {
+
+	.c-image-col__col--first {
+
+		.c-image-col__image {
+			top: calc(50% + 1px);
+		}
+
+	}
+
+}
+
 @include respond-min( $mq-medium ) {
 
 	.c-image-col__col {

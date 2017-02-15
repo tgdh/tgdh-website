@@ -37,14 +37,10 @@
 	top: 5rem;
 }
 
-@include respond-min( $mq-medium ) {
+.c-mobile-frame--wrap-two {
 
-	.c-mobile-frame--wrap-two {
-
-		.c-mobile-frame {
-			@include column( 1/2, $gutter: 10 );
-		}
-
+	.c-mobile-frame {
+		@include column( 1/2, $gutter: 10 );
 	}
 
 }

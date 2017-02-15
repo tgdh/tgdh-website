@@ -4,6 +4,14 @@
 
 =========================================================== */
 
+@include respond-max( $mq-medium ) {
+
+	.c-image-offset-column__col + .c-image-offset-column__col {
+		margin-top: $line-height;
+	}
+
+}
+
 @include respond-min( $mq-medium ) {
 
 	.c-image-offset-column__col--content {
