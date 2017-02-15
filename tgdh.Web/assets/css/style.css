@@ -1865,7 +1865,9 @@ button.swiper-pagination-bullet {
 =========================================================== */
 .c-header {
   z-index: 11;
-  position: relative; }
+  position: relative;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.15); }
 
 .c-header__logo {
   display: inline-block; }
@@ -1877,11 +1879,6 @@ button.swiper-pagination-bullet {
   display: inline-block;
   background: url("/assets/img/tgdh-mark.svg") no-repeat; }
 
-@media only screen and (max-width: 999px) {
-  .c-header {
-    background-color: #FFFFFF;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25); } }
-
 @media only screen and (min-width: 1000px) {
   .enhance .c-header__logo {
     position: fixed;
@@ -1890,8 +1887,6 @@ button.swiper-pagination-bullet {
   .enhance .c-header {
     width: 9.4rem;
     height: 100%;
-    background-color: #FFFFFF;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
     position: fixed;
     top: 0;
     right: 0; } }
@@ -2340,6 +2335,60 @@ button.swiper-pagination-bullet {
 =========================================================== */
 .c-gallery__image {
   width: 100%; }
+
+/* ===========================================================
+
+	# Breadcrumb
+
+=========================================================== */
+.c-breadcrumb {
+  display: none; }
+
+@media only screen and (min-width: 1000px) {
+  .c-breadcrumb {
+    display: block; }
+  .c-breadcrumb__label {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px; }
+  .c-breadcrumb__list {
+    margin: inherit;
+    list-style: none; }
+    .c-breadcrumb__list:before, .c-breadcrumb__list:after {
+      content: "";
+      display: table; }
+    .c-breadcrumb__list:after {
+      clear: both; }
+  .c-breadcrumb__item {
+    float: left; }
+  .c-breadcrumb__item {
+    margin: 0; }
+    .c-breadcrumb__item:before {
+      content: "/"; }
+    .c-breadcrumb__item:first-of-type:before {
+      content: none; }
+  .c-breadcrumb__link {
+    padding: 1rem;
+    display: inline-block;
+    opacity: .5; }
+    .c-breadcrumb__link.is-active {
+      opacity: 1;
+      cursor: default; }
+  .no-enhance .c-breacrumb {
+    background-color: #f9f9f9; }
+  .enhance .c-breadcrumb {
+    position: fixed;
+    top: 50%;
+    right: 4.7rem;
+    z-index: 11;
+    -webkit-transform: translate(50%, 50%) rotate(90deg);
+        -ms-transform: translate(50%, 50%) rotate(90deg);
+            transform: translate(50%, 50%) rotate(90deg); } }
 
 /* ===========================================================
 
