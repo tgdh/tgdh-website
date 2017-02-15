@@ -36,7 +36,6 @@
 			margin-top: $line-height * 2;
 		}
 	}
-
 }
 
 @include respond-min( $mq-medium ) {
@@ -53,6 +52,18 @@
 		position: absolute;
 		top: 0;
 		right: 0;
+	}
+
+	.s-hullTruckCaseStudy__creative {
+		background-repeat: no-repeat;
+		background-position: center right;
+		background-attachment: fixed;
+	}
+
+	// creative
+	.s-hullTruckCaseStudy__creative__image-main {
+		margin-top: 10rem;
+		margin-bottom: -10rem;
 	}
 
 }

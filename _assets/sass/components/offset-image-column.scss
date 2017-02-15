@@ -1,0 +1,40 @@
+/* ===========================================================
+
+  # Image offset columns
+
+=========================================================== */
+
+@include respond-min( $mq-medium ) {
+
+	.c-image-offset-column__col--content {
+		@include column(5.5/12, $gutter: 10);
+	}
+
+	.c-image-offset-column__col--image {
+		@include column(6.5/12, $gutter: 10);
+		float: right;
+	}
+
+	.c-image-offset-column__col--last {
+
+		.c-desktop-frame {
+			margin-right: -40%;
+		}
+
+	}
+
+	.flexbox {
+
+		.c-image-offset-column {
+			display: flex;
+		}
+
+		.c-image-offset-column__col--content {
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+		}
+
+	}
+
+}

@@ -150,7 +150,17 @@
         Subtitle = "Powerful and intriguing meets gritty and modern."
     };
 
-    <section class="o-section">
+	var image1 = new ImageViewModel
+	{
+		ImageId = 1103,
+		ImageWidth = 1000,
+		AdditionalClass = "s-hullTruckCaseStudy__creative__image-main"
+	};
+
+	var bgImage = Umbraco.TypedMedia(1101);
+	var bgImageUrl = bgImage != null ? bgImage.Url + "?width=500&upscale=false" : "";
+
+    <section class="o-section s-hullTruckCaseStudy__creative" style="background-image: url(@bgImageUrl)">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
@@ -160,6 +170,7 @@
 				</div>
 			</div>
 		</div>
+		@Html.Partial("~/Views/Partials/Components/Image.cshtml", image1)
 	</section>
 }
 
@@ -201,6 +212,10 @@
 		Headline = "Theatre on the move",
 	};
 
+	var heading4  = new HeadingViewModel {
+		Headline = "Hassle free booking",
+	};
+
 
 	<section>
 		<div class="o-section o-wrap o-wrap--x-large">
@@ -215,9 +230,20 @@
 
 
 
-		<div class="o-section o-wrap o-wrap--x-large">
-			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
-			<p>The personality of each show is really given the chance to shine with full bleed large scale images and minimal intrusion form the text.</p>
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+            <div class="c-image-offset-column__col--first c-image-offset-column__col--content">
+    			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
+    			<p>The personality of each show is really given the chance to shine with full bleed large scale images and minimal intrusion form the text.</p>
+            </div>
+            <div class="c-image-offset-column__col--last c-image-offset-column__col--image">
+                @{
+                    var desktopImage = Umbraco.TypedMedia(1121);
+                    var desktopImageUrl = desktopImage != null ? desktopImage.Url + "?width=860&height=640&mode=crop&anchor=top" : "";
+                    <div class="c-desktop-frame">
+                        <img src="@desktopImageUrl" alt="" class="c-desktop-frame__image">
+                    </div>
+                }
+            </div>
 		</div>
 
 
@@ -229,6 +255,17 @@
 			</div>
 			<div class="">
 
+			</div>
+		</div>
+
+
+		<div class="o-section o-wrap o-wrap--x-large u-clearfix">
+			<div class="c-image-offset-column__col--first">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading4)
+				<p>Fewer clicks means happier customers and time saved at the box office. Features of the ticketing system such as best seat in the house, stored payment details and automatic renewal of memberships give users the best possible booking experience.</p>
+			</div>
+			<div class="c-image-offset-column__col--last">
+				<img src="" alt="">
 			</div>
 		</div>
 	</section>
@@ -295,11 +332,21 @@
         Url = "#"
     };
 
+	var spektrixLogo = new ImageViewModel
+	{
+		ImageId = 1126,
+		ImageWidth = 195
+	};
+
 	<section class="o-section u-background--light">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
 					@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+					<a href="https://www.spektrix.com" class="u-space-top u-space-bottom" style="width: 19.5rem; display: block;" target="_blank">
+						@Html.Partial("~/Views/Partials/Components/Image.cshtml", spektrixLogo)
+					</a>
+
 					<p>The website uses a modern fully integrateded, cloud based, seamless ticketing solution, which truely understands the needs of arts organisations. Shows are synced between the website and Spektix saving time and eliminating errors when uploading new shows.</p>
 				</div>
 				<div class="o-col o-col--last">
