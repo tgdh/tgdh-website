@@ -149,6 +149,22 @@
 
 	.c-pager__cta {
 		background-color: $white;
+		transition: color $speed $ease,
+					background-color $speed $ease;
+
+		&:hover,
+		&:focus {
+			color: $white;
+			background-color: $pri;
+
+			.c-pager__cta__icon {
+				fill: $white;
+			}
+		}
+	}
+
+	.c-pager__cta__icon {
+		transition: fill $speed $ease;
 	}
 
 	.c-pager__page__headline {

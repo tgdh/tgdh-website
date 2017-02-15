@@ -2660,7 +2660,17 @@ button.swiper-pagination-bullet {
   .c-pager__page {
     width: 37.5%; }
   .c-pager__cta {
-    background-color: #FFFFFF; }
+    background-color: #FFFFFF;
+    -webkit-transition: color 0.3s ease, background-color 0.3s ease;
+    transition: color 0.3s ease, background-color 0.3s ease; }
+    .c-pager__cta:hover, .c-pager__cta:focus {
+      color: #FFFFFF;
+      background-color: #000000; }
+      .c-pager__cta:hover .c-pager__cta__icon, .c-pager__cta:focus .c-pager__cta__icon {
+        fill: #FFFFFF; }
+  .c-pager__cta__icon {
+    -webkit-transition: fill 0.3s ease;
+    transition: fill 0.3s ease; }
   .c-pager__page__headline {
     font-size: 2.4rem; }
   .c-pager__page--prev {
