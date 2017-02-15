@@ -78,11 +78,34 @@
 
 	&.is-active {
 		opacity: .65;
+	}
+
+	&:hover,
+	&:focus,
+	&.is-active {
 
 		.c-nav__value:before {
-			opacity: 1;
+			width: 100%;
+			width: calc(100% + 2rem);
 		}
+
 	}
+}
+
+.c-nav__sub {
+	list-style: none;
+	margin: 4rem 0 0;
+	text-align: center;
+}
+
+.c-nav__sub__item {
+	list-style: none;
+	display: inline-block;
+}
+
+.c-nav__sub__link {
+	padding: 1rem;
+	font-weight: $bold;
 }
 
 .c-nav__value {
@@ -91,8 +114,7 @@
 
 	&:before {
 		content: "";
-		width: 100%;
-		width: calc(100% + 2rem);
+		width: 0;
 		height: .2rem;
 		display: block;
 		background-color: $pri;
@@ -100,7 +122,7 @@
 		top: 60%;
 		left: -1rem;
 		margin-top: -1px;
-		opacity: 0;
+		transition: width $speed $ease;
 	}
 }
 

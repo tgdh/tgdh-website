@@ -1957,16 +1957,29 @@ button.swiper-pagination-bullet {
   padding: 2rem; }
   .c-nav__link.is-active {
     opacity: .65; }
-    .c-nav__link.is-active .c-nav__value:before {
-      opacity: 1; }
+  .c-nav__link:hover .c-nav__value:before, .c-nav__link:focus .c-nav__value:before, .c-nav__link.is-active .c-nav__value:before {
+    width: 100%;
+    width: calc(100% + 2rem); }
+
+.c-nav__sub {
+  list-style: none;
+  margin: 4rem 0 0;
+  text-align: center; }
+
+.c-nav__sub__item {
+  list-style: none;
+  display: inline-block; }
+
+.c-nav__sub__link {
+  padding: 1rem;
+  font-weight: 700; }
 
 .c-nav__value {
   display: inline-block;
   position: relative; }
   .c-nav__value:before {
     content: "";
-    width: 100%;
-    width: calc(100% + 2rem);
+    width: 0;
     height: .2rem;
     display: block;
     background-color: #000000;
@@ -1974,7 +1987,8 @@ button.swiper-pagination-bullet {
     top: 60%;
     left: -1rem;
     margin-top: -1px;
-    opacity: 0; }
+    -webkit-transition: width 0.3s ease;
+    transition: width 0.3s ease; }
 
 .enhance .c-nav-backdrop {
   width: 100%;
