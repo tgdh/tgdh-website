@@ -712,8 +712,8 @@ html {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem; }
+  padding-left: 2rem;
+  padding-right: 2rem; }
   .o-wrap .o-wrap {
     padding-left: 0;
     padding-right: 0; }
@@ -736,8 +736,8 @@ html {
 
 @media only screen and (min-width: 600px) and (max-width: 799px) {
   .o-wrap {
-    padding-left: 2rem;
-    padding-right: 2rem; } }
+    padding-left: 3rem;
+    padding-right: 3rem; } }
 
 @media only screen and (min-width: 800px) {
   .o-wrap {
@@ -2116,14 +2116,38 @@ button.swiper-pagination-bullet {
   display: block;
   position: relative;
   overflow: hidden;
-  background-color: #f9f9f9; }
+  background-color: #f9f9f9;
+  background-size: cover;
+  background-position: center; }
   .c-cover__media:before {
     content: "";
+    display: block;
     padding-top: 108%; }
 
 .c-cover__media-wrap {
   position: absolute;
   top: 0; }
+
+.c-cover__content {
+  padding-bottom: 4rem; }
+
+@media only screen and (min-width: 600px) and (max-width: 799px) {
+  .c-cover__media:before {
+    padding-top: 56.25%; } }
+
+@media only screen and (max-width: 799px) {
+  .c-cover__decoration {
+    width: calc( 100% + 1rem);
+    background: url("/assets/img/house-cover-bottom.svg") no-repeat;
+    background-size: 100%;
+    position: absolute;
+    bottom: -1px;
+    left: -.5rem;
+    z-index: 2; }
+    .c-cover__decoration:before {
+      content: "";
+      display: block;
+      padding-top: 18.1818181818%; } }
 
 @media only screen and (min-width: 800px) {
   .c-cover__media,
@@ -2168,7 +2192,8 @@ button.swiper-pagination-bullet {
     display: flex; }
   .flexbox .c-cover__copy {
     position: relative;
-    top: 20%; } }
+    top: 20%;
+    padding-bottom: calc( 20% + 6rem); } }
 
 /* ===========================================================
 
@@ -2195,7 +2220,12 @@ button.swiper-pagination-bullet {
   opacity: .65; }
   .c-meta__item + .c-meta__item:before {
     content: "/";
-    margin: 0 1rem; }
+    margin: 0 .5rem; }
+
+@media only screen and (min-width: 800px) {
+  .c-meta__item + .c-meta__item:before {
+    margin-left: 1rem;
+    margin-right: 1rem; } }
 
 /* ===========================================================
 
@@ -2398,7 +2428,6 @@ button.swiper-pagination-bullet {
 .c-quote {
   position: relative;
   line-height: 1.3;
-  text-align: center;
   padding-left: 4rem;
   padding-right: 4rem;
   quotes: "“" "”" "‘" "’"; }
@@ -2407,31 +2436,39 @@ button.swiper-pagination-bullet {
     font-size: 3.6rem;
     font-weight: 700;
     font-family: serif;
-    line-height: 0.6em;
-    position: absolute;
-    top: .7rem; }
+    line-height: 0.6em; }
   .c-quote:before {
     content: open-quote;
     left: 2rem; }
-  .c-quote:after {
-    content: close-quote;
-    right: 2rem; }
 
 .c-quote__copy {
   display: block;
   font-style: italic;
-  font-size: 2rem;
-  padding-left: 2rem;
-  padding-right: 2rem; }
+  font-size: 2.4rem;
+  padding-bottom: 0; }
 
 .c-quote__src {
   font-weight: 900;
   font-size: 1.4rem;
   margin-top: 1.6em; }
 
+@media only screen and (max-width: 799px) {
+  .c-quote:before {
+    vertical-align: middle; } }
+
 @media only screen and (min-width: 800px) {
   .c-quote__copy {
-    font-size: 3rem; } }
+    font-size: 3rem;
+    padding-left: 2rem;
+    padding-right: 2rem; }
+  .c-quote {
+    text-align: center; }
+    .c-quote:before, .c-quote:after {
+      position: absolute;
+      top: .7rem; }
+    .c-quote:after {
+      content: close-quote;
+      right: 2rem; } }
 
 /* ===========================================================
 

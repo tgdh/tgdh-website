@@ -17,9 +17,12 @@
 	position: relative;
 	overflow: hidden;
 	background-color: $placeholder-colour;
+	background-size: cover;
+	background-position: center;
 
 	&:before {
 		content: "";
+		display: block;
 		@include pad-top(500,540);
 	}
 }
@@ -27,6 +30,39 @@
 .c-cover__media-wrap {
 	position: absolute;
 	top: 0;
+}
+
+.c-cover__content {
+	padding-bottom: $padding-small;
+}
+
+@include respond-min-max( $mq-small, $mq-medium ) {
+
+	.c-cover__media:before {
+		@include pad-top(16,9);
+	}
+
+}
+
+@include respond-max( $mq-medium ) {
+
+	.c-cover__decoration {
+		width: calc( 100% + 1rem );
+		background: url('/assets/img/house-cover-bottom.svg') no-repeat;
+		background-size: 100%;
+		position: absolute;
+		bottom: -1px;
+		left: -.5rem;
+		z-index: 2;
+
+		&:before {
+			content: "";
+			display: block;
+			@include pad-top(33,6);
+
+		}
+	}
+
 }
 
 @include respond-min( $mq-medium ) {
@@ -67,6 +103,7 @@
 		.c-cover__copy {
 			position: relative;
 			top: 20%;;
+			padding-bottom: calc( 20% + 6rem );
 		}
 
 	}

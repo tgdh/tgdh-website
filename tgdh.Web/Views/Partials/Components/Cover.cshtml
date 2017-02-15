@@ -9,7 +9,7 @@
 	<div class="c-cover__content o-wrap">
 		<div class="c-cover__copy">
 			<h2 class="c-cover__headline u-mega">Hull Truck Theatre</h2>
-			<ul class="c-meta u-epsilon u-font-sec">
+			<ul class="c-meta u-font-sec">
 				<li class="c-meta__item">
 					<span class="c-meta__value">Creative</span>
 				</li>
@@ -30,6 +30,54 @@
 </secetion>
 
 @helper RenderImage(IPublishedContent image) {
+	var altText = image.GetPropertyValue<string>("altText");
+
+	string smallImageUrl = Url.GetCropUrl(
+		image,
+		cropAlias: "5:54",
+		width: 800,
+		htmlEncode: false
+	).ToString();
+
+	string mediumImageUrl = Url.GetCropUrl(
+		image,
+		cropAlias: "5:54",
+		width: 1000,
+		htmlEncode: false
+	).ToString();
+
+	string largeImageUrl = Url.GetCropUrl(image,
+		cropAlias: "5:54",
+		width: 1350,
+		htmlEncode: false
+	).ToString();
+
+	string xLargeImageUrl = Url.GetCropUrl(
+		image,
+		cropAlias: "5:54",
+		width: 1500,
+		htmlEncode: false
+	).ToString();
+
+	string xxLargeImageUrl = Url.GetCropUrl(image,
+		cropAlias: "5:54",
+		width: 900,
+		htmlEncode: false
+	).ToString();
+
+	string xxxLargeImageUrl = Url.GetCropUrl(
+		image,
+		cropAlias: "5:54",
+		width: 1200,
+		htmlEncode: false
+	).ToString();
+
+	<div class="c-cover__media" style="background-image: url(@xLargeImageUrl&quality=95);">
+		<div class="c-cover__decoration" role="decoration"></div>
+	</div>
+}
+
+@helper RenderImage2(IPublishedContent image) {
 	var altText = image.GetPropertyValue<string>("altText");
 
 	string smallImageUrl = Url.GetCropUrl(

@@ -33,6 +33,15 @@
 
 	& + .c-meta__item:before {
 		content: "/";
-		margin: 0 1rem;
+		margin: 0 .5rem;
 	}
+}
+
+@include respond-min( $mq-medium ) {
+
+	.c-meta__item + .c-meta__item:before {
+		margin-left: 1rem;
+		margin-right: 1rem;
+	}
+
 }
