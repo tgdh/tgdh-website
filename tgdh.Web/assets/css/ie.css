@@ -2435,7 +2435,8 @@ button.swiper-pagination-bullet {
     z-index: 11;
     -webkit-transform: translate(50%, 50%) rotate(90deg);
         -ms-transform: translate(50%, 50%) rotate(90deg);
-            transform: translate(50%, 50%) rotate(90deg); } }
+            transform: translate(50%, 50%) rotate(90deg);
+    -webkit-transform-origin: 50%  51%; } }
 
 /* ===========================================================
 
