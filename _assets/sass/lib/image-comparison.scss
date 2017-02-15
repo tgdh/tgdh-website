@@ -105,26 +105,19 @@
 	border-radius: 100%;
 	box-shadow: 0 0 10px rgba(0,0,0,.2);
 
-	&:before,
-	&:after {
+	&:before {
 		content: '';
 		display: block;
-		width: 12px;
-		height: 20px;
-		margin-top: -10px;
+		width: 32px;
+		height: 32px;
+		margin-top: -16px;
+		margin-left: -16px;
 		position: absolute;
 		top: 50%;
-		background: url('arrow.png') 0 0 no-repeat;
+		left: 50%;
+		background: url('/assets/img/resize.png') 0 0 no-repeat;
 	}
 
-	&:before {
-		left: -15px;
-	}
-
-	&:after {
-		right: -15px;
-		background-position: -12px 0px;
-	}
 }
 
 .comparison-control__mask {

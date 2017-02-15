@@ -90,7 +90,6 @@
 			content: "";
 			display: block;
 			@include pad-top(33,15);
-
 		}
 	}
 
@@ -100,12 +99,48 @@
 			display: flex;
 		}
 
-		.c-cover__copy {
-			position: relative;
-			top: 20%;;
-			padding-bottom: calc( 20% + 6rem );
+		.c-cover__content {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
 		}
 
+		.c-cover__copy {
+			position: relative;
+		}
+
+	}
+
+}
+
+@include respond-min-max( $mq-medium, $mq-large ) {
+
+	.c-cover__headline {
+		font-size: 4rem;
+	}
+
+	.c-cover__meta {
+		font-size: 1.4rem;
+	}
+
+}
+
+@include respond-min-max( $mq-large, $mq-x-large ) {
+
+	.c-cover__headline {
+		font-size: 4.8rem;
+	}
+
+}
+
+@include respond-min( $mq-x-large ) {
+
+	.c-cover__meta {
+		font-size: 1.8rem;
+	}
+
+	.c-cover__headline {
+		font-size: 6rem;
 	}
 
 }

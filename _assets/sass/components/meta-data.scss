@@ -31,9 +31,14 @@
 	margin: 0;
 	opacity: .65;
 
-	& + .c-meta__item:before {
+	&:after {
 		content: "/";
 		margin: 0 .5rem;
+	}
+
+	&:last-child:after {
+		content: "";
+		display: none;
 	}
 }
 

@@ -1,15 +1,15 @@
 @using Umbraco.Web
 @inherits UmbracoViewPage<IPublishedContent>
 @{
-	var image = Umbraco.TypedMedia(1095);
+	var image = Umbraco.TypedMedia(1106);
 }
 
-<secetion class="c-cover u-clearfix">
+<section class="c-cover u-clearfix">
 	@RenderImage(image)
 	<div class="c-cover__content o-wrap">
 		<div class="c-cover__copy">
-			<h2 class="c-cover__headline u-mega">Hull Truck Theatre</h2>
-			<ul class="c-meta u-font-sec">
+			<h2 class="c-cover__headline">Hull Truck Theatre</h2>
+			<ul class="c-cover__meta c-meta u-font-sec">
 				<li class="c-meta__item">
 					<span class="c-meta__value">Creative</span>
 				</li>
@@ -27,7 +27,7 @@
 			<a href="" class="c-button c-button--primary u-space-top--large">Launch site</a>
 		</div>
 	</div>
-</secetion>
+</section>
 
 @helper RenderImage(IPublishedContent image) {
 	var altText = image.GetPropertyValue<string>("altText");
