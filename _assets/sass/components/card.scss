@@ -12,20 +12,12 @@
 
 	&:hover,
 	&:focus {
-		box-shadow: 0 0 10px rgba(0,0,0,.2);
-
-		.c-card__image {
-			transform: scale(1.1);
-		}
+		box-shadow: 0 10px 40px rgba(0,0,0,.2);
 	}
 }
 
 .c-card__image-wrap {
 	overflow: hidden;
-}
-
-.c-card__image {
-	transition: transform $speed $ease;
 }
 
 .c-card__content {

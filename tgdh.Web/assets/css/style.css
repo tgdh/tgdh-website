@@ -2717,20 +2717,10 @@ button.swiper-pagination-bullet {
   -webkit-transition: box-shadow 0.3s ease;
   transition: box-shadow 0.3s ease; }
   .c-card__link:hover, .c-card__link:focus {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
-    .c-card__link:hover .c-card__image, .c-card__link:focus .c-card__image {
-      -webkit-transform: scale(1.1);
-          -ms-transform: scale(1.1);
-              transform: scale(1.1); }
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); }
 
 .c-card__image-wrap {
   overflow: hidden; }
-
-.c-card__image {
-  -webkit-transition: -webkit-transform 0.3s ease;
-  transition: -webkit-transform 0.3s ease;
-  transition: transform 0.3s ease;
-  transition: transform 0.3s ease, -webkit-transform 0.3s ease; }
 
 .c-card__content {
   padding: 3rem 2.5rem;
