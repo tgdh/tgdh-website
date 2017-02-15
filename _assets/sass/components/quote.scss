@@ -22,7 +22,8 @@
 	}
 
 	&:before {
-		content: open-quote;
+		//content: open-quote;
+		content: "\201C";
 		left: 2rem;
 	}
 
@@ -67,7 +68,8 @@
 		}
 
 		&:after {
-			content: close-quote;
+			//content: close-quote;
+			content: "\201D";
 			right: 2rem;
 		}
 	}

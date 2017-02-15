@@ -2257,7 +2257,7 @@ button.swiper-pagination-bullet {
 
 .c-footer__cta {
   padding-top: 10rem;
-  padding-bottom: 10rem;
+  padding-bottom: 4rem;
   text-align: center; }
 
 .c-footer__headline {
@@ -2269,23 +2269,40 @@ button.swiper-pagination-bullet {
 .c-footer__nav {
   margin: 0; }
 
+.c-footer__adr,
+.c-footer__nav,
+.c-footer__copyright {
+  text-align: center; }
+
+.c-footer__nav,
+.c-footer__copyright {
+  display: inline-block; }
+
 .c-footer__meta {
   clear: both; }
+
+@media only screen and (max-width: 999px) {
+  .c-footer__meta {
+    text-align: center;
+    margin-bottom: 4rem; }
+  .c-footer__adr {
+    margin-top: 4rem; }
+  .c-footer__headline {
+    font-size: 4.8rem; } }
 
 @media only screen and (min-width: 1000px) {
   .c-footer__sub {
     padding-left: 10rem;
     padding-right: 10rem;
     margin-bottom: 6rem; }
+  .c-footer__cta {
+    padding-bottom: 10rem; }
   .c-footer .c-social {
     float: right;
     vertical-align: bottom; }
   .c-footer .u-icon {
     vertical-align: bottom; }
   .c-footer__adr {
-    float: left; }
-  .c-footer__copyright,
-  .c-footer__nav {
     float: left; } }
 
 /* ===========================================================
@@ -2438,7 +2455,7 @@ button.swiper-pagination-bullet {
     font-family: serif;
     line-height: 0.6em; }
   .c-quote:before {
-    content: open-quote;
+    content: "\201C";
     left: 2rem; }
 
 .c-quote__copy {
@@ -2467,7 +2484,7 @@ button.swiper-pagination-bullet {
       position: absolute;
       top: .7rem; }
     .c-quote:after {
-      content: close-quote;
+      content: "\201D";
       right: 2rem; } }
 
 /* ===========================================================
@@ -2558,7 +2575,9 @@ button.swiper-pagination-bullet {
 
 .c-pager__page__headline {
   font-size: 3.6rem;
-  font-weight: 900; }
+  font-weight: 900;
+  display: block;
+  line-height: 1.1; }
 
 .c-pager__meta {
   list-style: none;
@@ -2578,24 +2597,28 @@ button.swiper-pagination-bullet {
     content: "|";
     margin: 0 1rem; }
 
-@media only screen and (max-width: 599px) {
+@media only screen and (max-width: 799px) {
   .c-pager__page {
+    min-height: 18rem;
     border: 0.5rem solid #FFFFFF; }
   .c-pager__page--next {
     border-top: 0; }
   .c-pager__cta {
     display: none; }
-  .c-pager__page--prev {
-    text-align: right; }
-    .c-pager__page--prev .c-pager__page__icon {
-      -webkit-transform: rotate(180deg);
-          -ms-transform: rotate(180deg);
-              transform: rotate(180deg); } }
+  .c-pager__page--prev .c-pager__page__icon {
+    -webkit-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+            transform: rotate(180deg); }
+  .c-pager__page__icon {
+    right: 4rem; }
+  .c-pager__page__headline {
+    padding-right: 6rem; } }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 800px) {
   .c-pager__page,
   .c-pager__cta {
-    float: left; }
+    float: left;
+    min-height: 18rem; }
   .flexbox .c-pager {
     display: -webkit-box;
     display: -webkit-flex;
@@ -2606,9 +2629,6 @@ button.swiper-pagination-bullet {
     -webkit-flex: 1 1 auto;
         -ms-flex: 1 1 auto;
             flex: 1 1 auto; }
-  .c-pager__page,
-  .c-pager__cta {
-    min-height: 21rem; }
   .c-pager__page {
     width: 37.5%; }
   .c-pager__cta {
@@ -2617,6 +2637,8 @@ button.swiper-pagination-bullet {
     font-size: 2.4rem; }
   .c-pager__page--prev {
     text-align: right; }
+    .c-pager__page--prev .c-pager__page__headline {
+      padding-left: 6rem; }
     .c-pager__page--prev .c-pager__meta:after {
       margin-left: auto; }
     .c-pager__page--prev .c-pager__page__icon {
@@ -2625,6 +2647,8 @@ button.swiper-pagination-bullet {
       -webkit-transform-origin: center right;
           -ms-transform-origin: center right;
               transform-origin: center right; }
+  .c-pager__page--next .c-pager__page__headline {
+    padding-right: 6rem; }
   .c-pager__page--next .c-pager__page__icon {
     right: 4rem; }
   .c-pager__page--next .c-pager__page__image {
@@ -2645,6 +2669,9 @@ button.swiper-pagination-bullet {
     height: 4.4rem; } }
 
 @media only screen and (min-width: 1000px) {
+  .c-pager__page,
+  .c-pager__cta {
+    min-height: 22rem; }
   .c-pager__page {
     padding: 6rem 6rem; }
   .c-pager__cta {

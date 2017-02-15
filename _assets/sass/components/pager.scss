@@ -64,6 +64,8 @@
 .c-pager__page__headline {
 	font-size: 3.6rem;
 	font-weight: $bolder;
+	display: block;
+	line-height: 1.1;
 }
 
 .c-pager__meta {
@@ -90,9 +92,10 @@
 	}
 }
 
-@include respond-max( $mq-small ) {
+@include respond-max( $mq-medium ) {
 
 	.c-pager__page {
+		min-height: 18rem;
 		border: .5rem solid $white;
 	}
 
@@ -105,20 +108,27 @@
 	}
 
 	.c-pager__page--prev {
-		text-align: right;
-
 		.c-pager__page__icon {
 			transform: rotate(180deg);
 		}
 	}
 
+	.c-pager__page__icon {
+		right: 4rem;
+	}
+
+	.c-pager__page__headline {
+		padding-right: 6rem;
+	}
+
 }
 
-@include respond-min( $mq-small ) {
+@include respond-min( $mq-medium ) {
 
 	.c-pager__page,
 	.c-pager__cta {
 		float: left;
+		min-height: 18rem;
 	}
 
 	.flexbox {
@@ -131,11 +141,6 @@
 			flex: 1 1 auto;
 		}
 
-	}
-
-	.c-pager__page,
-	.c-pager__cta {
-		min-height: 21rem;
 	}
 
 	.c-pager__page {
@@ -153,6 +158,10 @@
 	.c-pager__page--prev {
 		text-align: right;
 
+		.c-pager__page__headline {
+			padding-left: 6rem;
+		}
+
 		.c-pager__meta:after {
 			margin-left: auto;
 		}
@@ -167,6 +176,10 @@
 	}
 
 	.c-pager__page--next {
+
+		.c-pager__page__headline {
+			padding-right: 6rem;
+		}
 
 		.c-pager__page__icon {
 			right: 4rem;
@@ -199,6 +212,11 @@
 }
 
 @include respond-min( $mq-large ) {
+
+	.c-pager__page,
+	.c-pager__cta {
+		min-height: 22rem;
+	}
 
 	.c-pager__page {
 		padding: 6rem 6rem;
