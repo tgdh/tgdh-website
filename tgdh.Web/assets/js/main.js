@@ -239,7 +239,7 @@ var ToggleNav = function () {
 			});
 
 			this.backdrop.on('click', function () {
-				_this.toggleOpen();
+				_this.close();
 			});
 		}
 	}, {

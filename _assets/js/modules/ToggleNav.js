@@ -56,7 +56,7 @@ class ToggleNav {
 		});
 
 		this.backdrop.on('click', () => {
-			this.toggleOpen();
+			this.close();
 		});
 	}
 	init() {
