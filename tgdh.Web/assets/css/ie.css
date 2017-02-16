@@ -2191,7 +2191,8 @@ button.swiper-pagination-bullet {
 @media only screen and (max-width: 799px) {
   .c-cover__decoration {
     width: calc( 100% + 1rem);
-    background: url("/assets/img/house-cover-bottom.svg") no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg width='33' height='6' viewBox='0 0 33 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M33 6H0V3.2L12.647 0 33 5.623z' fill='%23FFF'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
     background-size: 100%;
     position: absolute;
     bottom: -1px;
@@ -2228,7 +2229,8 @@ button.swiper-pagination-bullet {
     max-width: 640px; }
   .c-cover__decoration {
     width: calc( 100% + 1rem);
-    background: url("/assets/img/house-cover-top.svg") no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg width='33' height='15' viewBox='0 0 33 15' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M33 0H0v8.2L12.647 0 33 14.623z' fill='%23FFF'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
     background-size: 100%;
     position: absolute;
     top: -.5px;
