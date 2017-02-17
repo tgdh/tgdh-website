@@ -4,7 +4,7 @@ import ToggleNav from './modules/ToggleNav';
 import lazySizes from './modules/LazyLoad';
 import imageComparison from './modules/ImageComparison';
 import carousel from './modules/Carousel';
-import triggerAniamtions from './modules/TriggerAnimations';
+// import triggerAniamtions from './modules/TriggerAnimations';
 
 /*
 // add click evt to body and log target el
@@ -17,7 +17,7 @@ LoadFonts();
 lazySizes();
 carousel();
 imageComparison();
-triggerAniamtions();
+// triggerAniamtions();
 
 const $toggleButton = $('.js-nav-toggle');
 if ($toggleButton) {

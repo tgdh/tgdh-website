@@ -1,10 +1,20 @@
 @inherits UmbracoViewPage<IPublishedContent>
 @{
     Layout = "Master.cshtml";
+	// Website creation and integration with Spektrix booking system.
 }
 
 <main id="main" class="o-page__content" role="main">
-	@Html.Partial("~/Views/Partials/Components/Cover.cshtml")
+	@{
+	    var cover = new CoverViewModel {
+	        ImageId = Model.GetPropertyValue<int>("coverImage"),
+			Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
+			Copy = Model.GetPropertyValue<IHtmlString>("coverCopy")
+	    };
+
+	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
+	}
+
 	@RenderIntro()
 	@RenderIntroImages()
     @RenderQuote("First quote. We've had great feedback on the new site...")

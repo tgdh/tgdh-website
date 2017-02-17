@@ -1,14 +1,21 @@
-@using Umbraco.Web
-@inherits UmbracoViewPage<IPublishedContent>
+@inherits UmbracoViewPage<CoverViewModel>
 @{
-	var image = Umbraco.TypedMedia(1106);
+    var image = Umbraco.TypedMedia(Model.ImageId);
+
+    if (image == null)
+    {
+        return;
+    }
+
 }
 
 <section class="c-cover u-clearfix">
 	@RenderImage(image)
 	<div class="c-cover__content o-wrap">
 		<div class="c-cover__copy">
-			<h2 class="c-cover__headline">Hull Truck Theatre</h2>
+			@if(!String.IsNullOrEmpty(Model.Headline)) {
+				<h2 class="c-cover__headline">@Model.Headline</h2>
+			}
 			<ul class="c-cover__meta c-meta u-font-sec">
 				<li class="c-meta__item">
 					<span class="c-meta__value">Creative</span>
@@ -23,7 +30,11 @@
 					<span class="c-meta__value">Advertising</span>
 				</li>
 			</ul>
-			<p>Website creation and integration with Spektrix booking system.</p>
+			@if(!string.IsNullOrWhiteSpace(Model.Copy.ToString())) {
+				<div class="c-cover__copy u-space-top u-epsilon">
+					@Model.Copy
+				</div>
+			}
 			<a href="" class="c-button c-button--primary u-space-top--large">Launch site</a>
 		</div>
 	</div>
