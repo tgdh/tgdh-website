@@ -61,7 +61,7 @@
 					<p>Hull Truck are a pioneering theatre with a unique, powerful, contemporary Northern Voice, locally rooted and national in reach, inspiring artists, exciting audiences and supporting communities to reach their greatest potential.</p>
 					<p>They produce and present exciting and culturally relevant theatre in our building, our community and out on tour. </p>
 				</div>
-				<div class="o-col o-col--last">
+				<div class="o-col o-col--last js-ht-stats-1">
 					@RenderStats()
 				</div>
 			</div>
@@ -112,7 +112,7 @@
 	}
 
     <section class="o-section s-hullTruckCaseStudy__city-culture">
-		<img src="@imageUrl" alt="" class="s-hullTruckCaseStudy__city-culture__image">
+		<img src="@imageUrl" alt="" class="s-hullTruckCaseStudy__city-culture__image u-anim u-anim-duration-20" data-scroll="toggle(slideInRight, slideOutRight)">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
@@ -235,7 +235,7 @@
     			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
     			<p>The personality of each show is really given the chance to shine with full bleed large scale images and minimal intrusion form the text.</p>
             </div>
-            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image">
+            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
 				@RenderDesktopImage(1121, "top")
             </div>
 		</div>
@@ -363,7 +363,9 @@
 				</div>
 				<div class="o-col o-col--last">
 					<h3 class="u-zeta">Further reading</h3>
-					@Html.Partial("~/Views/Partials/Components/Card.cshtml", cardModel)
+					<div class="u-anim" data-scroll="toggle(fadeInUp, fadeOutDown)">
+						@Html.Partial("~/Views/Partials/Components/Card.cshtml", cardModel)
+					</div>
 				</div>
 			</div>
 		</div>
@@ -383,9 +385,9 @@
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
 					@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
-					<p>Donec sed odio dui. Curabitur blandit tempus porttitor. Sed posuere consectetur est at scelerisque nisl consectetur et. Donec sed odio dui. Donec sed odio dui. Curabitur blandit tempus porttitor. Sed posuere consectetur est at lobortis. .</p>
+					<p>Donec sed odio dui. Curabitur blandit tempus porttitor. Sed posuere consectetur est at scelerisque nisl consectetur et. Donec sed odio dui. Donec sed odio dui. Curabitur blandit tempus porttitor. Sed posuere consectetur est at lobortis.</p>
 				</div>
-				<div class="o-col o-col--last">
+				<div class="o-col o-col--last js-ht-stats-2">
 					@RenderStats()
 				</div>
 			</div>
@@ -395,11 +397,11 @@
 }
 
 @helper RenderStats() {
-	<div class="o-stat">
+	<div class="o-stat js-stat">
 		<span class="o-stat__label">ROI statistic</span>
 		<span class="o-stat__fig u-font-sec u-giga">23:1</span>
 	</div>
-	<div class="o-stat">
+	<div class="o-stat js-stat">
 		<span class="o-stat__label">Usage statistic</span>
 		<span class="o-stat__fig u-font-sec u-giga">66<sup>%</sup></span>
 	</div>

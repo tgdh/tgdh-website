@@ -223,6 +223,12 @@ footer, header, hgroup, menu, nav, section {
   html {
     font-family: 'xx-large'; } }
 
+/*
+@import 'animations/fade-out',
+		'animations/fade-in',
+		'animations/slide-out',
+		'animations/slide-in';
+*/
 /* ===========================================================
 
 	# Text
@@ -1986,7 +1992,6 @@ button.swiper-pagination-bullet {
     position: absolute;
     top: 60%;
     left: -1rem;
-    margin-top: -1px;
     -webkit-transition: width 0.3s ease;
     transition: width 0.3s ease; }
 

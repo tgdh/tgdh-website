@@ -1,0 +1,21 @@
+/* ===========================================================
+
+	# Slide in animations
+
+=========================================================== */
+
+@keyframes slideOutRight {
+	from {
+		transform: translate3d(0, 0, 0);
+	}
+
+	to {
+		transform: translate3d(6rem, 0, 0);
+	}
+}
+
+.slideOutRight {
+//	animation-name: slideOutRight;
+//	animation-duration: .3s !important;
+	transform: translate3d(12rem, 0, 0);
+}

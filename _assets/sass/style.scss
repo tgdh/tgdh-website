@@ -19,6 +19,13 @@
 @import 'generic/reset',
 		'generic/js-breakpoints';
 
+/*
+@import 'animations/fade-out',
+		'animations/fade-in',
+		'animations/slide-out',
+		'animations/slide-in';
+*/
+
 @import 'base/text',
 		'base/fonts',
 		'base/headings',
@@ -72,6 +79,7 @@
 		'utility/colours',
 		'utility/icons',
 		'utility/text';
+//		'utility/animation';
 
 @import 'trumps/free-content',
 		'trumps/hull-truck-case';

@@ -118,7 +118,9 @@ gulp.task('js', function () {
 //                    'node_modules/swiper/dist/js/swiper.js': ['Swiper']
 //                }
 			}),
-			babel()
+			babel({
+                exclude: 'node_modules/**'
+            })
 		],
 	})
 	.then(function (bundle) {
