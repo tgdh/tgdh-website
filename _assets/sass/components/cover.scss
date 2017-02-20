@@ -71,7 +71,7 @@
 
 	.c-cover__media,
 	.c-cover__content {
-		@include column( 1/2 );
+		@include span( 1/2 );
 	}
 
 	.c-cover__copy {

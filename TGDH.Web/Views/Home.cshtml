@@ -15,9 +15,15 @@
 	}
 
 
-	<div class="o-section o-wrap o-wrap--small">
-		<h1>Can I have a moment to talk to you about performance?</h1>
-		<p><strong>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</strong></p>
-		<p>Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Donec sed odio dui. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-	</div>
+	<section>
+		<h2 class="u-visually-hidden">Featured work</h2>
+		@{
+			var tileData = new TileViewModel {
+				Url = "#",
+				Headline = "Hull Truck Theatre",
+				ImageId = 1106
+			};
+			@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
+		}
+	</section>
 </main>

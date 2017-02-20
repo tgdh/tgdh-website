@@ -4,6 +4,7 @@ import ToggleNav from './modules/ToggleNav';
 import lazySizes from './modules/LazyLoad';
 import imageComparison from './modules/ImageComparison';
 import carousel from './modules/Carousel';
+import tilt from './modules/Tilt';
 // import triggerAniamtions from './modules/TriggerAnimations';
 
 /*
@@ -17,6 +18,7 @@ LoadFonts();
 lazySizes();
 carousel();
 imageComparison();
+tilt();
 // triggerAniamtions();
 
 const $toggleButton = $('.js-nav-toggle');
