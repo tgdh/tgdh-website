@@ -1,5 +1,6 @@
 import GoogleMapsApiLoader from 'google-maps-api-loader';
 import { GMapsAPIKey } from './Config';
+import GMapsTheme from './GMapsTheme';
 
 class GMap {
 	constructor(selector) {
@@ -17,15 +18,15 @@ class GMap {
 		})
 		.then((google) => {
 			this.google = google;
-//			const autocomplete = new google.maps.places.AutocompleteService();
 			this.map = new google.maps.Map(this.selector, {
 				center: {
 					lat: 50.836441,
 					lng: -1.0464095
 				},
-				scrollWheel: false,
-				zoom: 14,
-				mapTypeId: 'roadmap'
+				scrollwheel: false,
+				zoom: 15,
+				mapTypeId: 'roadmap',
+				styles: GMapsTheme
 			});
 			this.infoWindow = new google.maps.InfoWindow();
 
