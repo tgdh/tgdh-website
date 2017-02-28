@@ -137,6 +137,15 @@
 
 }
 
+@include respond-min( $mq-large ) {
+
+
+	.c-cover__content {
+		padding-left: 8rem;
+	}
+
+}
+
 @include respond-min( $mq-x-large ) {
 
 	.c-cover__meta {

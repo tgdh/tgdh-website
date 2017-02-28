@@ -2339,6 +2339,10 @@ button.swiper-pagination-bullet {
   .c-cover__headline {
     font-size: 4.8rem; } }
 
+@media only screen and (min-width: 1000px) {
+  .c-cover__content {
+    padding-left: 8rem; } }
+
 @media only screen and (min-width: 1280px) {
   .c-cover__meta {
     font-size: 1.8rem; }
@@ -3041,7 +3045,12 @@ button.swiper-pagination-bullet {
 
 @media only screen and (min-width: 800px) {
   .c-tile__content {
-    min-height: 40rem; } }
+    min-height: 40rem;
+    padding: 6rem; } }
+
+@media only screen and (min-width: 1000px) {
+  .c-tile__content {
+    padding: 8rem; } }
 
 /* ===========================================================
 

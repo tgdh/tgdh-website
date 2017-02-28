@@ -115,6 +115,16 @@
 
 	.c-tile__content {
 		min-height: 40rem;
+		padding: 6rem;
+	}
+
+}
+
+
+@include respond-min( $mq-large ) {
+
+	.c-tile__content {
+		padding: 8rem;
 	}
 
 }
