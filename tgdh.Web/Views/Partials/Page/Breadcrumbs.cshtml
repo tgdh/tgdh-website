@@ -1,26 +1,33 @@
 @using Umbraco.Web
 @inherits UmbracoViewPage<IPublishedContent>
 @{
-    var selection = Model.Ancestors().Where(x => x.IsVisible() && x.Level != 0 && x.TemplateId > 0).OrderBy(x => x.Level);
+    var selection = Model.AncestorsOrSelf().Where(x =>x.IsVisible() && x.Level != 1 && x.TemplateId > 0).OrderBy(x => x.Level);
 }
-@if (selection.Any())
+@if( Model.Level == 1 ) {
+	<nav role="navigation" class="c-breadcrumb u-font-sec">
+        <p id="breadcrumb-label" class="c-breadcrumb__label">You are here:</p>
+        <ol id="breadcrumb" class="c-breadcrumb__list" aria-labelledby="breadcrumb-label">
+            <li class="c-breadcrumb__item">
+                <a href="@Model.Url" class="c-breadcrumb__link is-active" title="Home">
+                    The Graphic Design House
+                </a>
+            </li>
+        </ol>
+    </nav>
+} else if (selection.Any())
 {
     <nav role="navigation" class="c-breadcrumb u-font-sec">
         <p id="breadcrumb-label" class="c-breadcrumb__label">You are here:</p>
         <ol id="breadcrumb" class="c-breadcrumb__list" aria-labelledby="breadcrumb-label">
             @foreach (var listItem in selection)
             {
+				var modifierClass = Model.Level == listItem.Level ? "is-active" : "";
                 <li class="c-breadcrumb__item">
-                    <a href="@listItem.Url" class="c-breadcrumb__link" title="@listItem.Name">
+                    <a href="@listItem.Url" class="c-breadcrumb__link @modifierClass" title="@listItem.Name">
                         @listItem.Name
                     </a>
                 </li>
             }
-            <li class="c-breadcrumb__item">
-                <a href="@Model.Url" class="c-breadcrumb__link is-active" title="@Model.Name">
-                    @Model.Name
-                </a>
-            </li>
         </ol>
     </nav>
 }

@@ -2,21 +2,27 @@
 @{
     Layout = "Master.cshtml";
 	var selection = Model.Descendants().Where( x => x.IsVisible());
+
+	var cover = new CoverViewModel {
+		ImageId = Model.GetPropertyValue<int>("coverImage"),
+		Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
+		Copy = Model.GetPropertyValue<IHtmlString>("coverCopy")
+	};
 }
 
 <main id="main" class="o-page__content" role="main">
-
-	<div class="o-wrap o-wrap--small">
-		<h1>@Model.Name</h1>
-		@if( selection.Any() ) {
-			<ul>
+	@Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
+	@if( selection.Any() ) {
+		<div class="o-grid--span-two u-clearfix">
 			@foreach( var item in selection ) {
-				<li>
-					<a href="@item.Url">@item.Name</a>
-				</li>
+				var tileData = new TileViewModel {
+					Url = item.Url,
+					Headline = item.Name,
+					ImageId = 1106,
+					ModifierClass = "o-grid__item"
+				};
+				@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
 			}
-			</ul>
-		}
-	</div>
-
+		</div>
+	}
 </main>
