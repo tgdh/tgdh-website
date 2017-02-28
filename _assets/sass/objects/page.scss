@@ -57,9 +57,25 @@ html {
 		background-color: $pri;
 		display: block;
 		position: fixed;
-		z-index: 1;
+		z-index: 11;
 		bottom: 0;
 		right: 0;
+		padding: 3.1rem;
+		transition: background $speed $ease;
+
+		&:hover {
+			background-color: $sec;
+		}
+
+		&:focus {
+			outline: .2rem solid $pri;
+			outline-offset: .2rem;
+		}
+
+
+		svg {
+			display: block;
+		}
 	}
 
 }

@@ -9788,4 +9788,7 @@ if ($toggleButton) {
 	var toggleNavInstance = new ToggleNav($toggleButton);
 	toggleNavInstance.init();
 }
+
+// hash target selector
+// $('a[href^="#"]:not(.js-no-scroll)')
 //# sourceMappingURL=main.js.map

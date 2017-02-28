@@ -705,9 +705,19 @@ html {
     background-color: #000000;
     display: block;
     position: fixed;
-    z-index: 1;
+    z-index: 11;
     bottom: 0;
-    right: 0; } }
+    right: 0;
+    padding: 3.1rem;
+    -webkit-transition: background 0.3s ease;
+    transition: background 0.3s ease; }
+    .o-page__scroll-top:hover {
+      background-color: #1d1d1d; }
+    .o-page__scroll-top:focus {
+      outline: 0.2rem solid #000000;
+      outline-offset: .2rem; }
+    .o-page__scroll-top svg {
+      display: block; } }
 
 /* ===========================================================
 

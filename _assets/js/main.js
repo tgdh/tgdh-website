@@ -29,3 +29,7 @@ if ($toggleButton) {
 	const toggleNavInstance = new ToggleNav($toggleButton);
 	toggleNavInstance.init();
 }
+
+
+// hash target selector
+// $('a[href^="#"]:not(.js-no-scroll)')
