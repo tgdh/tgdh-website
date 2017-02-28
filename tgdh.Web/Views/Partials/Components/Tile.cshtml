@@ -11,7 +11,7 @@
 		imageUrl = Url.GetCropUrl(image, cropAlias:  "21:9", width: 400, quality: 95, htmlEncode: false).ToString();
 	}
 }
-<article class="c-tile">
+<article class="c-tile @Model.ModifierClass">
     <a href="@Model.Url" class="c-tile__link" style="background-image: url(@imageUrl);">
         <div class="c-tile__content js-tilt">
 			<div class="c-tile__copy">

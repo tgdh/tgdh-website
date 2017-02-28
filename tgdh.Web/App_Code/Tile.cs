@@ -10,4 +10,6 @@ public class TileViewModel
 
     public string Quote { get; set; }
 
+    public string ModifierClass { get; set; }
+
 }

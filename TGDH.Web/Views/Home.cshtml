@@ -17,13 +17,17 @@
 
 	<section>
 		<h2 class="u-visually-hidden">Featured work</h2>
-		@{
-			var tileData = new TileViewModel {
-				Url = "#",
-				Headline = "Hull Truck Theatre",
-				ImageId = 1106
-			};
-			@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
-		}
+		<div class="o-grid--span-two u-clearfix">
+			@{
+				var tileData = new TileViewModel {
+					Url = "#",
+					Headline = "Hull Truck Theatre",
+					ImageId = 1106,
+					ModifierClass = "o-grid__item"
+				};
+				@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
+				@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
+			}
+		</div>
 	</section>
 </main>

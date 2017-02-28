@@ -4,10 +4,6 @@
 
 =========================================================== */
 
-.c-tile {
-	width: 50%;
-}
-
 .c-tile__link {
 	color: $white;
 	display: block;
@@ -30,6 +26,7 @@
 
 	&:hover,
 	&:focus {
+		z-index: 2;
 
 		&:before {
 			opacity: .9;
@@ -111,4 +108,13 @@
 	display: block;
 	border: 0 solid $white;
 	transition: border $speed $ease;
+}
+
+
+@include respond-min( $mq-medium ) {
+
+	.c-tile__content {
+		min-height: 40rem;
+	}
+
 }

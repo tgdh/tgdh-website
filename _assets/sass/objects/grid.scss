@@ -24,3 +24,15 @@
 	}
 
 }
+
+@include respond-min( $mq-small ) {
+
+	.o-grid--span-two {
+
+		.o-grid__item {
+			@include span( 1/2, $cycle: 2 );
+		}
+
+	}
+
+}

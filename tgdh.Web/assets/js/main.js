@@ -8302,7 +8302,9 @@ return VanillaTilt;
 var tilt = function tilt() {
 	var tiles = $$('.js-tilt');
 	Array.from(tiles).forEach(function (item) {
-		VanillaTilt.init(item);
+		VanillaTilt.init(item, {
+			max: 10
+		});
 	});
 };
 
