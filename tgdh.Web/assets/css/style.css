@@ -2132,6 +2132,7 @@ button.swiper-pagination-bullet {
     padding: 4.1rem 2.9rem; }
   .enhance .c-nav {
     width: 33vw;
+    max-width: 38rem;
     height: 100%;
     z-index: -1;
     right: 9.4rem;

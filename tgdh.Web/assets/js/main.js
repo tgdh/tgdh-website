@@ -9707,7 +9707,7 @@ var GMap = function () {
 						lng: -1.0464095
 					},
 					scrollwheel: false,
-					zoom: 15,
+					zoom: 13,
 					mapTypeId: 'roadmap',
 					styles: GMapsTheme
 				});
