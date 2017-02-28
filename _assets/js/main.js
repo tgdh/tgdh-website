@@ -5,6 +5,7 @@ import lazySizes from './modules/LazyLoad';
 import imageComparison from './modules/ImageComparison';
 import carousel from './modules/Carousel';
 import tilt from './modules/Tilt';
+import GMap from './modules/GMaps';
 // import triggerAniamtions from './modules/TriggerAnimations';
 
 /*
@@ -20,6 +21,8 @@ carousel();
 imageComparison();
 tilt();
 // triggerAniamtions();
+
+const map = new GMap($('.js-map'));
 
 const $toggleButton = $('.js-nav-toggle');
 if ($toggleButton) {

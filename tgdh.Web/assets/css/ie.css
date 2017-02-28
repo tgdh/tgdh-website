@@ -2596,6 +2596,24 @@ button.swiper-pagination-bullet {
       margin-left: 2.4em; }
 
 /* ===========================================================
+	# Map
+=========================================================== */
+.c-map > div {
+  top: 0; }
+
+.enhance .c-map {
+  position: relative;
+  background-color: #f9f9f9; }
+  .enhance .c-map:after {
+    content: "";
+    display: block;
+    padding-top: 42.8571428571%; }
+
+@media only screen and (min-width: 800px) {
+  .enhance .c-map:after {
+    padding-top: 50rem; } }
+
+/* ===========================================================
 
 	# Social links
 
