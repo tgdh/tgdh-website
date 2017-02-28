@@ -1,7 +1,9 @@
 @inherits UmbracoViewPage<IPublishedContent>
 @{
     var homePage = Model.Site();
-    var menuItems = homePage.Children.Where(x => x.IsVisible() && x.TemplateId > 0);
+    var primaryMenuItems = homePage.Children.Where(x => x.IsVisible() && x.TemplateId > 0 && !x.GetPropertyValue<bool>("isSecondaryNav"));
+
+	var secondaryMenuItems = homePage.Children.Where(x => x.IsVisible() && x.TemplateId > 0 && x.GetPropertyValue<bool>("isSecondaryNav"));
 }
 
 <button class="c-nav-toggle js-nav-toggle" id="nav-toggle" type="button" aria-haspopup="true" data-toggle="mainNavigation">
@@ -13,30 +15,34 @@
 
 <nav id="mainNavigation" class="c-nav c-nav--main js-nav u-font-sec" role="navigation" aria-labelledby="nav-toggle">
 	<div class="c-nav__inner">
-		<ul class="c-nav__list">
-	        @foreach (var item in menuItems)
-	        {
-	            var modifierClass = item.IsAncestorOrSelf(Model) ? "is-active" : null;
+		@if( primaryMenuItems.Any() ) {
+			<ul class="c-nav__list">
+		        @foreach (var item in primaryMenuItems)
+		        {
+		            var modifierClass = item.IsAncestorOrSelf(Model) ? "is-active" : null;
 
-	            <li class="c-nav__item c-nav__item--parent">
-	                <a href="@item.Url" class="c-nav__link @modifierClass">
-	                    <span class="c-nav__value">@item.Name</span>
-	                </a>
-	            </li>
-	        }
-	    </ul>
-		<ul class="c-nav__sub">
-	        @foreach (var item in menuItems)
-	        {
-	            var modifierClass = item.IsAncestorOrSelf(Model) ? "is-active" : null;
+		            <li class="c-nav__item c-nav__item--parent">
+		                <a href="@item.Url" class="c-nav__link @modifierClass">
+		                    <span class="c-nav__value">@item.Name</span>
+		                </a>
+		            </li>
+		        }
+		    </ul>
+		}
+		@if( secondaryMenuItems.Any() ) {
+			<ul class="c-nav__sub">
+		        @foreach (var item in secondaryMenuItems)
+		        {
+		            var modifierClass = item.IsAncestorOrSelf(Model) ? "is-active" : null;
 
-	            <li class="c-nav__sub__item">
-	                <a href="@item.Url" class="c-nav__sub__link @modifierClass">
-	                    <span class="c-nav__sub__value">@item.Name</span>
-	                </a>
-	            </li>
-	        }
-	    </ul>
+		            <li class="c-nav__sub__item">
+		                <a href="@item.Url" class="c-nav__sub__link @modifierClass">
+		                    <span class="c-nav__sub__value">@item.Name</span>
+		                </a>
+		            </li>
+		        }
+		    </ul>
+		}
 	</div>
 </nav>
 
