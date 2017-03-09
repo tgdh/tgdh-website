@@ -249,7 +249,6 @@ button {
      -moz-font-feature-settings: 'liga', 'kern';
           font-feature-settings: 'liga', 'kern';
   -webkit-font-kerning: normal;
-     -moz-font-kerning: normal;
           font-kerning: normal;
   line-height: 1.6em;
   text-rendering: optimizeLegibility;
