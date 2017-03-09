@@ -138,21 +138,19 @@
 		visibility: hidden;
 		background-color: $pri;
 		z-index: 10;
-		transition: opacity $speed $ease,
-					visibility $speed $ease;
+		transition: opacity .5s ease-in-out 0ms,
+					visibility .5s ease-in-out 0ms;
 	}
 
 	.c-nav {
 		position: absolute;
 		background-color: $white;
-		opacity: 0;
-		visibility: hidden;
-		transition: opacity $speed $ease,
+		pointer-events: none;
+		transition: transform $speed $ease;
+		will-change: transform;
+		transition: transform .5s cubic-bezier(.64,.04,.35,1) 0ms,
+					opacity $speed $ease,
 					visibility $speed $ease,
-					transform $speed $ease;
-		will-change: opacity,
-					visibility,
-					transform;
 	}
 
 	.c-nav__list {
@@ -179,8 +177,7 @@
 		}
 
 		.c-nav {
-			opacity: 1;
-			visibility: visible;
+			pointer-events: auto;
 		}
 
 		.c-nav__list {

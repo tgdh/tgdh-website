@@ -1969,7 +1969,14 @@ button.swiper-pagination-bullet {
     height: 100%;
     position: fixed;
     top: 0;
-    right: 0; } }
+    right: 0; }
+  .enhance .c-header__inner {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #FFFFFF; } }
 
 /* ===========================================================
 
@@ -2079,19 +2086,22 @@ button.swiper-pagination-bullet {
   visibility: hidden;
   background-color: #000000;
   z-index: 10;
-  -webkit-transition: opacity 0.3s ease, visibility 0.3s ease;
-  transition: opacity 0.3s ease, visibility 0.3s ease; }
+  -webkit-transition: opacity .5s ease-in-out 0ms, visibility .5s ease-in-out 0ms;
+  transition: opacity .5s ease-in-out 0ms, visibility .5s ease-in-out 0ms; }
 
 .enhance .c-nav {
   position: absolute;
   background-color: #FFFFFF;
-  opacity: 0;
-  visibility: hidden;
-  -webkit-transition: opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.3s ease;
-  transition: opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.3s ease;
-  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, -webkit-transform 0.3s ease;
-  will-change: opacity, visibility, transform; }
+  pointer-events: none;
+  -webkit-transition: -webkit-transform 0.3s ease;
+  transition: -webkit-transform 0.3s ease;
+  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+  will-change: transform;
+  -webkit-transition: opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms;
+  transition: opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms;
+  transition: transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms, opacity 0.3s ease, visibility 0.3s ease;
+  transition: transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms, opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms; }
 
 .enhance .c-nav__list {
   opacity: 0;
@@ -2117,8 +2127,7 @@ button.swiper-pagination-bullet {
   visibility: visible; }
 
 .enhance.s-mainNavigation-is-visible .c-nav {
-  opacity: 1;
-  visibility: visible; }
+  pointer-events: auto; }
 
 .enhance.s-mainNavigation-is-visible .c-nav__list {
   opacity: 1; }
