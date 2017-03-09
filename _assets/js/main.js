@@ -7,6 +7,7 @@ import carousel from './modules/Carousel';
 import tilt from './modules/Tilt';
 import GMap from './modules/GMaps';
 // import triggerAniamtions from './modules/TriggerAnimations';
+import initSmoothScroll from './modules/SmoothScroll';
 
 /*
 // add click evt to body and log target el
@@ -20,6 +21,7 @@ lazySizes();
 carousel();
 imageComparison();
 tilt();
+initSmoothScroll();
 // triggerAniamtions();
 
 const map = new GMap($('.js-map'));
