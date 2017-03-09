@@ -4,6 +4,14 @@
 
 =========================================================== */
 
+.c-profile-card__image-wrap {
+	margin-bottom: $line-height / 2;
+}
+
+.c-profile-card__headline {
+	padding-bottom: 0;
+}
+
 .c-profile-card__subtitle {
 	opacity: .65;
 	font-size: 1.4rem;
@@ -14,11 +22,13 @@
 .c-profile-card {
 	padding-left: .5rem;
 	padding-right: .5rem;
+	margin-bottom: $line-height * 2;
 }
 
 .c-profile-card-listing {
 	margin-left: -.5rem;
 	margin-right: -.5rem;
+	margin-bottom: -$line-height * 2;
 }
 
 @include respond-max( $mq-medium ) {
@@ -27,6 +37,18 @@
 
 		.c-profile-card	{
 			@include span(1/2, $cycle: 2);
+		}
+
+	}
+
+}
+
+@include respond-min-max( $mq-medium, $mq-large ) {
+
+	.c-profile-card-listing {
+
+		.c-profile-card	{
+			@include span(1/3, $cycle: 3);
 		}
 
 	}
