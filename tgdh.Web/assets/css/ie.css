@@ -1153,7 +1153,7 @@ html {
     width: 31.3333333333%;
     margin-left: 0%;
     margin-right: 3%;
-    margin-bottom: 2%; }
+    margin-bottom: 2rem; }
     .o-grid--three .o-grid__item:before, .o-grid--three .o-grid__item:after {
       content: '';
       display: table; }
@@ -3119,6 +3119,62 @@ button.swiper-pagination-bullet {
 @media only screen and (min-width: 1000px) {
   .c-tile__content {
     padding: 8rem; } }
+
+/* ===========================================================
+
+	# Profile card
+
+=========================================================== */
+.c-profile-card__subtitle {
+  opacity: .65;
+  font-size: 1.4rem; }
+
+/* profile-card-grid */
+.c-profile-card {
+  padding-left: .5rem;
+  padding-right: .5rem; }
+
+.c-profile-card-listing {
+  margin-left: -.5rem;
+  margin-right: -.5rem; }
+
+@media only screen and (max-width: 799px) {
+  .c-profile-card-listing .c-profile-card {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: 0%; }
+    .c-profile-card-listing .c-profile-card:before, .c-profile-card-listing .c-profile-card:after {
+      content: '';
+      display: table; }
+    .c-profile-card-listing .c-profile-card:after {
+      clear: both; }
+    .c-profile-card-listing .c-profile-card:nth-child(2n) {
+      float: right; }
+    .c-profile-card-listing .c-profile-card:nth-child(2n + 1) {
+      clear: both; } }
+
+@media only screen and (min-width: 1000px) {
+  .c-profile-card-listing .c-profile-card {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 25%;
+    margin-left: 0%;
+    margin-right: 0%; }
+    .c-profile-card-listing .c-profile-card:before, .c-profile-card-listing .c-profile-card:after {
+      content: '';
+      display: table; }
+    .c-profile-card-listing .c-profile-card:after {
+      clear: both; }
+    .c-profile-card-listing .c-profile-card:nth-child(4n) {
+      float: right; }
+    .c-profile-card-listing .c-profile-card:nth-child(4n + 1) {
+      clear: both; } }
 
 /* ===========================================================
 

@@ -1,0 +1,46 @@
+/* ===========================================================
+
+	# Profile card
+
+=========================================================== */
+
+.c-profile-card__subtitle {
+	opacity: .65;
+	font-size: 1.4rem;
+}
+
+/* profile-card-grid */
+
+.c-profile-card {
+	padding-left: .5rem;
+	padding-right: .5rem;
+}
+
+.c-profile-card-listing {
+	margin-left: -.5rem;
+	margin-right: -.5rem;
+}
+
+@include respond-max( $mq-medium ) {
+
+	.c-profile-card-listing {
+
+		.c-profile-card	{
+			@include span(1/2, $cycle: 2);
+		}
+
+	}
+
+}
+
+@include respond-min( $mq-large ) {
+
+	.c-profile-card-listing {
+
+		.c-profile-card	{
+			@include span(1/4, $cycle: 4);
+		}
+
+	}
+
+}
