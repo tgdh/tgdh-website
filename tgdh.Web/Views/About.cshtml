@@ -4,22 +4,70 @@
 }
 
 <main id="main" class="o-page__content" role="main">
+	@{
+	    var cover = new CoverViewModel {
+	        ImageId = Model.GetPropertyValue<int>("coverImage"),
+			Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
+			Copy = Model.GetPropertyValue<IHtmlString>("coverCopy")
+	    };
 
-	<div class="o-wrap o-wrap--small">
-		<h1>@Model.Name</h1>
-	</div>
-	@RenderCarosuel()
+	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover);
+	}
+
+
+	@RenderIntro()
+	@RenderTeam()
+	@RenderCareers()
+
 </main>
 
+@helper RenderIntro() {
+	var heading = new HeadingViewModel {
+		Headline = "TGDH is",
+		Subtitle = "Aenean lacinia bibendum nulla sed consectetur."
+	};
 
-@helper RenderCarosuel() {
-	var gallery = new GalleryViewModel
-    {
-        MediaIds = "1095,1077,1093",
-        Alignment = "Full width",
-        AspectRatio = "16:9",
-        AdditionalClass = ""
-    };
+	<section class="o-section u-background--light">
+		<div class="o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					<p>Example of about us text. Our team has a passion for making things with real value. This has led us to assemble a multi-talented group that can do just about anything:</p>
+					<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae elit libero, a pharetra augue.</p>
+				</div>
+				<div class="o-col o-col--last">
+					services
+				</div>
+			</div>
+		</div>
+	</section>
+}
 
-    @Html.Partial("~/Views/Partials/Components/Gallery.cshtml", gallery)
+@helper RenderTeam() {
+	var heading = new HeadingViewModel {
+		Headline = "Meet the team",
+		Subtitle = "Aenean lacinia bibendum nulla sed consectetur."
+	};
+	<section id="team" class="o-section">
+		<div class="o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<p>Fusce dapibus, tellus ac cursus commodo, tortor mauris massa justo sit amet <a href=""><strong>Join the team</strong></a>.</p>
+		</div>
+	</section>
+}
+
+@helper RenderCareers() {
+	var heading = new HeadingViewModel {
+		Headline = "Careers",
+		Subtitle = "Aenean lacinia bibendum nulla sed consectetur."
+	};
+	<section id="careers" class="o-section u-background--light">
+		<div class="o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<p>Fusce dapibus, tellus ac cursus commodo, tortor mauris massa justo sit amet.</p>
+			<div class="o-wrap--small">
+				@Html.Partial("~/Views/Partials/Careers/VacancyListing.cshtml")
+			</div>
+		</div>
+	</section>
 }

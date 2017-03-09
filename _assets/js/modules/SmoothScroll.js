@@ -5,7 +5,7 @@ const hashAnchors = $$('a[href^="#"]:not(.js-no-scroll');
 
 const initSmoothScroll = () => {
 	Array.from(hashAnchors).forEach((item) => {
-		item.on('click', (el) => {
+		item.on('click', () => {
 			const target = $(item.hash);
 			jump(target, {
 				duration: 500,

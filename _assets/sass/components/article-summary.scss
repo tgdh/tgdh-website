@@ -1,0 +1,48 @@
+/* ===========================================================
+
+	# Article summary
+
+=========================================================== */
+
+.c-article-summary {
+
+	& + & {
+		margin-top: $line-height;
+	}
+
+}
+
+.c-article-summary__link {
+	display: block;
+	padding: 2rem 0;
+}
+
+.c-article-summary__heading {
+	margin-bottom: $line-height;
+
+	&:after {
+		@include breakline();
+	}
+}
+
+.c-article-summary__heading__headline {
+	text-decoration: underline;
+	padding-bottom: .35rem;
+}
+
+.c-article-summary__heading__subtitle {
+	opacity: .65;
+	font-style: italic;
+	font-size: 1.4rem;
+	display: block;
+}
+
+.c-article-summary__copy,
+.c-article-summary__cta {
+	display: inline;
+}
+
+.c-article-summary__cta {
+	font-weight: $bolder;
+	text-decoration: underline;
+}

@@ -2625,6 +2625,46 @@ button.swiper-pagination-bullet {
 
 /* ===========================================================
 
+	# Article summary
+
+=========================================================== */
+.c-article-summary + .c-article-summary {
+  margin-top: 1.6em; }
+
+.c-article-summary__link {
+  display: block;
+  padding: 2rem 0; }
+
+.c-article-summary__heading {
+  margin-bottom: 1.6em; }
+  .c-article-summary__heading:after {
+    content: "";
+    width: 2.7rem;
+    height: .1rem;
+    background-color: #000000;
+    display: block;
+    margin-top: 1rem; }
+
+.c-article-summary__heading__headline {
+  text-decoration: underline;
+  padding-bottom: .35rem; }
+
+.c-article-summary__heading__subtitle {
+  opacity: .65;
+  font-style: italic;
+  font-size: 1.4rem;
+  display: block; }
+
+.c-article-summary__copy,
+.c-article-summary__cta {
+  display: inline; }
+
+.c-article-summary__cta {
+  font-weight: 900;
+  text-decoration: underline; }
+
+/* ===========================================================
+
 	# Social links
 
 =========================================================== */

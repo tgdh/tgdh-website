@@ -4,6 +4,15 @@
 
 =========================================================== */
 
+@mixin breakline() {
+	content: "";
+	width: 2.7rem;
+	height: .1rem;
+	background-color: $pri;
+	display: block;
+	margin-top: 1rem;
+}
+
 @mixin inline-link( $invert: false, $borderSize: 2px ) {
 	transition: color $speed $ease,
 				background-color $speed $ease,

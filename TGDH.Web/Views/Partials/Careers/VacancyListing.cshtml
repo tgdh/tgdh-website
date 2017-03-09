@@ -1,0 +1,25 @@
+@using System.Web.Mvc.Html
+@using TGDH.Core.Data
+@using TGDH.Core.Utility
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+    var allvacancies = CareerRepository.AllVacancies(Umbraco).ToList();
+    var paging = Paging.GetPages(allvacancies.Count);
+    var selection = allvacancies.Skip(paging.Skip).Take(paging.Take).ToList();
+}
+
+@if( selection.Any() ) {
+
+	foreach( var item in selection ) {
+
+	    var articleSnippet = new ArticleSummaryViewModel {
+	        Url = item.Url,
+			Headline = item.Name,
+			Subtitle = "Aenean lacinia bibendum nulla sed consectetur.",
+			CTALabel = "Read more about this role.",
+			Copy = item.GetPropertyValue<string>("pageDescription")
+	    };
+		@Html.Partial("~/Views/Partials/Components/ArticleSummary.cshtml", articleSnippet);
+	}
+
+}

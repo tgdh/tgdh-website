@@ -1,0 +1,26 @@
+@inherits UmbracoViewPage<ArticleSummaryViewModel>
+@{
+	if(string.IsNullOrWhiteSpace(Model.Url)) {
+		return;
+	}
+
+	var ctaLabel = !String.IsNullOrWhiteSpace(Model.CTALabel) ? Model.CTALabel : "Read more";
+}
+
+<article class="c-article-summary">
+    <a href="@Model.Url" class="c-article-summary__link">
+		@if(!String.IsNullOrWhiteSpace(Model.Headline))
+		{
+			<header class="c-article-summary__heading">
+				<h2 class="c-article-summary__heading__headline u-delta">@Model.Headline</h2>
+				@if(!String.IsNullOrEmpty(Model.Subtitle)) {
+					<span class="c-article-summary__heading__subtitle u-font-sec">@Model.Subtitle</span>
+				}
+			</header>
+		}
+		<div class="c-article-summary__copy">
+			@Model.Copy
+		</div>
+		<p class="c-article-summary__cta">@ctaLabel</p>
+    </a>
+</article>
