@@ -1,0 +1,35 @@
+@inherits UmbracoViewPage<SocialChannelsViewModel>
+@{
+    if( Model.SocialChannels == null ) {
+		return;
+	}
+
+	var iconSize = Model.SocialChannelIconSize != 0 ? Model.SocialChannelIconSize : 32;
+}
+
+<div class="c-social u-clearfix">
+	<h2 class="c-social__headline u-visually-hidden">Social channels: </h2>
+    @foreach( IPublishedContent socialChannel in Model.SocialChannels )
+    {
+        string channelName = socialChannel.GetPropertyValue<string>("socialChannelName");
+        string url = socialChannel.GetPropertyValue<string>("url");
+        string cssClass = channelName.ToLower();
+
+        if( cssClass == "google+" ) {
+            cssClass = "googleplus";
+        }
+		if( cssClass == "linkedin") {
+			cssClass = "linkedIn";
+		}
+
+        if( !string.IsNullOrEmpty(url) )
+        {
+            <a href="@url" title="Go to our @channelName page (external url)" class="c-social__link c-social__link--@cssClass" target="_blank">
+				<svg class="u-icon u-icon--@iconSize u-icon--@cssClass">
+					<use xlink:href="/assets/icons/icons.svg#@cssClass"></use>
+				</svg>
+				<span class="u-visually-hidden">@channelName</span>
+            </a>
+        }
+    }
+</div>

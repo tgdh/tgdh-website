@@ -25,7 +25,14 @@
 		</ul>
 	</div>
 	<div class="c-footer__sub">
-		@Html.Partial("~/Views/Partials/Components/SocialLinks.cshtml")
+		@{
+			var homePage = Umbraco.TypedContentAtRoot().First();
+		    var settings = homePage.Descendants("globalSettings").FirstOrDefault();
+			var socialChannels = new SocialChannelsViewModel {
+				SocialChannels = settings.GetPropertyValue<IEnumerable<IPublishedContent>>("socialChannels")
+			};
+			@Html.Partial("~/Views/Partials/Components/SocialChannels.cshtml", socialChannels);
+		}
 
 		<p class="c-footer__adr">Walton Road Farlington Portsmouth P06 1TR</p>
 		<div class="c-footer__meta u-clearfix">

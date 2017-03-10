@@ -13,4 +13,11 @@
 	</div>
     <h2 class="c-profile-card__headline u-zeta">@Model.FirstName @Model.LastName</h2>
     <div class="c-profile-card__subtitle u-font-sec">Job title</div>
+	@{
+		var socialChannels = new SocialChannelsViewModel {
+			SocialChannels = Model.SocialChannels,
+			SocialChannelIconSize = 24
+		};
+		@Html.Partial("~/Views/Partials/Components/SocialChannels.cshtml", socialChannels);
+	}
 </article>

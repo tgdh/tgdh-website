@@ -16,7 +16,8 @@
 				ImageId = item.GetPropertyValue<int>("profilePicture"),
 				FirstName = !String.IsNullOrWhiteSpace(profileName) ? profileName : item.Name,
 				LastName = item.GetPropertyValue<string>("lastName"),
-				JobTitle = item.GetPropertyValue<string>("jobTitle")
+				JobTitle = item.GetPropertyValue<string>("jobTitle"),
+				SocialChannels = item.GetPropertyValue<IEnumerable<IPublishedContent>>("socialChannels")
 		    };
 			@Html.Partial("~/Views/Partials/Team/ProfileCard.cshtml", profile);
 		}

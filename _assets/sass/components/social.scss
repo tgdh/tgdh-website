@@ -104,6 +104,24 @@
 	}
 }
 
+.c-social__link--dribbble {
+	&:hover,
+	&:focus {
+		.u-icon {
+			fill: $dribbble;
+		}
+	}
+}
+
+.c-social__link--behance {
+	&:hover,
+	&:focus {
+		.u-icon {
+			fill: $behance;
+		}
+	}
+}
+
 
 @include respond-max( $mq-large ) {
 

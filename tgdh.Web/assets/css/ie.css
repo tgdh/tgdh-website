@@ -2738,6 +2738,12 @@ button.swiper-pagination-bullet {
 .c-social__link--flcikr:hover .u-icon, .c-social__link--flcikr:focus .u-icon {
   fill: #0063dc; }
 
+.c-social__link--dribbble:hover .u-icon, .c-social__link--dribbble:focus .u-icon {
+  fill: #ea4c89; }
+
+.c-social__link--behance:hover .u-icon, .c-social__link--behance:focus .u-icon {
+  fill: #1769ff; }
+
 @media only screen and (max-width: 999px) {
   .enhance .c-social {
     display: -webkit-box;
@@ -3236,7 +3242,12 @@ button.swiper-pagination-bullet {
     .c-profile-card-listing .c-profile-card:nth-child(4n) {
       float: right; }
     .c-profile-card-listing .c-profile-card:nth-child(4n + 1) {
-      clear: both; } }
+      clear: both; }
+  .c-profile-card .c-social {
+    margin-top: .4rem;
+    margin-left: -.4rem; }
+  .c-profile-card .c-social__link {
+    padding: 0; } }
 
 /* ===========================================================
 
