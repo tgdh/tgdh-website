@@ -239,6 +239,7 @@
   <ItemGroup>
     <Compile Include="Data\CareerRepository.cs" />
     <Compile Include="Data\TeamRepository.cs" />
+    <Compile Include="Models\LinkPickerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\Paging.cs" />
   </ItemGroup>

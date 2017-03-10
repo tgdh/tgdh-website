@@ -329,6 +329,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Plugins\GibeLinkPicker\Dialogs\linkpicker.controller.js" />
+    <Content Include="App_Plugins\GibeLinkPicker\Dialogs\linkpicker.html" />
+    <Content Include="App_Plugins\GibeLinkPicker\picker.controller.js" />
+    <Content Include="App_Plugins\GibeLinkPicker\picker.css" />
+    <Content Include="App_Plugins\GibeLinkPicker\picker.html" />
     <Content Include="App_Plugins\NestedContent\Css\nestedcontent.css" />
     <Content Include="App_Plugins\NestedContent\Js\nestedcontent.controllers.js" />
     <Content Include="App_Plugins\NestedContent\Js\nestedcontent.directives.js" />
@@ -500,6 +505,7 @@
     <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
     <Content Include="App_Plugins\NestedContent\package.manifest" />
+    <Content Include="App_Plugins\GibeLinkPicker\package.manifest" />
     <None Include="bin\TGDH.Web.dll.config" />
     <Content Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />

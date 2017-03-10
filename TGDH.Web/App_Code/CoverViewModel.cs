@@ -10,4 +10,6 @@ public class CoverViewModel
 
     public IHtmlString Copy { get; set; }
 
+    public string Cta { get; set; }
+
 }

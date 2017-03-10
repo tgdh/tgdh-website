@@ -1,3 +1,4 @@
+@using TGDH.Core.Models
 @inherits UmbracoViewPage<CoverViewModel>
 @{
     var image = Umbraco.TypedMedia(Model.ImageId);
@@ -26,10 +27,21 @@
 					@Model.Copy
 				</div>
 			}
-			<a href="" class="c-button c-button--primary u-space-top--large">Launch site</a>
+			@RenderCTA(Model.Cta)
 		</div>
 	</div>
 </section>
+
+@helper RenderCTA(string ctaJson)
+{
+	var cta = new LinkPickerModel(ctaJson);
+
+	if(!string.IsNullOrEmpty(cta.Url) || !string.IsNullOrWhiteSpace(cta.Hashtarget))
+	{
+		var ctaLink = cta.Url + cta.Hashtarget;
+		<a href="@ctaLink" title="@cta.Name" target="@cta.Target" class="c-button c-button--primary u-space-top--large">@cta.Name</a>
+	}
+}
 
 @helper RenderImage(IPublishedContent image) {
 	var altText = image.GetPropertyValue<string>("altText");
