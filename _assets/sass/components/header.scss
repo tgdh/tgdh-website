@@ -11,18 +11,51 @@
 }
 
 .c-header__logo {
+	width: 13.5rem;
+	height: 3.8rem;
 	display: inline-block;
+	float: left;
+
+	svg {
+		fill: $dark-1;
+		transition: fill $speed $ease,
+					opacity $speed $ease;
+	}
+
 }
 
-.c-header__logo-mark {
-	width: 3.4rem;
-	height: 3.8rem;
-	background-size: 3.4rem 3.8rem;
-	display: inline-block;
-	background: url('/assets/img/tgdh-mark.svg') no-repeat;
+.c-header__logo-text {
+	display: none;
+	transition: opacity $speed $ease;
+}
+
+@include respond-max( $mq-large )  {
+
+	.c-header__logo {
+		margin-top: 1.1rem;
+		margin-left: 1.4rem;
+	}
+
 }
 
 @include respond-min( $mq-large )  {
+
+	.s-logo-invert {
+
+		.c-header__logo svg {
+			fill: $white;
+		}
+
+	}
+
+	.c-header__logo {
+		width: 20rem;
+		height: 5.7rem;
+	}
+
+	.c-header__logo-text {
+		display: inherit;
+	}
 
 	.enhance {
 

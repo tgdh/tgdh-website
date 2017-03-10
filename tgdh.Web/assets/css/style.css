@@ -698,7 +698,7 @@ html {
   .enhance .o-page {
     padding-right: 9.4rem; }
   .o-page__content {
-    padding-top: 10rem; }
+    padding-top: 12rem; }
   .o-page__scroll-top {
     color: #FFFFFF;
     background-color: #000000;
@@ -1958,16 +1958,33 @@ button.swiper-pagination-bullet {
   background-color: #FFFFFF; }
 
 .c-header__logo {
-  display: inline-block; }
-
-.c-header__logo-mark {
-  width: 3.4rem;
+  width: 13.5rem;
   height: 3.8rem;
-  background-size: 3.4rem 3.8rem;
   display: inline-block;
-  background: url("/assets/img/tgdh-mark.svg") no-repeat; }
+  float: left; }
+  .c-header__logo svg {
+    fill: #1d1d1d;
+    -webkit-transition: fill 0.3s ease, opacity 0.3s ease;
+    transition: fill 0.3s ease, opacity 0.3s ease; }
+
+.c-header__logo-text {
+  display: none;
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease; }
+
+@media only screen and (max-width: 999px) {
+  .c-header__logo {
+    margin-top: 1.1rem;
+    margin-left: 1.4rem; } }
 
 @media only screen and (min-width: 1000px) {
+  .s-logo-invert .c-header__logo svg {
+    fill: #FFFFFF; }
+  .c-header__logo {
+    width: 20rem;
+    height: 5.7rem; }
+  .c-header__logo-text {
+    display: inherit; }
   .enhance .c-header__logo {
     position: fixed;
     top: 2.5rem;
@@ -2003,6 +2020,7 @@ button.swiper-pagination-bullet {
   font-weight: 700;
   display: none;
   position: relative;
+  z-index: 1;
   -webkit-transition: background 0.3s ease;
   transition: background 0.3s ease; }
   .c-nav-toggle:hover {
@@ -2107,10 +2125,10 @@ button.swiper-pagination-bullet {
   transition: transform 0.3s ease;
   transition: transform 0.3s ease, -webkit-transform 0.3s ease;
   will-change: transform;
-  -webkit-transition: opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms;
-  transition: opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms;
-  transition: transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms, opacity 0.3s ease, visibility 0.3s ease;
-  transition: transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms, opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms; }
+  -webkit-transition: opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.3s ease; }
 
 .enhance .c-nav__list {
   opacity: 0;
@@ -2147,11 +2165,18 @@ button.swiper-pagination-bullet {
     right: 0;
     -webkit-transform: translateY(-1rem);
         -ms-transform: translateY(-1rem);
-            transform: translateY(-1rem); }
+            transform: translateY(-1rem);
+    opacity: 0;
+    visibility: hidden;
+    z-index: -1;
+    padding-top: 8rem;
+    padding-bottom: 8rem; }
   .enhance.s-mainNavigation-is-visible .c-nav {
     -webkit-transform: translateY(0);
         -ms-transform: translateY(0);
-            transform: translateY(0); } }
+            transform: translateY(0);
+    opacity: 1;
+    visibility: visible; } }
 
 @media only screen and (min-width: 1000px) {
   .enhance .c-nav-toggle {
@@ -2165,11 +2190,17 @@ button.swiper-pagination-bullet {
     right: 9.4rem;
     -webkit-transform: translateX(100%);
         -ms-transform: translateX(100%);
-            transform: translateX(100%); }
+            transform: translateX(100%);
+    -webkit-transition: opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms;
+    transition: opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms;
+    transition: transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms, opacity 0.3s ease, visibility 0.3s ease;
+    transition: transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms, opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms; }
   .enhance.s-mainNavigation-is-visible .c-nav {
     -webkit-transform: translateX(0);
         -ms-transform: translateX(0);
             transform: translateX(0); }
+  .enhance.s-mainNavigation-is-visible .c-header__logo svg {
+    fill: #FFFFFF; }
   .enhance.no-flexbox .c-nav__inner {
     width: 100%;
     position: absolute;
