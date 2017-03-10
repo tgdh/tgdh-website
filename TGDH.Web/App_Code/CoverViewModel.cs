@@ -6,6 +6,8 @@ public class CoverViewModel
 
     public string Headline { get; set; }
 
+    public IHtmlString Subtitle { get; set; }
+
     public IHtmlString Copy { get; set; }
 
 }
