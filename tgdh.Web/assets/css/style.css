@@ -1119,6 +1119,15 @@ html {
     display: inline-block;
     margin: 0 2rem 0 0; }
 
+.o-list--col-two {
+  -webkit-columns: 2;
+     -moz-columns: 2;
+          columns: 2;
+  list-style: none;
+  opacity: .65; }
+  .o-list--col-two li {
+    margin-left: 0; }
+
 /* ===========================================================
 
 	# Generic grid
@@ -3562,6 +3571,9 @@ button.swiper-pagination-bullet {
 .fonts-loaded .u-font-sec {
   font-family: "Playfair Display";
   letter-spacing: .5px; }
+
+.u-font--small {
+  font-size: 1.4rem; }
 
 /* ===========================================================
 
