@@ -4,8 +4,42 @@
 
 =========================================================== */
 
+.c-cover__heading {
+	&:after {
+		@include breakline();
+	}
+
+}
+
 .c-cover__headline {
 	padding-bottom: 2rem;
+}
+
+.c-cover__subtitle {
+	opacity: .65;
+	font-style: italic;
+
+	ul {
+
+		list-style: none;
+
+		li {
+			display: inline-block;
+			margin: 0;
+
+			&:after {
+				content: "/";
+				margin: 0 .5rem;
+			}
+
+			&:last-child:after {
+				content: "";
+				display: none;
+			}
+		}
+
+	}
+
 }
 
 .c-cover__media-wrap {
@@ -69,6 +103,19 @@
 
 @include respond-min( $mq-medium ) {
 
+	.c-cover__subtitle {
+
+		ul {
+
+			li + li:before {
+				margin-left: 1rem;
+				margin-right: 1rem;
+			}
+
+		}
+
+	}
+
 	.c-cover__media,
 	.c-cover__content {
 		@include span( 1/2 );
@@ -123,7 +170,7 @@
 		font-size: 4rem;
 	}
 
-	.c-cover__meta {
+	.c-cover__subtitle {
 		font-size: 1.4rem;
 	}
 
@@ -148,7 +195,7 @@
 
 @include respond-min( $mq-x-large ) {
 
-	.c-cover__meta {
+	.c-cover__subtitle {
 		font-size: 1.8rem;
 	}
 

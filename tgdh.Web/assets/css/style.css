@@ -2248,8 +2248,31 @@ button.swiper-pagination-bullet {
 	# Cover
 
 =========================================================== */
+.c-cover__heading:after {
+  content: "";
+  width: 2.7rem;
+  height: .1rem;
+  background-color: #000000;
+  display: block;
+  margin-top: 1rem; }
+
 .c-cover__headline {
   padding-bottom: 2rem; }
+
+.c-cover__subtitle {
+  opacity: .65;
+  font-style: italic; }
+  .c-cover__subtitle ul {
+    list-style: none; }
+    .c-cover__subtitle ul li {
+      display: inline-block;
+      margin: 0; }
+      .c-cover__subtitle ul li:after {
+        content: "/";
+        margin: 0 .5rem; }
+      .c-cover__subtitle ul li:last-child:after {
+        content: "";
+        display: none; }
 
 .c-cover__media-wrap {
   position: relative; }
@@ -2293,6 +2316,9 @@ button.swiper-pagination-bullet {
       padding-top: 18.1818181818%; } }
 
 @media only screen and (min-width: 800px) {
+  .c-cover__subtitle ul li + li:before {
+    margin-left: 1rem;
+    margin-right: 1rem; }
   .c-cover__media,
   .c-cover__content {
     *zoom: 1;
@@ -2351,7 +2377,7 @@ button.swiper-pagination-bullet {
 @media only screen and (min-width: 800px) and (max-width: 999px) {
   .c-cover__headline {
     font-size: 4rem; }
-  .c-cover__meta {
+  .c-cover__subtitle {
     font-size: 1.4rem; } }
 
 @media only screen and (min-width: 1000px) and (max-width: 1279px) {
@@ -2363,7 +2389,7 @@ button.swiper-pagination-bullet {
     padding-left: 8rem; } }
 
 @media only screen and (min-width: 1280px) {
-  .c-cover__meta {
+  .c-cover__subtitle {
     font-size: 1.8rem; }
   .c-cover__headline {
     font-size: 6rem; } }
