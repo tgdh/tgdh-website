@@ -243,6 +243,18 @@
 
 		&.s-mainNavigation-is-visible {
 
+			.c-nav__item {
+				animation-duration: .3s;
+	  			animation-fill-mode: both;
+				animation-name: fadeInRight;
+
+				@for $i from 1 through 10 {
+					&:nth-child(#{$i}) {
+						animation-delay: #{$i * 0.1}s;
+					}
+				}
+			}
+
 			.c-nav {
 				transform: translateX(0);
 			}

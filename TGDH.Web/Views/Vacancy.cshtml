@@ -1,4 +1,13 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@inherits UmbracoViewPage<IPublishedContent>
 @{
-	Layout = null;
+    Layout = "Master.cshtml";
 }
+
+<main id="main" class="o-page__content" role="main">
+	<div class="o-wrap o-wrap--small">
+		<h1>@Model.Name</h1>
+		<div class="u-font-sec">
+			@Model.GetPropertyValue("pageDescription")
+		</div>
+	</div>
+</main>

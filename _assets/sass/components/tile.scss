@@ -118,6 +118,9 @@
 		padding: 6rem;
 	}
 
+	.c-tile {
+		@include span( 1/2, $cycle: 2 );
+	}
 }
 
 

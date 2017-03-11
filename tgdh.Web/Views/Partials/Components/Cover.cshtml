@@ -36,9 +36,10 @@
 {
 	var cta = new LinkPickerModel(ctaJson);
 
-	if(!string.IsNullOrEmpty(cta.Url) || !string.IsNullOrWhiteSpace(cta.Hashtarget))
+	if(!String.IsNullOrWhiteSpace(cta.Url) || !string.IsNullOrWhiteSpace(cta.Hashtarget))
 	{
 		var ctaLink = cta.Url + cta.Hashtarget;
+        var ctaText = !String.IsNullOrWhiteSpace(cta.Name) ? cta.Name : "Find out more";
 		<a href="@ctaLink" title="@cta.Name" target="@cta.Target" class="c-button c-button--primary u-space-top--large">@cta.Name</a>
 	}
 }

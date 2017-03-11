@@ -14,13 +14,12 @@
 <main id="main" class="o-page__content" role="main">
 	@Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
 	@if( selection.Any() ) {
-		<div class="o-grid--span-two u-clearfix">
+		<div class="u-clearfix">
 			@foreach( var item in selection ) {
 				var tileData = new TileViewModel {
 					Url = item.Url,
 					Headline = item.Name,
-					ImageId = 1106,
-					ModifierClass = "o-grid__item"
+					ImageId = 1106
 				};
 				@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
 			}

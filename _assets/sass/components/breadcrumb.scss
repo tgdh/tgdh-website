@@ -69,6 +69,7 @@
 		.c-breadcrumb {
 			position: fixed;
 			top: 50%;
+			top: calc( 50% - 4.6rem );
 			right: 4.7rem;
 			z-index: 11;
 			transform: translate(50%, 50%) rotate(90deg);
