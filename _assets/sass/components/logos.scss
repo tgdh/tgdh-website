@@ -1,0 +1,51 @@
+/* ===========================================================
+
+	# Logos
+
+=========================================================== */
+
+.c-logo-grid {
+	text-align: center;
+}
+
+.c-logo {
+	width: 50%;
+	float: left;
+	padding: $line-height 0;
+}
+
+.c-logo__link {
+	display: block;
+}
+
+.c-logo__image {
+	display: block;
+    margin: auto;
+    max-width: 75%;
+}
+
+.flexwrap {
+
+	.c-logo-grid {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+}
+
+@include respond-min-max( $mq-small, $mq-medium ) {
+
+	.c-logo {
+		width: 33.3333333333%;
+	}
+
+}
+
+@include respond-min( $mq-medium ) {
+
+	.c-logo {
+		width: 25%;
+	}
+
+}

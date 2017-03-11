@@ -37,8 +37,8 @@
 
 @helper RenderIntro() {
 	var heading = new HeadingViewModel {
-		Headline = "TGDH is",
-		Subtitle = "Aenean lacinia bibendum nulla sed consectetur."
+		Headline = Model.GetPropertyValue<string>("introHeadline"),
+		Subtitle = Model.GetPropertyValue<string>("introSubtitle")
 	};
 
 	<section class="o-section u-background--light">
@@ -46,8 +46,7 @@
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
-					<p>Example of about us text. Our team has a passion for making things with real value. This has led us to assemble a multi-talented group that can do just about anything:</p>
-					<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae elit libero, a pharetra augue.</p>
+					@Model.GetPropertyValue("intro")
 				</div>
 				<div class="o-col o-col--last">
 					<h3 class="u-zeta">Services</h3>
@@ -63,6 +62,13 @@
 					</ul>
 				</div>
 			</div>
+			@{
+				var logos = new LogoListingViewModel {
+					LogoListing = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("introLogos"),
+					ModifierClass = "c-logo-grid u-clearfix u-space-top--large"
+				};
+				@Html.Partial("~/Views/Partials/Components/LogoListing.cshtml", logos);
+			}
 		</div>
 	</section>
 }

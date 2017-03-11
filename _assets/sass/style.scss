@@ -19,12 +19,10 @@
 @import 'generic/reset',
 		'generic/js-breakpoints';
 
-/*
-@import 'animations/fade-out',
-		'animations/fade-in',
-		'animations/slide-out',
-		'animations/slide-in';
-*/
+@import 'animations/fade-in';
+//		'animations/fade-out',
+//		'animations/slide-out',
+//		'animations/slide-in';
 
 @import 'base/text',
 		'base/fonts',
@@ -45,7 +43,6 @@
 		'objects/align',
 		'objects/list',
 		'objects/grid',
-//		'objects/logos',
 		'objects/media',
 		'objects/page-components',
 		'objects/heading',
@@ -72,19 +69,21 @@
 		'components/image-columns',
 		'components/pager',
 		'components/card',
+		'components/logos',
 		'components/tile',
 		'components/profile-card',
 		'components/desktop-frame',
 		'components/mobile-frame',
-		'components/offset-image-column';
+		'components/offset-image-column',
+		'components/logos';
 
 @import 'utility/overrides',
 		'utility/hide',
 		'utility/spacers',
 		'utility/colours',
 		'utility/icons',
-		'utility/text',
-		'utility/animation';
+		'utility/text';
+//		'utility/animation';
 
 @import 'trumps/free-content',
 		'trumps/hull-truck-case';

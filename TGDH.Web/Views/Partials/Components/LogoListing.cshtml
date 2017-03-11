@@ -1,0 +1,19 @@
+@using TGDH.Core.Models
+@inherits UmbracoViewPage<LogoListingViewModel>
+@{
+    if (Model.LogoListing == null)
+    {
+        return;
+    }
+
+	<div class="@Model.ModifierClass">
+		@foreach( var item in Model.LogoListing ) {
+			var logo = new LogoViewModel {
+				LogoId = item.GetPropertyValue<int>("logo"),
+				Name = item.GetPropertyValue<string>("logoName"),
+				Link = item.GetPropertyValue<string>("logoLink")
+			};
+			@Html.Partial("~/Views/Partials/Components/Logo.cshtml", logo);
+		}
+	</div>
+}

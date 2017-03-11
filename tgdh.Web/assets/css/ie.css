@@ -223,12 +223,75 @@ footer, header, hgroup, menu, nav, section {
   html {
     font-family: 'xx-large'; } }
 
-/*
-@import 'animations/fade-out',
-		'animations/fade-in',
-		'animations/slide-out',
-		'animations/slide-in';
-*/
+/* ===========================================================
+
+	# Fade in animations
+
+=========================================================== */
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+@keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+          animation-name: fadeIn; }
+
+@-webkit-keyframes fadeInUp {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 2rem, 0);
+            transform: translate3d(0, 2rem, 0); }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none; } }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 2rem, 0);
+            transform: translate3d(0, 2rem, 0); }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none; } }
+
+.fadeInUp {
+  opacity: 1;
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0); }
+
+@-webkit-keyframes fadeInRight {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+            transform: translate3d(100%, 0, 0); }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none; } }
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+            transform: translate3d(100%, 0, 0); }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none; } }
+
+.fadeInRight {
+  -webkit-animation-name: fadeInRight;
+          animation-name: fadeInRight; }
+
 /* ===========================================================
 
 	# Text
@@ -3122,6 +3185,48 @@ button.swiper-pagination-bullet {
 
 /* ===========================================================
 
+	# Logos
+
+=========================================================== */
+.c-logo-grid {
+  text-align: center; }
+
+.c-logo {
+  width: 50%;
+  float: left;
+  padding: 1.6em 0; }
+
+.c-logo__link {
+  display: block; }
+
+.c-logo__image {
+  display: block;
+  margin: auto;
+  max-width: 75%; }
+
+.flexwrap .c-logo-grid {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+
+@media only screen and (min-width: 600px) and (max-width: 799px) {
+  .c-logo {
+    width: 33.3333333333%; } }
+
+@media only screen and (min-width: 800px) {
+  .c-logo {
+    width: 25%; } }
+
+/* ===========================================================
+
 	# Tile
 
 =========================================================== */
@@ -3460,6 +3565,48 @@ button.swiper-pagination-bullet {
 
 /* ===========================================================
 
+	# Logos
+
+=========================================================== */
+.c-logo-grid {
+  text-align: center; }
+
+.c-logo {
+  width: 50%;
+  float: left;
+  padding: 1.6em 0; }
+
+.c-logo__link {
+  display: block; }
+
+.c-logo__image {
+  display: block;
+  margin: auto;
+  max-width: 75%; }
+
+.flexwrap .c-logo-grid {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+
+@media only screen and (min-width: 600px) and (max-width: 799px) {
+  .c-logo {
+    width: 33.3333333333%; } }
+
+@media only screen and (min-width: 800px) {
+  .c-logo {
+    width: 25%; } }
+
+/* ===========================================================
+
   # Overrides
 
 =========================================================== */
@@ -3641,67 +3788,6 @@ button.swiper-pagination-bullet {
 
 .u-font--small {
   font-size: 1.4rem; }
-
-/* ===========================================================
-
-  # Animation
-
-=========================================================== */
-.enhance .u-anim {
-  -webkit-transition: all 1s ease-out;
-  transition: all 1s ease-out; }
-
-.enhance .u-anim-delay-5 {
-  -webkit-transition-delay: .5s;
-          transition-delay: .5s; }
-
-@-webkit-keyframes fadeInRight {
-  from {
-    opacity: 0;
-    -webkit-transform: translate3d(100%, 0, 0);
-            transform: translate3d(100%, 0, 0); }
-  to {
-    opacity: 1;
-    -webkit-transform: none;
-            transform: none; } }
-
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    -webkit-transform: translate3d(100%, 0, 0);
-            transform: translate3d(100%, 0, 0); }
-  to {
-    opacity: 1;
-    -webkit-transform: none;
-            transform: none; } }
-
-.fadeInRight {
-  -webkit-animation-name: fadeInRight;
-          animation-name: fadeInRight; }
-
-@-webkit-keyframes fadeInUp {
-  from {
-    opacity: 0;
-    -webkit-transform: translate3d(0, 100%, 0);
-            transform: translate3d(0, 100%, 0); }
-  to {
-    opacity: 1;
-    -webkit-transform: none;
-            transform: none; } }
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    -webkit-transform: translate3d(0, 100%, 0);
-            transform: translate3d(0, 100%, 0); }
-  to {
-    opacity: 1;
-    -webkit-transform: none;
-            transform: none; } }
-
-.fadeInUp {
-  -webkit-animation-name: fadeInUp;
-          animation-name: fadeInUp; }
 
 /* ===========================================================
 

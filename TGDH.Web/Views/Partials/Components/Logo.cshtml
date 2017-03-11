@@ -1,0 +1,28 @@
+@using TGDH.Core.Models
+@inherits UmbracoViewPage<LogoViewModel>
+@{
+	var logo = Umbraco.TypedMedia(Model.LogoId);
+    if (logo == null)
+    {
+        return;
+    }
+
+    var imageUrl = Url.GetCropUrl(logo, width: Model.ImageWidth, quality: 100, upScale: false, htmlEncode: false).ToString();
+
+    var altText = logo.GetPropertyValue<string>("altText");
+	if( String.IsNullOrEmpty(altText) ) {
+		altText = Model.Name;
+	}
+	var link = new LinkPickerModel(Model.Link);
+}
+
+<figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="c-logo @Model.ModifierClass">
+    @if(!String.IsNullOrWhiteSpace(link.Url))
+	{
+	    <a href="@link.Url" itemprop="" class="c-logo__link" target="@link.Target" title="Model.Name">
+			<img src="@imageUrl" itemprop="thumbnail" alt="@altText" class="c-logo__image" />
+	    </a>
+    } else {
+		<img src="@imageUrl" itemprop="thumbnail" alt="@altText" class="c-logo__image" />
+    }
+</figure>
