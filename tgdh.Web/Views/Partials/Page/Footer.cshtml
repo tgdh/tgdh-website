@@ -6,6 +6,12 @@
     System.Threading.Thread.CurrentThread.CurrentUICulture = ci;
 
 	var dateToday = DateTime.Today;
+
+	var homePage = Model.Site();
+	var settings = homePage.Children("globalSettings").FirstOrDefault();
+	var socialChannels = new SocialChannelsViewModel {
+		SocialChannels = settings.GetPropertyValue<IEnumerable<IPublishedContent>>("socialChannels")
+	};
 }
 
 <a href="#main" class="o-page__scroll-top js-scroll-top">
@@ -26,15 +32,13 @@
 	</div>
 	<div class="c-footer__sub">
 		@{
-			var homePage = Umbraco.TypedContentAtRoot().First();
-		    var settings = homePage.Descendants("globalSettings").FirstOrDefault();
-			var socialChannels = new SocialChannelsViewModel {
-				SocialChannels = settings.GetPropertyValue<IEnumerable<IPublishedContent>>("socialChannels")
-			};
+
 			@Html.Partial("~/Views/Partials/Components/SocialChannels.cshtml", socialChannels);
 		}
 
-		<p class="c-footer__adr">Walton Road Farlington Portsmouth P06 1TR</p>
+		@if( settings.HasValue("address") ) {
+			<div class="c-footer__adr">@settings.GetPropertyValue("address")</div>
+		}
 		<div class="c-footer__meta u-clearfix">
 			<p class="c-footer__copyright">&copy; @dateToday.ToString("yyyy") all rights reserved</p>
 			@Html.Partial("~/Views/Partials/Page/FooterNavigation.cshtml")

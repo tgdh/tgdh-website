@@ -2577,6 +2577,9 @@ button.swiper-pagination-bullet {
         outline: 0.2rem solid white; }
   .c-footer .u-icon {
     fill: #FFFFFF; }
+  .c-footer .c-footer__adr a {
+    font-weight: 500;
+    box-shadow: none; }
 
 .c-footer__cta {
   padding-top: 10rem;
@@ -3925,5 +3928,13 @@ button.swiper-pagination-bullet {
 @media only screen and (min-width: 1000px) {
   .s-hullTruckCaseStudy__city-culture__image {
     width: 50%; } }
+
+/* ===========================================================
+
+  # Contact
+
+=========================================================== */
+.s-contact .c-cover__copy {
+  font-size: inherit; }
 
 /*# sourceMappingURL=ie.css.map */

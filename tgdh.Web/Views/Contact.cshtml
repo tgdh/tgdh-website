@@ -1,15 +1,29 @@
 @inherits UmbracoViewPage<IPublishedContent>
 @{
     Layout = "Master.cshtml";
-}
+	var homePage = Model.Site();
+	var settings = homePage.Children("globalSettings").FirstOrDefault();
+	var phoneNumber = settings.GetPropertyValue<string>("phoneNumber");
+	var emailAddress = settings.GetPropertyValue<string>("emailAddress");
 
+	var hasEmail = !String.IsNullOrWhiteSpace(emailAddress);
+	var hasPhoneNumber = !String.IsNullOrWhiteSpace(phoneNumber);
+	var hasEmailOrPhone = hasEmail || hasPhoneNumber ? true : false;
+
+	var contactDetails =
+	(hasEmailOrPhone ? "<ul class='o-list--inline'>" : "") +
+		(hasEmail ? "<li class='o-list__item u-strong'><a href='mailto:"+ emailAddress +"'>" + emailAddress + "</a></li>" : "") +
+		(hasPhoneNumber ? "<li class='o-list__item'>" + phoneNumber + "</li>" : "") +
+	(hasEmailOrPhone ? "</ul>" : "") +
+	Model.GetPropertyValue("coverCopy");
+}
 <main id="main" class="o-page__content" role="main">
 	@{
 		var cover = new CoverViewModel {
  		  ImageId = Model.GetPropertyValue<int>("coverImage"),
  		  Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
  		  Subtitle = Model.GetPropertyValue<IHtmlString>("subtitle"),
- 		  Copy = Model.GetPropertyValue<IHtmlString>("coverCopy"),
+ 		  Copy = @Html.Raw(contactDetails),
  		  Cta = Model.GetPropertyValue<string>("callToAction")
  	  };
 
