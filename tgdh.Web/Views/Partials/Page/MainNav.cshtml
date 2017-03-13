@@ -4,6 +4,7 @@
     var primaryMenuItems = homePage.Children.Where(x => x.IsVisible() && x.TemplateId > 0 && !x.GetPropertyValue<bool>("isSecondaryNav"));
 
 	var secondaryMenuItems = homePage.Children.Where(x => x.IsVisible() && x.TemplateId > 0 && x.GetPropertyValue<bool>("isSecondaryNav"));
+	var aboutPage = Umbraco.TypedContent(1068);
 }
 
 <button class="c-nav-toggle js-nav-toggle" id="nav-toggle" type="button" aria-haspopup="true" data-toggle="mainNavigation">
@@ -34,9 +35,10 @@
 		        @foreach (var item in secondaryMenuItems)
 		        {
 		            var modifierClass = item.IsAncestorOrSelf(Model) ? "is-active" : null;
+					var pageUrl = item.DocumentTypeAlias == "careers" && aboutPage != null ? aboutPage.Url + "#careers" : item.Url;
 
 		            <li class="c-nav__sub__item">
-		                <a href="@item.Url" class="c-nav__sub__link @modifierClass">
+		                <a href="@pageUrl" class="c-nav__sub__link @modifierClass">
 		                    <span class="c-nav__sub__value">@item.Name</span>
 		                </a>
 		            </li>
