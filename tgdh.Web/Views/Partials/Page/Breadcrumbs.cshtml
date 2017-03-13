@@ -1,7 +1,7 @@
 @inherits UmbracoViewPage<IPublishedContent>
 @{
     var selection = Model.AncestorsOrSelf().Where(x =>x.IsVisible() && x.Level != 1 && x.TemplateId > 0).OrderBy(x => x.Level);
-	var aboutPage = Umbraco.TypedContent(TGDH.Core.Constants.aboutPageId);
+	var aboutPage = Umbraco.TypedContent(TGDH.Core.Constants.AboutPageId);
 }
 @if( Model.Level == 1 ) {
 	<nav role="navigation" class="c-breadcrumb u-font-sec">

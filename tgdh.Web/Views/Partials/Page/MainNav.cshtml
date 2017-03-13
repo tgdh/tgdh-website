@@ -4,7 +4,7 @@
     var primaryMenuItems = homePage.Children.Where(x => x.IsVisible() && x.TemplateId > 0 && !x.GetPropertyValue<bool>("isSecondaryNav"));
 
 	var secondaryMenuItems = homePage.Children.Where(x => x.IsVisible() && x.TemplateId > 0 && x.GetPropertyValue<bool>("isSecondaryNav"));
-	var aboutPage = Umbraco.TypedContent(TGDH.Core.Constants.aboutPageId);
+	var aboutPage = Umbraco.TypedContent(TGDH.Core.Constants.AboutPageId);
 }
 
 <button class="c-nav-toggle js-nav-toggle" id="nav-toggle" type="button" aria-haspopup="true" data-toggle="mainNavigation">

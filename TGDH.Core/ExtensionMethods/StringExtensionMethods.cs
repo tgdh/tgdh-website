@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 
-namespace TGDH.ExtensionMethods.Strings
+namespace TGDH.Core.ExtensionMethods
 {
     public static class StringExtensionMethods
     {

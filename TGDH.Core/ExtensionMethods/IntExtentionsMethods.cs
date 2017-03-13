@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Globalization;
 
-namespace TGDH.ExtensionMethods.Int
+namespace TGDH.Core.ExtensionMethods
 {
     public static class IntExtentionsMethods
     {
