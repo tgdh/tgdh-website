@@ -1,7 +1,7 @@
-@using Umbraco.Web
 @inherits UmbracoViewPage<IPublishedContent>
 @{
     var selection = Model.AncestorsOrSelf().Where(x =>x.IsVisible() && x.Level != 1 && x.TemplateId > 0).OrderBy(x => x.Level);
+	var aboutPage = Umbraco.TypedContent(TGDH.Core.Constants.aboutPageId);
 }
 @if( Model.Level == 1 ) {
 	<nav role="navigation" class="c-breadcrumb u-font-sec">
@@ -22,8 +22,9 @@
             @foreach (var listItem in selection)
             {
 				var modifierClass = Model.Level == listItem.Level ? "is-active" : "";
+				var pageUrl = listItem.DocumentTypeAlias == "careers" && aboutPage != null ? aboutPage.Url + "#careers" : listItem.Url;
                 <li class="c-breadcrumb__item">
-                    <a href="@listItem.Url" class="c-breadcrumb__link @modifierClass" title="@listItem.Name">
+                    <a href="@pageUrl" class="c-breadcrumb__link @modifierClass" title="@listItem.Name">
                         @listItem.Name
                     </a>
                 </li>
