@@ -1,0 +1,29 @@
+@inherits UmbracoViewPage<TabListViewModel>
+@{
+    if (Model.Tabs == null || !Model.Tabs.Any())
+    {
+        return;
+    }
+}
+
+<div class="c-tabs js-tabs @Model.AdditionalClass @Model.WrapClasses">
+    <nav class="c-tabs__nav">
+        <ul class="c-tabs__nav-list" role="tablist">
+            @foreach (var tab in Model.Tabs)
+            {
+                <li class="c-tabs__nav-item" role="presentation">
+                    <a href="#@tab.Id" class="c-tabs__nav-tab" role="tab" aria-controls="@tab.Id" aria-selected="true">@tab.Title</a>
+                </li>
+            }
+        </ul>
+    </nav>
+
+    <div class="c-tabs__content">
+        @foreach (var tab in Model.Tabs)
+        {
+            <section id="#@tab.Id" class="c-tabs__content-tab" role="tabpanel">
+                @tab.Content
+            </section>
+        }
+    </div>
+</div>

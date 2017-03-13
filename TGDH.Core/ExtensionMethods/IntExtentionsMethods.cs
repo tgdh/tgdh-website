@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace TGDH.Core.ExtensionMethods
 {
-    public static class IntExtentionsMethods
+    public static class Int
     {
         private static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
         public static string ToFileSize(this int value)

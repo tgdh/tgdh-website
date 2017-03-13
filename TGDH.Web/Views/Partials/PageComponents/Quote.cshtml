@@ -1,0 +1,19 @@
+@inherits UmbracoViewPage<QuoteViewModel>
+@{
+    var alignment = !string.IsNullOrWhiteSpace(Model.Alignment) ? Model.Alignment.ToLower() : "default";
+    var alignmentClass = "o-align--" + alignment;
+}
+
+@if (!string.IsNullOrEmpty(Model.Quote.ToString()))
+{
+    <blockquote class="c-quote @alignmentClass @Model.AdditionalClass">
+        <div class="c-quote__copy">
+            @Model.Quote
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Source))
+        {
+            <footer class="c-quote__src u-small">@Model.Source</footer>
+        }
+    </blockquote>
+}

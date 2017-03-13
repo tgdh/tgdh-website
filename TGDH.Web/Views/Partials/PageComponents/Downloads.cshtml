@@ -1,0 +1,51 @@
+@inherits UmbracoViewPage<DownloadsViewModel>
+@{
+    var typedMedia = !string.IsNullOrWhiteSpace(Model.MediaIds) ? Model.MediaIds.Split(',').Select(mediaId => Umbraco.TypedMedia(mediaId)).ToList() : null;
+
+    if (typedMedia == null)
+    {
+        return;
+    }
+}
+
+<div class="c-downloads @Model.AdditionalClass @Model.WrapClasses">
+    @if (!string.IsNullOrWhiteSpace(Model.Title))
+    {
+        <h2>@Model.Title</h2>
+    }
+
+    <ul class="c-link-list">
+        @foreach (var media in typedMedia)
+        {
+            if (media != null)
+            {
+                if (media.DocumentTypeAlias == "Folder")
+                {
+                    foreach (var file in media.Descendants())
+                    {
+                        @RenderFile(file)
+                    }
+                }
+                else
+                {
+                    @RenderFile(media)
+                }
+            }
+        }
+    </ul>
+</div>
+
+@helper RenderFile(IPublishedContent file)
+{
+    var fileSize = file.GetPropertyValue<int>("umbracoBytes").ToFileSize();
+    var altText = file.GetPropertyValue<string>("altText");
+    var iconClass = "ico-file";
+
+    <li class="c-link-list__item">
+        <a href="@file.Url" title="@altText" class="c-link-list__link u-clearfix">
+            <i class="@iconClass c-link-list__icon"></i>
+            <span class="c-link-list__name">@file.Name</span>
+            <span class="c-link-list__meta">@fileSize</span>
+        </a>
+    </li>
+}

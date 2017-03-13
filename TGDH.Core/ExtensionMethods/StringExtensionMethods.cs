@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace TGDH.Core.ExtensionMethods
 {
-    public static class StringExtensionMethods
+    public static class String
     {
         private static readonly string LettersAndDigitsPattern = @"[^0-9a-zA-Z]+";
 

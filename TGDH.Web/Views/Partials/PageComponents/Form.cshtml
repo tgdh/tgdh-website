@@ -1,0 +1,24 @@
+@inherits UmbracoViewPage<FormViewModel>
+@{
+    if (string.IsNullOrWhiteSpace(Model.FormName))
+    {
+        return;
+    }
+}
+
+<div class="c-form-wrap @Model.AdditionalClass @Model.WrapClasses">
+    @if (!string.IsNullOrWhiteSpace(Model.Title))
+    {
+        <h2>@Model.Title</h2>
+    }
+
+    @switch (Model.FormName)
+    {
+        case "Contact form":
+            @Html.Partial("~/Views/Partials/Forms/ContactFormView.cshtml", new ContactForm
+            {
+                PageName = Model.PageName
+            })
+            break;
+    }
+</div>
