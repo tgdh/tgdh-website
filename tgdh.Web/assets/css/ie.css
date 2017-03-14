@@ -2759,7 +2759,16 @@ button.swiper-pagination-bullet {
 
 .c-sitemap__link {
   text-decoration: none;
-  display: inline-block; }
+  display: inline-block;
+  -webkit-transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: inset 0 -2px 0 #000000; }
+  .c-sitemap__link:hover, .c-sitemap__link:focus {
+    color: #FFFFFF;
+    background-color: #000000;
+    box-shadow: none; }
+  .c-sitemap__link:focus {
+    outline: 0.2rem solid #000000; }
 
 .c-sitemap__list {
   margin-top: 0;

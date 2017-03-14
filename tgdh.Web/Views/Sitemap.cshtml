@@ -1,4 +1,13 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@inherits UmbracoViewPage<IPublishedContent>
 @{
-	Layout = null;
+    Layout = "Master.cshtml";
 }
+
+<main id="main" class="o-page__content" role="main">
+	<div class="o-page__content__wrap o-wrap o-wrap--small">
+		<h1>@Model.Name</h1>
+		@{
+		    @Html.Partial("~/Views/Partials/Page/Sitemap.cshtml")
+		}
+	</div>
+</main>

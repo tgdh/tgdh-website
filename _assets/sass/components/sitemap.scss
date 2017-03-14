@@ -23,6 +23,8 @@
 .c-sitemap__link {
 	text-decoration: none;
 	display: inline-block;
+
+	@include inline-link();
 }
 
 .c-sitemap__list {
