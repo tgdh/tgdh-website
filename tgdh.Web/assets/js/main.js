@@ -9954,12 +9954,13 @@ var hashAnchors = $$('a[href^="#"]:not(.js-no-scroll');
 
 var initSmoothScroll = function initSmoothScroll() {
 	Array.from(hashAnchors).forEach(function (item) {
-		item.on('click', function () {
+		item.on('click', function (e) {
 			var target = $(item.hash);
 			singleton(target, {
 				duration: 500,
 				a11y: false
 			});
+			e.preventDefault();
 		});
 	});
 };
