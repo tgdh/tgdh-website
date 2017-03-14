@@ -38,6 +38,31 @@ html {
 	display: none;
 }
 
+
+.o-page__content__wrap {
+	padding-bottom: $padding-small;
+	padding-top: $padding-small;
+}
+
+@include respond-min-max( $mq-small, $mq-medium ) {
+
+	.o-page__content__wrap {
+		padding-bottom: $padding-medium;
+		padding-top: 4rem;
+	}
+
+}
+
+@include respond-min( $mq-medium ) {
+
+	.o-page__content__wrap {
+		padding-bottom: $padding-large;
+		padding-top: 4rem;
+	}
+
+}
+
+
 @include respond-min( $mq-large ) {
 
 	.enhance {

@@ -757,6 +757,20 @@ html {
 .o-page__scroll-top {
   display: none; }
 
+.o-page__content__wrap {
+  padding-bottom: 4rem;
+  padding-top: 4rem; }
+
+@media only screen and (min-width: 600px) and (max-width: 799px) {
+  .o-page__content__wrap {
+    padding-bottom: 8rem;
+    padding-top: 4rem; } }
+
+@media only screen and (min-width: 800px) {
+  .o-page__content__wrap {
+    padding-bottom: 10rem;
+    padding-top: 4rem; } }
+
 @media only screen and (min-width: 1000px) {
   .enhance .o-page {
     padding-right: 9.4rem; }
