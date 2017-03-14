@@ -1,3 +1,4 @@
+@using TGDH.Core.ExtensionMethods
 @inherits UmbracoViewPage<TileViewModel>
 @{
 	if(string.IsNullOrWhiteSpace(Model.Url)) {
@@ -28,9 +29,11 @@
 					</li>
 				</ul>
 
-				<div class="c-tile__quote u-font-sec">
-					<p>A snippet of a quote from the client saying how amazing TGDH are ...</p>
-				</div>
+				@if( !String.IsNullOrWhiteSpace(Model.Quote) ) {
+					<div class="c-tile__quote u-font-sec">
+						<p>@StringExtensionMethods.TruncateAtWord(Model.Quote, 65)</p>
+					</div>
+				}
 			</div>
 			<span class="c-tile__overlay" aria-role="decoration"></span>
         </div>

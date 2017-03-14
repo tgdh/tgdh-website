@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace TGDH.Core.ExtensionMethods
 {
-    public static class String
+    public static class StringExtensionMethods
     {
         private static readonly string LettersAndDigitsPattern = @"[^0-9a-zA-Z]+";
 
@@ -50,5 +50,31 @@ namespace TGDH.Core.ExtensionMethods
         //    Uri uriResult;
         //    return Uri.TryCreate(source, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
         //}
+
+        public static string TruncateAtWord(string text, int length, bool keepFullWordAtEnd = true)
+        {
+            const string ellipsis = "...";
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return string.Empty;
+            }
+
+            if (text.Length < length)
+            {
+                return text;
+            }
+
+            text = text.Substring(0, length);
+
+            if (keepFullWordAtEnd)
+            {
+                text = text.Substring(0, text.LastIndexOf(' '));
+                text = text + ellipsis;
+            }
+
+            return text.Replace(",...", "...").Replace(";...", "...");
+        }
+
     }
 }

@@ -2546,6 +2546,17 @@
     <Content Include="Umbraco\Webservices\TreeDataService.ashx" />
     <Content Include="Umbraco\Webservices\UltimatePickerAutoCompleteHandler.ashx" />
     <Content Include="Umbraco\Xslt\Web.config" />
+    <Content Include="Views\Partials\Components\ArticleSummary.cshtml" />
+    <Content Include="Views\Partials\Components\Card.cshtml" />
+    <Content Include="Views\Partials\Components\Cover.cshtml" />
+    <Content Include="Views\Partials\Components\Gallery.cshtml" />
+    <Content Include="Views\Partials\Components\Heading.cshtml" />
+    <Content Include="Views\Partials\Components\Image.cshtml" />
+    <Content Include="Views\Partials\Components\ImageComparison.cshtml" />
+    <Content Include="Views\Partials\Components\Logo.cshtml" />
+    <Content Include="Views\Partials\Components\LogoListing.cshtml" />
+    <Content Include="Views\Partials\Components\SocialChannels.cshtml" />
+    <Content Include="Views\Partials\Components\Tile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
