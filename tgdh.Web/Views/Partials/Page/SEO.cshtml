@@ -1,1 +1,109 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using Umbraco.Web
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+    var homePage = Model.Site();
+    var settings = homePage.Descendants("globalSettings").FirstOrDefault();
+    var followIndex = Model.GetPropertyValue<bool>("dontFollow") ? "NOFOLLOW, NOINDEX" : "FOLLOW, INDEX";
+
+    if (settings == null)
+    {
+        var pageDescription = Model.GetPropertyValue<string>("seoDescription");
+
+        <title>@Model.Name</title>
+        <meta name="description" content="@pageDescription.Truncate(160)">
+        <meta name="robots" content="@followIndex">
+
+        return;
+    }
+
+    var title = GetPageTitle(Model, settings);
+    var description = GetPageDescription(Model);
+    var websiteName = settings.GetPropertyValue<string>("websiteName");
+    var imageUrl = GetPageSocialImage(Model, settings);
+
+    var twitterHandle = string.Empty;
+    var siteUrl = (Request.IsSecureConnection ? "https://" : "http://") + Request.Url.Host;
+    var pageUrl = siteUrl + Model.Url;
+}
+
+<title>@title</title>
+<meta name="description" content="@description.Truncate(160)">
+<meta name="robots" content="@followIndex">
+
+<meta property="og:title" content="@title">
+<meta property="og:type" content="website">
+<meta property="og:url" content="@pageUrl">
+<meta property="og:image" content="@imageUrl">
+<meta property="og:description" content="@description.Truncate(200)">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="@websiteName">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@siteUrl">
+<meta name="twitter:creator" content="@twitterHandle">
+<meta name="twitter:url" content="@pageUrl">
+<meta name="twitter:title" content="@title">
+<meta name="twitter:description" content="@description.Truncate(140)">
+<meta name="twitter:image" content="@imageUrl">
+
+@functions {
+
+    private string GetPageTitle(IPublishedContent model, IPublishedContent settings)
+    {
+        var websiteName = settings.GetPropertyValue<string>("websiteName");
+        string title;
+
+        if (model.HasValue("sEOTitle"))
+        {
+            title = model.GetPropertyValue<string>("sEOTitle");
+        }
+        else
+        {
+            var headline = model.HasValue("headline") ? model.GetPropertyValue<string>("headline") : Model.Name;
+
+            title = headline + " | " + websiteName;
+        }
+
+        return title;
+    }
+
+    private string GetPageDescription(IPublishedContent model)
+    {
+        var description = string.Empty;
+
+        var hasDescription = model.HasValue("seoDescription");
+        var hasExcerpt = model.HasValue("excerpt");
+
+        if (hasDescription)
+        {
+            description = model.GetPropertyValue<string>("seoDescription");
+        }
+        else if (hasExcerpt)
+        {
+            description = model.GetPropertyValue<string>("excerpt");
+        }
+
+        return description;
+    }
+
+    private string GetPageSocialImage(IPublishedContent model, IPublishedContent settings)
+    {
+        var siteUrl = (Request.IsSecureConnection ? "https://" : "http://") + Request.Url.Host;
+        var imageUrl = string.Empty;
+        var imageId = model.HasValue("socialMediaImage") ?
+            model.GetPropertyValue<int>("socialMediaImage") :
+            model.HasValue("featuredImage") ?
+                model.GetPropertyValue<int>("featuredImage") :
+                settings.GetPropertyValue<int>("defaultSocialMediaImage");
+
+        var image = Umbraco.TypedMedia(imageId);
+
+        if (image != null)
+        {
+            imageUrl = siteUrl + Url.GetCropUrl(image, cropAlias: "open-graph", width: 1024, quality: 85, htmlEncode: false);
+        }
+
+        return imageUrl;
+    }
+
+}
