@@ -16,6 +16,7 @@ class ToggleNav {
 		this.scopeSelector = `${this.classes.scopePrefix}${this.classes.targetClass}-`;
 		this.backdrop = document.createElement('div');
 		this.backdrop.classList.add('c-nav-backdrop');
+		this.init();
 	}
 	setAriaHidden() {
 		if (this.target.offsetHeight > 0) {

@@ -92,15 +92,14 @@ html {
 			background-color: $sec;
 		}
 
-		&:focus {
-			outline: .2rem solid $pri;
-			outline-offset: .2rem;
-		}
-
-
 		svg {
 			display: block;
 		}
+	}
+
+	[data-whatinput="keyboard"] .o-page__scroll-top:focus {
+		outline: .2rem solid $pri;
+		outline-offset: .2rem;
 	}
 
 }

@@ -1,3 +1,4 @@
+import whatInput from 'what-input';
 import LoadFonts from './modules/LoadFonts';
 import { $ } from './modules/Bling';
 import ToggleNav from './modules/ToggleNav';
@@ -6,8 +7,10 @@ import imageComparison from './modules/ImageComparison';
 import carousel from './modules/Carousel';
 import tilt from './modules/Tilt';
 import GMap from './modules/GMaps';
-// import triggerAniamtions from './modules/TriggerAnimations';
 import initSmoothScroll from './modules/SmoothScroll';
+/*
+// import triggerAniamtions from './modules/TriggerAnimations';
+*/
 
 /*
 // add click evt to body and log target el
@@ -21,17 +24,11 @@ lazySizes();
 carousel();
 imageComparison();
 tilt();
-initSmoothScroll();
-// triggerAniamtions();
-
 const map = new GMap($('.js-map'));
-
 const $toggleButton = $('.js-nav-toggle');
 if ($toggleButton) {
+	console.log('trigger');
 	const toggleNavInstance = new ToggleNav($toggleButton);
-	toggleNavInstance.init();
+	console.log(toggleNavInstance);
 }
-
-
-// hash target selector
-// $('a[href^="#"]:not(.js-no-scroll)')
+initSmoothScroll();

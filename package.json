@@ -61,6 +61,7 @@
     "scrolltrigger-classes": "^0.3.5",
     "swiper": "^3.4.1",
     "vanilla-tilt": "git+https://github.com/micku7zu/vanilla-tilt.js.git",
-    "velocity-animate": "^1.4.2"
+    "velocity-animate": "^1.4.2",
+    "what-input": "^4.1.1"
   }
 }

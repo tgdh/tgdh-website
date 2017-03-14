@@ -23,11 +23,11 @@
 		background-color: $sec;
 	}
 
-	&:focus {
-		outline: .2rem solid $pri;
-		outline-offset: .2rem;
-	}
+}
 
+[data-whatinput="keyboard"] .c-nav-toggle:focus {
+	outline: .2rem solid $pri;
+	outline-offset: .2rem;
 }
 
 .enhance {
