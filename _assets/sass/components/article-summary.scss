@@ -15,6 +15,15 @@
 .c-article-summary__link {
 	display: block;
 	padding: 2rem 0;
+
+	&:hover,
+	&:focus {
+
+		.c-article-summary__heading__headline {
+			color: $white;
+			background-color: $pri;
+		}
+	}
 }
 
 .c-article-summary__heading {
@@ -26,8 +35,14 @@
 }
 
 .c-article-summary__heading__headline {
-	text-decoration: underline;
-	padding-bottom: .35rem;
+	display: inline;
+	margin-bottom: .35rem;
+	padding-bottom: 0;
+	transition: color $speed $ease,
+				background-color $speed $ease,
+				box-shadow $speed $ease;
+
+	@include inline-link();
 }
 
 .c-article-summary__heading__subtitle {
@@ -44,5 +59,4 @@
 
 .c-article-summary__cta {
 	font-weight: $bolder;
-	text-decoration: underline;
 }
