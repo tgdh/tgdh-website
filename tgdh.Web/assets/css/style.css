@@ -3307,7 +3307,13 @@ button.swiper-pagination-bullet {
   padding: 4rem; }
 
 .c-tile__headline {
-  color: inherit; }
+  color: inherit;
+  padding-right: 4rem;
+  position: relative; }
+
+.c-tile__icon {
+  position: absolute;
+  right: 0; }
 
 .c-tile__quote {
   opacity: 0;

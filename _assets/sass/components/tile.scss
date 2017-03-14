@@ -55,6 +55,13 @@
 
 .c-tile__headline {
 	color: inherit;
+	padding-right: 4rem;
+	position: relative;
+}
+
+.c-tile__icon {
+	position: absolute;
+	right: 0;
 }
 
 .c-tile__quote {

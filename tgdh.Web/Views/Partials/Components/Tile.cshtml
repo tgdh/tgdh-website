@@ -18,7 +18,12 @@
 			<div class="c-tile__copy">
 				@if(!String.IsNullOrWhiteSpace(Model.Headline))
 				{
-		            <h2 class="c-tile__headline">@Model.Headline</h2>
+		            <h2 class="c-tile__headline">
+						@Model.Headline
+						<svg class="u-icon u-icon--32 u-icon--invert c-tile__icon">
+							<use xlink:href="/assets/icons/icons.svg#arrow-right"></use>
+						</svg>
+					</h2>
 				}
 				<ul class="c-tile__meta c-meta c-meta--invert u-font-sec">
 					<li class="c-meta__item">
