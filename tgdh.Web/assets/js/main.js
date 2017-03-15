@@ -10299,9 +10299,7 @@ tilt();
 var map = new GMap($('.js-map'));
 var $toggleButton = $('.js-nav-toggle');
 if ($toggleButton) {
-	console.log('trigger');
 	var toggleNavInstance = new ToggleNav($toggleButton);
-	console.log(toggleNavInstance);
 }
 initSmoothScroll();
 //# sourceMappingURL=main.js.map

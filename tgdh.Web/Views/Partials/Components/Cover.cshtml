@@ -8,19 +8,27 @@
         return;
     }
 
+	var hasSubtitleLabel = !String.IsNullOrWhiteSpace(Model.SubtitleLabel);
+	var ModifierClass = hasSubtitleLabel ? "c-cover--has-subtitle-label" : "";
+
 }
 
-<section class="c-cover u-clearfix">
+<section class="c-cover u-clearfix @ModifierClass">
 	@RenderImage(image)
 	<div class="c-cover__content o-wrap">
 		<div class="c-cover__copy">
 			<header class="c-cover__heading">
-				@if(!String.IsNullOrEmpty(Model.Headline)) {
+				@if(!String.IsNullOrWhiteSpace(Model.Headline)) {
 					<h2 class="c-cover__headline">@Model.Headline</h2>
 				}
 				<div class="c-cover__subtitle u-font-sec">
 					@Model.Subtitle
 				</div>
+                @if(hasSubtitleLabel) {
+                    <div class="c-cover__subtitle-label u-font-sec">
+                        @Model.SubtitleLabel
+                    </div>
+                }
 			</header>
 			@if(!string.IsNullOrWhiteSpace(Model.Copy.ToString())) {
 				<div class="c-cover__copy u-space-top u-epsilon">

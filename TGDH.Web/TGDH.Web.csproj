@@ -2557,6 +2557,7 @@
     <Content Include="Views\Partials\Components\LogoListing.cshtml" />
     <Content Include="Views\Partials\Components\SocialChannels.cshtml" />
     <Content Include="Views\Partials\Components\Tile.cshtml" />
+    <Content Include="Views\NotFound.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

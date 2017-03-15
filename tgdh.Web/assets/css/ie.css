@@ -2164,6 +2164,7 @@ button.swiper-pagination-bullet {
 .enhance .c-nav-backdrop {
   width: 100%;
   height: 100%;
+  height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
@@ -2409,6 +2410,16 @@ button.swiper-pagination-bullet {
       .c-cover__subtitle ul li:last-child:after {
         content: "";
         display: none; }
+
+.c-cover--has-subtitle-label .c-cover__subtitle {
+  font-size: 3rem;
+  padding-top: 0.8em; }
+
+.c-cover__subtitle-label {
+  opacity: .65;
+  margin-top: 0.8em;
+  margin-top: 2.4rem;
+  margin-bottom: 1.6rem; }
 
 .c-cover__media-wrap {
   position: relative; }
@@ -3979,5 +3990,13 @@ button.swiper-pagination-bullet {
 =========================================================== */
 .s-contact .c-cover__copy {
   font-size: inherit; }
+
+/* ===========================================================
+
+  # General case study styles
+
+=========================================================== */
+.s-notFound .c-cover__copy .o-list--inline {
+  margin-top: 0.8em; }
 
 /*# sourceMappingURL=ie.css.map */

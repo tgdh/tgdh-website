@@ -42,6 +42,22 @@
 
 }
 
+.c-cover--has-subtitle-label {
+
+	.c-cover__subtitle {
+		font-size: 3rem;
+		padding-top: $line-height / 2;
+	}
+
+}
+
+.c-cover__subtitle-label {
+	opacity: .65;
+	margin-top: $line-height / 2;
+	margin-top: 2.4rem;
+	margin-bottom: 1.6rem;
+}
+
 .c-cover__media-wrap {
 	position: relative;
 }

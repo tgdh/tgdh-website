@@ -8,6 +8,8 @@ public class CoverViewModel
 
     public IHtmlString Subtitle { get; set; }
 
+    public string SubtitleLabel { get; set; }
+
     public IHtmlString Copy { get; set; }
 
     public string Cta { get; set; }

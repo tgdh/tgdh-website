@@ -27,8 +27,6 @@ tilt();
 const map = new GMap($('.js-map'));
 const $toggleButton = $('.js-nav-toggle');
 if ($toggleButton) {
-	console.log('trigger');
 	const toggleNavInstance = new ToggleNav($toggleButton);
-	console.log(toggleNavInstance);
 }
 initSmoothScroll();
