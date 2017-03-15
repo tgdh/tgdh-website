@@ -8,6 +8,7 @@ import carousel from './modules/Carousel';
 import tilt from './modules/Tilt';
 import GMap from './modules/GMaps';
 import initSmoothScroll from './modules/SmoothScroll';
+import StickyHeader from './modules/StickyHeader';
 /*
 // import triggerAniamtions from './modules/TriggerAnimations';
 */
@@ -30,3 +31,5 @@ if ($toggleButton) {
 	const toggleNavInstance = new ToggleNav($toggleButton);
 }
 initSmoothScroll();
+
+new StickyHeader($('.js-header-logo'));

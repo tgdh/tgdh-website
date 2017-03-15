@@ -57,6 +57,14 @@
 		display: inherit;
 	}
 
+	.s-logo-fixed {
+
+		.c-header__logo-text {
+			opacity: 0;
+		}
+
+	}
+
 	.enhance {
 
 		.c-header__logo {

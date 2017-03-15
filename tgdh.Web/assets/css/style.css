@@ -2043,6 +2043,8 @@ button.swiper-pagination-bullet {
     height: 5.7rem; }
   .c-header__logo-text {
     display: inherit; }
+  .s-logo-fixed .c-header__logo-text {
+    opacity: 0; }
   .enhance .c-header__logo {
     position: fixed;
     top: 2.5rem;

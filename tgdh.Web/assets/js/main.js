@@ -10280,6 +10280,74 @@ var initSmoothScroll = function initSmoothScroll() {
 	});
 };
 
+// modified version of https://github.com/tuxsudo/es6y-throttle/blob/master/index.js
+
+var throttle = function throttle(fn) {
+	var time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 50;
+
+	var timer = null;
+
+	function throttledFn() {
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		if (!timer) {
+			if (!window.requestAnimationFrame) {
+				timer = setTimeout(function () {
+					fn.apply(undefined, args);
+					timer = null;
+				}, time);
+			} else {
+				requestAnimationFrame(fn);
+			}
+		}
+	}
+
+	throttledFn.cancel = function () {
+		clearTimeout(timer);
+		timer = null;
+	};
+
+	return throttledFn;
+};
+
+var StickyHeader = function () {
+	function StickyHeader(el) {
+		classCallCheck(this, StickyHeader);
+
+		if (!el) {
+			return;
+		}
+		this.el = el;
+		this.bindEvents();
+		this.scrollOffset = 150;
+		this.fixedClass = 's-logo-fixed';
+		this.fixEl();
+	}
+
+	createClass(StickyHeader, [{
+		key: 'bindEvents',
+		value: function bindEvents() {
+			var _this = this;
+
+			window.addEventListener('scroll', throttle(function () {
+				return _this.fixEl();
+			}, 250));
+		}
+	}, {
+		key: 'fixEl',
+		value: function fixEl() {
+			if (window.scrollY >= this.scrollOffset) {
+				document.documentElement.classList.add(this.fixedClass);
+			} else {
+				document.documentElement.classList.remove(this.fixedClass);
+			}
+		}
+	}]);
+	return StickyHeader;
+}();
+
 /*
 // import triggerAniamtions from './modules/TriggerAnimations';
 */
@@ -10302,4 +10370,6 @@ if ($toggleButton) {
 	var toggleNavInstance = new ToggleNav($toggleButton);
 }
 initSmoothScroll();
+
+new StickyHeader($('.js-header-logo'));
 //# sourceMappingURL=main.js.map
