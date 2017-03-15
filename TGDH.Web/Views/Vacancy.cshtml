@@ -4,12 +4,10 @@
 }
 
 <main id="main" class="o-page__content" role="main">
-	<div class="o-page__content__wrap">
-		<div class="o-wrap o-wrap--small">
-			<h1>@Model.Name</h1>
-			<div class="u-font-sec u-space-bottom">
-				@Model.GetPropertyValue("pageDescription")
-			</div>
+	<div class="o-page__content__wrap o-wrap o-wrap--small">
+		<h1>@Model.Name</h1>
+		<div class="u-font-sec u-space-bottom">
+			@Model.GetPropertyValue("pageDescription")
 		</div>
 		@Html.Partial("~/Views/Partials/Page/PageComponents.cshtml")
 	</div>

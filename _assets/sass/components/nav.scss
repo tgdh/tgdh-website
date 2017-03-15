@@ -89,7 +89,6 @@
 			width: 100%;
 			width: calc(100% + 2rem);
 		}
-
 	}
 }
 
@@ -107,8 +106,23 @@
 .c-nav__sub__link {
 	padding: 1rem;
 	font-weight: $bold;
+
+	&.is-active {
+		opacity: .65;
+	}
+
+	&:hover,
+	&:focus,
+	&.is-active {
+
+		.c-nav__sub__value:before {
+			width: 100%;
+			width: calc(100% + 1rem);
+		}
+	}
 }
 
+.c-nav__sub__value,
 .c-nav__value {
 	display: inline-block;
 	position: relative;
@@ -124,6 +138,11 @@
 		left: -1rem;
 		transition: width $speed $ease;
 	}
+}
+
+.c-nav__sub__value:before {
+	top: 54%;
+	left: -.5rem;
 }
 
 .enhance {
