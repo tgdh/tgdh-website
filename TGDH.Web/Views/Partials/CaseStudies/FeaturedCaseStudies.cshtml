@@ -1,12 +1,19 @@
 @using TGDH.Core.Data
 @inherits UmbracoViewPage<IPublishedContent>
 @{
-    var allCaseStudies = CaseStudyRepository.AllCaseStudies(Umbraco).ToList();
-	var selection = allCaseStudies.RandomOrder().Take(2);
+	var pickedCaseStudyIds = Model.GetPropertyValue<string>("featuredCaseStudies");
+	var selection = !string.IsNullOrWhiteSpace(pickedCaseStudyIds) ? pickedCaseStudyIds.Split(',').Select(contentId => Umbraco.TypedContent(contentId)).ToList() : null;
 
-	if( !selection.Any() ) {
-		return;
-	}
+    if (selection == null)
+    {
+		var allCaseStudies = CaseStudyRepository.AllCaseStudies(Umbraco).ToList();
+		selection = allCaseStudies.RandomOrder().Take(2).ToList();
+
+		if( !selection.Any() ) {
+			return;
+		}
+    }
+
 }
 
 <section>
