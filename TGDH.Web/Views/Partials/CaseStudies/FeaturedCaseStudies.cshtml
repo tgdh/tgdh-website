@@ -1,0 +1,29 @@
+@using TGDH.Core.Data
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+    var allCaseStudies = CaseStudyRepository.AllCaseStudies(Umbraco).ToList();
+	var selection = allCaseStudies.RandomOrder().Take(2);
+
+	if( !selection.Any() ) {
+		return;
+	}
+}
+
+<section>
+	<h2 class="u-visually-hidden">Featured work</h2>
+	<div class="u-clearfix">
+		@foreach( var item in selection ) {
+			var imageId = item.GetPropertyValue<int>("coverImage");
+			if( imageId == 0 ) {
+				imageId = item.GetPropertyValue<int>("pageImage");
+			}
+			var tileData = new TileViewModel {
+				Url = item.Url,
+				Headline = item.Name,
+				ImageId = imageId,
+				Quote = "A snippet of a quote from the client saying how amazing TGDH are"
+			};
+			@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
+		}
+	</div>
+</section>

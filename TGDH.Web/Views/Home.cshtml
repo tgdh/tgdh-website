@@ -16,18 +16,6 @@
 
 	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
 	}
-	<section>
-		<h2 class="u-visually-hidden">Featured work</h2>
-		<div class="u-clearfix">
-			@{
-				var tileData = new TileViewModel {
-					Url = "#",
-					Headline = "Hull Truck Theatre",
-					ImageId = 1106
-				};
-				@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
-				@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
-			}
-		</div>
-	</section>
+
+	@Html.Partial("~/Views/Partials/CaseStudies/FeaturedCaseStudies.cshtml")
 </main>
