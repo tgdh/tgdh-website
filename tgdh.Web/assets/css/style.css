@@ -792,8 +792,11 @@ html {
     .o-page__scroll-top svg {
       display: block; }
   [data-whatinput="keyboard"] .o-page__scroll-top:focus {
+    background-color: #FFFFFF;
     outline: 0.2rem solid #000000;
-    outline-offset: .2rem; } }
+    outline-offset: .2rem; }
+    [data-whatinput="keyboard"] .o-page__scroll-top:focus svg {
+      fill: #000000; } }
 
 /* ===========================================================
 
@@ -1292,7 +1295,10 @@ img {
 @media only screen and (min-width: 1500px) {
   .o-align--left,
   .o-align--right {
-    position: absolute; }
+    position: absolute;
+    -webkit-transform: TranslateY(-50%);
+        -ms-transform: TranslateY(-50%);
+            transform: TranslateY(-50%); }
     .o-align--left:before,
     .o-align--right:before {
       content: "";
@@ -1309,10 +1315,7 @@ img {
     .o-align--left.o-media,
     .o-align--right.o-media {
       width: 66%;
-      z-index: -1;
-      -webkit-transform: TranslateY(-50%);
-          -ms-transform: TranslateY(-50%);
-              transform: TranslateY(-50%); }
+      z-index: -1; }
     .o-align--left.o-media:after,
     .o-align--right.o-media:after {
       content: "";
@@ -2146,10 +2149,17 @@ button.swiper-pagination-bullet {
   transition: background 0.3s ease; }
   .c-nav-toggle:hover {
     background-color: #1d1d1d; }
+  .c-nav-toggle svg {
+    -webkit-transition: fill 0.3s ease;
+    transition: fill 0.3s ease; }
 
 [data-whatinput="keyboard"] .c-nav-toggle:focus {
+  color: #000000;
+  background-color: #FFFFFF;
   outline: 0.2rem solid #000000;
   outline-offset: .2rem; }
+  [data-whatinput="keyboard"] .c-nav-toggle:focus svg {
+    fill: #000000; }
 
 .enhance .c-nav-toggle {
   display: block; }
@@ -3058,8 +3068,7 @@ button.swiper-pagination-bullet {
 @media only screen and (min-width: 800px) {
   .c-quote.o-align--default {
     max-width: 85%;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 3.2em auto 2.4em;
     text-align: center;
     padding-left: 4rem;
     padding-right: 4rem; }

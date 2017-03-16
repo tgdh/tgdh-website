@@ -98,8 +98,13 @@ html {
 	}
 
 	[data-whatinput="keyboard"] .o-page__scroll-top:focus {
+		background-color: $white;
 		outline: .2rem solid $pri;
 		outline-offset: .2rem;
+
+		svg {
+			fill: $pri;
+		}
 	}
 
 }

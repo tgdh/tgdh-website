@@ -47,6 +47,7 @@
 	.o-align--left,
 	.o-align--right {
 		position: absolute;
+		transform: TranslateY(-50%);
 
 		&:before {
 			content: "";
@@ -63,7 +64,6 @@
 		&.o-media {
 			width: 66%;
 			z-index: -1;
-			transform: TranslateY(-50%);
 		}
 
 		&.o-media {

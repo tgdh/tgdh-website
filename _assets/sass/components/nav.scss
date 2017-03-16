@@ -23,11 +23,21 @@
 		background-color: $sec;
 	}
 
+	svg {
+		transition: fill $speed $ease;
+	}
+
 }
 
 [data-whatinput="keyboard"] .c-nav-toggle:focus {
+	color: $pri;
+	background-color: $white;
 	outline: .2rem solid $pri;
 	outline-offset: .2rem;
+
+	svg {
+		fill: $pri;
+	}
 }
 
 .enhance {
