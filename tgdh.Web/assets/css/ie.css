@@ -3013,18 +3013,29 @@ button.swiper-pagination-bullet {
   fill: #1769ff; }
 
 @media only screen and (max-width: 999px) {
-  .enhance .c-social {
+  .flexbox .c-social {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex; }
-  .enhance .c-social__link {
+  .flexbox .c-social__link {
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
             flex-grow: 1;
     text-align: center;
     padding: 2rem; } }
+
+@media only screen and (min-width: 800px) {
+  .flexbox .c-social--center {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center; } }
 
 /* ===========================================================
 

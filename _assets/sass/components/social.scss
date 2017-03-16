@@ -125,7 +125,7 @@
 
 @include respond-max( $mq-large ) {
 
-	.enhance {
+	.flexbox {
 
 		.c-social {
 			display: flex;
@@ -135,6 +135,19 @@
 			flex-grow: 1;
 			text-align: center;
 			padding: 2rem;
+		}
+
+	}
+
+}
+
+@include respond-min( $mq-medium ) {
+
+	.flexbox {
+
+		.c-social--center {
+			display: flex;
+			justify-content: center;
 		}
 
 	}

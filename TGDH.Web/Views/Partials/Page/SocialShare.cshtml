@@ -1,0 +1,41 @@
+@using System;
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var homePage = Model.Site();
+	var settings = homePage.Children("globalSettings").FirstOrDefault();
+	var pageUrl = Request.Url.ToString();
+	var headline = Model.HasValue("headline") ? Model.GetPropertyValue<string>("headline") : Model.Name + " - TGDH";
+	var seoDescription = Model.GetPropertyValue<string>("seoDescription");
+
+	headline = HttpUtility.UrlEncode(headline);
+	pageUrl = HttpUtility.UrlEncode(pageUrl);
+
+	var twitterShareUrl = "https://twitter.com/intent/tweet?source=" + pageUrl +
+		"&text=" + headline + ": " + pageUrl +
+		"&via=" + settings.GetPropertyValue<string>("twitterHandler");
+	var facebookShareUrl = "https://www.facebook.com/sharer/sharer.php?u=" +
+	pageUrl + "&t=" + headline;
+	var linkedinShareUrl = "http://www.linkedin.com/shareArticle?mini=true&url=" +
+	pageUrl + "&title=" + headline + "&summary=" + seoDescription + "&source=" + pageUrl;
+}
+
+<section class="c-social--center u-clearfix">
+	<h2 class="u-visually-hidden">Share this page:</h2>
+	@RenderShareLink(twitterShareUrl, "Twitter", "twitter")
+	@RenderShareLink(facebookShareUrl, "Facebook", "facebook")
+	@RenderShareLink(linkedinShareUrl, "LinkedIn", "linkedIn")
+</section>
+
+@helper RenderShareLink( string url = "", string channelName = "", string cssClass = "" ) {
+
+	if( String.IsNullOrWhiteSpace(url) || String.IsNullOrWhiteSpace(cssClass) ) {
+		return;
+	}
+
+	<a href="@url" title="Share on @channelName page (external url)" class="c-social__link c-social__link--@cssClass" target="_blank">
+		<svg class="u-icon u-icon--32 u-icon--@cssClass">
+			<use xlink:href="/assets/icons/icons.svg#@cssClass"></use>
+		</svg>
+		<span class="u-visually-hidden">@channelName</span>
+	</a>
+}
