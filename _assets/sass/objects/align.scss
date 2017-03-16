@@ -14,17 +14,101 @@
 
 	.o-align--left,
 	.o-align--right {
-		width: 40%;
+		width: 55%;
+		margin-bottom: $line-height;
 	}
 
 	.o-align--left {
 		float: left;
-		margin-right: $line-height * 2;
+		margin-right: $line-height;
 	}
 
 	.o-align--right {
 		float: right;
-		margin-left: $line-height * 2;
+		margin-left: $line-height;
+	}
+
+}
+
+@include respond-min-max( $mq-medium, $mq-xx-large ) {
+
+	.o-align--left {
+		margin-left: -15%;
+	}
+
+	.o-align--right {
+		margin-right: -15%;
+	}
+
+}
+
+@include respond-min( $mq-xx-large ) {
+
+	.o-align--left,
+	.o-align--right {
+		position: absolute;
+
+		&:before {
+			content: "";
+			width: 5.4rem;
+			height: .4rem;
+			background-color: $pri;
+			display: block;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-1.4rem);
+			z-index: 1;
+		}
+
+		&.o-media {
+			width: 66%;
+			z-index: -1;
+			transform: TranslateY(-50%);
+		}
+
+		&.o-media {
+
+			&:after {
+				content: "";
+			    background: rgba(255, 255, 255, 0.8);
+			    width: 9rem;
+			    height: 101%;
+			    display: block;
+			    position: absolute;
+			    top: -.5%;
+			}
+		}
+	}
+
+	.o-align--left {
+		left: -52.5%;
+
+		&:before {
+			right: 6.3rem;
+		}
+
+		&.o-media {
+
+			&:after {
+				right: 0;
+			}
+
+		}
+	}
+
+	.o-align--right {
+		right: -52.5%;
+
+		&:before {
+			left: 6.3rem;
+		}
+
+		&.o-media {
+
+			&:after {
+				left: 0;
+			}
+		}
 	}
 
 }

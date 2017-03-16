@@ -9,7 +9,7 @@
     }
 
     const string wrapSize = "small";
-    var pageComponentClass = "";
+    var pageComponentClass = "o-page-component";
     var wrapClasses = "o-wrap o-wrap--" + wrapSize;
 
     foreach (var item in components.ToContentSet())
@@ -24,14 +24,10 @@
 
             @Html.Raw(wrapMarkup)
         }
-        else
-        {
-            pageComponentClass = "o-page-component";
-        }
 
         switch (item.DocumentTypeAlias)
         {
-            case "imageGallery":
+            case "gallery":
                 var gallery = new GalleryViewModel
                 {
                     MediaIds = item.GetPropertyValue<string>("galleryIds"),
@@ -48,8 +44,8 @@
                     ImageId = item.GetPropertyValue<int>("imageId"),
                     Alignment = alignment,
                     AspectRatio = aspectRatio,
-                    AdditionalClass = pageComponentClass,
-                    ImageWidth = 2000
+                    ImageWidth = 2000,
+					AdditionalClass = ""
                 };
 
                 @Html.Partial("~/Views/Partials/PageComponents/Image.cshtml", image)
@@ -59,7 +55,7 @@
                 {
                     Heading = item.GetPropertyValue<string>("heading"),
                     MediaIds = item.GetPropertyValue<string>("files"),
-                    AdditionalClass = pageComponentClass
+                    AdditionalClass = ""
                 };
 
                 @Html.Partial("~/Views/Partials/PageComponents/Downloads.cshtml", downloads)
@@ -70,7 +66,7 @@
                     Quote = item.GetPropertyValue<IHtmlString>("quoteMessage"),
                     Source = item.GetPropertyValue<string>("source"),
                     Alignment = alignment,
-                    AdditionalClass = pageComponentClass
+                    AdditionalClass = ""
                 };
 
                 @Html.Partial("~/Views/Partials/PageComponents/Quote.cshtml", quote)
@@ -80,20 +76,21 @@
                 {
                     EmbedCode = item.GetPropertyValue<string>("embedCode"),
                     Alignment = alignment,
-                    AdditionalClass = pageComponentClass
+                    AdditionalClass = ""
                 };
 
                 @Html.Partial("~/Views/Partials/PageComponents/Embed.cshtml", embed)
                 break;
             case "textarea":
+				@item.GetPropertyValue("text")
+				@*
                 var text = new TextareaViewModel
                 {
-                    Text = item.GetPropertyValue<IHtmlString>("text"),
-                    AdditionalClass = pageComponentClass,
-                    WrapClasses = wrapClasses
+                    Text = item.GetPropertyValue<IHtmlString>("text")
                 };
 
                 @Html.Partial("~/Views/Partials/PageComponents/Textarea.cshtml", text)
+				*@
                 break;
             case "accordion":
             case "tabs":
@@ -127,7 +124,7 @@
                     Heading = item.GetPropertyValue<string>("heading"),
                     FormName = item.GetPropertyValue<string>("form"),
                     PageName = Model.Name,
-                    AdditionalClass = pageComponentClass,
+                    AdditionalClass = "",
                     WrapClasses = "o-wrap o-wrap--" + wrapSize
                 };
 

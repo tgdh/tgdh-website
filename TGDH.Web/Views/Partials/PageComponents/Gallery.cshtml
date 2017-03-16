@@ -24,25 +24,34 @@
 }
 
 <figure class="c-gallery @aspectRatioClass @alignmentClass @Model.AdditionalClass">
-    <div class="c-gallery__inner js-carousel js-modal" data-nav="true" data-loop="true" data-auto-play="false" data-modal-type="gallery">
-        @foreach (var media in typedMedia)
-        {
-            if (media != null)
-            {
-                if (media.DocumentTypeAlias == "Image")
-                {
-                    @RenderImage(media, Model.AspectRatio, imageWidth)
-                }
+    <div class="c-gallery__inner js-carousel js-modal swiper-container" data-loop="false" data-autoplay="false" data-count="1" data-modal-type="gallery">
+		<div class="swiper-wrapper">
+	        @foreach (var media in typedMedia)
+	        {
+	            if (media != null)
+	            {
+	                if (media.DocumentTypeAlias == "Image")
+	                {
+	                    @RenderImage(media, Model.AspectRatio, imageWidth)
+	                }
 
-                if (media.Descendants("Image").Any())
-                {
-                    foreach (var image in media.Descendants("Image"))
-                    {
-                        @RenderImage(image, Model.AspectRatio, imageWidth)
-                    }
-                }
-            }
-        }
+	                if (media.Descendants("Image").Any())
+	                {
+	                    foreach (var image in media.Descendants("Image"))
+	                    {
+	                        @RenderImage(image, Model.AspectRatio, imageWidth)
+	                    }
+	                }
+	            }
+	        }
+		</div>
+		@*
+		// add pagination
+        <div class="swiper-pagination"></div>
+        // add nav
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+		*@
     </div>
 </figure>
 

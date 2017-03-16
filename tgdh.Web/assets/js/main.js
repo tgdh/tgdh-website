@@ -8407,16 +8407,44 @@ Swiper AMD Export
 var Carousel$1 = function Carousel() {
 	document.addEventListener('DOMContentLoaded', function () {
 		var carousels = $$('.js-carousel');
+		if (!carousels) {
+			return;
+		}
+		/*
+  const slidesWrap = document.createElement('div');
+  slidesWrap.classList.add('swiper-wrapper');
+  */
 
 		Array.from(carousels).forEach(function (item) {
-			var $carousel = new swiper(item, {
-				loop: true,
-				effect: 'fade',
+			var slides = item.querySelector('.swiper-wrapper').children;
+			Array.from(slides).forEach(function (slide) {
+				slide.classList.add('swiper-slide');
+			});
+
+			var temp = {
+				loop: item.dataset.loop ? item.dataset.loop : false,
+				loopedSlides: 1,
+				slidesPerView: item.dataset.count ? item.dataset.count : 1,
+				effect: item.dataset.loop ? item.dataset.effect : 'fade',
+				pagination: item.dataset.pagination ? item.dataset.pagination : '.swiper-pagination'
+			};
+			console.log(temp);
+
+			var carousel = new swiper(item, {
+				loop: item.dataset.loop ? item.dataset.loop : false,
+				loopedSlides: 1,
+				slidesPerView: item.dataset.count ? item.dataset.count : 1,
+				effect: item.dataset.loop ? item.dataset.effect : 'fade',
+				pagination: item.dataset.pagination ? item.dataset.pagination : '.swiper-pagination',
+				paginationClickable: true,
+				nextButton: '.js-carousel-nav-next',
+				prevButton: '.js-carousel-nav-prev',
 				fade: {
 					crossFade: true
 				},
 				autoHeight: false
 			});
+			console.log(carousel);
 		});
 	});
 };

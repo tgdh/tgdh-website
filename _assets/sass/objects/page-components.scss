@@ -4,6 +4,20 @@
 
 =========================================================== */
 
+.o-page-component {
+	position: relative;
+}
+
 .o-page-component + .o-page-component {
-	margin-top: $line-height * 2;
+	margin-top: $line-height;
+}
+
+
+@include respond-min( $mq-medium ) {
+
+	.o-page-component.o-align--full {
+		margin-top: $line-height * 2;
+		margin-bottom: $line-height * 2;
+	}
+
 }

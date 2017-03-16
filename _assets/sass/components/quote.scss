@@ -7,71 +7,97 @@
 .c-quote {
 	position: relative;
 	line-height: 1.3;
-	padding-left: $padding-small;
-	padding-right: $padding-small;
 	quotes: "\201C""\201D""\2018""\2019";
-
-	&:before,
-	&:after {
-		color: $pri;
-		font-size: 3.6rem;
-		font-weight: 700;
-		font-family: serif;
-		line-height: 0.6em;
-
-	}
-
-	&:before {
-		//content: open-quote;
-		content: "\201C";
-		left: 2rem;
-	}
-
 }
 
 .c-quote__copy {
 	display: block;
 	font-style: italic;
 	font-size: 2.4rem;
+	line-height: 1.4;
 	padding-bottom: 0;
+
+	&:before {
+		content: "\201C";
+		color: $pri;
+		font-size: 3.6rem;
+		font-weight: 700;
+		font-family: serif;
+		font-style: normal;
+		line-height: 1rem;
+		display: block;
+	}
+
 }
 
 .c-quote__src {
-	font-weight: $bolder;
 	font-size: 1.4rem;
 	margin-top: $line-height;
 }
 
 @include respond-max( $mq-medium ) {
 
-	.c-quote:before {
-		vertical-align: middle;
+	.c-quote {
+		max-width: 85%;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+
+		&:before {
+			vertical-align: middle;
+		}
 	}
 
 }
 
 @include respond-min( $mq-medium ) {
 
-	.c-quote__copy {
-		font-size: 3rem;
-		padding-left: 2rem;
-		padding-right: 2rem;
+	.c-quote {
+		&.o-align--default {
+			max-width: 85%;
+			margin-left: auto;
+			margin-right: auto;
+			text-align: center;
+			padding-left: $padding-small;
+			padding-right: $padding-small;
+
+			.c-quote__copy:before {
+				position: absolute;
+				top: 1.6rem;
+				left: 1rem;
+			}
+		}
 	}
+
+}
+
+@include respond-min( $mq-xx-large ) {
+
 
 	.c-quote {
-		text-align: center;
 
-		&:before,
-		&:after {
+		&.o-align--left,
+		&.o-align--right {
 			position: absolute;
-			top: .7rem;
 		}
 
-		&:after {
-			//content: close-quote;
-			content: "\201D";
-			right: 2rem;
+		&.o-align--left {
+			padding-right: 6rem;
+
+			&:before {
+				right: -.7rem;
+			}
 		}
+
+		&.o-align--right {
+			padding-left: 6rem;
+
+			&:before {
+				left: -.7rem;
+			}
+		}
+
 	}
+
 
 }

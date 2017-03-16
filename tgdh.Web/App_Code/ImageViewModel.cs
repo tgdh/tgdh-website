@@ -12,6 +12,6 @@ public class ImageViewModel
 
     public ImageViewModel()
     {
-        ImageWidth = 500;
+        ImageWidth = 1800;
     }
 }

@@ -14,6 +14,6 @@ public class GalleryViewModel
 
     public GalleryViewModel()
     {
-        ImageWidth = 1000;
+        ImageWidth = 1800;
     }
 }

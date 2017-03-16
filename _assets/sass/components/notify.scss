@@ -23,6 +23,11 @@
 		visibility: visible;
 		opacity: 1;
 	}
+
+	a {
+		color: inherit;
+		@include inline-link(true, 1px);
+	}
 }
 
 .c-notify--success {
