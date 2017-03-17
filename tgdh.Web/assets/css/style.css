@@ -2102,6 +2102,8 @@ button.swiper-pagination-bullet {
 @media only screen and (min-width: 1000px) {
   .s-logo-invert .c-header__logo svg {
     fill: #FFFFFF; }
+  .no-enhance .c-header__logo {
+    margin-left: 2rem; }
   .c-header__logo {
     width: 20rem;
     height: 5.7rem; }
@@ -2191,11 +2193,11 @@ button.swiper-pagination-bullet {
   list-style: none; }
 
 .c-nav__item {
-  margin: 0; }
+  margin: 0;
+  display: inline-block; }
 
 .c-nav__link {
-  display: block;
-  font-size: 4.8rem;
+  display: inline-block;
   line-height: 1;
   font-weight: 700;
   text-align: center;
@@ -2206,8 +2208,32 @@ button.swiper-pagination-bullet {
     width: 100%;
     width: calc(100% + 2rem); }
 
+.enhance .c-nav__item {
+  display: block; }
+
+.enhance .c-nav__link {
+  font-size: 4.8rem;
+  display: block; }
+
 .c-nav__sub {
-  list-style: none;
+  list-style: none; }
+
+.no-enhance .c-nav__list,
+.no-enhance .c-nav__sub {
+  float: left; }
+
+.no-enhance .c-nav__item,
+.no-enhance .c-nav__sub__item {
+  margin: 0;
+  display: inline-block; }
+
+.no-enhance .c-nav__link,
+.no-enhance .c-nav__sub__link {
+  padding: 2rem;
+  line-height: 1;
+  display: block; }
+
+.enhance .c-nav__sub {
   margin: 4rem 0 0;
   text-align: center; }
 
@@ -2775,6 +2801,11 @@ button.swiper-pagination-bullet {
   display: none; }
 
 @media only screen and (min-width: 1000px) {
+  .no-enhance .c-breadcrumb {
+    color: #FFFFFF;
+    background-color: #000000; }
+  .no-enhance .c-breadcrumb__link {
+    color: #FFFFFF; }
   .c-breadcrumb {
     display: block; }
   .c-breadcrumb__label {
@@ -2863,6 +2894,11 @@ button.swiper-pagination-bullet {
 
 .enhance .c-notify--browser {
   display: none; }
+
+@media only screen and (max-width: 799px) {
+  .c-notify {
+    margin-right: 2rem;
+    margin-left: 2rem; } }
 
 /* ===========================================================
 

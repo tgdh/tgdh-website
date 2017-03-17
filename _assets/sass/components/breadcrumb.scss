@@ -10,6 +10,19 @@
 
 @include respond-min($mq-large) {
 
+	.no-enhance {
+
+		.c-breadcrumb {
+			color: $white;
+			background-color: $pri;
+		}
+
+		.c-breadcrumb__link {
+			color: $white;
+		}
+
+	}
+
 	.c-breadcrumb {
 		display: block;
 	}

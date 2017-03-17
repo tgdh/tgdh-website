@@ -50,3 +50,12 @@
 	}
 
 }
+
+@include respond-max( $mq-medium ) {
+
+	.c-notify {
+		margin-right: 2rem;
+		margin-left: 2rem;
+	}
+
+}
