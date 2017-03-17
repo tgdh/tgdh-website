@@ -2505,6 +2505,20 @@ button.swiper-pagination-bullet {
   margin-top: 2.4rem;
   margin-bottom: 1.6rem; }
 
+.c-cover__cta-description {
+  line-height: 1.6;
+  margin-top: 3.2em;
+  margin-bottom: -1.6em;
+  font-style: italic;
+  opacity: .65; }
+  .c-cover__cta-description:after {
+    content: "";
+    width: 2.7rem;
+    height: .1rem;
+    background-color: #000000;
+    display: block;
+    margin-top: 1rem; }
+
 .c-cover__media-wrap {
   position: relative; }
 

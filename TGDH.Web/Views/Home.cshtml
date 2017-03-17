@@ -2,7 +2,6 @@
 @{
     Layout = "Master.cshtml";
 }
-
 <main id="main" class="o-page__content" role="main">
 	@{
 	    var cover = new CoverViewModel {
@@ -12,10 +11,8 @@
 			SubtitleLabel = Model.GetPropertyValue<string>("coverSubtitleLabel"),
 			Copy = Model.GetPropertyValue<IHtmlString>("coverCopy"),
 			Cta = Model.GetPropertyValue<string>("coverCta")
-	    };
-
-	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
+		};
+		@Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
 	}
-
 	@Html.Partial("~/Views/Partials/CaseStudies/FeaturedCaseStudies.cshtml")
 </main>

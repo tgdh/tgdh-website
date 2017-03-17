@@ -58,6 +58,18 @@
 	margin-bottom: 1.6rem;
 }
 
+.c-cover__cta-description {
+	line-height: 1.6;
+	margin-top: $line-height * 2;
+	margin-bottom: -$line-height;
+	font-style: italic;
+	opacity: .65;
+
+	&:after {
+		@include breakline();
+	}
+}
+
 .c-cover__media-wrap {
 	position: relative;
 }

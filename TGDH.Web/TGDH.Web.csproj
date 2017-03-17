@@ -2558,6 +2558,7 @@
     <Content Include="Views\Partials\Components\SocialChannels.cshtml" />
     <Content Include="Views\Partials\Components\Tile.cshtml" />
     <Content Include="Views\NotFound.cshtml" />
+    <Content Include="Views\Partials\CaseStudies\FeaturedCaseStudies.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
