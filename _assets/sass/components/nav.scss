@@ -270,6 +270,11 @@
 						visibility $speed $ease,
 		}
 
+		.c-nav__inner {
+			overflow-y: scroll;
+  			-webkit-overflow-scrolling: touch;
+		}
+
 		&.s-mainNavigation-is-visible {
 
 			.c-nav__item {

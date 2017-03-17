@@ -1141,7 +1141,7 @@ html {
   .o-aspect--21-9:before {
     content: "";
     display: block;
-    background-color: #f9f9f9; }
+    background-color: rgba(0, 0, 0, 0.05); }
   .o-aspect--1-1 img,
   .o-aspect--4-3 img,
   .o-aspect--3-2 img,
@@ -1251,7 +1251,7 @@ img {
 
 .o-media--video {
   position: relative;
-  background-color: #f9f9f9; }
+  background-color: rgba(0, 0, 0, 0.05); }
   .o-media--video:before {
     content: '';
     display: block;
@@ -2339,6 +2339,9 @@ button.swiper-pagination-bullet {
     transition: opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms;
     transition: transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms, opacity 0.3s ease, visibility 0.3s ease;
     transition: transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms, opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.5s cubic-bezier(0.64, 0.04, 0.35, 1) 0ms; }
+  .enhance .c-nav__inner {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch; }
   .enhance.s-mainNavigation-is-visible .c-nav__item {
     -webkit-animation-duration: .3s;
             animation-duration: .3s;
@@ -2526,7 +2529,7 @@ button.swiper-pagination-bullet {
   display: block;
   position: relative;
   overflow: hidden;
-  background-color: #f9f9f9;
+  background-color: rgba(0, 0, 0, 0.05);
   background-size: cover;
   background-position: center; }
   .c-cover__media:before {
@@ -2917,7 +2920,7 @@ button.swiper-pagination-bullet {
 
 .enhance .c-map {
   position: relative;
-  background-color: #f9f9f9; }
+  background-color: rgba(0, 0, 0, 0.05); }
   .enhance .c-map:after {
     content: "";
     display: block;
@@ -3125,7 +3128,7 @@ button.swiper-pagination-bullet {
   .c-image-col__col:before {
     content: "";
     display: block;
-    background-color: #f9f9f9;
+    background-color: rgba(0, 0, 0, 0.05);
     padding-top: 100%; }
 
 .c-image-col__image {

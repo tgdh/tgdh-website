@@ -65,7 +65,7 @@ $background-colour:			$white;
 $border-colour:				#ccc;
 $link-colour:				$pri;
 $form-placeholder-colour:	#ccc;
-$placeholder-colour:		$light-1;
+$placeholder-colour:		rgba(0,0,0,.05);
 $highlight-colour:			lighten( $pri, 80 );
 
 $error:						$red;
