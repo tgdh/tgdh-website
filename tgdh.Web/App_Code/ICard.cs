@@ -5,6 +5,8 @@ public interface ICardBase
 {
     int Id { get; }
 
+    string Category { get; set; }
+
     string Headline { get; }
 
     string Url { get; }
@@ -12,4 +14,6 @@ public interface ICardBase
     IPublishedContent CoverImage { get; set; }
 
     IPublishedContent Thumbnail { get; set; }
+
+    string ModifierClass { get; set; }
 }

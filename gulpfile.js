@@ -9,13 +9,6 @@ var paths = {
 };
 
 /* ===========================================================
-	# Scripts
-=========================================================== */
-
-var legacyScripts = [
-];
-
-/* ===========================================================
 	# vars
 =========================================================== */
 
@@ -77,6 +70,7 @@ gulp.task( 'css', function() {
 });
 
 
+/*
 // JS
 gulp.task('js-legacy', function() {
     var main = gulp.src( legacyScripts )
@@ -94,6 +88,7 @@ gulp.task('js-legacy', function() {
 
     return merge( main );
 });
+*/
 
 
 // js
@@ -286,7 +281,7 @@ gulp.task( 'watch', function() {
 
 
 // Copy master template with correct asset references
-gulp.task('refAssets', ['css','js-legacy','js'], function() {
+gulp.task('refAssets', ['css',,'js'], function() {
     return gulp.src( paths.templates + '/Master.cshtml')
         .pipe( $.if( isProduction, cachebust.references() ) )
         .pipe( gulp.dest( paths.siteFolder + '/Views' ) );

@@ -240,6 +240,8 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Data\CareerRepository.cs" />
     <Compile Include="Data\CaseStudyRepository.cs" />
+    <Compile Include="Data\DataHelpers.cs" />
+    <Compile Include="Data\JournalRepository.cs" />
     <Compile Include="Data\TeamRepository.cs" />
     <Compile Include="ExtensionMethods\IntExtentionsMethods.cs" />
     <Compile Include="ExtensionMethods\StringExtensionMethods.cs" />

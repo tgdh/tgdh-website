@@ -3402,7 +3402,8 @@ button.swiper-pagination-bullet {
   -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
           transform: translateY(-50%);
-  border: 0.4rem solid #FFFFFF; }
+  border: 0.4rem solid #FFFFFF;
+  background-color: #FFFFFF; }
   .c-card__thumb-wrap:before {
     border-radius: 50%; }
 
