@@ -1,16 +1,32 @@
+@using System.Web.Mvc.Html
+@using TGDH.Core.Data
+@using TGDH.Core.Utility
 @inherits UmbracoViewPage<IPublishedContent>
 @{
     Layout = "Master.cshtml";
+	var allposts = JournalRepository.AllPosts(Umbraco).ToList();
+	var paging = Paging.GetPages(allposts.Count);
+	var selection = allposts.Skip(paging.Skip).Take(paging.Take).ToList();
 }
 
 <main id="main" class="o-page__content" role="main">
-	<div class="o-page__content__wrap">
-		<div class="o-wrap o-wrap--small">
-			<h1>@Model.Name</h1>
-			<div class="u-font-sec u-space-bottom">
-				@Model.GetPropertyValue("pageDescription")
-			</div>
-		</div>
-		@Html.Partial("~/Views/Partials/Page/PageComponents.cshtml")
+	<div class="o-page__content__wrap o-wrap o-wrap--small">
+		<h1>@Model.Name</h1>
+		@if( selection.Any() ) {
+			foreach( var item in selection ) {
+			    var articleSnippet = new ArticleSummaryViewModel {
+			        Url = item.Url,
+					Headline = item.Name,
+					Subtitle = "Aenean lacinia bibendum nulla sed consectetur.",
+					Copy = item.GetPropertyValue<string>("pageDescription")
+			    };
+				@Html.Partial("~/Views/Partials/Components/ArticleSummary.cshtml", articleSnippet);
+			}
+			<nav class="c-pagination">
+                @PagingTemplate.RenderPaging(paging, Model.Id)
+            </nav>
+		} else {
+			<p>Sorry, we're all out of posts</p>
+		}
 	</div>
 </main>

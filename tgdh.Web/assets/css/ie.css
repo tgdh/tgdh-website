@@ -3181,6 +3181,41 @@ button.swiper-pagination-bullet {
 
 /* ===========================================================
 
+	# Pagination
+
+=========================================================== */
+.c-pagination {
+  margin-top: 1.6em;
+  text-align: center; }
+
+.c-pagination__link {
+  padding: 1.7rem 2rem;
+  color: #000000;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  -webkit-transition: color 0.3s ease, background 0.3s ease;
+  transition: color 0.3s ease, background 0.3s ease; }
+  .c-pagination__link svg {
+    -webkit-transition: fill 0.3s ease;
+    transition: fill 0.3s ease; }
+  .c-pagination__link.is-active {
+    font-weight: 900; }
+  .c-pagination__link.is-disabled {
+    opacity: .35; }
+
+.c-pagination__link--next,
+.c-pagination__link--prev {
+  padding: 1rem 1.1rem; }
+
+a.c-pagination__link:hover, a.c-pagination__link:focus {
+  color: #FFFFFF;
+  background-color: #000000; }
+  a.c-pagination__link:hover svg, a.c-pagination__link:focus svg {
+    fill: #FFFFFF; }
+
+/* ===========================================================
+
 	# Quote
 
 =========================================================== */
