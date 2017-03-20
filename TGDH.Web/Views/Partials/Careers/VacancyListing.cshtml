@@ -4,13 +4,11 @@
 @inherits UmbracoViewPage<IPublishedContent>
 @{
     var allvacancies = CareerRepository.AllVacancies(Umbraco).ToList();
-    var paging = Paging.GetPages(allvacancies.Count);
-    var selection = allvacancies.Skip(paging.Skip).Take(paging.Take).ToList();
 }
 
-@if( selection.Any() ) {
+@if( allvacancies.Any() ) {
 
-	foreach( var item in selection ) {
+	foreach( var item in allvacancies ) {
 
 	    var articleSnippet = new ArticleSummaryViewModel {
 	        Url = item.Url,
