@@ -20,7 +20,7 @@
 
         if (wrapInExtraDiv)
         {
-            var wrapMarkup = "<div class='o-page-component o-wrap o-wrap--" + wrapSize + item.IsFirst(" is-first", "") + "'>";
+            var wrapMarkup = "<div class='o-page-component o-wrap o-wrap--" + wrapSize + item.IsFirst(" is-first", "") + " o-page-component--" + item.DocumentTypeAlias + "'>";
 
             @Html.Raw(wrapMarkup)
         }

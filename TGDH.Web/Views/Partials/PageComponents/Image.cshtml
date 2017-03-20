@@ -29,9 +29,10 @@
     var altText = image.GetPropertyValue<string>("altText");
 }
 
-<figure class="o-media @alignmentClass @aspectRatioClass @Model.AdditionalClass">
-    <img class="o-media__image js-lazyload" src="@imageUrlLow" data-src="@imageUrlHigh" alt="@altText" />
-
+<figure class="o-media @alignmentClass @Model.AdditionalClass">
+	<div class="@aspectRatioClass">
+    	<img class="o-media__image js-lazyload" src="@imageUrlLow" data-src="@imageUrlHigh" alt="@altText" />
+	</div>
     @if (!string.IsNullOrEmpty(caption))
     {
         <figcaption class="c-caption">@caption</figcaption>

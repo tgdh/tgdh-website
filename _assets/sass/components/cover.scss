@@ -5,6 +5,7 @@
 =========================================================== */
 
 .c-cover__heading {
+
 	&:after {
 		@include breakline();
 	}
@@ -213,7 +214,6 @@
 }
 
 @include respond-min( $mq-large ) {
-
 
 	.c-cover__content {
 		padding-left: 8rem;
