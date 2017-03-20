@@ -1,0 +1,28 @@
+@inherits UmbracoViewPage<AuthorViewModel>
+@{
+    var image = Umbraco.TypedMedia(Model.ImageId);
+
+    if (image == null)
+    {
+        return;
+    }
+
+	var imageUrl = Url.GetCropUrl(image, cropAlias: "1:1", width: 94, quality: 100, htmlEncode: false).ToString();
+	var altText = image.HasValue("altText") ? image.GetPropertyValue<string>("altText") : Model.AuthorName;
+}
+
+<div class="c-author u-clearfix @Model.ModifierClass">
+    <div class="c-author__image-wrap">
+        <img src="@imageUrl" class="c-author__image" alt="@altText">
+    </div>
+	<div class="c-author__content">
+	    <ul class="c-author__list u-font-sec u-epsilon">
+			@if(!String.IsNullOrWhiteSpace(Model.AuthorName)) {
+				<li class="c-author__item">@Model.AuthorName</li>
+			}
+			@if(!String.IsNullOrWhiteSpace(Model.JobTitle)) {
+				<li class="c-author__item">@Model.JobTitle</li>
+			}
+	    </ul>
+	</div>
+</div>

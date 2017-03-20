@@ -2968,6 +2968,95 @@ button.swiper-pagination-bullet {
 
 /* ===========================================================
 
+	# Author
+
+=========================================================== */
+.c-author {
+  margin-top: 1.6em;
+  margin-bottom: 1.6em; }
+
+.c-author__content {
+  opacity: .65;
+  list-style: none;
+  font-style: italic;
+  float: left;
+  padding-left: 3.2rem; }
+  .c-author__content:after {
+    content: "";
+    width: 2.7rem;
+    height: .1rem;
+    background-color: #000000;
+    display: block;
+    margin-top: 1rem; }
+
+.c-author__list {
+  padding-bottom: 0;
+  list-style: none; }
+
+.c-author__item {
+  margin: 0; }
+
+.c-author__image-wrap,
+.c-author__image {
+  border-radius: 50%; }
+
+.c-author__image-wrap {
+  width: 9.4rem;
+  float: left;
+  position: relative; }
+  .c-author__image-wrap:before {
+    content: "";
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.05);
+    padding-top: 100%;
+    display: block; }
+
+.c-author__image {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0; }
+
+.no-flexbox .c-author__content {
+  margin-top: 2rem; }
+
+.flexbox .c-author {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+
+.flexbox .c-author__content {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+
+@media only screen and (min-width: 600px) {
+  .c-author__item {
+    display: inline-block; }
+    .c-author__item:after {
+      content: "|";
+      margin: 0 1rem;
+      display: inline-block; }
+    .c-author__item:last-child:after {
+      content: ""; } }
+
+@media only screen and (min-width: 800px) {
+  .c-author {
+    margin-bottom: 5rem; } }
+
+/* ===========================================================
+
 	# Article summary
 
 =========================================================== */
