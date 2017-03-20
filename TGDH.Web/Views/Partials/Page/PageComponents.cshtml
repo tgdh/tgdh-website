@@ -1,4 +1,5 @@
 @using Umbraco.Web
+@using TGDH.Core.Models
 @inherits UmbracoViewPage<IPublishedContent>
 @{
     var components = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("pageContent");
@@ -129,6 +130,16 @@
                 };
 
                 @Html.Partial("~/Views/Partials/PageComponents/Form.cshtml", form)
+                break;
+			case "button":
+				var cta = new LinkPickerModel(item.GetPropertyValue<string>("link"));
+
+				if(!String.IsNullOrWhiteSpace(cta.Url) || !string.IsNullOrWhiteSpace(cta.Hashtarget))
+				{
+					var ctaLink = cta.Url + cta.Hashtarget;
+			        var ctaText = !String.IsNullOrWhiteSpace(cta.Name) ? cta.Name : "Find out more";
+					<a href="@ctaLink" title="@cta.Name" target="@cta.Target" class="c-button c-button--primary">@cta.Name</a>
+				}
                 break;
             default:
                 @NoResult(item)
