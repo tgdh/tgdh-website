@@ -72,7 +72,11 @@
 }
 
 .c-cover__media-wrap {
+	width: 100%;
 	position: relative;
+}
+.c-cover__image {
+	width: 100%;
 }
 
 .c-cover__media {
@@ -86,7 +90,7 @@
 	&:before {
 		content: "";
 		display: block;
-		@include pad-top(500,540);
+		padding-top: 100%;
 	}
 }
 
@@ -131,6 +135,13 @@
 }
 
 @include respond-min( $mq-medium ) {
+
+	.c-cover__media {
+
+		&:before {
+			@include pad-top(50,54);
+		}
+	}
 
 	.c-cover__subtitle {
 

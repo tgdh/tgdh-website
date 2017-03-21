@@ -2549,7 +2549,11 @@ button.swiper-pagination-bullet {
     margin-top: 1rem; }
 
 .c-cover__media-wrap {
+  width: 100%;
   position: relative; }
+
+.c-cover__image {
+  width: 100%; }
 
 .c-cover__media {
   display: block;
@@ -2561,7 +2565,7 @@ button.swiper-pagination-bullet {
   .c-cover__media:before {
     content: "";
     display: block;
-    padding-top: 108%; }
+    padding-top: 100%; }
 
 .c-cover__media-wrap {
   position: absolute;
@@ -2590,6 +2594,8 @@ button.swiper-pagination-bullet {
       padding-top: 18.1818181818%; } }
 
 @media only screen and (min-width: 800px) {
+  .c-cover__media:before {
+    padding-top: 108%; }
   .c-cover__subtitle ul li + li:before {
     margin-left: 1rem;
     margin-right: 1rem; }
@@ -3232,7 +3238,7 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
   padding-bottom: 0; }
   .c-quote__copy:before {
     content: "\201C";
-    color: #000000;
+    color: currentColor;
     font-size: 3.6rem;
     font-weight: 700;
     font-family: serif;
@@ -3243,6 +3249,10 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 .c-quote__src {
   font-size: 1.4rem;
   margin-top: 1.6em; }
+
+.c-quote--feature .c-quote__copy:before {
+  position: absolute;
+  left: 0; }
 
 @media only screen and (max-width: 799px) {
   .c-quote {
@@ -3262,8 +3272,11 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
     padding-right: 4rem; }
     .c-quote.o-align--default .c-quote__copy:before {
       position: absolute;
-      top: 1.6rem;
-      left: 1rem; } }
+      top: 1.6rem; }
+  .c-quote--feature .c-quote__copy {
+    font-size: 2.8rem; }
+    .c-quote--feature .c-quote__copy:before {
+      top: 1rem; } }
 
 @media only screen and (min-width: 1500px) {
   .c-quote.o-align--left, .c-quote.o-align--right {

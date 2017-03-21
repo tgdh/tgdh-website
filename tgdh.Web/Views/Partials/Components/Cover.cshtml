@@ -13,7 +13,7 @@
 }
 
 <section class="c-cover u-clearfix @ModifierClass">
-	@RenderImage(image)
+	@RenderImage2(image)
 	<div class="c-cover__content o-wrap">
 		<div class="c-cover__copy">
 			<header class="c-cover__heading">
@@ -56,20 +56,20 @@
 
 	string smallImageUrl = Url.GetCropUrl(
 		image,
-		cropAlias: "5:54",
+		cropAlias: "1:1",
 		width: 800,
 		htmlEncode: false
 	).ToString();
 
 	string mediumImageUrl = Url.GetCropUrl(
 		image,
-		cropAlias: "5:54",
+		cropAlias: "16:9",
 		width: 1000,
 		htmlEncode: false
 	).ToString();
 
 	string largeImageUrl = Url.GetCropUrl(image,
-		cropAlias: "5:54",
+		cropAlias: "16:9",
 		width: 1350,
 		htmlEncode: false
 	).ToString();
@@ -104,28 +104,28 @@
 
 	string smallImageUrl = Url.GetCropUrl(
 		image,
-		cropAlias: "5:54",
+		cropAlias: "1:1",
 		width: 800,
 		htmlEncode: false
 	).ToString();
 
 	string mediumImageUrl = Url.GetCropUrl(
 		image,
-		cropAlias: "5:54",
-		width: 1000,
+		cropAlias: "16:9",
+		width: 800,
 		htmlEncode: false
 	).ToString();
 
 	string largeImageUrl = Url.GetCropUrl(image,
 		cropAlias: "5:54",
-		width: 1350,
+		width: 600,
 		htmlEncode: false
 	).ToString();
 
 	string xLargeImageUrl = Url.GetCropUrl(
 		image,
 		cropAlias: "5:54",
-		width: 1500,
+		width: 700,
 		htmlEncode: false
 	).ToString();
 

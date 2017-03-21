@@ -16,4 +16,38 @@
 
 	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
 	}
+	@Html.Partial("~/Views/Partials/CaseStudies/Intro.cshtml")
+	@RenderQuote("First quote. We've had great feedback on the new site...")
+
+	@RenderCoverImages()
 </main>
+
+@helper RenderQuote(string quote = "") {
+    <section class="o-section u-background--pri">
+		<blockquote class="c-quote c-quote--feature o-section__inner o-wrap o-wrap--medium u-center-content">
+	        <div class="c-quote__copy u-font-sec">
+	            <p>@quote</p>
+	        </div>
+            <footer class="c-quote__src">
+				Some One
+			</footer>
+	    </blockquote>
+	</section>
+}
+
+@helper RenderCoverImages() {
+	var image1 = Umbraco.TypedMedia(1081);
+	var image1Url = image1 != null ? image1.Url : "";
+
+	var image2 = Umbraco.TypedMedia(1078);
+	var image2Url = image2 != null ? image2.Url : "";
+
+	<section class="c-image-col s-hullTruckCaseStudy__image-cols--intro u-clearfix">
+		<div class="c-image-col__col c-image-col__col--first s-hullTruckCaseStudy__image-cols__col">
+			<img src="@image1Url" alt="" class="c-image-col__image">
+		</div>
+		<div class="c-image-col__col s-hullTruckCaseStudy__image-cols__col">
+			<img src="@image2Url" alt="" class="c-image-col__image">
+		</div>
+	</section>
+}

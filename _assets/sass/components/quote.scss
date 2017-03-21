@@ -19,7 +19,7 @@
 
 	&:before {
 		content: "\201C";
-		color: $pri;
+		color: currentColor;
 		font-size: 3.6rem;
 		font-weight: 700;
 		font-family: serif;
@@ -33,6 +33,15 @@
 .c-quote__src {
 	font-size: 1.4rem;
 	margin-top: $line-height;
+}
+
+.c-quote--feature {
+
+	.c-quote__copy:before {
+		position: absolute;
+		left: 0;
+	}
+
 }
 
 @include respond-max( $mq-medium ) {
@@ -63,9 +72,21 @@
 			.c-quote__copy:before {
 				position: absolute;
 				top: 1.6rem;
-				left: 1rem;
 			}
 		}
+	}
+
+	.c-quote--feature {
+
+		.c-quote__copy {
+			font-size: 2.8rem;
+
+			&:before {
+				top: 1rem;
+			}
+
+		}
+
 	}
 
 }

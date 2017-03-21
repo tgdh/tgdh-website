@@ -281,7 +281,7 @@ gulp.task( 'watch', function() {
 
 
 // Copy master template with correct asset references
-gulp.task('refAssets', ['css',,'js'], function() {
+gulp.task('refAssets', ['css','js'], function() {
     return gulp.src( paths.templates + '/Master.cshtml')
         .pipe( $.if( isProduction, cachebust.references() ) )
         .pipe( gulp.dest( paths.siteFolder + '/Views' ) );
