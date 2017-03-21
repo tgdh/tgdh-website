@@ -1,0 +1,13 @@
+/* ===========================================================
+
+  # AIM case study
+
+=========================================================== */
+
+.s-caseStudyAIM__image-cols {
+
+	.s-caseStudyAIM__image-cols__col:before {
+		@include pad-top(753,600);
+	}
+
+}

@@ -57,7 +57,7 @@
 	@RenderResult()
 	@RenderQuote("Second quote, if we have one. Our last quarter saw the highest percentage of online bookers so far.")
 
-	@RenderPager()
+	@Html.Partial("~/Views/Partials/CaseStudies/CaseStudyPager.cshtml")
 </main>
 
 @helper RenderIntro() {
@@ -417,50 +417,4 @@
 		<span class="o-stat__label">Usage statistic</span>
 		<span class="o-stat__fig u-font-sec u-giga">66<sup>%</sup></span>
 	</div>
-}
-
-
-
-@helper RenderPager() {
-	var image = Umbraco.TypedMedia(1095);
-	var imageUrl = image != null ? image.Url : "";
-
-	<nav class="c-pager u-clearfix">
-		<a href="#" class="c-pager__page c-pager__page--prev">
-			<svg class="u-icon u-icon--32 u-icon--invert c-pager__page__icon">
-				<use xlink:href="/assets/icons/icons.svg#arrow-left"></use>
-			</svg>
-			<strong class="c-pager__page__headline">St Wilfrid&#x27;s Hospice</strong>
-			<ul class="c-pager__meta u-font-sec">
-				<li class="c-pager__meta__item">
-					<span class="c-pager__meta__value">Website</span>
-				</li>
-			</ul>
-			<div class="c-pager__page__image" style="background-image:url(@imageUrl);"></div>
-		</a>
-
-		<a href="" class="c-pager__cta">
-			<strong class="c-pager__cta__headline">All projects</strong>
-			<svg class="u-icon c-pager__cta__icon">
-				<use xlink:href="/assets/icons/icons.svg#grid"></use>
-			</svg>
-		</a>
-
-		<a href="#" class="c-pager__page c-pager__page--next">
-			<svg class="u-icon u-icon--32 u-icon--invert c-pager__page__icon">
-				<use xlink:href="/assets/icons/icons.svg#arrow-right"></use>
-			</svg>
-			<strong class="c-pager__page__headline">Arsenal</strong>
-			<ul class="c-pager__meta u-font-sec">
-				<li class="c-pager__meta__item">
-					<span class="c-pager__meta__value">Marketing</span>
-				</li>
-				<li class="c-pager__meta__item">
-					<span class="c-pager__meta__value">Advertising</span>
-				</li>
-			</ul>
-			<div class="c-pager__page__image" style="background-image:url(@imageUrl);"></div>
-		</a>
-	</nav>
-
 }

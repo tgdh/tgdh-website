@@ -1,9 +1,8 @@
-@using TGDH.Core.Data
 @inherits UmbracoViewPage<IPublishedContent>
 @{
 	var heading = new HeadingViewModel {
-        Headline = "Intro",
-        Subtitle = "A pioneering northern voice"
+        Headline = Model.GetPropertyValue<string>("resultHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("resultSubtitle")
     };
 }
 <section class="o-section u-background--light u-clearfix">
@@ -11,7 +10,7 @@
 		@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 		<div class="o-col--two-one u-clearfix">
 			<div class="o-col o-col--first">
-				@Model.GetPropertyValue("intro")
+				@Model.GetPropertyValue("resultCopy")
 			</div>
 			<div class="o-col o-col--last js-ht-stats-1">
 				@RenderStats()
@@ -21,7 +20,7 @@
 </section>
 
 @helper RenderStats() {
-	var stats = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("stats");
+	var stats = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("resultStats");
 	if( stats == null ) {
 		return;
 	}
@@ -31,7 +30,6 @@
 			Label = item.GetPropertyValue<string>("label"),
 			Value = item.GetPropertyValue<string>("value")
     	};
-
 	    @Html.Partial("~/Views/Partials/Components/Stat.cshtml", statData)
 	}
 }
