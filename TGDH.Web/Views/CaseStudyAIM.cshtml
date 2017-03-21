@@ -1,6 +1,15 @@
 @inherits UmbracoViewPage<IPublishedContent>
 @{
     Layout = "Master.cshtml";
+
+	var Quote1Model = new QuoteViewModel {
+		Quote = Html.Raw("First quote. We've had great feedback on the new site..."),
+		Source = "Some One"
+	};
+	var Quote2Model = new QuoteViewModel {
+		Quote = Html.Raw("Vestibulum id ligula porta felis euismod semper. Aenean eu leo quam. Pellentesque venenatis vestibulum."),
+		Source = "Some One"
+	};
 }
 
 <main id="main" class="o-page__content" role="main">
@@ -17,11 +26,12 @@
 	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
 	}
 	@Html.Partial("~/Views/Partials/CaseStudies/Intro.cshtml")
-	@RenderQuote("First quote. We've had great feedback on the new site...")
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote1Model)
 
 	@RenderImageCols()
 	@RenderWebsite()
 	@Html.Partial("~/Views/Partials/CaseStudies/Result.cshtml")
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote2Model)
 	@Html.Partial("~/Views/Partials/CaseStudies/CaseStudyPager.cshtml")
 </main>
 
