@@ -27,6 +27,7 @@
 	}
 	@Html.Partial("~/Views/Partials/CaseStudies/Intro.cshtml")
 	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote1Model)
+	@RenderCampaign()
 
 	@RenderImageCols()
 	@RenderWebsite()
@@ -104,7 +105,14 @@
     			<p>Etiam porta sem malesuada magna mollis euismod. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. </p>
             </div>
             <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
-				@RenderDesktopImage(0, "top")
+				@{
+					var desktopImage = new DeviceFrameViewModel
+					{
+						ImageId = 1083,
+						Type = "desktop"
+					};
+				}
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", desktopImage)
             </div>
 		</div>
 
@@ -116,8 +124,20 @@
 				<p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Aenean lacinia bibendum nulla sed. </p>
 			</div>
 			<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image c-mobile-frame--wrap-two u-clearfix">
-				@RenderMobileImage(0, "top")
-				@RenderMobileImage(0, "top")
+				@{
+					var mobileImage1 = new DeviceFrameViewModel
+					{
+						ImageId = 1083,
+						Type = "mobile"
+					};
+					var mobileImage2 = new DeviceFrameViewModel
+					{
+						ImageId = 1083,
+						Type = "mobile"
+					};
+				}
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage1)
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage2)
 			</div>
 		</div>
 
@@ -139,4 +159,44 @@
 	<div class="c-desktop-frame">
 		<img src="@imageUrl" alt="" class="c-desktop-frame__image">
 	</div>
+}
+
+
+@helper RenderCampaign() {
+	var heading = new HeadingViewModel {
+        Headline = "AIM Campaign",
+        Subtitle = "Dapibus Vulputate Ligula Inceptos"
+    };
+
+	<section class="o-section s-hullTruckCaseStudy__advertisting">
+		@{
+			var image1 = new ImageViewModel
+			{
+				ImageId = 1100,
+				ImageWidth = 400,
+				AdditionalClass = "s-hullTruckCaseStudy__advertisting__image-col s-hullTruckCaseStudy__advertisting__image-col--first"
+			};
+			var image2 = new ImageViewModel
+			{
+				ImageId = 1098,
+				ImageWidth = 400,
+				AdditionalClass = "s-hullTruckCaseStudy__advertisting__image-col s-hullTruckCaseStudy__advertisting__image-col--last"
+			};
+		}
+
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					<p><strong>We need a brief description of the campaign.</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+					<p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Fusce dapibus, tellus ac cursus commodo. Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit sit amet non magna. </p>
+
+					<div class="s-hullTruckCaseStudy__advertisting__image-cols u-clearfix u-space-top--large">
+						@Html.Partial("~/Views/Partials/Components/Image.cshtml", image1)
+						@Html.Partial("~/Views/Partials/Components/Image.cshtml", image2)
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 }
