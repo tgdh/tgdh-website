@@ -320,13 +320,14 @@
 		&.s-mainNavigation-is-visible {
 
 			.c-nav__item {
-				animation-duration: .3s;
+				animation-duration: .5s;
 	  			animation-fill-mode: both;
 				animation-name: fadeInRight;
+				animation-delay: .2s;
 
 				@for $i from 1 through 10 {
 					&:nth-child(#{$i}) {
-						animation-delay: #{$i * 0.1}s;
+						animation-delay: #{$i * 0.15 + 0.2}s;
 					}
 				}
 			}
