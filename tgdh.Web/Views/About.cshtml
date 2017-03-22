@@ -79,7 +79,7 @@
 		Headline = "Meet the team",
 		Subtitle = "Aenean lacinia bibendum nulla sed consectetur."
 	};
-	<section id="team" class="o-section">
+	<section id="team" class="o-section s-about__team">
 		<div class="o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="u-space-bottom--large">
@@ -91,12 +91,18 @@
 }
 
 @helper RenderCareers() {
+	var image = Umbraco.TypedMedia(1325);
+	var imageUrl = image != null ? image.Url +"?height=1200" : "";
+
 	var heading = new HeadingViewModel {
 		Headline = "Careers",
 		Subtitle = "Aenean lacinia bibendum nulla sed consectetur."
 	};
-	<section id="careers" class="o-section u-background--light">
-		<div class="o-wrap o-wrap--x-large">
+	<section id="careers" class="o-section u-background--light s-about__careers">
+		@if(!String.IsNullOrWhiteSpace(imageUrl)) {
+			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-about__careers__plant">
+		}
+		<div class="o-wrap o-wrap--x-large s-about__careers__content">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<p>Fusce dapibus, tellus ac cursus commodo, tortor mauris massa justo sit amet.</p>
 			<div class="o-wrap--small">
