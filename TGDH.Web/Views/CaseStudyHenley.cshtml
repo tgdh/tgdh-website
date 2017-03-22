@@ -1,4 +1,228 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@inherits UmbracoViewPage<IPublishedContent>
 @{
-	Layout = null;
+    Layout = "Master.cshtml";
+
+	var Quote1Model = new QuoteViewModel {
+		Quote = Html.Raw("Adipiscing Tellus Ullamcorper Parturient..."),
+		Source = "Some One"
+	};
+	var Quote2Model = new QuoteViewModel {
+		Quote = Html.Raw("Etiam porta sem malesuada magna mollis euismod. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id."),
+		Source = "Some One"
+	};
+
+	var fullWidthImage = new ImageViewModel
+	{
+		ImageId = 1095,
+		Alignment = "Full width",
+		AspectRatio = "16:9",
+		ImageWidth = 1600
+	};
+}
+
+<main id="main" class="o-page__content" role="main">
+	@{
+        var cover = new CoverViewModel {
+			ImageId = Model.GetPropertyValue<int>("coverImage"),
+			Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
+			Subtitle = Model.GetPropertyValue<IHtmlString>("coverSubtitle"),
+			SubtitleLabel = Model.GetPropertyValue<string>("coverSubtitleLabel"),
+			Copy = Model.GetPropertyValue<IHtmlString>("coverCopy"),
+			Cta = Model.GetPropertyValue<string>("coverCta")
+    	};
+
+	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
+	}
+	@Html.Partial("~/Views/Partials/CaseStudies/Intro.cshtml")
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote1Model)
+	@RenderPlanning()
+
+	@RenderImageCols()
+	@RenderWebsite()
+
+	@Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage)
+	@{
+		var prospectisHeading = new HeadingViewModel {
+	        Headline = "Prospectuses",
+	        Subtitle = "Nullam quis risus eget urna mollis ornare vel eu leo."
+	    };
+	}
+	<section class="o-section u-background--light u-clearfix">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", prospectisHeading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					<p><strong>We need a brief description about the creation of the prospectuses.</strong> Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Cras mattis consectetur purus sit amet fermentum.</p>
+					<p>Maecenas sed diam eget risus varius blandit sit amet non magna. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	@Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage)
+	@RenderJournal()
+
+	@Html.Partial("~/Views/Partials/CaseStudies/Result.cshtml")
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote2Model)
+	@Html.Partial("~/Views/Partials/CaseStudies/CaseStudyPager.cshtml")
+</main>
+
+@helper RenderPlanning() {
+	var heading = new HeadingViewModel {
+        Headline = "Planning",
+        Subtitle = "Maecenas sed diam eget risus varius blandit sit amet non magna."
+    };
+	<section class="o-section u-clearfix">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					<p>Henley College is home to nearly 2,000 full-time students from over 100 schools across Berkshire, Buckinghamshire and Oxfordshire. They required a modern website which would make it easy to find information and increase applications.</p>
+					<p>We created user journeys from a number of key personas in order to best meet the target audience. These user journeys also aided in creating a new site architecture that makes it much easier to navigate the site.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+@helper RenderImageCols() {
+	var image1 = Umbraco.TypedMedia(1081);
+	var image1Url = image1 != null ? image1.Url + "?width=753&height=600&mode=crop" : "";
+
+	var image2 = Umbraco.TypedMedia(1078);
+	var image2Url = image2 != null ? image2.Url + "?width=753&height=600&mode=crop" : "";
+
+	<section class="c-image-col s-caseStudyAIM__image-cols u-clearfix">
+		<div class="c-image-col__col c-image-col__col--first s-caseStudyAIM__image-cols__col">
+			<img src="@image1Url" alt="" class="c-image-col__image">
+		</div>
+		<div class="c-image-col__col s-caseStudyAIM__image-cols__col">
+			<img src="@image2Url" alt="" class="c-image-col__image">
+		</div>
+	</section>
+}
+
+@helper RenderWebsite() {
+	var heading = new HeadingViewModel {
+        Headline = "Website",
+        Subtitle = "Maecenas sed diam eget risus."
+    };
+
+	var heading2  = new HeadingViewModel {
+		Headline = "Find your place",
+	};
+
+	var heading3  = new HeadingViewModel {
+		Headline = "Comparing courses",
+	};
+
+	var heading4  = new HeadingViewModel {
+		Headline = "Guiding applications",
+	};
+
+	<section>
+		<div class="o-section o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					<p><strong>henley.co.uk</strong> Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+					<a href="#" class="c-button c-button--primary u-space-top--large">Launch site</a>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+            <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+    			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
+    			<p>Etiam porta sem malesuada magna mollis euismod. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. </p>
+            </div>
+            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
+				@{
+					var desktopImage = new DeviceFrameViewModel
+					{
+						ImageId = 1083,
+						Type = "desktop"
+					};
+				}
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", desktopImage)
+            </div>
+		</div>
+
+
+
+		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix">
+			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading3)
+				<p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Aenean lacinia bibendum nulla sed. </p>
+			</div>
+			<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image c-mobile-frame--wrap-two u-clearfix">
+				@{
+					var mobileImage1 = new DeviceFrameViewModel
+					{
+						ImageId = 1083,
+						Type = "mobile"
+					};
+					var mobileImage2 = new DeviceFrameViewModel
+					{
+						ImageId = 1083,
+						Type = "mobile"
+					};
+				}
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage1)
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage2)
+			</div>
+		</div>
+
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading4)
+				<p>Fewer clicks means happier customers and time saved at the box office. Features of the ticketing system such as best seat in the house, stored payment details and automatic renewal of memberships give users the best possible booking experience.</p>
+			</div>
+			<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image">
+				@{
+					var desktopImage2 = new DeviceFrameViewModel
+					{
+						ImageId = 1083,
+						Type = "desktop"
+					};
+				}
+			</div>
+		</div>
+	</section>
+}
+
+
+@helper RenderJournal() {
+	var heading = new HeadingViewModel {
+        Headline = "Journal post",
+        Subtitle = "Maecenas sed diam eget risus."
+    };
+
+	var cardModel = new CardViewModel {
+        Id = 0,
+        Headline = "UX, UI, Persona's & Wireframes.",
+        CoverImage = Umbraco.TypedMedia(1086),
+		Thumbnail = Umbraco.TypedMedia(1088),
+        Url = "#"
+    };
+
+	<section class="o-section">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+					<p>Donec sed odio dui. Curabitur blandit tempus porttitor. Donec ullamcorper nulla non metus auctor fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p>
+				</div>
+				<div class="o-col o-col--last">
+					<h3 class="u-zeta">Further reading</h3>
+					<div class="u-anim" data-scroll="toggle(fadeInUp, fadeOutDown)">
+						@Html.Partial("~/Views/Partials/Components/Card.cshtml", cardModel)
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
 }
