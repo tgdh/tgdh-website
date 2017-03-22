@@ -55,8 +55,12 @@ namespace TGDH.Core.ExtensionMethods
             }
         }
 
-        public static int GetRandomIntFromString(string stringList)
+        public static int GetRandomIntFromStringIds(string stringList)
         {
+            if(String.IsNullOrWhiteSpace(stringList))
+            {
+                return 0;
+            }
           var split = stringList.Split(',');
           var random = new Random();
           var randomInt = random.Next(split.Count());
