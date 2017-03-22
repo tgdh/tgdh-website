@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Linq;
 
 namespace TGDH.Core.ExtensionMethods
 {
@@ -52,6 +53,14 @@ namespace TGDH.Core.ExtensionMethods
                 default:
                     return "th";
             }
+        }
+
+        public static int GetRandomIntFromString(string stringList)
+        {
+          var split = stringList.Split(',');
+          var random = new Random();
+          var randomInt = random.Next(split.Count());
+          return Convert.ToInt32(split[randomInt]);
         }
     }
 }

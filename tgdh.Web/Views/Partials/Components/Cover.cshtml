@@ -1,7 +1,9 @@
 @using TGDH.Core.Models
+@using TGDH.Core.ExtensionMethods
 @inherits UmbracoViewPage<CoverViewModel>
 @{
-    var image = Umbraco.TypedMedia(Model.ImageId);
+	var imageId = IntExtensionMethods.GetRandomIntFromString(Model.ImageIds);
+    var image = Umbraco.TypedMedia(imageId);
 
     if (image == null)
     {

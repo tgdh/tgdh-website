@@ -2,7 +2,7 @@ using System.Web;
 
 public class CoverViewModel
 {
-    public int ImageId { get; set; }
+    public string ImageIds { get; set; }
 
     public string Headline { get; set; }
 
