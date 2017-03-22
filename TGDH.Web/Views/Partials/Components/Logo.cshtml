@@ -19,7 +19,7 @@
 <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="c-logo @Model.ModifierClass">
     @if(!String.IsNullOrWhiteSpace(link.Url))
 	{
-	    <a href="@link.Url" itemprop="" class="c-logo__link" target="@link.Target" title="Model.Name">
+	    <a href="@link.Url" itemprop="" class="c-logo__link" target="@link.Target" title="@Model.Name">
 			<img src="@imageUrl" itemprop="thumbnail" alt="@altText" class="c-logo__image" />
 	    </a>
     } else {
