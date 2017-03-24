@@ -62,6 +62,13 @@
 	@RenderIntegration()
 *@
 	@Html.Partial("~/Views/Partials/CaseStudies/Result.cshtml")
+	@{
+		var Quote2Model = new QuoteViewModel {
+			Quote = Model.GetPropertyValue<IHtmlString>("quote2"),
+			Source = Model.GetPropertyValue<string>("quoteSource2")
+		};
+	}
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote2Model)
 	@Html.Partial("~/Views/Partials/CaseStudies/CaseStudyPager.cshtml")
 </main>
 
