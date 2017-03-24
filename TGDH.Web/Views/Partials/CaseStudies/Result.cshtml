@@ -4,6 +4,10 @@
         Headline = Model.GetPropertyValue<string>("resultHeadline"),
         Subtitle = Model.GetPropertyValue<string>("resultSubtitle")
     };
+
+	if(!Model.HasValue("resultCopy")) {
+		return;
+	}
 }
 <section class="o-section u-background--light u-clearfix">
 	<div class="o-section__inner o-wrap o-wrap--x-large">

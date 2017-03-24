@@ -14,12 +14,18 @@
 			Cta = Model.GetPropertyValue<string>("coverCta")
     	};
 
-	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
+        @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
 	}
 
-	@RenderIntro()
+	@Html.Partial("~/Views/Partials/CaseStudies/Intro.cshtml")
 	@RenderIntroImages()
-    @RenderQuote("First quote. We've had great feedback on the new site...")
+	@{
+		var Quote1Model = new QuoteViewModel {
+			Quote = Model.GetPropertyValue<IHtmlString>("quote"),
+			Source = Model.GetPropertyValue<string>("quoteSource")
+		};
+	}
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote1Model)
 	@RenderCityCulture()
 	@RenderCityCultureImages()
     @RenderCreative()
@@ -52,34 +58,12 @@
 	}
 
 	@RenderAdvertising()
+@*
 	@RenderIntegration()
-
-	@RenderResult()
-	@RenderQuote("Second quote, if we have one. Our last quarter saw the highest percentage of online bookers so far.")
-
+*@
+	@Html.Partial("~/Views/Partials/CaseStudies/Result.cshtml")
 	@Html.Partial("~/Views/Partials/CaseStudies/CaseStudyPager.cshtml")
 </main>
-
-@helper RenderIntro() {
-	var heading = new HeadingViewModel {
-        Headline = "Intro",
-        Subtitle = "A pioneering northern voice"
-    };
-	<section class="o-section u-background--light u-clearfix">
-		<div class="o-section__inner o-wrap o-wrap--x-large">
-			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
-			<div class="o-col--two-one u-clearfix">
-				<div class="o-col o-col--first">
-					<p>Hull Truck are a pioneering theatre with a unique, powerful, contemporary Northern Voice, locally rooted and national in reach, inspiring artists, exciting audiences and supporting communities to reach their greatest potential.</p>
-					<p>They produce and present exciting and culturally relevant theatre in our building, our community and out on tour. </p>
-				</div>
-				<div class="o-col o-col--last js-ht-stats-1">
-					@RenderStats()
-				</div>
-			</div>
-		</div>
-	</section>
-}
 
 @helper RenderIntroImages() {
 	var image1 = Umbraco.TypedMedia(1107);
@@ -98,23 +82,10 @@
 	</section>
 }
 
-@helper RenderQuote(string quote = "") {
-    <section class="o-section u-background--pri">
-		<blockquote class="c-quote o-section__inner o-wrap o-wrap--medium">
-	        <div class="c-quote__copy u-font-sec">
-	            <p>@quote</p>
-	        </div>
-            <footer class="c-quote__src">
-				Ruth, Hull Truck Theatre
-			</footer>
-	    </blockquote>
-	</section>
-}
-
 @helper RenderCityCulture() {
 	var heading = new HeadingViewModel {
-        Headline = "Hull, city of culture",
-        Subtitle = "Helping Hull acheive their city of culture status"
+        Headline = Model.GetPropertyValue<string>("cityCultureHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("cityCultureSubtitle")
     };
 
 	var image = Umbraco.TypedMedia(1112);
@@ -129,8 +100,7 @@
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
-	                <p>Every 4 years a city is award the title of city of culture. This title is given to a city that believes in the transformational power of culture. 2017 is the turn of Hull.</p>
-	                <p>Hull Truck Theatre had a key role in the representation of their city. As such they wanted a new look and feel for all their creative output. TGDH were lucky enough to win the pitch and have been instrumental in the creation of all the show artwork.</p>
+	                @Model.GetPropertyValue("cityCultureCopy")
 				</div>
 			</div>
 		</div>
@@ -158,8 +128,8 @@
 
 @helper RenderCreative() {
 	var heading = new HeadingViewModel {
-        Headline = "Creative",
-        Subtitle = "Powerful and intriguing meets gritty and modern."
+        Headline = Model.GetPropertyValue<string>("creativeHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("creativeSubtitle")
     };
 
 	var image1 = new ImageViewModel
@@ -177,8 +147,7 @@
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
-                    <p>It was important the artwork was as flexible as possible in layout and construction. It is not constrained by background colour or texture – therefore removal of the background makes it flexible and adaptable when applied to various formats.</p>
-                    <p>All the show artwork is visually powerful and intriguing to attract audiences with built-in references to the plays story and/or characters. </p>
+                    @Model.GetPropertyValue("creativeCopy")
 				</div>
 			</div>
 		</div>
@@ -188,8 +157,8 @@
 
 @helper RenderPhotography() {
     var heading = new HeadingViewModel {
-        Headline = "Photography",
-        Subtitle = "Contemporary, gritty and modern",
+        Headline = Model.GetPropertyValue<string>("photographyHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("photographySubtitle"),
 		IsCenter = true
     };
 
@@ -201,7 +170,7 @@
     <section class="o-section u-background--light s-hullTruckCaseStudy__photography">
 		<div class="o-section__inner o-wrap o-wrap--medium">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
-			<p>Each new show of 2017 needed new imagary. Using our in-house talents, TGDH were able to craft simple photoshoots into powerful images, each containing backgrounds and props, specific to the show&#x27;s content. The overall style is contemporary, gritty and modern. </p>
+            @Model.GetPropertyValue("photographyCopy")
 		</div>
 
 		<div class="o-wrap o-wrap--large u-space-top--large s-hullTruckCaseStudy__photography__image-comparison">
@@ -212,20 +181,20 @@
 
 @helper RenderWebsite() {
 	var heading = new HeadingViewModel {
-        Headline = "Website",
-        Subtitle = "Maecenas sed diam eget risus."
+        Headline = Model.GetPropertyValue<string>("websiteHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("websiteSubtitle")
     };
 
 	var heading2  = new HeadingViewModel {
-		Headline = "Big personality",
+		Headline = Model.GetPropertyValue<string>("personalityHeadline"),
 	};
 
 	var heading3  = new HeadingViewModel {
-		Headline = "Theatre on the move",
+		Headline = Model.GetPropertyValue<string>("mobileHeadline"),
 	};
 
 	var heading4  = new HeadingViewModel {
-		Headline = "Hassle free booking",
+		Headline = Model.GetPropertyValue<string>("bookingHeadline"),
 	};
 
 
@@ -234,7 +203,7 @@
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
-					<p><strong>hulltruck.co.uk</strong> combines a creative solution with a powerful open source CMS and a cutting edge ticketing system.</p>
+					@Model.GetPropertyValue("websiteCopy")
 					<a href="#" class="c-button c-button--primary u-space-top--large">Launch site</a>
 				</div>
 			</div>
@@ -245,7 +214,7 @@
 		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
             <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
     			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
-    			<p>The personality of each show is really given the chance to shine with full bleed large scale images and minimal intrusion form the text.</p>
+    			@Model.GetPropertyValue("personalityCopy")
             </div>
             <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
 				@RenderDesktopImage(1121, "top")
@@ -257,7 +226,7 @@
 		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix">
 			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading3)
-				<p>A fully responsive site means that the user wont get a lesser experience just because they’re using a smaller device. From watching trailers to booking tickets, everything can be done no matter what device their using.</p>
+				@Model.GetPropertyValue("mobileCopy")
 			</div>
 			<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image c-mobile-frame--wrap-two u-clearfix">
 				@RenderMobileImage(1124, "top")
@@ -269,7 +238,7 @@
 		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
 			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading4)
-				<p>Fewer clicks means happier customers and time saved at the box office. Features of the ticketing system such as best seat in the house, stored payment details and automatic renewal of memberships give users the best possible booking experience.</p>
+				@Model.GetPropertyValue("bookingCopy")
 			</div>
 			<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image">
 				@RenderDesktopImage(1122)
@@ -298,8 +267,8 @@
 
 @helper RenderAdvertising() {
 	var heading = new HeadingViewModel {
-        Headline = "Advertising",
-        Subtitle = "An adaptable approach"
+        Headline = Model.GetPropertyValue<string>("advertisingHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("advertisingSubtitle")
     };
 
 	<section class="o-section s-hullTruckCaseStudy__advertisting">
@@ -330,7 +299,7 @@
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
-					<p>The creative concept for the new shows lends itself perfectly to advertising no matter what format. By using strong colours with simple unconstrained images, each show can be represented with the same presence and impact.</p>
+					@Model.GetPropertyValue("advertisingCopy")
 
 					<div class="s-hullTruckCaseStudy__advertisting__image-cols u-clearfix u-space-top--large">
 						@Html.Partial("~/Views/Partials/Components/Image.cshtml", image1)
@@ -383,38 +352,4 @@
 		</div>
 	</section>
 
-}
-
-@helper RenderResult() {
-
-	var heading = new HeadingViewModel {
-        Headline = "Result",
-        Subtitle = "Maecenas sed diam eget risus."
-    };
-
-	<section class="o-section">
-		<div class="o-section__inner o-wrap o-wrap--x-large">
-			<div class="o-col--two-one u-clearfix">
-				<div class="o-col o-col--first">
-					@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
-					<p>Donec sed odio dui. Curabitur blandit tempus porttitor. Sed posuere consectetur est at scelerisque nisl consectetur et. Donec sed odio dui. Donec sed odio dui. Curabitur blandit tempus porttitor. Sed posuere consectetur est at lobortis.</p>
-				</div>
-				<div class="o-col o-col--last js-ht-stats-2">
-					@RenderStats()
-				</div>
-			</div>
-		</div>
-	</section>
-
-}
-
-@helper RenderStats() {
-	<div class="o-stat js-stat">
-		<span class="o-stat__label">ROI statistic</span>
-		<span class="o-stat__fig u-font-sec u-giga">23:1</span>
-	</div>
-	<div class="o-stat js-stat">
-		<span class="o-stat__label">Usage statistic</span>
-		<span class="o-stat__fig u-font-sec u-giga">66<sup>%</sup></span>
-	</div>
 }
