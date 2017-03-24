@@ -3590,6 +3590,24 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 
 /* ===========================================================
 
+	# Link list
+
+=========================================================== */
+.c-link-list {
+  list-style: none;
+  margin: 0; }
+
+.c-link-list__item {
+  margin: 0; }
+
+.c-link-list__link {
+  display: block;
+  padding: .5rem 0; }
+  .c-link-list__link.is-active {
+    font-weight: 900; }
+
+/* ===========================================================
+
 	# Tile
 
 =========================================================== */
@@ -4345,6 +4363,15 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 @media only screen and (min-width: 1280px) {
   .s-about__careers__plant {
     height: calc(100% + 14rem); } }
+
+/* ===========================================================
+
+  # Journal
+
+=========================================================== */
+@media only screen and (min-width: 800px) {
+  .s-journal__categories {
+    margin-left: 25%; } }
 
 /* ===========================================================
 
