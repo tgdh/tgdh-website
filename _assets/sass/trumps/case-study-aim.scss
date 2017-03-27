@@ -11,3 +11,43 @@
 	}
 
 }
+
+.s-caseStudyAIM__campaign {
+	position: relative;
+}
+
+.s-caseStudyAIM__campaign__image-col--first {
+	@include column(4.3/7);
+}
+
+.s-caseStudyAIM__campaign__image-col--last {
+	@include column(2.2/7);
+	float: right;
+}
+
+.s-caseStudyAIM__campaing__background {
+	max-width: 90rem;
+	z-index: -1;
+	position: absolute;
+	top: 14rem;
+	right: -15%;
+}
+
+@include respond-max( $mq-large ) {
+
+	.s-caseStudyAIM__campaing__background {
+		width: 100%;
+		top: -5%;
+		right: -20%;
+		opacity: .3;
+	}
+
+}
+
+@include respond-min( $mq-large ) {
+
+	.s-caseStudyAIM__campaing__background {
+		width: 60%;
+	}
+
+}

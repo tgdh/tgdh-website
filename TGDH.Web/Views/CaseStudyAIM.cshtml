@@ -36,10 +36,10 @@
 </main>
 
 @helper RenderImageCols() {
-	var image1 = Umbraco.TypedMedia(1081);
+	var image1 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol1"));
 	var image1Url = image1 != null ? image1.Url + "?width=753&height=600&mode=crop" : "";
 
-	var image2 = Umbraco.TypedMedia(1078);
+	var image2 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol2"));
 	var image2Url = image2 != null ? image2.Url + "?width=753&height=600&mode=crop" : "";
 
 	<section class="c-image-col s-caseStudyAIM__image-cols u-clearfix">
@@ -91,7 +91,7 @@
 				@{
 					var desktopImage = new DeviceFrameViewModel
 					{
-						ImageId = 1083,
+						ImageId = Model.GetPropertyValue<int>("desktopImage"),
 						Type = "desktop"
 					};
 				}
@@ -110,12 +110,12 @@
 				@{
 					var mobileImage1 = new DeviceFrameViewModel
 					{
-						ImageId = 1083,
+						ImageId = Model.GetPropertyValue<int>("mobileImage1"),
 						Type = "mobile"
 					};
 					var mobileImage2 = new DeviceFrameViewModel
 					{
-						ImageId = 1083,
+						ImageId = Model.GetPropertyValue<int>("mobileImage2"),
 						Type = "mobile"
 					};
 				}
@@ -151,20 +151,27 @@
         Subtitle = Model.GetPropertyValue<string>("campaignSubtitle")
     };
 
-	<section class="o-section s-hullTruckCaseStudy__advertisting">
+	var bgImage = Umbraco.TypedMedia(Model.GetPropertyValue<int>("campaignBackgroundImage"));
+	var bgImageUrl = bgImage != null ? bgImage.Url + "?width=900" : "";
+
+	<section class="o-section s-caseStudyAIM__campaign">
 		@{
 			var image1 = new ImageViewModel
 			{
-				ImageId = 1100,
+				ImageId = Model.GetPropertyValue<int>("campaignImage1"),
 				ImageWidth = 400,
-				AdditionalClass = "s-hullTruckCaseStudy__advertisting__image-col s-hullTruckCaseStudy__advertisting__image-col--first"
+				AdditionalClass = "s-caseStudyAIM__campaign__image-col s-caseStudyAIM__campaign__image-col--first"
 			};
 			var image2 = new ImageViewModel
 			{
-				ImageId = 1098,
+				ImageId = Model.GetPropertyValue<int>("campaignImage2"),
 				ImageWidth = 400,
-				AdditionalClass = "s-hullTruckCaseStudy__advertisting__image-col s-hullTruckCaseStudy__advertisting__image-col--last"
+				AdditionalClass = "s-caseStudyAIM__campaign__image-col s-caseStudyAIM__campaign__image-col--last"
 			};
+		}
+
+		@if( !String.IsNullOrWhiteSpace(bgImageUrl) ){
+			<img src="@bgImageUrl" alt="@bgImage.GetPropertyValue("altText")" class="s-caseStudyAIM__campaing__background">
 		}
 
 		<div class="o-section__inner o-wrap o-wrap--x-large">
