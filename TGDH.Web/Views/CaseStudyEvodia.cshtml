@@ -13,7 +13,7 @@
 
 	var fullWidthImage = new ImageViewModel
 	{
-		ImageId = 1095,
+		ImageId = 1343,
 		Alignment = "Full width",
 		AspectRatio = "16:9",
 		ImageWidth = 1600
@@ -52,7 +52,10 @@
         Headline = "Planning",
         Subtitle = "Maecenas sed diam eget risus varius blandit sit amet non magna."
     };
-	<section class="o-section u-clearfix">
+	var bgImage = Umbraco.TypedMedia(Model.GetPropertyValue<int>("planningBackgroundImage"));
+	var bgImageUrl = bgImage != null ? bgImage.Url + "?width=1000" : "";
+
+	<section class="o-section s-caseStudyEvodia__planning u-clearfix" style="background-image: url(@bgImageUrl);">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
@@ -65,18 +68,22 @@
 }
 
 @helper RenderImageCols() {
-	var image1 = Umbraco.TypedMedia(1081);
+	var image1 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol1"));
 	var image1Url = image1 != null ? image1.Url + "?width=753&height=600&mode=crop" : "";
 
-	var image2 = Umbraco.TypedMedia(1078);
+	var image2 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol2"));
 	var image2Url = image2 != null ? image2.Url + "?width=753&height=600&mode=crop" : "";
+
+	if( image1 == null || image2 == null ) {
+		return;
+	}
 
 	<section class="c-image-col s-caseStudyAIM__image-cols u-clearfix">
 		<div class="c-image-col__col c-image-col__col--first s-caseStudyAIM__image-cols__col">
-			<img src="@image1Url" alt="" class="c-image-col__image">
+			<img src="@image1Url" alt="@image1.GetPropertyValue("altText")" class="c-image-col__image">
 		</div>
 		<div class="c-image-col__col s-caseStudyAIM__image-cols__col">
-			<img src="@image2Url" alt="" class="c-image-col__image">
+			<img src="@image2Url" alt="@image2.GetPropertyValue("altText")" class="c-image-col__image">
 		</div>
 	</section>
 }
@@ -119,7 +126,7 @@
 				@{
 					var desktopImage = new DeviceFrameViewModel
 					{
-						ImageId = 1083,
+						ImageId = Model.GetPropertyValue<int>("desktopImage"),
 						Type = "desktop"
 					};
 				}
@@ -138,12 +145,12 @@
 				@{
 					var mobileImage1 = new DeviceFrameViewModel
 					{
-						ImageId = 1083,
+						ImageId = Model.GetPropertyValue<int>("mobileImage1"),
 						Type = "mobile"
 					};
 					var mobileImage2 = new DeviceFrameViewModel
 					{
-						ImageId = 1083,
+						ImageId = Model.GetPropertyValue<int>("mobileImage2"),
 						Type = "mobile"
 					};
 				}

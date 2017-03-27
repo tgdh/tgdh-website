@@ -4388,6 +4388,33 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 
 /* ===========================================================
 
+  # Evodia
+
+=========================================================== */
+.s-caseStudyEvodia__planning {
+  background-position: top right;
+  background-repeat: no-repeat;
+  position: relative; }
+  .s-caseStudyEvodia__planning:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    display: block;
+    opacity: .7;
+    background-color: #FFFFFF;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  .s-caseStudyEvodia__planning .o-section__inner {
+    position: relative;
+    z-index: 1; }
+
+@media only screen and (min-width: 1280px) {
+  .s-caseStudyEvodia__planning:before {
+    opacity: .4; } }
+
+/* ===========================================================
+
   # Contact
 
 =========================================================== */

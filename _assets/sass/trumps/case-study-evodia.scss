@@ -1,0 +1,40 @@
+/* ===========================================================
+
+  # Evodia
+
+=========================================================== */
+
+.s-caseStudyEvodia__planning {
+	background-position: top right;
+	background-repeat: no-repeat;
+	position: relative;
+
+	&:before {
+		content: "";
+		width: 100%;
+		height: 100%;
+		display: block;
+		opacity: .7;
+		background-color: $white;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	.o-section__inner {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+@include respond-min( $mq-x-large ) {
+
+	.s-caseStudyEvodia__planning {
+
+		&:before {
+			opacity: .4;
+		}
+
+	}
+
+}
