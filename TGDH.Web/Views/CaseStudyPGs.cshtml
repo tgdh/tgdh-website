@@ -149,9 +149,6 @@
 	</section>
 }
 
-
-
-
 @helper RenderImageCols() {
 	var image1 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol1"));
 	var image1Url = image1 != null ? image1.Url + "?width=753&height=600&mode=crop" : "";

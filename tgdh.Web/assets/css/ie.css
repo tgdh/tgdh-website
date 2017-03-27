@@ -4415,6 +4415,42 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 
 /* ===========================================================
 
+  # Henley case study
+
+=========================================================== */
+.s-caseStudyHenley__planning {
+  position: relative;
+  overflow: hidden; }
+  .s-caseStudyHenley__planning .o-section {
+    position: relative;
+    z-index: 1; }
+
+.s-caseStudyHenley__planning__image {
+  position: absolute;
+  right: -4rem;
+  top: 6rem;
+  z-index: -1; }
+
+@media only screen and (max-width: 599px) {
+  .s-caseStudyHenley__planning__image {
+    top: 30%;
+    right: -50%; } }
+
+@media only screen and (max-width: 799px) {
+  .s-caseStudyHenley__planning__image {
+    opacity: .15; } }
+
+@media only screen and (min-width: 600px) and (max-width: 999px) {
+  .s-caseStudyHenley__planning__image {
+    right: -35%; } }
+
+@media only screen and (min-width: 1280px) {
+  .s-caseStudyHenley__planning__image {
+    top: 8rem;
+    right: -8rem; } }
+
+/* ===========================================================
+
   # Contact
 
 =========================================================== */

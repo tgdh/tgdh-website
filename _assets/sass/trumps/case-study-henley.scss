@@ -1,0 +1,56 @@
+/* ===========================================================
+
+  # Henley case study
+
+=========================================================== */
+
+.s-caseStudyHenley__planning {
+	position: relative;
+	overflow: hidden;
+
+	.o-section {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+.s-caseStudyHenley__planning__image {
+	position: absolute;
+	right: -4rem;
+	top: 6rem;
+	z-index: -1;
+}
+
+@include respond-max( $mq-small ) {
+
+	.s-caseStudyHenley__planning__image {
+		top: 30%;
+		right: -50%;
+	}
+
+}
+
+@include respond-max( $mq-medium ) {
+
+	.s-caseStudyHenley__planning__image {
+		opacity: .15;
+	}
+
+}
+
+@include respond-min-max( $mq-small, $mq-large ) {
+
+	.s-caseStudyHenley__planning__image {
+		right: -35%;
+	}
+
+}
+
+@include respond-min( $mq-x-large ) {
+
+	.s-caseStudyHenley__planning__image {
+		top: 8rem;
+		right: -8rem;
+	}
+
+}
