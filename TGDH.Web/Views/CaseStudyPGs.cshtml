@@ -1,4 +1,195 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@inherits UmbracoViewPage<IPublishedContent>
 @{
-	Layout = null;
+    Layout = "Master.cshtml";
+
+	var Quote1Model = new QuoteViewModel {
+		Quote = Model.GetPropertyValue<IHtmlString>("quote"),
+		Source = Model.GetPropertyValue<string>("quoteSource")
+	};
+	var Quote2Model = new QuoteViewModel {
+		Quote = Model.GetPropertyValue<IHtmlString>("quote2"),
+		Source = Model.GetPropertyValue<string>("quoteSource2")
+	};
+
+	var fullWidthImage = new ImageViewModel
+	{
+		ImageId = 1343,
+		Alignment = "Full width",
+		AspectRatio = "16:9",
+		ImageWidth = 1600
+	};
+	var fullWidthImage2 = new ImageViewModel
+	{
+		ImageId = 1343,
+		Alignment = "Full width",
+		AspectRatio = "16:9",
+		ImageWidth = 1600
+	};
+	var fullWidthImage3 = new ImageViewModel
+	{
+		ImageId = 1343,
+		Alignment = "Full width",
+		AspectRatio = "16:9",
+		ImageWidth = 1600
+	};
+}
+
+<main id="main" class="o-page__content" role="main">
+	@{
+        var cover = new CoverViewModel {
+			ImageIds = Model.GetPropertyValue<string>("coverImage"),
+			Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
+			Subtitle = Model.GetPropertyValue<IHtmlString>("coverSubtitle"),
+			SubtitleLabel = Model.GetPropertyValue<string>("coverSubtitleLabel"),
+			Copy = Model.GetPropertyValue<IHtmlString>("coverCopy"),
+			Cta = Model.GetPropertyValue<string>("coverCta")
+    	};
+
+	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
+	}
+	@Html.Partial("~/Views/Partials/CaseStudies/Intro.cshtml")
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote1Model)
+	@RenderCampaign()
+	@RenderImageCols()
+	@RenderProspectus()
+	@Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage)
+	@RenderProspectusSixthForm()
+	@Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage2)
+	@RenderPoint()
+	@Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage3)
+	@RenderLeavers()
+	@RenderImageCols2()
+	@Html.Partial("~/Views/Partials/CaseStudies/Result.cshtml")
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote2Model)
+	@Html.Partial("~/Views/Partials/CaseStudies/CaseStudyPager.cshtml")
+</main>
+
+@helper RenderCampaign() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("campaignHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("campaignSubtitle")
+    };
+	<section class="o-section">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("campaignCopy")
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+@helper RenderProspectus() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("prospectusHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("prospectusSubtitle")
+    };
+	<section class="o-section">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("prospectusCopy")
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+@helper RenderProspectusSixthForm() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("prospectusSixthFormHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("prospectusSixthFormSubtitle")
+    };
+	<section class="o-section">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("prospectusSixthFormCopy")
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+@helper RenderPoint() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("pointHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("pointSubtitle")
+    };
+	<section class="o-section">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("pointCopy")
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+@helper RenderLeavers() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("leaversHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("leaversSubtitle"),
+    };
+	<section class="o-section">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("leaversCopy")
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+
+
+
+@helper RenderImageCols() {
+	var image1 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol1"));
+	var image1Url = image1 != null ? image1.Url + "?width=753&height=600&mode=crop" : "";
+
+	var image2 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol2"));
+	var image2Url = image2 != null ? image2.Url + "?width=753&height=600&mode=crop" : "";
+
+	if( image1 == null || image2 == null ) {
+		return;
+	}
+
+	<section class="c-image-col s-caseStudyAIM__image-cols u-clearfix">
+		<div class="c-image-col__col c-image-col__col--first s-caseStudyAIM__image-cols__col">
+			<img src="@image1Url" alt="@image1.GetPropertyValue("altText")" class="c-image-col__image">
+		</div>
+		<div class="c-image-col__col s-caseStudyAIM__image-cols__col">
+			<img src="@image2Url" alt="@image2.GetPropertyValue("altText")" class="c-image-col__image">
+		</div>
+	</section>
+}
+
+@helper RenderImageCols2() {
+	var image1 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol1"));
+	var image1Url = image1 != null ? image1.Url + "?width=753&height=600&mode=crop" : "";
+
+	var image2 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol2"));
+	var image2Url = image2 != null ? image2.Url + "?width=753&height=600&mode=crop" : "";
+
+	if( image1 == null || image2 == null ) {
+		return;
+	}
+
+	<section class="c-image-col s-caseStudyAIM__image-cols u-clearfix">
+		<div class="c-image-col__col c-image-col__col--first s-caseStudyAIM__image-cols__col">
+			<img src="@image1Url" alt="@image1.GetPropertyValue("altText")" class="c-image-col__image">
+		</div>
+		<div class="c-image-col__col s-caseStudyAIM__image-cols__col">
+			<img src="@image2Url" alt="@image2.GetPropertyValue("altText")" class="c-image-col__image">
+		</div>
+	</section>
 }
