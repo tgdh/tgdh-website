@@ -2,13 +2,13 @@
 @{
     Layout = "Master.cshtml";
 
-	var Quote1Model = new QuoteViewModel {
-		Quote = Html.Raw("Adipiscing Tellus Ullamcorper Parturient..."),
-		Source = "Some One"
+    var Quote1Model = new QuoteViewModel {
+		Quote = Model.GetPropertyValue<IHtmlString>("quote"),
+		Source = Model.GetPropertyValue<string>("quoteSource")
 	};
 	var Quote2Model = new QuoteViewModel {
-		Quote = Html.Raw("Etiam porta sem malesuada magna mollis euismod. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id."),
-		Source = "Some One"
+		Quote = Model.GetPropertyValue<IHtmlString>("quote2"),
+		Source = Model.GetPropertyValue<string>("quoteSource2")
 	};
 
 	var fullWidthImage = new ImageViewModel
@@ -42,25 +42,23 @@
 
 	@Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage)
 	@{
-		var prospectisHeading = new HeadingViewModel {
-	        Headline = "Prospectuses",
-	        Subtitle = "Nullam quis risus eget urna mollis ornare vel eu leo."
+		var prospectusHeading = new HeadingViewModel {
+	        Headline = Model.GetPropertyValue<string>("prospectusHeadline"),
+	        Subtitle = Model.GetPropertyValue<string>("prospectusSubtitle")
 	    };
 	}
 	<section class="o-section u-background--light u-clearfix">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
-			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", prospectisHeading)
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", prospectusHeading)
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
-					<p><strong>We need a brief description about the creation of the prospectuses.</strong> Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Cras mattis consectetur purus sit amet fermentum.</p>
-					<p>Maecenas sed diam eget risus varius blandit sit amet non magna. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+					@Model.GetPropertyValue("prospectusCopy")
 				</div>
 			</div>
 		</div>
 	</section>
 
 	@Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage)
-	@RenderJournal()
 
 	@Html.Partial("~/Views/Partials/CaseStudies/Result.cshtml")
 	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote2Model)
@@ -69,16 +67,15 @@
 
 @helper RenderPlanning() {
 	var heading = new HeadingViewModel {
-        Headline = "Planning",
-        Subtitle = "Maecenas sed diam eget risus varius blandit sit amet non magna."
+        Headline = Model.GetPropertyValue<string>("planningHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("planningSubtitle")
     };
 	<section class="o-section u-clearfix">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
-					<p>Henley College is home to nearly 2,000 full-time students from over 100 schools across Berkshire, Buckinghamshire and Oxfordshire. They required a modern website which would make it easy to find information and increase applications.</p>
-					<p>We created user journeys from a number of key personas in order to best meet the target audience. These user journeys also aided in creating a new site architecture that makes it much easier to navigate the site.</p>
+					@Model.GetPropertyValue("planningCopy")
 				</div>
 			</div>
 		</div>
@@ -104,20 +101,23 @@
 
 @helper RenderWebsite() {
 	var heading = new HeadingViewModel {
-        Headline = "Website",
-        Subtitle = "Maecenas sed diam eget risus."
+        Headline = Model.GetPropertyValue<string>("websiteHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("websiteHeadline"),
     };
 
 	var heading2  = new HeadingViewModel {
-		Headline = "Find your place",
+        Headline = Model.GetPropertyValue<string>("desktopHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("desktopSubtitle"),
 	};
 
 	var heading3  = new HeadingViewModel {
-		Headline = "Comparing courses",
+        Headline = Model.GetPropertyValue<string>("mobileHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("mobileSubtitle"),
 	};
 
 	var heading4  = new HeadingViewModel {
-		Headline = "Guiding applications",
+        Headline = Model.GetPropertyValue<string>("desktopHeadline2"),
+        Subtitle = Model.GetPropertyValue<string>("desktopSubtitle2"),
 	};
 
 	<section>
@@ -125,7 +125,7 @@
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
-					<p><strong>henley.co.uk</strong> Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+					@Model.GetPropertyValue("websiteCopy")
 					<a href="#" class="c-button c-button--primary u-space-top--large">Launch site</a>
 				</div>
 			</div>
@@ -136,7 +136,7 @@
 		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
             <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
     			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
-    			<p>Etiam porta sem malesuada magna mollis euismod. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. </p>
+    			@Model.GetPropertyValue("desktopCopy")
             </div>
             <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
 				@{
@@ -155,7 +155,7 @@
 		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix">
 			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading3)
-				<p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Aenean lacinia bibendum nulla sed. </p>
+				@Model.GetPropertyValue("mobileCopy")
 			</div>
 			<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image c-mobile-frame--wrap-two u-clearfix">
 				@{
@@ -178,7 +178,7 @@
 		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
 			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading4)
-				<p>Fewer clicks means happier customers and time saved at the box office. Features of the ticketing system such as best seat in the house, stored payment details and automatic renewal of memberships give users the best possible booking experience.</p>
+				@Model.GetPropertyValue("desktopCopy2")
 			</div>
 			<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image">
 				@{
