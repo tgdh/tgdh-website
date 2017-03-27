@@ -1,0 +1,34 @@
+/* ===========================================================
+
+	# Stat
+
+=========================================================== */
+
+.c-stats__item {
+	width: 50%;
+	float: left;
+}
+
+.c-stats__label,
+.c-stats__fig {
+	display: block;
+	font-weight: $bolder;
+}
+
+.c-stats__fig {
+	line-height: 1;
+	padding: 0;
+}
+
+.c-stats__fig__super {
+	font-size: 2.4rem;
+	vertical-align: super;
+}
+
+.c-stats__description {
+	font-size: 1.4rem;
+}
+
+.c-stats__description__item + .c-stats__description__item {
+	margin-top: $line-height / 2;
+}

@@ -1388,24 +1388,6 @@ img {
 
 /* ===========================================================
 
-	# Stat
-
-=========================================================== */
-.o-stat {
-  width: 50%;
-  float: left; }
-
-.o-stat__label,
-.o-stat__fig {
-  display: block;
-  font-weight: 900; }
-
-.o-stat__fig {
-  line-height: 1;
-  padding: 0; }
-
-/* ===========================================================
-
 	# Span
 
 =========================================================== */
@@ -3728,6 +3710,34 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 @media only screen and (min-width: 1000px) {
   .c-tile__content {
     padding: 8rem; } }
+
+/* ===========================================================
+
+	# Stat
+
+=========================================================== */
+.c-stats__item {
+  width: 50%;
+  float: left; }
+
+.c-stats__label,
+.c-stats__fig {
+  display: block;
+  font-weight: 900; }
+
+.c-stats__fig {
+  line-height: 1;
+  padding: 0; }
+
+.c-stats__fig__super {
+  font-size: 2.4rem;
+  vertical-align: super; }
+
+.c-stats__description {
+  font-size: 1.4rem; }
+
+.c-stats__description__item + .c-stats__description__item {
+  margin-top: 0.8em; }
 
 /* ===========================================================
 

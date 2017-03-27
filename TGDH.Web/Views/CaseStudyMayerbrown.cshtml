@@ -1,4 +1,175 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@inherits UmbracoViewPage<IPublishedContent>
 @{
-	Layout = null;
+    Layout = "Master.cshtml";
+
+	var Quote1Model = new QuoteViewModel {
+		Quote = Html.Raw("First quote. We've had great feedback on the new site..."),
+		Source = "Some One"
+	};
+	var Quote2Model = new QuoteViewModel {
+		Quote = Html.Raw("Vestibulum id ligula porta felis euismod semper. Aenean eu leo quam. Pellentesque venenatis vestibulum."),
+		Source = "Some One"
+	};
+}
+
+<main id="main" class="o-page__content" role="main">
+	@{
+        var cover = new CoverViewModel {
+			ImageIds = Model.GetPropertyValue<string>("coverImage"),
+			Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
+			Subtitle = Model.GetPropertyValue<IHtmlString>("coverSubtitle"),
+			SubtitleLabel = Model.GetPropertyValue<string>("coverSubtitleLabel"),
+			Copy = Model.GetPropertyValue<IHtmlString>("coverCopy"),
+			Cta = Model.GetPropertyValue<string>("coverCta")
+    	};
+
+	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
+	}
+	@Html.Partial("~/Views/Partials/CaseStudies/Intro.cshtml")
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote1Model)
+	@RenderContentSocial()
+
+	@{
+		var fullWidthImage = new ImageViewModel
+        {
+            ImageId = 1084,
+            Alignment = "Full width",
+            AspectRatio = "16:9",
+            ImageWidth = 1600
+        };
+
+        @Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage)
+	}
+
+	@RenderWebsite()
+	@{
+		var fullWidthImage2 = new ImageViewModel
+        {
+            ImageId = 1084,
+            Alignment = "Full width",
+            AspectRatio = "16:9",
+            ImageWidth = 1600
+        };
+
+        @Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage2)
+	}
+	@Html.Partial("~/Views/Partials/CaseStudies/Result.cshtml")
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote2Model)
+	@Html.Partial("~/Views/Partials/CaseStudies/CaseStudyPager.cshtml")
+</main>
+
+@helper RenderImageCols() {
+	var image1 = Umbraco.TypedMedia(1081);
+	var image1Url = image1 != null ? image1.Url + "?width=753&height=600&mode=crop" : "";
+
+	var image2 = Umbraco.TypedMedia(1078);
+	var image2Url = image2 != null ? image2.Url + "?width=753&height=600&mode=crop" : "";
+
+	<section class="c-image-col s-caseStudyAIM__image-cols u-clearfix">
+		<div class="c-image-col__col c-image-col__col--first s-caseStudyAIM__image-cols__col">
+			<img src="@image1Url" alt="" class="c-image-col__image">
+		</div>
+		<div class="c-image-col__col s-caseStudyAIM__image-cols__col">
+			<img src="@image2Url" alt="" class="c-image-col__image">
+		</div>
+	</section>
+}
+
+
+@helper RenderWebsite() {
+	var heading = new HeadingViewModel {
+        Headline = "Website",
+        Subtitle = "Maecenas sed diam eget risus."
+    };
+
+	var heading2  = new HeadingViewModel {
+		Headline = "Homepage",
+	};
+
+	var heading3  = new HeadingViewModel {
+		Headline = "WebsiteDetails",
+	};
+
+	var heading4  = new HeadingViewModel {
+		Headline = "Hassle free booking",
+	};
+
+
+	<section>
+		<div class="o-section o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					<p><strong>aimallergy.co.uk</strong> Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+					<a href="#" class="c-button c-button--primary u-space-top--large">Launch site</a>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+            <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+    			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
+    			<p>Etiam porta sem malesuada magna mollis euismod. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. </p>
+            </div>
+            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
+				@{
+					var desktopImage = new DeviceFrameViewModel
+					{
+						ImageId = 1083,
+						Type = "desktop"
+					};
+				}
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", desktopImage)
+            </div>
+		</div>
+
+
+
+		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix">
+			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading3)
+				<p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Aenean lacinia bibendum nulla sed. </p>
+			</div>
+			<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image c-mobile-frame--wrap-two u-clearfix">
+				@{
+					var mobileImage1 = new DeviceFrameViewModel
+					{
+						ImageId = 1083,
+						Type = "mobile"
+					};
+					var mobileImage2 = new DeviceFrameViewModel
+					{
+						ImageId = 1083,
+						Type = "mobile"
+					};
+				}
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage1)
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage2)
+			</div>
+		</div>
+
+	</section>
+}
+
+
+@helper RenderContentSocial() {
+	var heading = new HeadingViewModel {
+        Headline = "Content & Social Strategy",
+        Subtitle = "Maecenas sed diam eget risus varius blandit sit amet non magna."
+    };
+
+	<section class="o-section">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Aenean lacinia bibendum nulla sed consectetur. Cum sociis natoque penatibus et magnis dis parturient montes, nasceturs.</p>
+					<p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum sit amet risus. Aenean lacinia bibendum nulla sed consectetur.</p>
+
+				</div>
+			</div>
+		</div>
+	</section>
 }

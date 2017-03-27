@@ -14,24 +14,13 @@
 				@Model.GetPropertyValue("intro")
 			</div>
 			<div class="o-col o-col--last js-ht-stats-1">
-				@RenderStats()
+				@{
+					var statsModel = new StatsViewModel {
+						Stats = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("stats")
+					};
+					@Html.Partial("~/Views/Partials/Components/Stats.cshtml", statsModel)
+				}
 			</div>
 		</div>
 	</div>
 </section>
-
-@helper RenderStats() {
-	var stats = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("stats");
-	if( stats == null ) {
-		return;
-	}
-
-	foreach( var item in stats ) {
-		var statData = new StatViewModel {
-			Label = item.GetPropertyValue<string>("label"),
-			Value = item.GetPropertyValue<string>("value")
-    	};
-
-	    @Html.Partial("~/Views/Partials/Components/Stat.cshtml", statData)
-	}
-}
