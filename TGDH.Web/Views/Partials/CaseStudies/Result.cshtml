@@ -17,7 +17,12 @@
 				@Model.GetPropertyValue("resultCopy")
 			</div>
 			<div class="o-col o-col--last js-ht-stats-1">
-
+				@{
+					var statsModel = new StatsViewModel {
+						Stats = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("resultStats")
+					};
+					@Html.Partial("~/Views/Partials/Components/Stats.cshtml", statsModel)
+				}
 			</div>
 		</div>
 	</div>
