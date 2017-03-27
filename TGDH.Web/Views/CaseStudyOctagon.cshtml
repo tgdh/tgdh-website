@@ -1,4 +1,257 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@inherits UmbracoViewPage<IPublishedContent>
 @{
-	Layout = null;
+    Layout = "Master.cshtml";
+
+	var Quote1Model = new QuoteViewModel {
+		Quote = Model.GetPropertyValue<IHtmlString>("quote"),
+		Source = Model.GetPropertyValue<string>("quoteSource")
+	};
+	var Quote2Model = new QuoteViewModel {
+		Quote = Model.GetPropertyValue<IHtmlString>("quote2"),
+		Source = Model.GetPropertyValue<string>("quoteSource2")
+	};
+}
+
+<main id="main" class="o-page__content" role="main">
+	@{
+        var cover = new CoverViewModel {
+			ImageIds = Model.GetPropertyValue<string>("coverImage"),
+			Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
+			Subtitle = Model.GetPropertyValue<IHtmlString>("coverSubtitle"),
+			SubtitleLabel = Model.GetPropertyValue<string>("coverSubtitleLabel"),
+			Copy = Model.GetPropertyValue<IHtmlString>("coverCopy"),
+			Cta = Model.GetPropertyValue<string>("coverCta")
+    	};
+
+	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
+	}
+	@Html.Partial("~/Views/Partials/CaseStudies/Intro.cshtml")
+	@RenderImageCols()
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote1Model)
+	@RenderBranding()
+	@RenderReport()
+
+	@{
+		var fullWidthImage = new ImageViewModel
+        {
+            ImageId = 1084,
+            Alignment = "Full width",
+            AspectRatio = "16:9",
+            ImageWidth = 1600
+        };
+
+        @Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage)
+	}
+
+	@RenderWebsite()
+	@RenderAnniversary()
+	@RenderImageCols2()
+	@RenderContentSocial()
+
+	@Html.Partial("~/Views/Partials/CaseStudies/Result.cshtml")
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote2Model)
+	@Html.Partial("~/Views/Partials/CaseStudies/CaseStudyPager.cshtml")
+</main>
+
+@helper RenderImageCols() {
+	var image1 = Umbraco.TypedMedia(1081);
+	var image1Url = image1 != null ? image1.Url + "?width=753&height=600&mode=crop" : "";
+
+	var image2 = Umbraco.TypedMedia(1078);
+	var image2Url = image2 != null ? image2.Url + "?width=753&height=600&mode=crop" : "";
+
+	<section class="c-image-col s-caseStudyAIM__image-cols u-clearfix">
+		<div class="c-image-col__col c-image-col__col--first s-caseStudyAIM__image-cols__col">
+			<img src="@image1Url" alt="" class="c-image-col__image">
+		</div>
+		<div class="c-image-col__col s-caseStudyAIM__image-cols__col">
+			<img src="@image2Url" alt="" class="c-image-col__image">
+		</div>
+	</section>
+}
+
+@helper RenderImageCols2() {
+	var image1 = Umbraco.TypedMedia(1081);
+	var image1Url = image1 != null ? image1.Url + "?width=753&height=600&mode=crop" : "";
+
+	var image2 = Umbraco.TypedMedia(1078);
+	var image2Url = image2 != null ? image2.Url + "?width=753&height=600&mode=crop" : "";
+
+	<section class="c-image-col s-caseStudyAIM__image-cols u-clearfix">
+		<div class="c-image-col__col c-image-col__col--first s-caseStudyAIM__image-cols__col">
+			<img src="@image1Url" alt="" class="c-image-col__image">
+		</div>
+		<div class="c-image-col__col s-caseStudyAIM__image-cols__col">
+			<img src="@image2Url" alt="" class="c-image-col__image">
+		</div>
+	</section>
+}
+
+@helper RenderBranding() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("brandingHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("brandingSubtitle")
+    };
+
+	<section class="o-section">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("brandingCopy")
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+@helper RenderReport() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("reportHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("reportSubtitle")
+    };
+
+	<section class="o-section u-background--light">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("reportCopy")
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+@helper RenderAnniversary() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("anniversaryHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("anniversarySubtitle")
+    };
+
+	<section class="o-section u-background--light">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("anniversaryCopy")
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+@helper RenderWebsite() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("websiteHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("websiteSubtitle")
+    };
+
+	var heading2  = new HeadingViewModel {
+		Headline = Model.GetPropertyValue<string>("desktopHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("desktopSubtitle")
+	};
+
+	var heading3  = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("mobileHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("mobileSubtitle")
+	};
+
+	var heading4  = new HeadingViewModel {
+		Headline = Model.GetPropertyValue<string>("desktopHeadline2"),
+        Subtitle = Model.GetPropertyValue<string>("desktopSubtitle2")
+	};
+
+	<section>
+		<div class="o-section o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("websiteCopy")
+					<a href="#" class="c-button c-button--primary u-space-top--large">Launch site</a>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+            <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+    			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
+    			@Model.GetPropertyValue("desktopCopy")
+            </div>
+            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
+				@{
+					var desktopImage = new DeviceFrameViewModel
+					{
+						ImageId = 1083,
+						Type = "desktop"
+					};
+				}
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", desktopImage)
+            </div>
+		</div>
+
+
+
+		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix">
+			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading3)
+				@Model.GetPropertyValue("mobileCopy")
+			</div>
+			<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image c-mobile-frame--wrap-two u-clearfix">
+				@{
+					var mobileImage1 = new DeviceFrameViewModel
+					{
+						ImageId = 1083,
+						Type = "mobile"
+					};
+					var mobileImage2 = new DeviceFrameViewModel
+					{
+						ImageId = 1083,
+						Type = "mobile"
+					};
+				}
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage1)
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage2)
+			</div>
+		</div>
+
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+            <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+    			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading4)
+    			@Model.GetPropertyValue("desktopCopy")
+            </div>
+            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
+				@{
+					var desktopImage2 = new DeviceFrameViewModel
+					{
+						ImageId = 1083,
+						Type = "desktop"
+					};
+				}
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", desktopImage2)
+            </div>
+		</div>
+
+	</section>
+}
+
+
+@helper RenderContentSocial() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("contentSocialHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("contentSocialSubtitle")
+    };
+
+	<section class="o-section">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("contentSocialCopy")
+				</div>
+			</div>
+		</div>
+	</section>
 }
