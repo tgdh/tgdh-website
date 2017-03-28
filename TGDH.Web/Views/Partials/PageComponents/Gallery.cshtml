@@ -23,9 +23,9 @@
     var imageWidth = alignment != "default" ? Model.ImageWidth/2 : Model.ImageWidth;
 }
 
-<figure class="c-gallery @aspectRatioClass @alignmentClass @Model.AdditionalClass">
-    <div class="c-gallery__inner js-carousel js-modal swiper-container" data-loop="false" data-autoplay="false" data-count="1" data-modal-type="gallery">
-		<div class="swiper-wrapper">
+<figure class="c-carousel @aspectRatioClass @alignmentClass @Model.AdditionalClass">
+    <div class="c-carousel js-carousel swiper-container" data-loop="false" data-autoplay="false" data-count="1" data-modal-type="gallery">
+		<div class="swiper-wrapper c-carousel__wrapper">
 	        @foreach (var media in typedMedia)
 	        {
 	            if (media != null)
@@ -48,10 +48,9 @@
 		@*
 		// add pagination
         <div class="swiper-pagination"></div>
-        // add nav
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
 		*@
+		<button class="c-carousel__nav--prev js-carousel-prev"><span class="u-visually-hidden">Previous</span></button>
+		<button class="c-carousel__nav--next js-carousel-next"><span class="u-visually-hidden">Next</span></button>
     </div>
 </figure>
 
@@ -69,8 +68,8 @@
     var caption = image.GetPropertyValue<string>("caption");
     var altText = image.GetPropertyValue<string>("altText");
 
-    <a href="@imageUrl" target="_blank" class="c-gallery__item">
-        <img src="@imageCropUrl" class="c-gallery__image" alt="@altText"/>
+    <a href="@imageUrl" target="_blank" class="c-carousel__item">
+        <img src="@imageCropUrl" class="c-carousel__image" alt="@altText"/>
 
         @if (!string.IsNullOrEmpty(caption))
         {

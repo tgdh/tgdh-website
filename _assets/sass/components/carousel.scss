@@ -4,6 +4,46 @@
 
 =========================================================== */
 
-.c-gallery__image {
+
+.no-enhance {
+
+	.c-carousel__wrapper {
+		display: block;
+		background-color: $placeholder-colour;
+
+		@include clearfix();
+	}
+
+	.c-carousel__item {
+		width: 25%;
+		float: left;
+	}
+
+}
+
+.enhance {
+
+	.c-carousel__nav--prev,
+	.c-carousel__nav--next {
+		width: 50%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		z-index: 3;
+	}
+
+	.c-carousel__nav--prev {
+		cursor: url('#{$images}/cursor-left.png'), auto;
+		left: 0;
+	}
+
+	.c-carousel__nav--next {
+		cursor: url('#{$images}/cursor-right.png'), auto;
+		right: 0;
+	}
+
+}
+
+.c-carousel__image {
 	width: 100%;
 }

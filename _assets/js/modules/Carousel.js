@@ -18,15 +18,6 @@ const Carousel = () => {
 				slide.classList.add('swiper-slide');
 			});
 
-			const temp = {
-				loop: item.dataset.loop ? item.dataset.loop : false,
-				loopedSlides: 1,
-				slidesPerView: item.dataset.count ? item.dataset.count : 1,
-				effect: item.dataset.loop ? item.dataset.effect : 'fade',
-				pagination: item.dataset.pagination ? item.dataset.pagination : '.swiper-pagination',
-			};
-			console.log(temp);
-
 			const carousel = new Swiper(item, {
 				loop: item.dataset.loop ? item.dataset.loop : false,
 				loopedSlides: 1,
@@ -34,8 +25,8 @@ const Carousel = () => {
 				effect: item.dataset.loop ? item.dataset.effect : 'fade',
 				pagination: item.dataset.pagination ? item.dataset.pagination : '.swiper-pagination',
 				paginationClickable: true,
-				nextButton: '.js-carousel-nav-next',
-				prevButton: '.js-carousel-nav-prev',
+				nextButton: '.js-carousel-next',
+				prevButton: '.js-carousel-prev',
 				fade: {
 					crossFade: true
 				},

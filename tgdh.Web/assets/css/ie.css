@@ -2779,7 +2779,36 @@ button.swiper-pagination-bullet {
 	# Carousel
 
 =========================================================== */
-.c-gallery__image {
+.no-enhance .c-carousel__wrapper {
+  display: block;
+  background-color: rgba(0, 0, 0, 0.05); }
+  .no-enhance .c-carousel__wrapper:before, .no-enhance .c-carousel__wrapper:after {
+    content: "";
+    display: table; }
+  .no-enhance .c-carousel__wrapper:after {
+    clear: both; }
+
+.no-enhance .c-carousel__item {
+  width: 25%;
+  float: left; }
+
+.enhance .c-carousel__nav--prev,
+.enhance .c-carousel__nav--next {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 3; }
+
+.enhance .c-carousel__nav--prev {
+  cursor: url("/assets/img/cursor-left.png"), auto;
+  left: 0; }
+
+.enhance .c-carousel__nav--next {
+  cursor: url("/assets/img/cursor-right.png"), auto;
+  right: 0; }
+
+.c-carousel__image {
   width: 100%; }
 
 /* ===========================================================
