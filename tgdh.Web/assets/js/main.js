@@ -324,6 +324,115 @@ return /******/ (function(modules) { // webpackBootstrap
 
 });
 
+var svg4everybody = createCommonjsModule(function (module) {
+!function(root, factory) {
+    "function" == typeof undefined && undefined.amd ? // AMD. Register as an anonymous module unless amdModuleId is set
+    undefined([], function() {
+        return root.svg4everybody = factory();
+    }) : "object" == 'object' && module.exports ? // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory() : root.svg4everybody = factory();
+}(commonjsGlobal, function() {
+    /*! svg4everybody v2.1.7 | github.com/jonathantneal/svg4everybody */
+    function embed(parent, svg, target) {
+        // if the target exists
+        if (target) {
+            // create a document fragment to hold the contents of the target
+            var fragment = document.createDocumentFragment(), viewBox = !svg.hasAttribute("viewBox") && target.getAttribute("viewBox");
+            // conditionally set the viewBox on the svg
+            viewBox && svg.setAttribute("viewBox", viewBox);
+            // copy the contents of the clone into the fragment
+            for (// clone the target
+            var clone = target.cloneNode(!0); clone.childNodes.length; ) {
+                fragment.appendChild(clone.firstChild);
+            }
+            // append the fragment into the svg
+            parent.appendChild(fragment);
+        }
+    }
+    function loadreadystatechange(xhr) {
+        // listen to changes in the request
+        xhr.onreadystatechange = function() {
+            // if the request is ready
+            if (4 === xhr.readyState) {
+                // get the cached html document
+                var cachedDocument = xhr._cachedDocument;
+                // ensure the cached html document based on the xhr response
+                cachedDocument || (cachedDocument = xhr._cachedDocument = document.implementation.createHTMLDocument(""), 
+                cachedDocument.body.innerHTML = xhr.responseText, xhr._cachedTarget = {}), // clear the xhr embeds list and embed each item
+                xhr._embeds.splice(0).map(function(item) {
+                    // get the cached target
+                    var target = xhr._cachedTarget[item.id];
+                    // ensure the cached target
+                    target || (target = xhr._cachedTarget[item.id] = cachedDocument.getElementById(item.id)), 
+                    // embed the target into the svg
+                    embed(item.parent, item.svg, target);
+                });
+            }
+        }, // test the ready state change immediately
+        xhr.onreadystatechange();
+    }
+    function svg4everybody(rawopts) {
+        function oninterval() {
+            // while the index exists in the live <use> collection
+            for (// get the cached <use> index
+            var index = 0; index < uses.length; ) {
+                // get the current <use>
+                var use = uses[index], parent = use.parentNode, svg = getSVGAncestor(parent);
+                if (svg) {
+                    var src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                    if (polyfill) {
+                        if (!opts.validate || opts.validate(src, svg, use)) {
+                            // remove the <use> element
+                            parent.removeChild(use);
+                            // parse the src and get the url and id
+                            var srcSplit = src.split("#"), url = srcSplit.shift(), id = srcSplit.join("#");
+                            // if the link is external
+                            if (url.length) {
+                                // get the cached xhr request
+                                var xhr = requests[url];
+                                // ensure the xhr request exists
+                                xhr || (xhr = requests[url] = new XMLHttpRequest(), xhr.open("GET", url), xhr.send(), 
+                                xhr._embeds = []), // add the svg and id as an item to the xhr embeds list
+                                xhr._embeds.push({
+                                    parent: parent,
+                                    svg: svg,
+                                    id: id
+                                }), // prepare the xhr ready state change event
+                                loadreadystatechange(xhr);
+                            } else {
+                                // embed the local id into the svg
+                                embed(parent, svg, document.getElementById(id));
+                            }
+                        } else {
+                            // increase the index when the previous value was not "valid"
+                            ++index, ++numberOfSvgUseElementsToBypass;
+                        }
+                    }
+                } else {
+                    // increase the index when the previous value was not "valid"
+                    ++index;
+                }
+            }
+            // continue the interval
+            (!uses.length || uses.length - numberOfSvgUseElementsToBypass > 0) && requestAnimationFrame(oninterval, 67);
+        }
+        var polyfill, opts = Object(rawopts), newerIEUA = /\bTrident\/[567]\b|\bMSIE (?:9|10)\.0\b/, webkitUA = /\bAppleWebKit\/(\d+)\b/, olderEdgeUA = /\bEdge\/12\.(\d+)\b/, edgeUA = /\bEdge\/.(\d+)\b/, inIframe = window.top !== window.self;
+        polyfill = "polyfill" in opts ? opts.polyfill : newerIEUA.test(navigator.userAgent) || (navigator.userAgent.match(olderEdgeUA) || [])[1] < 10547 || (navigator.userAgent.match(webkitUA) || [])[1] < 537 || edgeUA.test(navigator.userAgent) && inIframe;
+        // create xhr requests object
+        var requests = {}, requestAnimationFrame = window.requestAnimationFrame || setTimeout, uses = document.getElementsByTagName("use"), numberOfSvgUseElementsToBypass = 0;
+        // conditionally start the interval if the polyfill is active
+        polyfill && oninterval();
+    }
+    function getSVGAncestor(node) {
+        for (var svg = node; "svg" !== svg.nodeName.toLowerCase() && (svg = svg.parentNode); ) {}
+        return svg;
+    }
+    return svg4everybody;
+});
+});
+
 var fontfaceobserver_standalone = createCommonjsModule(function (module) {
 (function(){function l(a,b){document.addEventListener?a.addEventListener("scroll",b,!1):a.attachEvent("scroll",b);}function m(a){document.body?a():document.addEventListener?document.addEventListener("DOMContentLoaded",function c(){document.removeEventListener("DOMContentLoaded",c);a();}):document.attachEvent("onreadystatechange",function k(){if("interactive"==document.readyState||"complete"==document.readyState)document.detachEvent("onreadystatechange",k),a();});}function r(a){this.a=document.createElement("div");this.a.setAttribute("aria-hidden","true");this.a.appendChild(document.createTextNode(a));this.b=document.createElement("span");this.c=document.createElement("span");this.h=document.createElement("span");this.f=document.createElement("span");this.g=-1;this.b.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";this.c.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";
 this.f.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";this.h.style.cssText="display:inline-block;width:200%;height:200%;font-size:16px;max-width:none;";this.b.appendChild(this.h);this.c.appendChild(this.f);this.a.appendChild(this.b);this.a.appendChild(this.c);}
@@ -8426,8 +8535,9 @@ var Carousel$1 = function Carousel() {
 				loopedSlides: 1,
 				slidesPerView: item.dataset.count ? item.dataset.count : 1,
 				effect: item.dataset.loop ? item.dataset.effect : 'fade',
-				pagination: item.dataset.pagination ? item.dataset.pagination : '.swiper-pagination',
-				paginationClickable: true,
+				bulletClass: 'c-carousel__pagination__item',
+				bulletActiveClass: 'is-active',
+				pagination: '.js-carousel-pagination',
 				nextButton: '.js-carousel-next',
 				prevButton: '.js-carousel-prev',
 				fade: {
@@ -8435,13 +8545,18 @@ var Carousel$1 = function Carousel() {
 				},
 				autoHeight: false
 			});
-			console.log(carousel);
 		});
 	});
 };
 
 var VanillaTilt$1 = (function () {
 'use strict';
+
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
 
 /**
  * Created by Șandor Sergiu (micku7zu) on 1/27/2017.
@@ -8450,10 +8565,13 @@ var VanillaTilt$1 = (function () {
  * Version 1.3.0
  */
 
-class VanillaTilt {
-  constructor(element, settings = {}) {
+var VanillaTilt = function () {
+  function VanillaTilt(element) {
+    var settings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    classCallCheck(this, VanillaTilt);
+
     if (!(element instanceof Node)) {
-      throw ("Can't initialize VanillaTilt because " + element + " is not a Node.");
+      throw "Can't initialize VanillaTilt because " + element + " is not a Node.";
     }
 
     this.width = null;
@@ -8473,7 +8591,7 @@ class VanillaTilt {
     this.addEventListeners();
   }
 
-  addEventListeners() {
+  VanillaTilt.prototype.addEventListeners = function addEventListeners() {
     this.onMouseEnterBind = this.onMouseEnter.bind(this);
     this.onMouseMoveBind = this.onMouseMove.bind(this);
     this.onMouseLeaveBind = this.onMouseLeave.bind(this);
@@ -8481,68 +8599,67 @@ class VanillaTilt {
     this.element.addEventListener("mouseenter", this.onMouseEnterBind);
     this.element.addEventListener("mousemove", this.onMouseMoveBind);
     this.element.addEventListener("mouseleave", this.onMouseLeaveBind);
-  }
+  };
 
-  removeEventListeners() {
+  VanillaTilt.prototype.removeEventListeners = function removeEventListeners() {
     this.element.removeEventListener("mouseenter", this.onMouseEnterBind);
     this.element.removeEventListener("mousemove", this.onMouseMoveBind);
     this.element.removeEventListener("mouseleave", this.onMouseLeaveBind);
-  }
+  };
 
-  destroy() {
+  VanillaTilt.prototype.destroy = function destroy() {
     this.removeEventListeners();
     this.element.vanillaTilt = null;
     delete this.element.vanillaTilt;
 
     this.element = null;
-  }
+  };
 
-  onMouseEnter(event) {
+  VanillaTilt.prototype.onMouseEnter = function onMouseEnter(event) {
     this.updateElementPosition();
     this.element.style.willChange = "transform";
     this.setTransition();
-  }
+  };
 
-  onMouseMove(event) {
+  VanillaTilt.prototype.onMouseMove = function onMouseMove(event) {
     if (this.updateCall !== null) {
       cancelAnimationFrame(this.updateCall);
     }
 
     this.event = event;
     this.updateCall = requestAnimationFrame(this.updateBind);
-  }
+  };
 
-  onMouseLeave(event) {
+  VanillaTilt.prototype.onMouseLeave = function onMouseLeave(event) {
     this.setTransition();
 
     if (this.settings.reset) {
       this.reset();
     }
-  }
+  };
 
-  reset() {
-    requestAnimationFrame(() => {
-      this.event = {
-        pageX: this.left + this.width / 2,
-        pageY: this.top + this.height / 2
+  VanillaTilt.prototype.reset = function reset() {
+    var _this = this;
+
+    requestAnimationFrame(function () {
+      _this.event = {
+        pageX: _this.left + _this.width / 2,
+        pageY: _this.top + _this.height / 2
       };
 
-      this.element.style.transform = "perspective(" + this.settings.perspective + "px) " +
-        "rotateX(0deg) " +
-        "rotateY(0deg) " +
-        "scale3d(1, 1, 1)";
+      _this.element.style.transform = "perspective(" + _this.settings.perspective + "px) " + "rotateX(0deg) " + "rotateY(0deg) " + "scale3d(1, 1, 1)";
     });
-  }
+  };
 
-  getValues() {
-    let x = (this.event.clientX - this.left) / this.width;
-    let y = (this.event.clientY - this.top) / this.height;
+  VanillaTilt.prototype.getValues = function getValues() {
+    var x = (this.event.clientX - this.left) / this.width;
+    var y = (this.event.clientY - this.top) / this.height;
 
     x = Math.min(Math.max(x, 0), 1);
     y = Math.min(Math.max(y, 0), 1);
 
-    let tiltX = (this.reverse * (this.settings.max / 2 - x * this.settings.max)).toFixed(2);
-    let tiltY = (this.reverse * (y * this.settings.max - this.settings.max / 2)).toFixed(2);
+    var tiltX = (this.reverse * (this.settings.max / 2 - x * this.settings.max)).toFixed(2);
+    var tiltY = (this.reverse * (y * this.settings.max - this.settings.max / 2)).toFixed(2);
 
     return {
       tiltX: tiltX,
@@ -8550,41 +8667,41 @@ class VanillaTilt {
       percentageX: x * 100,
       percentageY: y * 100
     };
-  }
+  };
 
-  updateElementPosition() {
-    let rect = this.element.getBoundingClientRect();
+  VanillaTilt.prototype.updateElementPosition = function updateElementPosition() {
+    var rect = this.element.getBoundingClientRect();
 
     this.width = this.element.offsetWidth;
     this.height = this.element.offsetHeight;
     this.left = rect.left;
     this.top = rect.top;
-  }
+  };
 
-  update() {
-    let values = this.getValues();
+  VanillaTilt.prototype.update = function update() {
+    var values = this.getValues();
 
-    this.element.style.transform = "perspective(" + this.settings.perspective + "px) " +
-      "rotateX(" + (this.settings.axis === "x" ? 0 : values.tiltY) + "deg) " +
-      "rotateY(" + (this.settings.axis === "y" ? 0 : values.tiltX) + "deg) " +
-      "scale3d(" + this.settings.scale + ", " + this.settings.scale + ", " + this.settings.scale + ")";
-
+    this.element.style.transform = "perspective(" + this.settings.perspective + "px) " + "rotateX(" + (this.settings.axis === "x" ? 0 : values.tiltY) + "deg) " + "rotateY(" + (this.settings.axis === "y" ? 0 : values.tiltX) + "deg) " + "scale3d(" + this.settings.scale + ", " + this.settings.scale + ", " + this.settings.scale + ")";
 
     this.element.dispatchEvent(new CustomEvent("tiltChange", {
       "detail": values
     }));
 
     this.updateCall = null;
-  }
+  };
 
-  setTransition() {
+  VanillaTilt.prototype.setTransition = function setTransition() {
+    var _this2 = this;
+
     clearTimeout(this.transitionTimeout);
     this.element.style.transition = this.settings.speed + "ms " + this.settings.easing;
-    this.transitionTimeout = setTimeout(() => this.element.style.transition = "", this.settings.speed);
-  }
+    this.transitionTimeout = setTimeout(function () {
+      return _this2.element.style.transition = "";
+    }, this.settings.speed);
+  };
 
-  extendSettings(settings) {
-    let defaultSettings = {
+  VanillaTilt.prototype.extendSettings = function extendSettings(settings) {
+    var defaultSettings = {
       reverse: false,
       max: 35,
       perspective: 1000,
@@ -8596,28 +8713,27 @@ class VanillaTilt {
       reset: true
     };
 
-    let newSettings = {};
+    var newSettings = {};
 
     for (var property in defaultSettings) {
       if (property in settings) {
         newSettings[property] = settings[property];
       } else if (this.element.hasAttribute("data-tilt-" + property)) {
-        let attribute = this.element.getAttribute("data-tilt-" + property);
+        var attribute = this.element.getAttribute("data-tilt-" + property);
         try {
           newSettings[property] = JSON.parse(attribute);
         } catch (e) {
           newSettings[property] = attribute;
         }
-
       } else {
         newSettings[property] = defaultSettings[property];
       }
     }
 
     return newSettings;
-  }
+  };
 
-  static init(elements, settings) {
+  VanillaTilt.init = function init(elements, settings) {
     if (elements instanceof Node) {
       elements = [elements];
     }
@@ -8630,13 +8746,15 @@ class VanillaTilt {
       return;
     }
 
-    elements.forEach((element) => {
+    elements.forEach(function (element) {
       if (!("vanillaTilt" in element)) {
         element.vanillaTilt = new VanillaTilt(element, settings);
       }
     });
-  }
-}
+  };
+
+  return VanillaTilt;
+}();
 
 if (typeof document !== "undefined") {
   /* expose the class to window */
@@ -10391,4 +10509,5 @@ if ($toggleButton) {
 initSmoothScroll();
 
 new StickyHeader($('.js-header-logo'));
+svg4everybody();
 //# sourceMappingURL=main.js.map

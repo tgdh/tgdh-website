@@ -1412,6 +1412,29 @@ img {
 	// https://github.com/M-Ulyanov/ImageComparison
 
 =========================================================== */
+.no-enhance .comparison-image-wrap:before, .no-enhance .comparison-image-wrap:after {
+  content: "";
+  display: table; }
+
+.no-enhance .comparison-image-wrap:after {
+  clear: both; }
+
+.no-enhance .comparison-image {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 48.5%;
+  margin-left: 0%;
+  margin-right: 3%; }
+  .no-enhance .comparison-image:before, .no-enhance .comparison-image:after {
+    content: '';
+    display: table; }
+  .no-enhance .comparison-image:after {
+    clear: both; }
+  .no-enhance .comparison-image:last-child {
+    margin-right: 0%; }
+
 .comparison-widget {
   display: block;
   max-width: 100%;
@@ -2779,6 +2802,12 @@ button.swiper-pagination-bullet {
 	# Carousel
 
 =========================================================== */
+.c-carousel__image {
+  width: 100%; }
+
+.c-carousel.o-aspect--16-9 img {
+  position: relative; }
+
 .no-enhance .c-carousel__wrapper {
   display: block;
   background-color: rgba(0, 0, 0, 0.05); }
@@ -2791,6 +2820,19 @@ button.swiper-pagination-bullet {
 .no-enhance .c-carousel__item {
   width: 25%;
   float: left; }
+
+.no-enhance .c-carousel__image {
+  position: relative; }
+
+.no-enhance .c-carousel:before {
+  display: none; }
+
+.enhance .o-aspect--16-9 .c-carousel__inner {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0; }
 
 .enhance .c-carousel__nav--prev,
 .enhance .c-carousel__nav--next {
@@ -2808,8 +2850,28 @@ button.swiper-pagination-bullet {
   cursor: url("/assets/img/cursor-right.png"), auto;
   right: 0; }
 
-.c-carousel__image {
-  width: 100%; }
+.enhance .c-carousel__pagination {
+  width: auto;
+  position: absolute;
+  bottom: 6rem;
+  left: 50%;
+  z-index: 4;
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%); }
+
+.enhance .c-carousel__pagination__item {
+  cursor: pointer;
+  width: 1.2rem;
+  height: 1.2rem;
+  display: inline-block;
+  margin: 1rem;
+  border-radius: 50%;
+  border: 0.2rem solid #FFFFFF;
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease; }
+  .enhance .c-carousel__pagination__item.is-active {
+    background-color: #FFFFFF; }
 
 /* ===========================================================
 

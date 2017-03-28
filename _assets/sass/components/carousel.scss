@@ -4,6 +4,18 @@
 
 =========================================================== */
 
+.c-carousel__image {
+	width: 100%;
+}
+
+.c-carousel.o-aspect--16-9 {
+
+	img {
+		position: relative;
+	}
+
+}
+
 .no-enhance {
 
 	.c-carousel__wrapper {
@@ -18,9 +30,29 @@
 		float: left;
 	}
 
+	.c-carousel__image {
+		position: relative;
+	}
+
+	.c-carousel:before {
+		display: none;
+	}
+
 }
 
 .enhance {
+
+	.o-aspect--16-9 {
+
+		.c-carousel__inner {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+	}
 
 	.c-carousel__nav--prev,
 	.c-carousel__nav--next {
@@ -41,8 +73,28 @@
 		right: 0;
 	}
 
-}
+	.c-carousel__pagination {
+		width: auto;
+		position: absolute;
+		bottom: 6rem;
+		left: 50%;
+		z-index: 4;
+		transform: translateX(-50%);
+	}
 
-.c-carousel__image {
-	width: 100%;
+	.c-carousel__pagination__item {
+		cursor: pointer;
+		width: 1.2rem;
+		height: 1.2rem;
+		display: inline-block;
+		margin: 1rem;
+		border-radius: 50%;
+		border: .2rem solid $white;
+		transition: background-color $speed $ease;
+
+		&.is-active {
+			background-color: $white;
+		}
+	}
+
 }

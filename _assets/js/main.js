@@ -1,4 +1,5 @@
 import whatInput from 'what-input';
+import svg4everybody from 'svg4everybody';
 import LoadFonts from './modules/LoadFonts';
 import { $ } from './modules/Bling';
 import ToggleNav from './modules/ToggleNav';
@@ -33,3 +34,4 @@ if ($toggleButton) {
 initSmoothScroll();
 
 new StickyHeader($('.js-header-logo'));
+svg4everybody();

@@ -5,6 +5,18 @@
 
 =========================================================== */
 
+.no-enhance {
+
+	.comparison-image-wrap {
+		@include clearfix;
+	}
+
+	.comparison-image {
+		@include column(1/2);
+	}
+
+}
+
 .comparison-widget {
 	display: block;
 	max-width: 100%;

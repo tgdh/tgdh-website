@@ -1,4 +1,4 @@
-import * as VTilt from '../../../node_modules/vanilla-tilt/dist/vanilla-tilt';
+import * as VTilt from '../../../node_modules/vanilla-tilt/dist/vanilla-tilt.babel';
 import { $$ } from './Bling';
 
 const tilt = () => {

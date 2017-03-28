@@ -23,8 +23,9 @@ const Carousel = () => {
 				loopedSlides: 1,
 				slidesPerView: item.dataset.count ? item.dataset.count : 1,
 				effect: item.dataset.loop ? item.dataset.effect : 'fade',
-				pagination: item.dataset.pagination ? item.dataset.pagination : '.swiper-pagination',
-				paginationClickable: true,
+				bulletClass: 'c-carousel__pagination__item',
+				bulletActiveClass: 'is-active',
+				pagination: '.js-carousel-pagination',
 				nextButton: '.js-carousel-next',
 				prevButton: '.js-carousel-prev',
 				fade: {
@@ -32,9 +33,10 @@ const Carousel = () => {
 				},
 				autoHeight: false
 			});
-			console.log(carousel);
 		});
 	});
 };
+// swiper-pagination-clickable
+// swiper-pagination-bullets
 
 export default Carousel;
