@@ -12,7 +12,7 @@
 		content: "";
 		display: block;
 		background-color: $placeholder-colour;
-		padding-top: 100%;
+		@include pad-top(753,600);
 	}
 }
 

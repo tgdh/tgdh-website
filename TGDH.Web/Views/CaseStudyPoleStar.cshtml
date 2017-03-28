@@ -29,7 +29,15 @@
 	@Html.Partial("~/Views/Partials/CaseStudies/Intro.cshtml")
 	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote1Model)
 	@RenderJourney()
-	@RenderImageCols()
+	@{
+		var imageColModel = new ImageColumnsViewModel {
+	        FirstImageId = Model.GetPropertyValue<int>("imageCol1"),
+			LastImageId = Model.GetPropertyValue<int>("imageCol2"),
+			ModifierClass = "s-caseStudyPoleStar__image-cols"
+	    };
+		@Html.Partial("~/Views/Partials/Components/ImageColumns.cshtml", imageColModel)
+	}
+
 	@RenderIcons()
 	@RenderWebsite()
 
@@ -83,26 +91,6 @@
 	</section>
 }
 
-@helper RenderImageCols() {
-	var image1 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol1"));
-	var image1Url = image1 != null ? image1.Url + "?width=753&height=600&mode=crop" : "";
-
-	var image2 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol2"));
-	var image2Url = image2 != null ? image2.Url + "?width=753&height=600&mode=crop" : "";
-
-	if( image1 == null || image2 == null ) {
-		return;
-	}
-
-	<section class="c-image-col s-caseStudyAIM__image-cols u-clearfix">
-		<div class="c-image-col__col c-image-col__col--first s-caseStudyAIM__image-cols__col">
-			<img src="@image1Url" alt="@image1.GetPropertyValue("altText")" class="c-image-col__image">
-		</div>
-		<div class="c-image-col__col s-caseStudyAIM__image-cols__col">
-			<img src="@image2Url" alt="@image2.GetPropertyValue("altText")" class="c-image-col__image">
-		</div>
-	</section>
-}
 
 @helper RenderWebsite() {
 	var heading = new HeadingViewModel {

@@ -1,0 +1,27 @@
+@inherits UmbracoViewPage<ImageColumnsViewModel>
+@{
+	var firstImage = Umbraco.TypedMedia(Model.FirstImageId);
+
+	if (firstImage == null)
+    {
+        return;
+    }
+
+	var lastImage = Umbraco.TypedMedia(Model.LastImageId);
+	if (lastImage == null)
+	{
+		return;
+	}
+
+	var firstImageUrl = firstImage.Url + "?width=753&height=600&mode=crop";
+	var lastImageUrl = lastImage.Url + "?width=753&height=600&mode=crop";
+}
+
+<section class="c-image-col u-clearfix @Model.ModifierClass">
+	<div class="c-image-col__col">
+		<img src="@firstImageUrl" alt="@firstImage.GetPropertyValue("altText")" class="c-image-col__image">
+	</div>
+	<div class="c-image-col__col">
+		<img src="@lastImageUrl" alt="@lastImage.GetPropertyValue("altText")" class="c-image-col__image">
+	</div>
+</section>
