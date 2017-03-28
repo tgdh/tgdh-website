@@ -4480,6 +4480,26 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 
 /* ===========================================================
 
+  # Case study - Mayer brown
+
+=========================================================== */
+.s-caseStudyMayerbrown__content-social {
+  position: relative; }
+  .s-caseStudyMayerbrown__content-social .o-section__inner {
+    position: relative;
+    z-index: 1; }
+
+.s-caseStudyMayerbrown__content-social__image {
+  position: absolute;
+  right: 0;
+  bottom: 0; }
+
+@media only screen and (max-width: 999px) {
+  .s-caseStudyMayerbrown__content-social__image {
+    opacity: .3; } }
+
+/* ===========================================================
+
   # Contact
 
 =========================================================== */
