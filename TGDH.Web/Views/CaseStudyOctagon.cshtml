@@ -26,26 +26,40 @@
 	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
 	}
 	@Html.Partial("~/Views/Partials/CaseStudies/Intro.cshtml")
-	@RenderImageCols()
+	@{
+        var introImageColModel = new ImageColumnsViewModel {
+            FirstImageId = Model.GetPropertyValue<int>("imageCol1"),
+            LastImageId = Model.GetPropertyValue<int>("imageCol2"),
+            ModifierClass = "s-hullTruckCaseStudy__image-cols--intro"
+        };
+        @Html.Partial("~/Views/Partials/Components/ImageColumns.cshtml", introImageColModel)
+    }
+
 	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote1Model)
 	@RenderBranding()
 	@RenderReport()
 
 	@{
-		var fullWidthImage = new ImageViewModel
-        {
-            ImageId = 1084,
-            Alignment = "Full width",
-            AspectRatio = "16:9",
-            ImageWidth = 1600
-        };
-
-        @Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage)
+		var gallery1 = new GalleryViewModel
+		{
+			MediaIds = Model.GetPropertyValue<string>("galleryImages"),
+			AspectRatio = "16:9"
+		};
 	}
+	@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", gallery1)
 
 	@RenderWebsite()
 	@RenderAnniversary()
-	@RenderImageCols2()
+
+	@{
+        var imageColModel2 = new ImageColumnsViewModel {
+            FirstImageId = Model.GetPropertyValue<int>("secondImageCol1"),
+            LastImageId = Model.GetPropertyValue<int>("secondImageCol2"),
+            ModifierClass = "s-hullTruckCaseStudy__image-cols--intro"
+        };
+        @Html.Partial("~/Views/Partials/Components/ImageColumns.cshtml", imageColModel2)
+    }
+
 	@RenderContentSocial()
 
 	@Html.Partial("~/Views/Partials/CaseStudies/Result.cshtml")
@@ -53,39 +67,6 @@
 	@Html.Partial("~/Views/Partials/CaseStudies/CaseStudyPager.cshtml")
 </main>
 
-@helper RenderImageCols() {
-	var image1 = Umbraco.TypedMedia(1081);
-	var image1Url = image1 != null ? image1.Url + "?width=753&height=600&mode=crop" : "";
-
-	var image2 = Umbraco.TypedMedia(1078);
-	var image2Url = image2 != null ? image2.Url + "?width=753&height=600&mode=crop" : "";
-
-	<section class="c-image-col s-caseStudyAIM__image-cols u-clearfix">
-		<div class="c-image-col__col c-image-col__col--first s-caseStudyAIM__image-cols__col">
-			<img src="@image1Url" alt="" class="c-image-col__image">
-		</div>
-		<div class="c-image-col__col s-caseStudyAIM__image-cols__col">
-			<img src="@image2Url" alt="" class="c-image-col__image">
-		</div>
-	</section>
-}
-
-@helper RenderImageCols2() {
-	var image1 = Umbraco.TypedMedia(1081);
-	var image1Url = image1 != null ? image1.Url + "?width=753&height=600&mode=crop" : "";
-
-	var image2 = Umbraco.TypedMedia(1078);
-	var image2Url = image2 != null ? image2.Url + "?width=753&height=600&mode=crop" : "";
-
-	<section class="c-image-col s-caseStudyAIM__image-cols u-clearfix">
-		<div class="c-image-col__col c-image-col__col--first s-caseStudyAIM__image-cols__col">
-			<img src="@image1Url" alt="" class="c-image-col__image">
-		</div>
-		<div class="c-image-col__col s-caseStudyAIM__image-cols__col">
-			<img src="@image2Url" alt="" class="c-image-col__image">
-		</div>
-	</section>
-}
 
 @helper RenderBranding() {
 	var heading = new HeadingViewModel {
@@ -173,8 +154,6 @@
 			</div>
 		</div>
 
-
-
 		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
             <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
     			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
@@ -184,7 +163,7 @@
 				@{
 					var desktopImage = new DeviceFrameViewModel
 					{
-						ImageId = 1083,
+						ImageId = Model.GetPropertyValue<int>("desktopImage"),
 						Type = "desktop"
 					};
 				}
@@ -203,12 +182,12 @@
 				@{
 					var mobileImage1 = new DeviceFrameViewModel
 					{
-						ImageId = 1083,
+						ImageId = Model.GetPropertyValue<int>("mobileImage1"),
 						Type = "mobile"
 					};
 					var mobileImage2 = new DeviceFrameViewModel
 					{
-						ImageId = 1083,
+						ImageId = Model.GetPropertyValue<int>("mobileImage2"),
 						Type = "mobile"
 					};
 				}
@@ -226,7 +205,7 @@
 				@{
 					var desktopImage2 = new DeviceFrameViewModel
 					{
-						ImageId = 1083,
+						ImageId = Model.GetPropertyValue<int>("desktopImage2"),
 						Type = "desktop"
 					};
 				}
