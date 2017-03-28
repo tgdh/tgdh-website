@@ -18,7 +18,16 @@
 	}
 
 	@Html.Partial("~/Views/Partials/CaseStudies/Intro.cshtml")
-	@RenderIntroImages()
+
+    @{
+        var introImageColModel = new ImageColumnsViewModel {
+            FirstImageId = Model.GetPropertyValue<int>("imageCol1"),
+            LastImageId = Model.GetPropertyValue<int>("imageCol2"),
+            ModifierClass = "s-hullTruckCaseStudy__image-cols--intro"
+        };
+        @Html.Partial("~/Views/Partials/Components/ImageColumns.cshtml", introImageColModel)
+    }
+
 	@{
 		var Quote1Model = new QuoteViewModel {
 			Quote = Model.GetPropertyValue<IHtmlString>("quote"),
@@ -27,40 +36,32 @@
 	}
 	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote1Model)
 	@RenderCityCulture()
-	@RenderCityCultureImages()
     @RenderCreative()
 
-	@{
-		var creativeImage = new ImageViewModel
-        {
-            ImageId = 1102,
-            Alignment = "Full width",
-            AspectRatio = "16:9",
-            ImageWidth = 1600
-        };
-
-        @Html.Partial("~/Views/Partials/Components/Image.cshtml", creativeImage)
-	}
 
     @RenderPhotography()
-	@RenderWebsite()
-
 	@{
-		var websiteImage = new ImageViewModel
-        {
-            ImageId = 1113,
-            Alignment = "Full width",
-            AspectRatio = "16:9",
-            ImageWidth = 1600
-        };
+		var gallery1 = new GalleryViewModel
+		{
+			MediaIds = Model.GetPropertyValue<string>("galleryImages"),
+			AspectRatio = "16:9"
+		};
+	}
+	@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", gallery1)
 
-        @Html.Partial("~/Views/Partials/Components/Image.cshtml", websiteImage)
+	@RenderWebsite()
+	@{
+		var gallery2 = new GalleryViewModel
+		{
+			MediaIds = Model.GetPropertyValue<string>("galleryImages2"),
+			AspectRatio = "16:9"
+		};
 	}
 
+	@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", gallery2)
+
 	@RenderAdvertising()
-@*
-	@RenderIntegration()
-*@
+
 	@Html.Partial("~/Views/Partials/CaseStudies/Result.cshtml")
 	@{
 		var Quote2Model = new QuoteViewModel {
@@ -72,22 +73,6 @@
 	@Html.Partial("~/Views/Partials/CaseStudies/CaseStudyPager.cshtml")
 </main>
 
-@helper RenderIntroImages() {
-	var image1 = Umbraco.TypedMedia(1107);
-	var image1Url = image1 != null ? image1.Url : "";
-
-	var image2 = Umbraco.TypedMedia(1108);
-	var image2Url = image2 != null ? image2.Url : "";
-
-	<section class="c-image-col s-hullTruckCaseStudy__image-cols--intro u-clearfix">
-		<div class="c-image-col__col c-image-col__col--first s-hullTruckCaseStudy__image-cols__col">
-			<img src="@image1Url" alt="" class="c-image-col__image">
-		</div>
-		<div class="c-image-col__col s-hullTruckCaseStudy__image-cols__col">
-			<img src="@image2Url" alt="" class="c-image-col__image">
-		</div>
-	</section>
-}
 
 @helper RenderCityCulture() {
 	var heading = new HeadingViewModel {
@@ -95,14 +80,13 @@
         Subtitle = Model.GetPropertyValue<string>("cityCultureSubtitle")
     };
 
-	var image = Umbraco.TypedMedia(1112);
-	var imageUrl = "";
-	if( image != null ) {
-		imageUrl = image.Url + "?width=560";
-	}
+	var image = Umbraco.TypedMedia(Model.GetPropertyValue<int>("cityCultureImage"));
+	var imageUrl = image != null ? image.Url + "?width=560" : "";
 
-    <section class="o-section s-hullTruckCaseStudy__city-culture">
-		<img src="@imageUrl" alt="" class="s-hullTruckCaseStudy__city-culture__image u-anim u-anim-duration-20" data-scroll="toggle(slideInRight, slideOutRight)">
+    <section class="o-section u-background--light s-hullTruckCaseStudy__city-culture">
+        @if( !String.IsNullOrWhiteSpace(imageUrl) ) {
+    		<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-hullTruckCaseStudy__city-culture__image">
+        }
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
@@ -114,25 +98,6 @@
 	</section>
 }
 
-@helper RenderCityCultureImages() {
-	var image1 = Umbraco.TypedMedia(1104);
-	var image1Url = image1 != null ? image1.Url : "";
-
-	var image2 = Umbraco.TypedMedia(1105);
-	var image2Url = image2 != null ? image2.Url : "";
-
-	<section class="c-image-col s-hullTruckCaseStudy__image-cols--city-culture u-clearfix">
-		<div class="c-image-col__col c-image-col__col--first s-hullTruckCaseStudy__image-cols__col">
-			<img src="@image1Url" alt="" class="c-image-col__image">
-		</div>
-		<div class="c-image-col__col s-hullTruckCaseStudy__image-cols__col">
-			<img src="@image2Url" alt="" class="c-image-col__image">
-		</div>
-	</section>
-}
-
-
-
 @helper RenderCreative() {
 	var heading = new HeadingViewModel {
         Headline = Model.GetPropertyValue<string>("creativeHeadline"),
@@ -141,12 +106,12 @@
 
 	var image1 = new ImageViewModel
 	{
-		ImageId = 1103,
+		ImageId = Model.GetPropertyValue<int>("creativeImage"),
 		ImageWidth = 1000,
 		AdditionalClass = "s-hullTruckCaseStudy__creative__image-main"
 	};
 
-	var bgImage = Umbraco.TypedMedia(1101);
+	var bgImage = Umbraco.TypedMedia(Model.GetPropertyValue<int>("creativeBackgroundImage"));
 	var bgImageUrl = bgImage != null ? bgImage.Url + "?width=500&upscale=false" : "";
 
     <section class="o-section s-hullTruckCaseStudy__creative" style="background-image: url(@bgImageUrl)">
@@ -170,8 +135,8 @@
     };
 
 	var comparisonImages = new ImageComparisonViewModel {
-        BeforeImageId = 1111,
-		AfterImageId = 1110
+        BeforeImageId = Model.GetPropertyValue<int>("photographyBeforeImage"),
+		AfterImageId = Model.GetPropertyValue<int>("photographyAfterImage")
     };
 
     <section class="o-section u-background--light s-hullTruckCaseStudy__photography">
@@ -224,7 +189,14 @@
     			@Model.GetPropertyValue("personalityCopy")
             </div>
             <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
-				@RenderDesktopImage(1121, "top")
+				@{
+					var desktopImage1 = new DeviceFrameViewModel
+					{
+						ImageId = Model.GetPropertyValue<int>("personalityImage"),
+						Type = "desktop"
+					};
+				}
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", desktopImage1)
             </div>
 		</div>
 
@@ -236,8 +208,20 @@
 				@Model.GetPropertyValue("mobileCopy")
 			</div>
 			<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image c-mobile-frame--wrap-two u-clearfix">
-				@RenderMobileImage(1124, "top")
-				@RenderMobileImage(1123, "top")
+			@{
+				var mobileImage1 = new DeviceFrameViewModel
+				{
+					ImageId = Model.GetPropertyValue<int>("mobileImage1"),
+					Type = "mobile"
+				};
+				var mobileImage2 = new DeviceFrameViewModel
+				{
+					ImageId = Model.GetPropertyValue<int>("mobileImage2"),
+					Type = "mobile"
+				};
+			}
+			@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage1)
+			@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage2)
 			</div>
 		</div>
 
@@ -248,27 +232,17 @@
 				@Model.GetPropertyValue("bookingCopy")
 			</div>
 			<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image">
-				@RenderDesktopImage(1122)
+			@{
+				var desktopImage2 = new DeviceFrameViewModel
+				{
+					ImageId = Model.GetPropertyValue<int>("bookingImage"),
+					Type = "desktop"
+				};
+			}
+			@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", desktopImage2)
 			</div>
 		</div>
 	</section>
-}
-
-@helper RenderMobileImage(int imageId = 0, string cropAnchor = "") {
-	var image = Umbraco.TypedMedia(imageId);
-	var imageUrl = image != null ? image.Url + "?width=375&height=667&mode=crop&anchor=" + cropAnchor : "";
-
-	<div class="c-mobile-frame">
-		<img src="@imageUrl" alt="" class="c-mobile-frame__image">
-	</div>
-}
-
-@helper RenderDesktopImage(int imageId = 0, string cropAnchor = "") {
-	var image = Umbraco.TypedMedia(imageId);
-	var imageUrl = image != null ? image.Url + "?width=860&height=640&mode=crop&anchor=" + cropAnchor : "";
-	<div class="c-desktop-frame">
-		<img src="@imageUrl" alt="" class="c-desktop-frame__image">
-	</div>
 }
 
 
@@ -282,20 +256,20 @@
 		@{
 			var image1 = new ImageViewModel
 			{
-				ImageId = 1100,
+				ImageId = Model.GetPropertyValue<int>("advertisingImage1"),
 				ImageWidth = 400,
 				AdditionalClass = "s-hullTruckCaseStudy__advertisting__image-col s-hullTruckCaseStudy__advertisting__image-col--first"
 			};
 			var image2 = new ImageViewModel
 			{
-				ImageId = 1098,
+				ImageId = Model.GetPropertyValue<int>("advertisingImage2"),
 				ImageWidth = 400,
 				AdditionalClass = "s-hullTruckCaseStudy__advertisting__image-col s-hullTruckCaseStudy__advertisting__image-col--last"
 			};
 
 			var image3 = new ImageViewModel
 			{
-				ImageId = 1099,
+				ImageId = Model.GetPropertyValue<int>("advertisingImage3"),
 				ImageWidth = 800,
 				AdditionalClass = "s-hullTruckCaseStudy__advertisting__image-main"
 			};
