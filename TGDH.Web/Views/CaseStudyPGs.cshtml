@@ -11,27 +11,6 @@
 		Source = Model.GetPropertyValue<string>("quoteSource2")
 	};
 
-	var fullWidthImage = new ImageViewModel
-	{
-		ImageId = 1343,
-		Alignment = "Full width",
-		AspectRatio = "16:9",
-		ImageWidth = 1600
-	};
-	var fullWidthImage2 = new ImageViewModel
-	{
-		ImageId = 1343,
-		Alignment = "Full width",
-		AspectRatio = "16:9",
-		ImageWidth = 1600
-	};
-	var fullWidthImage3 = new ImageViewModel
-	{
-		ImageId = 1343,
-		Alignment = "Full width",
-		AspectRatio = "16:9",
-		ImageWidth = 1600
-	};
 }
 
 <main id="main" class="o-page__content" role="main">
@@ -50,15 +29,50 @@
 	@Html.Partial("~/Views/Partials/CaseStudies/Intro.cshtml")
 	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote1Model)
 	@RenderCampaign()
-	@RenderImageCols()
+	@{
+        var introImageColModel = new ImageColumnsViewModel {
+            FirstImageId = Model.GetPropertyValue<int>("imageCol1"),
+            LastImageId = Model.GetPropertyValue<int>("imageCol2"),
+            ModifierClass = "s-hullTruckCaseStudy__image-cols--intro"
+        };
+        @Html.Partial("~/Views/Partials/Components/ImageColumns.cshtml", introImageColModel)
+    }
 	@RenderProspectus()
-	@Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage)
+	@{
+		var gallery1 = new GalleryViewModel
+		{
+			MediaIds = Model.GetPropertyValue<string>("galleryImages"),
+			AspectRatio = "16:9"
+		};
+		@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", gallery1)
+	}
 	@RenderProspectusSixthForm()
-	@Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage2)
+	@{
+		var gallery2 = new GalleryViewModel
+		{
+			MediaIds = Model.GetPropertyValue<string>("galleryImages2"),
+			AspectRatio = "16:9"
+		};
+		@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", gallery2)
+	}
 	@RenderPoint()
-	@Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage3)
+	@{
+		var gallery3 = new GalleryViewModel
+		{
+			MediaIds = Model.GetPropertyValue<string>("galleryImages3"),
+			AspectRatio = "16:9"
+		};
+		@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", gallery3)
+	}
 	@RenderLeavers()
-	@RenderImageCols2()
+	@{
+        var imageColModel2 = new ImageColumnsViewModel {
+            FirstImageId = Model.GetPropertyValue<int>("secondImageCol1"),
+            LastImageId = Model.GetPropertyValue<int>("secondImageCol2"),
+            ModifierClass = "s-hullTruckCaseStudy__image-cols--intro"
+        };
+        @Html.Partial("~/Views/Partials/Components/ImageColumns.cshtml", imageColModel2)
+    }
 	@Html.Partial("~/Views/Partials/CaseStudies/Result.cshtml")
 	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote2Model)
 	@Html.Partial("~/Views/Partials/CaseStudies/CaseStudyPager.cshtml")
@@ -69,7 +83,26 @@
         Headline = Model.GetPropertyValue<string>("campaignHeadline"),
         Subtitle = Model.GetPropertyValue<string>("campaignSubtitle")
     };
-	<section class="o-section">
+
+	var image1 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("campaignImage1"));
+	var imageUrl1 = image1 != null ? image1.Url + "?width=400" : "";
+	var hasImage1 = !String.IsNullOrWhiteSpace(imageUrl1);
+
+	var image2 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("campaignImage2"));
+	var imageUrl2 = image2 != null ? image2.Url + "?width=200" : "";
+	var hasImage2 = !String.IsNullOrWhiteSpace(imageUrl2);
+
+	var image3 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("campaignImage3"));
+	var imageUrl3 = image3 != null ? image3.Url + "?width=500" : "";
+	var hasImage3 = !String.IsNullOrWhiteSpace(imageUrl3);
+
+	var bgImage = Umbraco.TypedMedia(Model.GetPropertyValue<int>("campaignBackgroundImage"));
+	var imageUrl = bgImage != null ? bgImage.Url + "?width=500" : "";
+
+	<section class="o-section s-caseStudyPGS__campaign">
+		@if(!String.IsNullOrWhiteSpace(imageUrl)) {
+			<img src="@imageUrl" alt="@bgImage.GetPropertyValue("altText")" class="s-caseStudyPGS__campaign__image--bg">
+		}
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
@@ -77,6 +110,22 @@
 					@Model.GetPropertyValue("campaignCopy")
 				</div>
 			</div>
+
+			@if( hasImage1 || hasImage2 || hasImage3 ) {
+				<div class="s-caseStudyPGS__campaign__images u-clearfix">
+					@if(hasImage1) {
+						<img src="@imageUrl1" alt="@image1.GetPropertyValue("altText")" class="s-caseStudyPGS__campaign__image--1">
+					}
+
+					@if(hasImage2) {
+						<img src="@imageUrl2" alt="@image2.GetPropertyValue("altText")" class="s-caseStudyPGS__campaign__image--2">
+					}
+
+					@if(hasImage3) {
+						<img src="@imageUrl3" alt="@image3.GetPropertyValue("altText")" class="s-caseStudyPGS__campaign__image--3">
+					}
+				</div>
+			}
 		</div>
 	</section>
 }
@@ -103,7 +152,13 @@
         Headline = Model.GetPropertyValue<string>("prospectusSixthFormHeadline"),
         Subtitle = Model.GetPropertyValue<string>("prospectusSixthFormSubtitle")
     };
-	<section class="o-section">
+	var image = Umbraco.TypedMedia(Model.GetPropertyValue<int>("prospectusSixthFormBackgroundImage"));
+	var imageUrl = image != null ? image.Url + "?width=500" : "";
+
+	<section class="o-section s-caseStudyPGS__sixth-form">
+		@if(!String.IsNullOrWhiteSpace(imageUrl)) {
+			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-caseStudyPGS__sixth-form__image">
+		}
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
@@ -145,48 +200,6 @@
 					@Model.GetPropertyValue("leaversCopy")
 				</div>
 			</div>
-		</div>
-	</section>
-}
-
-@helper RenderImageCols() {
-	var image1 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol1"));
-	var image1Url = image1 != null ? image1.Url + "?width=753&height=600&mode=crop" : "";
-
-	var image2 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol2"));
-	var image2Url = image2 != null ? image2.Url + "?width=753&height=600&mode=crop" : "";
-
-	if( image1 == null || image2 == null ) {
-		return;
-	}
-
-	<section class="c-image-col s-caseStudyAIM__image-cols u-clearfix">
-		<div class="c-image-col__col c-image-col__col--first s-caseStudyAIM__image-cols__col">
-			<img src="@image1Url" alt="@image1.GetPropertyValue("altText")" class="c-image-col__image">
-		</div>
-		<div class="c-image-col__col s-caseStudyAIM__image-cols__col">
-			<img src="@image2Url" alt="@image2.GetPropertyValue("altText")" class="c-image-col__image">
-		</div>
-	</section>
-}
-
-@helper RenderImageCols2() {
-	var image1 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol1"));
-	var image1Url = image1 != null ? image1.Url + "?width=753&height=600&mode=crop" : "";
-
-	var image2 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol2"));
-	var image2Url = image2 != null ? image2.Url + "?width=753&height=600&mode=crop" : "";
-
-	if( image1 == null || image2 == null ) {
-		return;
-	}
-
-	<section class="c-image-col s-caseStudyAIM__image-cols u-clearfix">
-		<div class="c-image-col__col c-image-col__col--first s-caseStudyAIM__image-cols__col">
-			<img src="@image1Url" alt="@image1.GetPropertyValue("altText")" class="c-image-col__image">
-		</div>
-		<div class="c-image-col__col s-caseStudyAIM__image-cols__col">
-			<img src="@image2Url" alt="@image2.GetPropertyValue("altText")" class="c-image-col__image">
 		</div>
 	</section>
 }

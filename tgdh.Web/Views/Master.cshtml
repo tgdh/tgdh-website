@@ -9,7 +9,7 @@
     string pageScope = "s-" + rgx.Replace( Model.DocumentTypeAlias , "");
 }
 <!doctype html>
-<html lang="en" class="no-enhance @pageScope">
+<html lang="en" class="no-enhance no-js @pageScope">
 	<head itemscope itemtype="http://schema.org/WebSite">
 		<meta content="The Graphic Design House" itemprop="name">
         <meta charset="utf-8">
@@ -39,8 +39,8 @@
 				&& 'localStorage' in window
 				&& 'addEventListener' in window
 				&& 'classList' in document.documentElement;
-			$html.classList.remove( 'no-js' );
-			$html.classList.add( 'js' );
+			$html.classList.remove('no-js');
+			$html.classList.add('js');
 			if( enhance ) {
 			  	$html.classList.remove( 'no-enhance' );
 			  	$html.classList.add( 'enhance' );

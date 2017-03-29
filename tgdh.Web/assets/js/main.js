@@ -2837,7 +2837,7 @@ var lazysizes = createCommonjsModule(function (module) {
 ));
 });
 
-var Lazyload$1 = function Lazyload() {
+var Lazyload = function Lazyload() {
 	window.lazySizesConfig = window.lazySizesConfig || {};
 	window.lazySizesConfig.lazyClass = 'js-lazyload';
 };
@@ -3163,7 +3163,7 @@ var ImageComparison = createCommonjsModule(function (module) {
 }(commonjsGlobal));
 });
 
-var initComparisonImages$1 = function initComparisonImages() {
+var initComparisonImages = function initComparisonImages() {
 	var selection = $$('.js-image-comparison');
 
 	document.addEventListener('DOMContentLoaded', function () {
@@ -8513,7 +8513,7 @@ Swiper AMD Export
 
 });
 
-var Carousel$1 = function Carousel() {
+var Carousel = function Carousel() {
 	document.addEventListener('DOMContentLoaded', function () {
 		var carousels = $$('.js-carousel');
 		if (!carousels) {
@@ -10496,18 +10496,20 @@ $('body').on('click', el => console.log(el.target));
 $$('p').forEach(el => console.log(el));
 */
 
-Fonts$1();
-Lazyload$1();
-Carousel$1();
-initComparisonImages$1();
-tilt();
-var map = new GMap($('.js-map'));
-var $toggleButton = $('.js-nav-toggle');
-if ($toggleButton) {
-	var toggleNavInstance = new ToggleNav($toggleButton);
-}
-initSmoothScroll();
+(function () {
+	Fonts$1();
+	Lazyload();
+	Carousel();
+	initComparisonImages();
+	tilt();
+	var map = new GMap($('.js-map'));
+	var $toggleButton = $('.js-nav-toggle');
+	if ($toggleButton) {
+		var toggleNavInstance = new ToggleNav($toggleButton);
+	}
+	initSmoothScroll();
 
-new StickyHeader($('.js-header-logo'));
-svg4everybody();
+	new StickyHeader($('.js-header-logo'));
+	svg4everybody();
+})();
 //# sourceMappingURL=main.js.map

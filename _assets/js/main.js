@@ -21,17 +21,19 @@ $('body').on('click', el => console.log(el.target));
 $$('p').forEach(el => console.log(el));
 */
 
-LoadFonts();
-lazySizes();
-carousel();
-imageComparison();
-tilt();
-const map = new GMap($('.js-map'));
-const $toggleButton = $('.js-nav-toggle');
-if ($toggleButton) {
-	const toggleNavInstance = new ToggleNav($toggleButton);
-}
-initSmoothScroll();
+(() => {
+	LoadFonts();
+	lazySizes();
+	carousel();
+	imageComparison();
+	tilt();
+	const map = new GMap($('.js-map'));
+	const $toggleButton = $('.js-nav-toggle');
+	if ($toggleButton) {
+		const toggleNavInstance = new ToggleNav($toggleButton);
+	}
+	initSmoothScroll();
 
-new StickyHeader($('.js-header-logo'));
-svg4everybody();
+	new StickyHeader($('.js-header-logo'));
+	svg4everybody();
+})();

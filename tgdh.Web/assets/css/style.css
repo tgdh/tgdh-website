@@ -4562,6 +4562,89 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 
 /* ===========================================================
 
+  # Case study - PGS
+
+=========================================================== */
+.s-caseStudyPGS__campaign {
+  position: relative; }
+  .s-caseStudyPGS__campaign .o-section__inner {
+    position: relative;
+    z-index: 1; }
+
+.s-caseStudyPGS__campaign__image--bg {
+  position: absolute;
+  right: 0; }
+
+@media only screen and (max-width: 999px) {
+  .s-caseStudyPGS__campaign__image--bg {
+    opacity: .15; } }
+
+.s-caseStudyPGS__campaign__images {
+  margin-top: 6rem; }
+
+.s-caseStudyPGS__campaign__image--1 {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 30.7692307692%;
+  margin-left: 0%;
+  margin-right: 0%; }
+  .s-caseStudyPGS__campaign__image--1:before, .s-caseStudyPGS__campaign__image--1:after {
+    content: '';
+    display: table; }
+  .s-caseStudyPGS__campaign__image--1:after {
+    clear: both; }
+
+.s-caseStudyPGS__campaign__image--2 {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 15.3846153846%;
+  margin-left: 7.6923076923%;
+  margin-right: 0%; }
+  .s-caseStudyPGS__campaign__image--2:before, .s-caseStudyPGS__campaign__image--2:after {
+    content: '';
+    display: table; }
+  .s-caseStudyPGS__campaign__image--2:after {
+    clear: both; }
+
+.s-caseStudyPGS__campaign__image--3 {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 38.4615384615%;
+  margin-left: 7.6923076923%;
+  margin-right: 0%; }
+  .s-caseStudyPGS__campaign__image--3:before, .s-caseStudyPGS__campaign__image--3:after {
+    content: '';
+    display: table; }
+  .s-caseStudyPGS__campaign__image--3:after {
+    clear: both; }
+
+.s-caseStudyPGS__sixth-form {
+  position: relative;
+  overflow: hidden; }
+  .s-caseStudyPGS__sixth-form .o-section__inner {
+    position: relative;
+    z-index: 1; }
+
+.s-caseStudyPGS__sixth-form__image {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%); }
+
+@media only screen and (max-width: 999px) {
+  .s-caseStudyPGS__sixth-form__image {
+    opacity: .1; } }
+
+/* ===========================================================
+
   # Contact
 
 =========================================================== */
