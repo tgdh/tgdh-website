@@ -868,6 +868,21 @@ html {
     margin-top: 1.6em; } }
 
 @media only screen and (min-width: 600px) {
+  .o-col--two .o-col {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 48.5%;
+    margin-left: 0%;
+    margin-right: 3%; }
+    .o-col--two .o-col:before, .o-col--two .o-col:after {
+      content: '';
+      display: table; }
+    .o-col--two .o-col:after {
+      clear: both; }
+    .o-col--two .o-col:last-child {
+      margin-right: 0%; }
   .o-col--three .o-col {
     *zoom: 1;
     float: left;

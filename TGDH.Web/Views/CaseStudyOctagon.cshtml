@@ -74,18 +74,29 @@
         Subtitle = Model.GetPropertyValue<string>("brandingSubtitle")
     };
 
+	var logo = Umbraco.TypedMedia(Model.GetPropertyValue<int>("brandingImage"));
+	var logoUrl = logo != null ? logo.Url + "?width=310" : "";
+
 	<section class="o-section">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix u-space-bottom--large">
 				<div class="o-col o-col--first">
 					@Model.GetPropertyValue("brandingCopy")
+					@if(!String.IsNullOrWhiteSpace(logoUrl)) {
+						<img src="@logoUrl" alt="logo.GetPropertyValue("altText")" class="u-space-top--large u-space-bottom">
+					}
 				</div>
 			</div>
 
 			<h3 class="u-breakline u-gamma">Typography</h3>
 			<div class="o-col--two u-clearfix u-space-bottom--large">
-
+				<div class="o-col o-col--first">
+					<h4>Headings</h4>
+				</div>
+				<div class="o-col o-col--last">
+					<h4>Body copy</h4>
+				</div>
 			</div>
 
 			@{
