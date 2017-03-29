@@ -3833,6 +3833,138 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 
 /* ===========================================================
 
+	# Colour swatch
+
+=========================================================== */
+.c-colour-swatch {
+  margin-bottom: 1.6em; }
+
+.c-colour-swatch__heading__headline {
+  font-weight: 900;
+  font-size: 1.6rem;
+  padding-bottom: 0; }
+
+.c-colour-swatch__heading__subtitle {
+  opacity: .65;
+  font-size: 1.4rem; }
+
+.c-colour-swatch__colours__item {
+  width: 6rem;
+  height: 6rem;
+  display: inline-block;
+  border-radius: 50%; }
+
+.c-colour-swatch__colours__item--20,
+.c-colour-swatch__colours__item--50 {
+  display: none; }
+
+@media only screen and (max-width: 599px) {
+  .no-flexbox .c-colour-swatch__heading {
+    width: 80%;
+    width: calc(100% - 7rem);
+    float: right; }
+  .no-flexbox .c-colour-swatch__colours {
+    float: left; }
+  .flexbox .c-colour-swatch {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; }
+  .flexbox .c-colour-swatch__heading {
+    -webkit-box-ordinal-group: 2;
+    -webkit-order: 1;
+        -ms-flex-order: 1;
+            order: 1;
+    margin-left: 1rem;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center; } }
+
+@media only screen and (min-width: 600px) {
+  .c-colour-swatch {
+    display: inline-block;
+    margin-right: 6rem; }
+  .c-colour-swatch__colours {
+    margin-top: 1.4rem; }
+  .c-colour-swatch__colours__item {
+    display: inline-block; }
+  .c-colour-swatch__colours__item--50 {
+    opacity: .5; }
+  .c-colour-swatch__colours__item--20 {
+    opacity: .2; } }
+
+@media only screen and (min-width: 600px) and (max-width: 799px) {
+  .c-colour-swatch {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 48.5%;
+    margin-left: 0%;
+    margin-right: 3%; }
+    .c-colour-swatch:before, .c-colour-swatch:after {
+      content: '';
+      display: table; }
+    .c-colour-swatch:after {
+      clear: both; }
+    .c-colour-swatch:nth-child(2n) {
+      margin-right: 0%;
+      float: right; }
+    .c-colour-swatch:nth-child(2n + 1) {
+      clear: both; } }
+
+@media only screen and (min-width: 800px) and (max-width: 999px) {
+  .c-colour-swatch {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 31.3333333333%;
+    margin-left: 0%;
+    margin-right: 3%; }
+    .c-colour-swatch:before, .c-colour-swatch:after {
+      content: '';
+      display: table; }
+    .c-colour-swatch:after {
+      clear: both; }
+    .c-colour-swatch:nth-child(3n) {
+      margin-right: 0%;
+      float: right; }
+    .c-colour-swatch:nth-child(3n + 1) {
+      clear: both; } }
+
+@media only screen and (min-width: 1000px) {
+  .c-colour-swatch {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 22.75%;
+    margin-left: 0%;
+    margin-right: 3%; }
+    .c-colour-swatch:before, .c-colour-swatch:after {
+      content: '';
+      display: table; }
+    .c-colour-swatch:after {
+      clear: both; }
+    .c-colour-swatch:nth-child(4n) {
+      margin-right: 0%;
+      float: right; }
+    .c-colour-swatch:nth-child(4n + 1) {
+      clear: both; } }
+
+/* ===========================================================
+
 	# Profile card
 
 =========================================================== */
@@ -4277,6 +4409,14 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 
 .u-font--small {
   font-size: 1.4rem; }
+
+.u-breakline:after {
+  content: "";
+  width: 2.7rem;
+  height: .1rem;
+  background-color: #000000;
+  display: block;
+  margin-top: 1rem; }
 
 /* ===========================================================
 

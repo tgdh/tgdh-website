@@ -25,7 +25,11 @@
 
 }
 
-
 .u-font--small {
 	font-size: 1.4rem;
+}
+
+
+.u-breakline:after {
+	@include breakline();
 }

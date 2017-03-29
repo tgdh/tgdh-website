@@ -77,11 +77,53 @@
 	<section class="o-section">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
-			<div class="o-col--two-one u-clearfix">
+			<div class="o-col--two-one u-clearfix u-space-bottom--large">
 				<div class="o-col o-col--first">
 					@Model.GetPropertyValue("brandingCopy")
 				</div>
 			</div>
+
+			<h3 class="u-breakline u-gamma">Typography</h3>
+			<div class="o-col--two u-clearfix u-space-bottom--large">
+
+			</div>
+
+			@{
+				var blueSwatch = new ColourSwatchViewModel {
+		            Name = "Blue",
+					Subtitle = "#30b2cd",
+		            Hex = "#30b2cd"
+		        };
+				var greenSwatch = new ColourSwatchViewModel {
+		            Name = "Green",
+		            Subtitle = "#a0c04d",
+					Hex = "#a0c04d"
+		        };
+				var orangeSwatch = new ColourSwatchViewModel {
+		            Name = "Orange",
+		            Subtitle = "#f37021",
+					Hex = "#f37021"
+		        };
+				var redSwatch = new ColourSwatchViewModel {
+		            Name = "Red",
+		            Subtitle = "#ed1c24",
+					Hex = "#ed1c24"
+		        };
+				var purpleSwatch = new ColourSwatchViewModel {
+		            Name = "Purple",
+		            Subtitle = "#8a5497",
+					Hex = "#8a5497"
+		        };
+
+				<h3 class="u-breakline u-gamma">Colours</h3>
+				<div class="c-colour-swatch-wrap u-clearfix u-space-top">
+			        @Html.Partial("~/Views/Partials/Components/ColourSwatch.cshtml", blueSwatch)
+					@Html.Partial("~/Views/Partials/Components/ColourSwatch.cshtml", greenSwatch)
+					@Html.Partial("~/Views/Partials/Components/ColourSwatch.cshtml", orangeSwatch)
+					@Html.Partial("~/Views/Partials/Components/ColourSwatch.cshtml", redSwatch)
+					@Html.Partial("~/Views/Partials/Components/ColourSwatch.cshtml", purpleSwatch)
+				</div>
+		    }
 		</div>
 	</section>
 }
