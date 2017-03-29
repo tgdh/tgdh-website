@@ -55,7 +55,13 @@
 	var bgImage = Umbraco.TypedMedia(Model.GetPropertyValue<int>("journeyBackgroundImage"));
 	var bgImageUrl = bgImage != null ? bgImage.Url + "?width=1800" : "";
 
-	<section class="o-section" style="background-image: url(@bgImageUrl);">
+    var image = Umbraco.TypedMedia(Model.GetPropertyValue<int>("journeyImage"));
+	var imageUrl = image != null ? image.Url + "?width=500" : "";
+
+	<section class="o-section s-caseStudyPoleStar__journey" style="background-image: url(@bgImageUrl);">
+        @if(!String.IsNullOrWhiteSpace(imageUrl)) {
+            <img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-caseStudyPoleStar__journey__image">
+        }
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
@@ -154,12 +160,12 @@
 				@{
 					var mobileImage1 = new DeviceFrameViewModel
 					{
-						ImageId = Model.GetPropertyValue<int>("mobileImage"),
+						ImageId = Model.GetPropertyValue<int>("mobileImage1"),
 						Type = "mobile"
 					};
 					var mobileImage2 = new DeviceFrameViewModel
 					{
-						ImageId = Model.GetPropertyValue<int>("mobileImage"),
+						ImageId = Model.GetPropertyValue<int>("mobileImage2"),
 						Type = "mobile"
 					};
 				}

@@ -3841,7 +3841,8 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
   vertical-align: super; }
 
 .c-stats__description {
-  font-size: 1.4rem; }
+  font-size: 1.4rem;
+  line-height: 1.4; }
 
 .c-stats__description__item + .c-stats__description__item {
   margin-top: 0.8em; }
@@ -4797,6 +4798,150 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 @media only screen and (max-width: 999px) {
   .s-caseStudyPGS__sixth-form__image {
     opacity: .1; } }
+
+/* ===========================================================
+
+  # Case study - Pole Star
+
+=========================================================== */
+.s-caseStudyPoleStar__journey {
+  overflow: hidden;
+  position: relative;
+  background-size: cover; }
+  .s-caseStudyPoleStar__journey .o-section__inner {
+    position: relative;
+    z-index: 1; }
+
+.s-caseStudyPoleStar__journey__image {
+  max-width: 50%;
+  position: absolute;
+  top: -30%;
+  right: -10%; }
+
+@media only screen and (max-width: 999px) {
+  .s-caseStudyPoleStar__journey__image {
+    opacity: .15; } }
+
+@media only screen and (min-width: 1000px) {
+  .s-caseStudyPoleStar__journey__image {
+    top: -40%; }
+  .s-caseStudyPoleStar__journey {
+    padding-bottom: 28rem; } }
+
+/* ===========================================================
+
+  # Case study - St wilfs
+
+=========================================================== */
+.s-caseStudyStWilf__messaging,
+.s-caseStudyStWilf__brief,
+.s-caseStudyStWilf__brand-guide {
+  position: relative; }
+  .s-caseStudyStWilf__messaging .o-section__inner,
+  .s-caseStudyStWilf__brief .o-section__inner,
+  .s-caseStudyStWilf__brand-guide .o-section__inner {
+    position: relative;
+    z-index: 1; }
+
+.s-caseStudyStWilf__messaging__image {
+  max-width: 30%;
+  position: absolute;
+  top: 0;
+  right: 0; }
+
+@media only screen and (max-width: 799px) {
+  .s-caseStudyStWilf__messaging__image {
+    opacity: .15; } }
+
+.s-caseStudyStWilf__brief__image {
+  max-height: 100%;
+  position: absolute;
+  right: 0; }
+
+.s-caseStudyStWilf__brand-guide {
+  overflow: hidden; }
+
+@media only screen and (max-width: 799px) {
+  .s-caseStudyStWilf__brand-guide__image-main {
+    max-width: 70%;
+    margin: auto;
+    margin-top: -8rem;
+    margin-bottom: 4rem; } }
+
+@media only screen and (min-width: 800px) {
+  .s-caseStudyStWilf__brand-guide {
+    min-height: 66.6rem; }
+  .s-caseStudyStWilf__brand-guide__image-main {
+    width: 50%;
+    max-width: 40rem;
+    position: absolute;
+    left: 64.1666666667%;
+    top: -18rem; } }
+
+.s-caseStudyStWilf__livery {
+  position: relative; }
+  .s-caseStudyStWilf__livery .o-section__inner {
+    z-index: 1;
+    position: relative; }
+
+@media only screen and (max-width: 799px) {
+  .s-caseStudyStWilf__livery__image-main {
+    max-width: 60%;
+    margin-left: auto;
+    display: block; } }
+
+@media only screen and (min-width: 800px) {
+  .s-caseStudyStWilf__livery__image-main {
+    position: absolute; } }
+
+@media only screen and (min-width: 800px) and (max-width: 999px) {
+  .s-caseStudyStWilf__livery__image-main {
+    right: -45%; } }
+
+@media only screen and (min-width: 1000px) and (max-width: 1279px) {
+  .s-caseStudyStWilf__livery__image-main {
+    right: -25%; } }
+
+@media only screen and (min-width: 1280px) and (max-width: 1499px) {
+  .s-caseStudyStWilf__livery__image-main {
+    right: -8%; } }
+
+@media only screen and (min-width: 1500px) {
+  .s-caseStudyStWilf__livery__image-main {
+    right: 0; } }
+
+.s-caseStudyStWilf__livery__image2 {
+  margin-left: auto;
+  display: block; }
+
+.s-caseStudyStWilf__livery__image-col__item {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 47.5%;
+  margin-left: 0%;
+  margin-right: 5%; }
+  .s-caseStudyStWilf__livery__image-col__item:before, .s-caseStudyStWilf__livery__image-col__item:after {
+    content: '';
+    display: table; }
+  .s-caseStudyStWilf__livery__image-col__item:after {
+    clear: both; }
+  .s-caseStudyStWilf__livery__image-col__item:last-child {
+    margin-right: 0%; }
+
+@media only screen and (max-width: 799px) {
+  .s-caseStudyStWilf__content-social .c-mobile-frame {
+    max-width: 20rem;
+    margin: 1.6em auto 0; } }
+
+@media only screen and (min-width: 800px) {
+  .s-caseStudyStWilf__content-social {
+    position: relative;
+    z-index: 1; }
+    .s-caseStudyStWilf__content-social .c-mobile-frame {
+      max-width: 28rem;
+      margin: auto auto -16rem; } }
 
 /* ===========================================================
 

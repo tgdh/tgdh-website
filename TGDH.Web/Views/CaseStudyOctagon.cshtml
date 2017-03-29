@@ -276,12 +276,21 @@
         Subtitle = Model.GetPropertyValue<string>("contentSocialSubtitle")
     };
 
-	<section class="o-section">
+	var mobileImage = new DeviceFrameViewModel
+	{
+		ImageId = Model.GetPropertyValue<int>("contentSocialImage"),
+		Type = "mobile"
+	};
+
+	<section class="o-section s-octagon__content-social">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
 					@Model.GetPropertyValue("contentSocialCopy")
+				</div>
+				<div class="o-col o-col--last">
+					@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage)
 				</div>
 			</div>
 		</div>
