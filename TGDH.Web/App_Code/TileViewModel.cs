@@ -8,6 +8,8 @@ public class TileViewModel
 
     public string Headline { get; set; }
 
+    public IHtmlString Subtitle { get; set; }
+
     public string Quote { get; set; }
 
     public string ModifierClass { get; set; }

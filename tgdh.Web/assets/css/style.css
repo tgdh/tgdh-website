@@ -3746,15 +3746,26 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
   transition: opacity 0.6s ease, transform 0.6s ease;
   transition: opacity 0.6s ease, transform 0.6s ease, -webkit-transform 0.6s ease; }
 
-.c-tile__meta .c-meta__item {
-  opacity: 1; }
-
-.c-tile__meta:after {
-  content: "";
-  width: 2.7rem;
-  height: .1rem;
-  display: block;
-  background-color: #FFFFFF; }
+.c-tile__subtitle {
+  color: #FFFFFF; }
+  .c-tile__subtitle ul {
+    list-style: none; }
+  .c-tile__subtitle li {
+    display: inline-block;
+    margin: 0; }
+    .c-tile__subtitle li:after {
+      content: "/";
+      margin: 0 .5rem; }
+    .c-tile__subtitle li:last-child:after {
+      content: "";
+      display: none; }
+  .c-tile__subtitle:after {
+    content: "";
+    width: 2.7rem;
+    height: .1rem;
+    display: block;
+    margin-top: 1.4rem;
+    background-color: #FFFFFF; }
 
 .c-tile__quote {
   margin-top: 1.6em;

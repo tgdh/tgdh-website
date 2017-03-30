@@ -25,14 +25,11 @@
 						</svg>
 					</h2>
 				}
-				<ul class="c-tile__meta c-meta c-meta--invert u-font-sec">
-					<li class="c-meta__item">
-						<span class="c-meta__value">Website</span>
-					</li>
-					<li class="c-meta__item">
-						<span class="c-meta__value">Marketing</span>
-					</li>
-				</ul>
+				@if(!String.IsNullOrWhiteSpace(Model.Subtitle.ToString())) {
+                    <div class="c-tile__subtitle u-font-sec">
+                        @Model.Subtitle
+                    </div>
+                }
 
 				@if( !String.IsNullOrWhiteSpace(Model.Quote) ) {
 					<div class="c-tile__quote u-font-sec">

@@ -71,10 +71,26 @@
 				transform .6s $ease;
 }
 
-.c-tile__meta {
+.c-tile__subtitle {
+	color: $white;
 
-	.c-meta__item {
-		opacity: 1;
+	ul {
+		list-style: none;
+	}
+
+	li {
+		display: inline-block;
+		margin: 0;
+
+		&:after {
+			content: "/";
+			margin: 0 .5rem;
+		}
+
+		&:last-child:after {
+			content: "";
+			display: none;
+		}
 	}
 
 	&:after {
@@ -82,6 +98,7 @@
 		width: 2.7rem;
 		height: .1rem;
 		display: block;
+		margin-top: 1.4rem;
 		background-color: $white;
 
 	}
