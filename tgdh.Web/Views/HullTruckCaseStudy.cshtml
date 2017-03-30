@@ -80,8 +80,11 @@
         Subtitle = Model.GetPropertyValue<string>("cityCultureSubtitle")
     };
 
-	var image = Umbraco.TypedMedia(Model.GetPropertyValue<int>("cityCultureImage"));
-	var imageUrl = image != null ? image.Url + "?width=560" : "";
+    var image = Umbraco.TypedMedia(Model.GetPropertyValue<int>("cityCultureImage"));
+	  var imageUrl = image != null ? image.Url + "?width=560" : "";
+
+    var logo = Umbraco.TypedMedia(Model.GetPropertyValue<int>("cityCultureLogo"));
+    var logoUrl = logo != null ? logo.Url + "?width=150" : "";
 
     <section class="o-section u-background--light s-hullTruckCaseStudy__city-culture">
         @if( !String.IsNullOrWhiteSpace(imageUrl) ) {
@@ -91,7 +94,12 @@
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
-	                @Model.GetPropertyValue("cityCultureCopy")
+            @if( !String.IsNullOrWhiteSpace(logoUrl) ) {
+              <a href="https://www.hull2017.co.uk" class="u-space-bottom" style="display: block;">
+                <img src="@logoUrl" alt="@logo.GetPropertyValue("altText")" class="s-hullTruckCaseStudy__city-culture__logo">
+              </a>
+            }
+            @Model.GetPropertyValue("cityCultureCopy")
 				</div>
 			</div>
 		</div>
@@ -176,7 +184,15 @@
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
 					@Model.GetPropertyValue("websiteCopy")
-					<a href="#" class="c-button c-button--primary u-space-top--large">Launch site</a>
+					@{
+						var buttonJson = Model.GetPropertyValue<string>("coverCta");
+						if(!String.IsNullOrWhiteSpace(buttonJson)) {
+							var button = Json.Decode(buttonJson);
+							if( button != null ) {
+								<a href="@button.Url" target="@button.Target" class="c-button c-button--primary u-space-top--large">@button.Name</a>
+							}
+						}
+					}
 				</div>
 			</div>
 		</div>
