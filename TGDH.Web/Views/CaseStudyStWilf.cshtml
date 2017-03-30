@@ -127,13 +127,33 @@
 			</div>
 
 			<h3 class="u-breakline u-gamma">Typography</h3>
-			<div class="o-col--two u-clearfix u-space-bottom--large">
-				<div class="o-col o-col--first">
-					<h4>Headings</h4>
-				</div>
-				<div class="o-col o-col--last">
-					<h4>Body copy</h4>
-				</div>
+			<div class="o-col--two u-clearfix u-space-bottom--large s-caseStudyStWilf__branding__fonts">
+                <div class="o-col o-col--first">
+					<div class="u-space-bottom">
+	                    <h4 style="padding-bottom: 0;">Headings</h4>
+	                    <div class="u-font-sec u-small">Fira Sans Book</div>
+					</div>
+                    @{
+                        var font1 = Umbraco.TypedMedia(1457);
+                        var fontUrl1 = font1 != null ? font1.Url : "";
+                        if(!String.IsNullOrWhiteSpace(fontUrl1)) {
+                            <img src="@fontUrl1" alt="Font characters" class="s-caseStudyStWilf__branding__font">
+                        }
+                    }
+                </div>
+                <div class="o-col o-col--last">
+					<div class="u-space-bottom">
+	                    <h4 style="padding-bottom: 0;">Body copy</h4>
+	                    <div class="u-font-sec u-small">Gochi Hand</div>
+					</div>
+                    @{
+                        var font2 = Umbraco.TypedMedia(1458);
+                        var fontUrl2 = font2 != null ? font2.Url : "";
+                        if(!String.IsNullOrWhiteSpace(fontUrl2)) {
+                            <img src="@fontUrl2" alt="Font characters" class="s-caseStudyStWilf__branding__font">
+                        }
+                    }
+                </div>
 			</div>
 
 			@{
