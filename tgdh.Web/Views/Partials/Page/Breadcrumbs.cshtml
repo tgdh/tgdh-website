@@ -1,3 +1,4 @@
+@using TGDH.Core.ExtensionMethods
 @inherits UmbracoViewPage<IPublishedContent>
 @{
     var selection = Model.AncestorsOrSelf().Where(x =>x.IsVisible() && x.Level != 1 && x.TemplateId > 0).OrderBy(x => x.Level);
@@ -25,7 +26,7 @@
 				var pageUrl = listItem.DocumentTypeAlias == "careers" && aboutPage != null ? aboutPage.Url + "#careers" : listItem.Url;
                 <li class="c-breadcrumb__item">
                     <a href="@pageUrl" class="c-breadcrumb__link @modifierClass" title="@listItem.Name">
-                        @listItem.Name
+						@StringExtensionMethods.TruncateAtWord(listItem.Name, 18)
                     </a>
                 </li>
             }
