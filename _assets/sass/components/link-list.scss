@@ -20,4 +20,21 @@
 	&.is-active {
 		font-weight: $bolder;
 	}
+
+	&:hover,
+	&:focus {
+		.c-link-list__link__value {
+			color: $white;
+			background-color: $pri;
+		}
+	}
+
+}
+
+.c-link-list__link__value {
+	color: $pri;
+	display: inline-block;
+	padding: 0 .1rem;
+	transition: color $speed $ease,
+				background $speed $ease;
 }
