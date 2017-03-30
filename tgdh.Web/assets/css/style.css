@@ -4791,6 +4791,19 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 
 /* ===========================================================
 
+  # Case study - Octagon
+
+=========================================================== */
+@media only screen and (max-width: 799px) {
+  .s-caseStudyOctagon__branding__fonts img {
+    max-width: 90%; } }
+
+@media only screen and (min-width: 800px) {
+  .s-caseStudyOctagon__branding__fonts img {
+    max-width: 75%; } }
+
+/* ===========================================================
+
   # Case study - Pole Star
 
 =========================================================== */
