@@ -315,6 +315,7 @@
 		.c-nav__inner {
 			overflow-y: scroll;
   			-webkit-overflow-scrolling: touch;
+			-ms-overflow-style: -ms-autohiding-scrollbar;
 		}
 
 		&.s-mainNavigation-is-visible {

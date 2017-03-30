@@ -294,8 +294,8 @@ gulp.task('dev', ['clean'], function() {
 });
 
 // gulp build
-gulp.task('build', ['clean', 'modernizr'], function() {
+gulp.task('build', ['clean'], function() {
     isProduction = true;
-    gulp.start('refAssets', 'images', 'copyfonts');
+    gulp.start('refAssets', 'images', 'copyfonts', 'modernizr');
 });
 /* eslint-enable */

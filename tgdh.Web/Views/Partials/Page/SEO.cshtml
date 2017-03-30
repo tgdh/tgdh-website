@@ -25,27 +25,25 @@
     var siteUrl = (Request.IsSecureConnection ? "https://" : "http://") + Request.Url.Host;
     var pageUrl = siteUrl + Model.Url;
 }
+		<title>@title</title>
+		<meta name="description" content="@description.Truncate(160)">
+		<meta name="robots" content="@followIndex">
 
-<title>@title</title>
-<meta name="description" content="@description.Truncate(160)">
-<meta name="robots" content="@followIndex">
+		<meta property="og:title" content="@title">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="@pageUrl">
+		<meta property="og:image" content="@imageUrl">
+		<meta property="og:description" content="@description.Truncate(200)">
+		<meta property="og:locale" content="en_GB">
+		<meta property="og:site_name" content="@websiteName">
 
-<meta property="og:title" content="@title">
-<meta property="og:type" content="website">
-<meta property="og:url" content="@pageUrl">
-<meta property="og:image" content="@imageUrl">
-<meta property="og:description" content="@description.Truncate(200)">
-<meta property="og:locale" content="en_GB">
-<meta property="og:site_name" content="@websiteName">
-
-<meta name="twitter:card" content="summary">
-<meta name="twitter:site" content="@siteUrl">
-<meta name="twitter:creator" content="@twitterHandle">
-<meta name="twitter:url" content="@pageUrl">
-<meta name="twitter:title" content="@title">
-<meta name="twitter:description" content="@description.Truncate(140)">
-<meta name="twitter:image" content="@imageUrl">
-
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:site" content="@siteUrl">
+		<meta name="twitter:creator" content="@twitterHandle">
+		<meta name="twitter:url" content="@pageUrl">
+		<meta name="twitter:title" content="@title">
+		<meta name="twitter:description" content="@description.Truncate(140)">
+		<meta name="twitter:image" content="@imageUrl">
 @functions {
 
     private string GetPageTitle(IPublishedContent model, IPublishedContent settings)
