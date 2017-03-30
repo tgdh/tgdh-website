@@ -74,25 +74,7 @@ em {
 
 small,
 .u-small {
-	font-size: $font-size-small	/ $type-scale-small;
-}
-
-@include respond-min-max( $mq-small, $mq-medium ) {
-
-	small,
-	.u-small {
-		font-size: $font-size-large / $type-scale-medium;
-	}
-
-}
-
-@include respond-min( $mq-medium ) {
-
-	small,
-	.u-small {
-		font-size: $font-size-large / $type-scale-large;
-	}
-
+	font-size: 1.4rem;
 }
 
 ::selection {

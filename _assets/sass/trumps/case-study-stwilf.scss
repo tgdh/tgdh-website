@@ -54,10 +54,31 @@
 
 }
 
+@include respond-max( $mq-medium ) {
+
+	.s-caseStudyStWilf__branding__fonts {
+
+		img {
+			max-width: 90%;
+		}
+
+	}
+
+}
+
+
 @include respond-min( $mq-medium ) {
 
 	.s-caseStudyStWilf__brand-guide {
 		min-height: 66.6rem;
+	}
+
+	.s-caseStudyStWilf__branding__fonts {
+
+		img {
+			max-width: 75%;
+		}
+
 	}
 
 	.s-caseStudyStWilf__brand-guide__image-main {

@@ -359,17 +359,7 @@ em {
 
 small,
 .u-small {
-  font-size: 1.3617021277rem; }
-
-@media only screen and (min-width: 600px) and (max-width: 799px) {
-  small,
-  .u-small {
-    font-size: 1.3333333333rem; } }
-
-@media only screen and (min-width: 800px) {
-  small,
-  .u-small {
-    font-size: 1.28rem; } }
+  font-size: 1.4rem; }
 
 ::-moz-selection {
   background: #cccccc; }
@@ -4868,9 +4858,15 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
     margin-top: -8rem;
     margin-bottom: 4rem; } }
 
+@media only screen and (max-width: 799px) {
+  .s-caseStudyStWilf__branding__fonts img {
+    max-width: 90%; } }
+
 @media only screen and (min-width: 800px) {
   .s-caseStudyStWilf__brand-guide {
     min-height: 66.6rem; }
+  .s-caseStudyStWilf__branding__fonts img {
+    max-width: 75%; }
   .s-caseStudyStWilf__brand-guide__image-main {
     width: 50%;
     max-width: 40rem;
