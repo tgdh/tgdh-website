@@ -42,6 +42,8 @@
 		Subtitle = Model.GetPropertyValue<string>("introSubtitle")
 	};
 
+	var services = Model.GetPropertyValue<string[]>("services");
+
 	<section class="o-section u-background--light">
 		<div class="o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
@@ -50,17 +52,14 @@
 					@Model.GetPropertyValue("intro")
 				</div>
 				<div class="o-col o-col--last">
-					<h3 class="u-zeta">Services</h3>
-					<ul class="o-list--col-two u-font-sec u-font--small">
-						<li>Commodo</li>
-						<li>Ultricies</li>
-						<li>Ligula</li>
-						<li>Vehicula</li>
-						<li>Commodo</li>
-						<li>Ultricies</li>
-						<li>Ligula</li>
-						<li>Vehicula</li>
-					</ul>
+					@if( services.Length > 0 ) {
+						<h3 class="u-zeta">Services</h3>
+						<ul class="o-list--col-two u-font-sec u-font--small">
+							@foreach( var item in services ) {
+								<li>@item</li>
+							}
+						</ul>
+					}
 				</div>
 			</div>
 			@{
@@ -76,14 +75,14 @@
 
 @helper RenderTeam() {
 	var heading = new HeadingViewModel {
-		Headline = "Meet the team",
-		Subtitle = "Aenean lacinia bibendum nulla sed consectetur."
+		Headline = Model.GetPropertyValue<string>("teamHeadline"),
+		Subtitle = Model.GetPropertyValue<string>("teamSubtitle")
 	};
 	<section id="team" class="o-section s-about__team">
 		<div class="o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="u-space-bottom--large">
-				<p>Fusce dapibus, tellus ac cursus commodo, tortor mauris massa justo sit amet <a href=""><strong>Join the team</strong></a>.</p>
+				@Model.GetPropertyValue("teamCopy")
 			</div>
 			@Html.Partial("~/Views/Partials/Team/TeamListing.cshtml")
 		</div>
@@ -95,8 +94,8 @@
 	var imageUrl = image != null ? image.Url +"?height=1200" : "";
 
 	var heading = new HeadingViewModel {
-		Headline = "Careers",
-		Subtitle = "Aenean lacinia bibendum nulla sed consectetur."
+		Headline = Model.GetPropertyValue<string>("careersHeadline"),
+		Subtitle = Model.GetPropertyValue<string>("careersSubtitle")
 	};
 	<section id="careers" class="o-section u-background--light s-about__careers">
 		@if(!String.IsNullOrWhiteSpace(imageUrl)) {
@@ -104,7 +103,7 @@
 		}
 		<div class="o-wrap o-wrap--x-large s-about__careers__content">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
-			<p>Fusce dapibus, tellus ac cursus commodo, tortor mauris massa justo sit amet.</p>
+			@Model.GetPropertyValue("careersCopy")
 			<div class="o-wrap--small">
 				@Html.Partial("~/Views/Partials/Careers/VacancyListing.cshtml")
 			</div>
