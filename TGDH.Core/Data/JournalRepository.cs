@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TGDH.Core.Data;
+using TGDH.ExtensionMethods.Strings;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 
@@ -29,14 +30,19 @@ namespace TGDH.Core.Data
             return AllPosts(umbraco).OrderByDescending(x => x.GetPropertyValue<DateTime>("releaseDate"));
         }
 
-        public static IEnumerable<IPublishedContent> FilterSelection(IEnumerable<IPublishedContent> source, string author, string category, string year, string month)
+        public static bool StringInList(string stringInQuestion, string stringList)
         {
-            var filterByCategory = !string.IsNullOrWhiteSpace(category);
+          return stringList.Split(',').Any( x => x.Equals(stringInQuestion, StringComparison.OrdinalIgnoreCase) );
+        }
+
+        public static IEnumerable<IPublishedContent> FilterSelection(IEnumerable<IPublishedContent> source, string author, string categories, string year, string month)
+        {
+            var filterByCategory = !string.IsNullOrWhiteSpace(categories);
             var filterByAuthor = !string.IsNullOrWhiteSpace(author);
 
             if (filterByAuthor && filterByCategory)
             {
-                var postsInCategory = GetPostsWithPrevalue(source, category, "category");
+                var postsInCategory = FilterBySelectedPrevaluePages(source, categories);
                 var postsByAuthor = GetPostsWithPrevalue(source, author, "author");
 
                 source = postsInCategory.Intersect(postsByAuthor).ToList();
@@ -50,7 +56,7 @@ namespace TGDH.Core.Data
 
                 if (filterByCategory)
                 {
-                    source = GetPostsWithPrevalue(source, category, "category");
+                    source = FilterBySelectedPrevaluePages(source, categories);
                 }
             }
 
@@ -62,18 +68,38 @@ namespace TGDH.Core.Data
             return source;
         }
 
-        private static IEnumerable<IPublishedContent> GetPostsWithPrevalue(IEnumerable<IPublishedContent> source, string pageName, string docType)
+        public static bool CategoryIsMatch(IPublishedContent item, string categories)
+        {
+            return categories.Split(',').Any(
+              cat =>  cat.Equals(item.Name.ConvertToId())
+            );
+
+            item.GetPropertyValue<string>("categories").ToList().Any(
+              cat => StringInList(cat.Name.ConvertToId(),categories)
+            );
+        }
+
+        public static IEnumerable<IPublishedContent> FilterBySelectedPrevaluePages(IEnumerable<IPublishedContent> source, string categories)
+        {
+          if(!String.IsNullOrWhiteSpace(categories))
+          {
+            return source;
+          }
+          var filteredEvents = source.Where(x => CategoryIsMatch(x, categories));
+          return filteredEvents.ToList();
+        }
+
+        public static IEnumerable<IPublishedContent> GetPostsWithPrevalue(IEnumerable<IPublishedContent> source, string pageName, string docType)
         {
             var prevaluePage = DataHelpers.GetPrevaluePageByName(source, pageName);
 
             if (prevaluePage != null)
             {
-                source = DataHelpers.FilberBySelectedPrevaluePage(source, docType, prevaluePage);
+                source = DataHelpers.FilterBySelectedPrevaluePage(source, docType, prevaluePage);
             }
 
             return source.ToList();
         }
-
 
         public static IEnumerable<IPublishedContent> AllFilteredPosts(UmbracoHelper umbraco, string category, string year, string month)
         {

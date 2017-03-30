@@ -15,7 +15,7 @@ namespace TGDH.Core.Data
             return source.Where(x => x.DocumentTypeAlias.Equals(documentType.ConvertToId(), StringComparison.OrdinalIgnoreCase)).ToList();
         }
 
-        public static IEnumerable<IPublishedContent> FilberBySelectedPrevaluePage(IEnumerable<IPublishedContent> source, string propertyAlias, IPublishedContent page)
+        public static IEnumerable<IPublishedContent> FilterBySelectedPrevaluePage(IEnumerable<IPublishedContent> source, string propertyAlias, IPublishedContent page)
         {
             return source.Where(x => x.GetPropertyValue<int>(propertyAlias) == page.Id).ToList();
         }

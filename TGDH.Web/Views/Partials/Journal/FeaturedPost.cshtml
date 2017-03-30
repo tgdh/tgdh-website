@@ -1,0 +1,36 @@
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var featuredPost = Umbraco.TypedContent(Model.GetPropertyValue<int>("featuredPost"));
+	if(featuredPost == null) {
+		return;
+	}
+
+	var image = Umbraco.TypedMedia(featuredPost.GetPropertyValue<int>("pageImage"));
+	var imageUrl = image != null ? Url.GetCropUrl(image, cropAlias: "3:2", width: 500, quality: 100, htmlEncode: false).ToString() : "";
+}
+
+<section class="o-section u-background--pri">
+	<div class="o-wrap o-wrap--x-large">
+		<h2 class="u-font-sec u-zeta u-em-style">Featured article</h2>
+	</div>
+	<div class="o-wrap o-wrap--x-large u-clearfix o-col--two-one">
+		<div class="o-col o-col--first">
+			@{
+				var articleSnippet = new ArticleSummaryViewModel {
+					Url = featuredPost.Url,
+					Headline = featuredPost.Name,
+					Subtitle = "Aenean lacinia bibendum nulla sed consectetur.",
+					Copy = featuredPost.GetPropertyValue<string>("pageDescription")
+				};
+				@Html.Partial("~/Views/Partials/Components/ArticleSummary.cshtml", articleSnippet);
+			}
+		</div>
+		<div class="o-col o-col--last">
+			@if(!String.IsNullOrWhiteSpace(imageUrl)) {
+				<a href="@featuredPost.Url" class="o-aspect--3-2" title="@featuredPost.Name" style="display: block;">
+					<img src="@imageUrl" alt="@image.GetPropertyValue("altText")">
+				</a>
+			}
+		</div>
+	</div>
+</section>

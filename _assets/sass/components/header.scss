@@ -17,7 +17,7 @@
 	float: left;
 
 	svg {
-		fill: $dark-1;
+		fill: $pri;
 		transition: fill $speed $ease,
 					opacity $speed $ease;
 	}

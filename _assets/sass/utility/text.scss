@@ -29,6 +29,10 @@
 	font-size: 1.4rem;
 }
 
+.u-em-style {
+	font-style: italic;
+	opacity: .65;
+}
 
 .u-breakline:after {
 	@include breakline();

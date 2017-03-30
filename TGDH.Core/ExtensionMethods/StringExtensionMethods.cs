@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 
@@ -50,6 +51,11 @@ namespace TGDH.Core.ExtensionMethods
         //    Uri uriResult;
         //    return Uri.TryCreate(source, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
         //}
+
+        public static bool StringInList(string stringInQuestion, string stringList)
+        {
+          return stringList.Split(',').Any( x => x.Equals(stringInQuestion, StringComparison.OrdinalIgnoreCase) );
+        }
 
         public static string TruncateAtWord(string text, int length, bool keepFullWordAtEnd = true)
         {
