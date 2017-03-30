@@ -24,11 +24,13 @@
 			if( imageId == 0 ) {
 				imageId = item.GetPropertyValue<int>("pageImage");
 			}
+			var quote = Umbraco.StripHtml(item.GetPropertyValue<IHtmlString>("quote"));
 			var tileData = new TileViewModel {
 				Url = item.Url,
 				Headline = item.Name,
+				Subtitle = item.GetPropertyValue<IHtmlString>("coverSubtitle"),
 				ImageId = imageId,
-				Quote = "A snippet of a quote from the client saying how amazing TGDH are"
+				Quote = quote.ToString()
 			};
 			@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
 		}

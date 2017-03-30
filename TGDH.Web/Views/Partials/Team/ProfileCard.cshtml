@@ -12,7 +12,7 @@
 	    <img src="@imageUrl" class="c-profile-card__image" alt="@Model.FirstName @Model.LastName">
 	</div>
     <h2 class="c-profile-card__headline u-zeta">@Model.FirstName @Model.LastName</h2>
-    <div class="c-profile-card__subtitle u-font-sec">Job title</div>
+    <div class="c-profile-card__subtitle u-font-sec">@Model.JobTitle</div>
 	@{
 		var socialChannels = new SocialChannelsViewModel {
 			SocialChannels = Model.SocialChannels,
