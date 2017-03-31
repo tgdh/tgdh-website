@@ -18,7 +18,7 @@
 
 	var PagerModel = new PagerViewModel {
 		HeadlinePrevious = previousCase.Name,
-	    SubtitlePrevious = "#",
+	    SubtitlePrevious = previousCase.GetPropertyValue<string>("coverSubtitle"),
 	    UrlPrevious = previousCase.Url,
 	    ImageIdPrevious = previousCase.GetPropertyValue<int>("coverImage"),
 	    HeadlineNext = nextCase.Name,

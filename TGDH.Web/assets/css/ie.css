@@ -2859,7 +2859,7 @@ button.swiper-pagination-bullet {
 .enhance .c-carousel__pagination {
   width: auto;
   position: absolute;
-  bottom: 6rem;
+  bottom: 0rem;
   left: 50%;
   z-index: 4;
   -webkit-transform: translateX(-50%);
@@ -2878,6 +2878,10 @@ button.swiper-pagination-bullet {
   transition: background-color 0.3s ease; }
   .enhance .c-carousel__pagination__item.is-active {
     background-color: #FFFFFF; }
+
+@media only screen and (min-width: 1000px) {
+  .enhance .c-carousel__pagination {
+    bottom: 6rem; } }
 
 /* ===========================================================
 

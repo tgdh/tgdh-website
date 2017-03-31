@@ -76,7 +76,7 @@
 	.c-carousel__pagination {
 		width: auto;
 		position: absolute;
-		bottom: 6rem;
+		bottom: 0rem;
 		left: 50%;
 		z-index: 4;
 		transform: translateX(-50%);
@@ -95,6 +95,18 @@
 		&.is-active {
 			background-color: $white;
 		}
+	}
+
+}
+
+@include respond-min( $mq-large ) {
+
+	.enhance {
+
+		.c-carousel__pagination {
+			bottom: 6rem;
+		}
+
 	}
 
 }

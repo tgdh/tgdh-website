@@ -2391,6 +2391,7 @@
     <Content Include="App_Data\TEMP\PluginCache\umbraco-plugins.DESKTOP-1RK9U5L.list" />
     <Content Include="App_Data\umbraco.config" />
     <Content Include="App_Data\TEMP\SEOChecker\SEOChecker.config" />
+    <Content Include="App_Code\PagingTemplate.cshtml" />
     <None Include="bin\TGDH.Web.dll.config" />
     <Content Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
@@ -2559,6 +2560,7 @@
     <Content Include="Views\Partials\Components\Tile.cshtml" />
     <Content Include="Views\NotFound.cshtml" />
     <Content Include="Views\Partials\CaseStudies\FeaturedCaseStudies.cshtml" />
+    <Content Include="Views\CaseStudies.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2574,6 +2576,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Code\SocialChannelsViewModel.cs" />
+    <Content Include="App_Code\TileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

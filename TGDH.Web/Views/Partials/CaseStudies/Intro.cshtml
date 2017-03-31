@@ -2,8 +2,8 @@
 @inherits UmbracoViewPage<IPublishedContent>
 @{
 	var heading = new HeadingViewModel {
-        Headline = "Intro",
-        Subtitle = "A pioneering northern voice"
+        Headline = Model.GetPropertyValue<string>("introHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("introSubtitle")
     };
 }
 <section class="o-section u-background--light u-clearfix">
