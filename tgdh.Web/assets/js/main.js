@@ -10791,6 +10791,8 @@ var StickyHeader = function () {
 	if (window.matchMedia('(max-width: 1079px)').matches) {
 		var header = $('.js-header');
 		var headroom$$1 = new headroom(header);
+		var headerHeight = window.getComputedStyle(header).height;
+		$('body').style.paddingTop = headerHeight;
 		headroom$$1.init();
 	}
 })();

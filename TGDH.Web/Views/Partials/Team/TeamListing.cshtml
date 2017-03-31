@@ -3,7 +3,7 @@
 @using TGDH.Core.Utility
 @inherits UmbracoViewPage<IPublishedContent>
 @{
-    var allProfiles = TeamRepository.AllProfiles(Umbraco).ToList();
+    var allProfiles = TeamRepository.AllProfiles(Umbraco).OrderBy("name").ToList();
     var paging = Paging.GetPages(allProfiles.Count,20);
     var selection = allProfiles.OrderBy("firstName").Skip(paging.Skip).Take(paging.Take).ToList();
 }

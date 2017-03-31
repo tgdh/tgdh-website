@@ -39,6 +39,8 @@ import StickyHeader from './modules/StickyHeader';
 	if (window.matchMedia('(max-width: 1079px)').matches) {
 		const header = $('.js-header');
 		const headroom = new Headroom(header);
+		const headerHeight = window.getComputedStyle(header).height;
+		$('body').style.paddingTop = headerHeight;
 		headroom.init();
 	}
 })();

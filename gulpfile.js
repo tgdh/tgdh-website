@@ -173,7 +173,7 @@ gulp.task('modernizr', function(){
         'options': ['setClasses']
     }))
 	.pipe( $.if( isProduction, $.uglify({preserveComments: 'some'}) ) )
-	.pipe( $.if( isProduction, cachebust.resources() ) )
+//	.pipe( $.if( isProduction, cachebust.resources() ) )
     .pipe( gulp.dest( paths.assetsBuildFolder + '/js') );
 });
 

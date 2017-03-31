@@ -3,25 +3,22 @@
 @{
     var homePage = Model.Site();
     var settings = homePage.Descendants("globalSettings").FirstOrDefault();
-    var followIndex = Model.GetPropertyValue<bool>("dontFollow") ? "NOFOLLOW, NOINDEX" : "FOLLOW, INDEX";
-
+    var followIndex = Model.GetPropertyValue<bool>("dontFollow") ? "nofollow,noindex" : "index,follow";
     if (settings == null)
     {
         var pageDescription = Model.GetPropertyValue<string>("seoDescription");
-
         <title>@Model.Name</title>
         <meta name="description" content="@pageDescription.Truncate(160)">
         <meta name="robots" content="@followIndex">
 
         return;
     }
-
     var title = GetPageTitle(Model, settings);
     var description = GetPageDescription(Model);
     var websiteName = settings.GetPropertyValue<string>("websiteName");
     var imageUrl = GetPageSocialImage(Model, settings);
 
-    var twitterHandle = string.Empty;
+    var twitterHandle = settings.GetPropertyValue<string>("twitterHandler");
     var siteUrl = (Request.IsSecureConnection ? "https://" : "http://") + Request.Url.Host;
     var pageUrl = siteUrl + Model.Url;
 }
@@ -89,10 +86,10 @@
         var siteUrl = (Request.IsSecureConnection ? "https://" : "http://") + Request.Url.Host;
         var imageUrl = string.Empty;
         var imageId = model.HasValue("socialMediaImage") ?
-            model.GetPropertyValue<int>("socialMediaImage") :
-            model.HasValue("featuredImage") ?
-                model.GetPropertyValue<int>("featuredImage") :
-                settings.GetPropertyValue<int>("defaultSocialMediaImage");
+            	model.GetPropertyValue<int>("socialMediaImage") :
+            	model.HasValue("pageImage") ?
+                	model.GetPropertyValue<int>("pageImage") :
+                		settings.GetPropertyValue<int>("defaultSocialMediaImage");
 
         var image = Umbraco.TypedMedia(imageId);
 

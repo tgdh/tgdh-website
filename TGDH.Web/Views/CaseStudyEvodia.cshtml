@@ -49,8 +49,8 @@
 
 @helper RenderPlanning() {
 	var heading = new HeadingViewModel {
-        Headline = "Planning",
-        Subtitle = "Maecenas sed diam eget risus varius blandit sit amet non magna."
+        Headline = Model.GetPropertyValue<string>("planningHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("planningSubtitle")
     };
 	var bgImage = Umbraco.TypedMedia(Model.GetPropertyValue<int>("planningBackgroundImage"));
 	var bgImageUrl = bgImage != null ? bgImage.Url + "?width=1000" : "";
