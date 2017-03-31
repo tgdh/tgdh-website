@@ -32,6 +32,18 @@
 
 }
 
+@include respond-max( $mq-medium ) {
+
+	.o-col--two-one {
+
+		.o-col + .o-col {
+			margin-top: $line-height;
+		}
+
+	}
+
+}
+
 @include respond-min-max( $mq-medium, $mq-large ) {
 
 	.o-col--two-one {

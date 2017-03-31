@@ -44,7 +44,6 @@
 	float: right;
 }
 
-
 @include respond-max( $mq-medium ) {
 
 	.s-hullTruckCaseStudy {
@@ -127,10 +126,18 @@
 
 }
 
-@include respond-max( $mq-medium ) {
+@include respond-max( $mq-small ) {
 
 	.s-hullTruckCaseStudy__advertisting__image-main {
 		margin-top: -4rem;
+	}
+
+}
+
+@include respond-min-max( $mq-small, $mq-medium ) {
+
+	.s-hullTruckCaseStudy__advertisting__image-main {
+		margin-top: -8rem;
 		margin-bottom: 4rem;
 	}
 

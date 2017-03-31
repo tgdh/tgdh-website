@@ -889,6 +889,10 @@ html {
     .o-col--three .o-col:last-child {
       margin-right: 0%; } }
 
+@media only screen and (max-width: 799px) {
+  .o-col--two-one .o-col + .o-col {
+    margin-top: 1.6em; } }
+
 @media only screen and (min-width: 800px) and (max-width: 999px) {
   .o-col--two-one .o-col--first {
     *zoom: 1;
@@ -2081,6 +2085,30 @@ button.swiper-pagination-bullet {
 
 /* ===========================================================
 
+	# Headroom
+
+=========================================================== */
+.headroom.headroom {
+  width: 100%;
+  position: fixed;
+  will-change: transform;
+  -webkit-transition: -webkit-transform 200ms linear;
+  transition: -webkit-transform 200ms linear;
+  transition: transform 200ms linear;
+  transition: transform 200ms linear, -webkit-transform 200ms linear; }
+
+.headroom--pinned {
+  -webkit-transform: translateY(0%);
+      -ms-transform: translateY(0%);
+          transform: translateY(0%); }
+
+.headroom--unpinned {
+  -webkit-transform: translateY(-100%);
+      -ms-transform: translateY(-100%);
+          transform: translateY(-100%); }
+
+/* ===========================================================
+
 	# Header
 
 =========================================================== */
@@ -2958,8 +2986,7 @@ button.swiper-pagination-bullet {
 .c-notify {
   color: #FFFFFF;
   padding: 1rem 2rem;
-  margin-top: 1.6em;
-  border-radius: 0.3rem;
+  margin-bottom: 1rem;
   -webkit-transition: opacity 0.3s ease, color 0.3s ease, background 0.3s ease, visibility 0.3s ease;
   transition: opacity 0.3s ease, color 0.3s ease, background 0.3s ease, visibility 0.3s ease; }
   .c-notify.is-hidden {
@@ -4619,9 +4646,13 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
   .s-hullTruckCaseStudy__city-culture__image {
     width: 40%; } }
 
-@media only screen and (max-width: 799px) {
+@media only screen and (max-width: 599px) {
   .s-hullTruckCaseStudy__advertisting__image-main {
-    margin-top: -4rem;
+    margin-top: -4rem; } }
+
+@media only screen and (min-width: 600px) and (max-width: 799px) {
+  .s-hullTruckCaseStudy__advertisting__image-main {
+    margin-top: -8rem;
     margin-bottom: 4rem; } }
 
 @media only screen and (min-width: 800px) {
