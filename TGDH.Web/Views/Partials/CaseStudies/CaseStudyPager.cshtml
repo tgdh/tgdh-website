@@ -22,7 +22,7 @@
 	    UrlPrevious = previousCase.Url,
 	    ImageIdPrevious = previousCase.GetPropertyValue<int>("coverImage"),
 	    HeadlineNext = nextCase.Name,
-	    SubtitleNext = "#",
+	    SubtitleNext = nextCase.GetPropertyValue<string>("coverSubtitle"),
 	    UrlNext = nextCase.Url,
 	    ImageIdNext = nextCase.GetPropertyValue<int>("coverImage"),
 	    HeadlineGateway = "All projects",
