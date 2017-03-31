@@ -213,12 +213,28 @@
 		font-size: 1.4rem;
 	}
 
+	.no-flexbox {
+
+		.c-cover__content {
+			margin-top: 6rem;
+		}
+
+	}
+
 }
 
 @include respond-min-max( $mq-large, $mq-x-large ) {
 
 	.c-cover__headline {
 		font-size: 4.8rem;
+	}
+
+	.no-flexbox {
+
+		.c-cover__content {
+			margin-top: 8rem;
+		}
+
 	}
 
 }
@@ -228,6 +244,7 @@
 	.c-cover__content {
 		padding-left: 8rem;
 	}
+
 
 }
 
@@ -239,6 +256,14 @@
 
 	.c-cover__headline {
 		font-size: 6rem;
+	}
+
+	.no-flexbox {
+
+		.c-cover__content {
+			margin-top: 14rem;
+		}
+
 	}
 
 }

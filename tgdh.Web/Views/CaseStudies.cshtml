@@ -16,6 +16,8 @@
 <main id="main" class="o-page__content" role="main">
 	@Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
 	@if( selection.Any() ) {
+
+
 		<div class="u-clearfix">
 			@foreach( var item in selection ) {
 				var imageId = item.GetPropertyValue<int>("coverImage");
@@ -32,6 +34,25 @@
 					Quote = quote.ToString()
 				};
 				@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
+			}
+
+			@{
+				if( selection.Count() % 2 == 1 ) {
+					var featuredPage = Umbraco.TypedContent(Model.GetPropertyValue<int>("featuredPage"));
+					if(featuredPage != null)  {
+						var imageId = featuredPage.GetPropertyValue<int>("coverImage");
+						if( imageId == 0 ) {
+							imageId = featuredPage.GetPropertyValue<int>("pageImage");
+						}
+						var tileData = new TileViewModel {
+							Url = featuredPage.Url,
+							Headline = featuredPage.Name,
+							Subtitle = featuredPage.GetPropertyValue<IHtmlString>("coverSubtitle"),
+							ImageId = imageId
+						};
+						@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
+					}
+				}
 			}
 		</div>
 	}

@@ -10,6 +10,7 @@
 
 .c-logo {
 	width: 50%;
+	width: calc(50% - 1px);
 	float: left;
 	padding: $line-height 0;
 }
@@ -38,6 +39,7 @@
 
 	.c-logo {
 		width: 33.3333333333%;
+		width: calc(33.3333333333% - 1px);
 	}
 
 }
@@ -46,6 +48,7 @@
 
 	.c-logo {
 		width: 25%;
+		width: calc(25% - 1px);
 	}
 
 }
