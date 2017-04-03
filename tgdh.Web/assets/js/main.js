@@ -10315,7 +10315,7 @@ var googleMapsApiLoader_1 = googleMapsApiLoader;
 
 var index = googleMapsApiLoader_1;
 
-var GMapsAPIKey = '';
+var GMapsAPIKey = 'AIzaSyBzIy-ICZa_i6OQDDje0jG8VsmNFjjqwF0';
 
 /* eslint-disable */
 var GMapsTheme = [{
@@ -10788,7 +10788,7 @@ var StickyHeader = function () {
 	}
 	svg4everybody();
 
-	if (window.matchMedia('(max-width: 1079px)').matches) {
+	if (window.matchMedia('(max-width: 999px)').matches) {
 		var header = $('.js-header');
 		var headroom$$1 = new headroom(header);
 		var headerHeight = window.getComputedStyle(header).height;

@@ -36,6 +36,14 @@
 	right: 0;
 }
 
+@include respond-max( $mq-x-large ) {
+
+	.s-caseStudyStWilf__brief__image {
+		display: none;
+	}
+
+}
+
 
 // brand guide
 
@@ -186,7 +194,7 @@
 
 		.c-mobile-frame {
 			max-width: 28rem;
-			margin: auto auto -16rem;
+			margin: auto;
 		}
 	}
 

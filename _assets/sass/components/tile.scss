@@ -145,6 +145,31 @@
 	.c-tile {
 		@include span( 1/2, $cycle: 2 );
 	}
+
+	.flexwrap {
+
+		.c-tile-wrap {
+			background-color: $pri;
+			display: flex;
+			flex-wrap: wrap;
+
+			.c-tile:nth-child(even) {
+				margin-left: -1px;
+				transform: translateX(1px);
+			}
+		}
+
+		.c-tile,
+		.c-tile__link {
+			display: flex;
+		}
+
+		.c-tile__link,
+		.c-tile__content {
+			width: 100%;
+		}
+
+	}
 }
 
 

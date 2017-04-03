@@ -18,7 +18,7 @@
 
 <section>
 	<h2 class="u-visually-hidden">Featured work</h2>
-	<div class="u-clearfix">
+	<div class="c-tile-wrap u-clearfix">
 		@foreach( var item in selection ) {
 			var imageId = item.GetPropertyValue<int>("coverImage");
 			if( imageId == 0 ) {

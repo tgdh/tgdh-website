@@ -36,7 +36,7 @@ import StickyHeader from './modules/StickyHeader';
 	}
 	svg4everybody();
 
-	if (window.matchMedia('(max-width: 1079px)').matches) {
+	if (window.matchMedia('(max-width: 999px)').matches) {
 		const header = $('.js-header');
 		const headroom = new Headroom(header);
 		const headerHeight = window.getComputedStyle(header).height;

@@ -19,7 +19,6 @@
 				var articleSnippet = new ArticleSummaryViewModel {
 					Url = featuredPost.Url,
 					Headline = featuredPost.Name,
-					Subtitle = "Aenean lacinia bibendum nulla sed consectetur.",
 					Copy = featuredPost.GetPropertyValue<string>("pageDescription")
 				};
 				@Html.Partial("~/Views/Partials/Components/ArticleSummary.cshtml", articleSnippet);

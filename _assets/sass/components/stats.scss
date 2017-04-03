@@ -33,3 +33,35 @@
 .c-stats__description__item + .c-stats__description__item {
 	margin-top: $line-height / 2;
 }
+
+@include respond-min-max( $mq-medium, $mq-large ) {
+
+	.c-stats__fig {
+		font-size: 4rem !important;
+	}
+
+	.c-stats__fig__super {
+		font-size: 1.4rem !important;
+	}
+
+	.c-stats__description {
+		margin-top: $line-height !important;
+	}
+
+}
+
+@include respond-min-max( $mq-large, $mq-x-large ) {
+
+	.c-stats__fig {
+		font-size: 5.4rem !important;
+	}
+
+	.c-stats__fig__super {
+		font-size: 1.8rem !important;
+	}
+
+	.c-stats__description {
+		margin-top: $line-height !important;
+	}
+
+}

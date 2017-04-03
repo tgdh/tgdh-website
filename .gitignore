@@ -299,3 +299,5 @@ __pycache__/
 
 # ImageProcessor DiskCache
 **/App_Data/cache/
+
+_assets/js/modules/Config.js
