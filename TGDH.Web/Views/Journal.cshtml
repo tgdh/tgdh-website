@@ -5,7 +5,7 @@
 @inherits UmbracoViewPage<IPublishedContent>
 @{
     Layout = "Master.cshtml";
-	var allposts = JournalRepository.AllPosts(Umbraco).ToList().Where( x => x.Id != Model.GetPropertyValue<int>("featuredPost"));
+	var allposts = JournalRepository.AllPosts(Umbraco).ToList().Where( x => x.Id != Model.GetPropertyValue<int>("featuredPost")).OrderBy("releaseDate desc");
 	var filteredPosts = JournalRepository.FilterSelection(allposts, Request.QueryString["author"], Request.QueryString["category"], Request.QueryString["year"], Request.QueryString["month"]).ToList();
 
 	var paging = Paging.GetPages(filteredPosts.Count);
@@ -40,14 +40,13 @@
 	@Html.Partial("~/Views/Partials/Journal/FeaturedPost.cshtml")
 
 	<div id="posts" class="o-wrap o-wrap--x-large o-section o-col--two-one u-clearfix">
-		<h2 class="u-font-sec u-zeta u-em-style">All articles</h2>
+		<h2 class="u-font-sec u-zeta u-em-style u-beta">All articles</h2>
 		<div class="o-col o-col--first">
 			@if( selection.Any() ) {
 				foreach( var item in selection ) {
 				    var articleSnippet = new ArticleSummaryViewModel {
 				        Url = item.Url,
 						Headline = item.Name,
-						Subtitle = "Aenean lacinia bibendum nulla sed consectetur.",
 						Copy = item.GetPropertyValue<string>("pageDescription")
 				    };
 					@Html.Partial("~/Views/Partials/Components/ArticleSummary.cshtml", articleSnippet);

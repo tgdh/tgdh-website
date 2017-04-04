@@ -16,8 +16,7 @@
     }
 
 	var heading = new HeadingViewModel {
-        Headline = "Further reading",
-        Subtitle = "Maecenas sed diam eget risus."
+        Headline = "Further reading"
     };
 
 }
@@ -34,7 +33,7 @@
 				}
 				var cardData = new CardViewModel {
 			        Id = item.Id,
-					Category = "Jounral",
+					Category = "Journal",
 			        Headline = item.HasValue("headline") ? item.GetPropertyValue<string>("headline") : item.Name,
 			        CoverImage = Umbraco.TypedMedia(item.GetPropertyValue<int>("pageImage")),
 					Thumbnail = Umbraco.TypedMedia(profilePictureId),

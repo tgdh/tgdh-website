@@ -2,11 +2,11 @@
 import FontFaceObserver from 'fontfaceobserver';
 
 const Fonts = () => {
-	const lato = new FontFaceObserver('Lato');
+//	const lato = new FontFaceObserver('Lato');
 	const playfair = new FontFaceObserver('Playfair Display');
 
 	Promise.all([
-		lato.load(),
+//		lato.load(),
 		playfair.load()
 	]).then(() => {
 		// Add fonts-loaded class to html to apply fonts to the page

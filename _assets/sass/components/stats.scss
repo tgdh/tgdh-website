@@ -9,6 +9,18 @@
 	float: left;
 }
 
+.c-stats__label {
+	font-size: 1.4rem;
+}
+
+@include respond-max( $mq-small ) {
+
+	.c-stats__label {
+		font-size: 1.3rem;
+	}
+
+}
+
 .c-stats__label,
 .c-stats__fig {
 	display: block;
@@ -26,7 +38,7 @@
 }
 
 .c-stats__description {
-	font-size: 1.4rem;
+	font-size: 1.2rem;
 	line-height: 1.4;
 }
 

@@ -18,7 +18,7 @@
 	@Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
 	<div class="o-page__content__wrap u-clearfix s-free-content">
 		@if( Umbraco.TypedMedia(coverImageId) == null ) {
-			<h1 class="o-wrap o-wrap--small">@headline</h1>
+			<h1 class="o-wrap o-wrap--small u-beta">@headline</h1>
 		}
 		@RenderAuthor()
 	    @Html.Partial("~/Views/Partials/Page/PageComponents.cshtml")

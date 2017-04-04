@@ -1024,10 +1024,12 @@ var fontfaceobserver_standalone = createCommonjsModule(function (module) {
 
 // import * as FontFaceObserver from '../lib/fontfaceobserver/fontfaceobserver.standalone';
 var Fonts$1 = function Fonts() {
-	var lato = new fontfaceobserver_standalone('Lato');
+	//	const lato = new FontFaceObserver('Lato');
 	var playfair = new fontfaceobserver_standalone('Playfair Display');
 
-	Promise.all([lato.load(), playfair.load()]).then(function () {
+	Promise.all([
+	//		lato.load(),
+	playfair.load()]).then(function () {
 		// Add fonts-loaded class to html to apply fonts to the page
 		document.documentElement.classList.add('fonts-loaded');
 		// Set localstorage value so it can be used to load fonts when they've been cached

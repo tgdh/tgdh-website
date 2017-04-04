@@ -97,13 +97,16 @@
 		Headline = Model.GetPropertyValue<string>("careersHeadline"),
 		Subtitle = Model.GetPropertyValue<string>("careersSubtitle")
 	};
+
 	<section id="careers" class="o-section u-background--light s-about__careers">
 		@if(!String.IsNullOrWhiteSpace(imageUrl)) {
 			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-about__careers__plant">
 		}
 		<div class="o-wrap o-wrap--x-large s-about__careers__content">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
-			@Model.GetPropertyValue("careersCopy")
+			<div class="o-wrap--small">
+				@Model.GetPropertyValue("careersCopy")
+			</div>
 			<div class="o-wrap--small">
 				@Html.Partial("~/Views/Partials/Careers/VacancyListing.cshtml")
 			</div>

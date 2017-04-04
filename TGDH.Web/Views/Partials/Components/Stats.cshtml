@@ -35,7 +35,7 @@
 
 	@if( hasDescription ) {
 		descriptionCount = 0;
-		<div class="c-stats__description u-space-top--large u-clearfix">
+		<div class="c-stats__description u-space-top u-clearfix">
 			@foreach( var item in Model.Stats ) {
 				var description = item.GetPropertyValue<string>("description");
 				if( !String.IsNullOrWhiteSpace(description) ) {

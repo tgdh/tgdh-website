@@ -23,8 +23,15 @@
 .c-sitemap__link {
 	text-decoration: none;
 	display: inline-block;
+	transition: color $speed $ease,
+				background-color $speed $ease;
 
-	@include inline-link();
+	&:hover,
+	&:focus {
+		color: $white;
+		background-color: $pri;
+	}
+
 }
 
 .c-sitemap__list {

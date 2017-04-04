@@ -49,7 +49,8 @@
 						var tileData = new TileViewModel {
 							Url = featuredPage.Url,
 							Headline = featuredPage.Name,
-							Subtitle = featuredPage.GetPropertyValue<IHtmlString>("coverSubtitle")
+							Subtitle = featuredPage.GetPropertyValue<IHtmlString>("coverSubtitle"),
+							ModifierClass = "u-hide--small u-hide--medium"
 						};
 						@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
 					}

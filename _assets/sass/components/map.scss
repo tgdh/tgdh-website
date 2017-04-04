@@ -8,6 +8,15 @@
 		top: 0;
 	}
 
+	a {
+		box-shadow: none;
+
+		&:hover,
+		&:focus {
+			background-color: transparent;
+		}
+	}
+
 }
 
 .enhance {

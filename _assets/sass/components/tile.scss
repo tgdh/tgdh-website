@@ -134,6 +134,10 @@
 	transition: border $speed $ease;
 }
 
+.c-tile-wrap {
+	overflow: hidden;
+}
+
 
 @include respond-min( $mq-medium ) {
 
