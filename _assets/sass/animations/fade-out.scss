@@ -36,3 +36,18 @@
 	transform: translate3d(0, 2rem, 0);
 	transition-duration: .3s !important;
 }
+
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.fadeOut {
+  animation-name: fadeOut;
+}

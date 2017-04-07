@@ -44,10 +44,14 @@
 .c-notify--fixed {
 	position: fixed;
 	top: $line-height;
-	top: 4em;
+	top: 10rem;
 	left: 2rem;
 	right: 2rem;
 	z-index: 20;
+	animation-duration: .3s;
+	animation-fill-mode: both;
+	animation-name: fadeOut;
+	animation-delay: 10s;
 }
 
 .enhance {
