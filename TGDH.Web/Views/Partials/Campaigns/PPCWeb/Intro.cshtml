@@ -1,0 +1,29 @@
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var heading = new HeadingViewModel {
+		Headline = Model.GetPropertyValue<string>("introHeadline"),
+		Subtitle = Model.GetPropertyValue<string>("introSubtitle")
+	};
+	var services = Model.GetPropertyValue<string[]>("services");
+}
+
+<section class="o-section u-background--light">
+	<div class="o-wrap o-wrap--x-large">
+		@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+		<div class="o-col--two-one u-clearfix">
+			<div class="o-col o-col--first">
+				@Model.GetPropertyValue("introCopy")
+			</div>
+			<div class="o-col o-col--last">
+				@if( services.Length > 0 ) {
+					<h3 class="u-zeta">Services</h3>
+					<ul class="o-list--col-two u-font-sec u-font--small">
+						@foreach( var item in services ) {
+							<li>@item</li>
+						}
+					</ul>
+				}
+			</div>
+		</div>
+	</div>
+</section>

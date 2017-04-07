@@ -34,8 +34,7 @@ var isProduction = false;
 
 var AUTOPREFIXER_BROWSERS = [
     'last 2 versions',
-    '> 1%',
-    'ie >= 9',
+    'ie >= 10',
     'ie_mob >= 10',
     'ff >= 30',
     'chrome >= 34',

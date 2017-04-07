@@ -1,0 +1,22 @@
+@using TGDH.Core.Data
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var featuredPages = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("featuredPages");
+}
+
+<section>
+	<h2 class="u-visually-hidden">Featured work</h2>
+	<div class="c-tile-wrap u-clearfix">
+		@foreach( var item in featuredPages ) {
+			var page = Umbraco.TypedContent(item.GetPropertyValue<int>("pageLink"));
+			if( page != null ) {
+				var tileData = new TileViewModel {
+					Url = page.Url,
+					Headline = item.GetPropertyValue<string>("headline"),
+					ImageId = item.GetPropertyValue<int>("image")
+				};
+				@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
+			}
+		}
+	</div>
+</section>

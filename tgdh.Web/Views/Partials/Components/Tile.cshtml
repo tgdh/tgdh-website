@@ -25,11 +25,12 @@
 						</svg>
 					</h2>
 				}
-				@if(!String.IsNullOrWhiteSpace(Model.Subtitle.ToString())) {
-                    <div class="c-tile__subtitle u-font-sec">
-                        @Model.Subtitle
-                    </div>
-                }
+
+                <div class="c-tile__subtitle u-font-sec">
+					@if(Model.Subtitle != null && !String.IsNullOrWhiteSpace(Model.Subtitle.ToString())) {
+                    	@Model.Subtitle
+					}
+                </div>
 
 				@if( !String.IsNullOrWhiteSpace(Model.Quote) ) {
 					<div class="c-tile__quote u-font-sec">

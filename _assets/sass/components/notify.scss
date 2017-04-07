@@ -41,6 +41,14 @@
 	background-color: $pri;
 }
 
+.c-notify--fixed {
+	position: fixed;
+	top: $line-height;
+	top: 4em;
+	left: 2rem;
+	right: 2rem;
+	z-index: 20;
+}
 
 .enhance {
 

@@ -1,0 +1,20 @@
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var heading = new HeadingViewModel {
+		Headline = Model.GetPropertyValue<string>("clientsHeadline"),
+		Subtitle = Model.GetPropertyValue<string>("clientsSubtitle")
+	};
+}
+
+<section class="o-section">
+	<div class="o-wrap o-wrap--x-large">
+		@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+		@{
+			var logos = new LogoListingViewModel {
+				LogoListing = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("clientsLogos"),
+				ModifierClass = "c-logo-grid u-clearfix u-space-top--large"
+			};
+			@Html.Partial("~/Views/Partials/Components/LogoListing.cshtml", logos);
+		}
+	</div>
+</section>

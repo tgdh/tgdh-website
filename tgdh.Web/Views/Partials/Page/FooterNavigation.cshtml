@@ -1,8 +1,7 @@
 @using Umbraco.Web
 @inherits UmbracoViewPage<IPublishedContent>
 @{
-    var homePage = Model.Site();
-    var settings = homePage.Descendants("globalSettings").FirstOrDefault();
+    var settings = Umbraco.TypedContent(1062);
 
     if (settings == null)
     {

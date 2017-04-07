@@ -8,8 +8,9 @@ input,
 select,
 textarea {
 	background: none;
-	border: $border-width solid $border-colour;
-	border-radius: $border-radius;
+	border: none;
+	border-bottom: .1rem solid $pri;
+	border-radius: 0;
 	padding: 1rem 1.5rem;
 	transition: border $speed $ease;
 	width: 100%;

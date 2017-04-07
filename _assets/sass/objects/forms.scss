@@ -1,19 +1,22 @@
 /* ===========================================================
-	
+
 	# Form
 
 =========================================================== */
 $line-height-half: $line-height / 2;
 
-.o-form__field {
+.o-form__row {
 	& + & {
 		padding-top: $padding-small;
 	}
 }
 
-.o-input,
-.o-select select,
-.o-textarea {
+.o-form__row--submit {
+	text-align: right;
+}
+
+.o-form__input,
+.o-form__textarea {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	-ms-appearance: none;
@@ -21,8 +24,10 @@ $line-height-half: $line-height / 2;
 	appearance: none;
 }
 
-.o-validation {
+.o-form__validation {
 	display: none;
+	position: absolute;
+	font-size: 1.2rem;
 	margin-top: $line-height / 4;
 
 	.is-valid & {
@@ -36,32 +41,111 @@ $line-height-half: $line-height / 2;
 	}
 }
 
+.o-form__field {
+	position: relative;
+}
+
+
+@include respond-max( $mq-small ) {
+
+	.s-webPPC {
+
+		.c-quote__copy {
+			font-size: 2rem;
+		}
+
+	}
+
+	.o-form__row--two {
+
+		.o-form__field + .o-form__field {
+			margin-top: $line-height;
+		}
+
+	}
+
+}
+
+@include respond-min( $mq-small ) {
+
+	.o-form__row--two {
+
+		.o-form__field {
+			@include column( 1/2 );
+		}
+
+	}
+
+}
 
 
 //= LABEL ====================================================
 
-.o-label {
-	font-weight: $bold;
-	padding-bottom: $line-height / 4;
+.o-form__label {
+	display: block;
+	margin-bottom: .35em;
+
+	&[for] {
+		cursor: pointer;
+	}
 }
 
-.o-label__note {
-	color: $border-colour;
-	float: right;
-	font-size: .8em;
-	font-style: italic;
-}
+.enhance {
 
+	.o-form__field--compact {
+
+		.o-form__label {
+			opacity: .65;
+			font-size: 1.6rem;
+			position: absolute;
+			top: 0;
+			padding: 0;
+			transform: translate( 1rem, 50% );
+			transition: color $speed $ease,
+						transform $speed $ease,
+						font-size $speed $ease;
+			will-change:color,
+						font-size;
+		}
+
+		input,
+		textarea {
+
+			&:focus {
+
+				& + .o-form__label {
+					font-size: 1.2rem;
+					transform: translate(0,-100%);
+				}
+
+			}
+
+		}
+
+		&.has-value {
+
+			.o-form__label {
+				font-size: 1.2rem;
+				transform: translate(0,-100%);
+			}
+
+		}
+
+	}
+
+}
 
 
 //= SELECT ===================================================
 
-.o-select {
+.o-form__select {
 	position: relative;
 	vertical-align: middle;
 	z-index: 1;
 
 	select {
+		appearance: none;
+		border: none;
 		position: relative;
 		text-indent: .01px;
 		text-overflow: '';
@@ -77,62 +161,28 @@ $line-height-half: $line-height / 2;
 	}
 
 	&:after {
-		background: $background-colour;
-		border-radius: 0 $border-radius - $border-width $border-radius - $border-width 0;
-		box-sizing: border-box;
-		color: $border-colour;
 		content: '\25BE';
+		background: rgba($white, .2); // covers IE browser arrow
 		display: block;
-		height: calc( 100% - .2rem );
-		padding: 1rem 1.5rem;
-		position: absolute;
-		pointer-events: none;
-		right: $border-width;
-		top: $border-width;
-		z-index: 0;
+		height: 100%;
+		line-height: 40px; // Height of the select
+        position: absolute;
+        pointer-events: none;
+        right: 0;
+        top: 0;
+        width: 30px;
+        z-index: 0;
 
-		.lt-ie10 & {
-			display: none;
-		}
 	}
 }
 
 // FireFox 30 hide native down arrow
-:-moz-any( .o-select ):after {
+:-moz-any( .o-form__select ):after {
 	z-index: 1;
 }
 
 
 //= FIELDSET =================================================
-
-.o-fieldset__legend {
-	font-weight: $bold;
-	padding-bottom: $line-height / 4;
-	width: 100%;
-
-	.o-label__note {
-		float: none;
-	}
-
-}
-
-.o-fieldset__list {
-	list-style: none;
-}
-
-.o-fieldset__item {
-	margin: 0;
-
-	.o-label {
-		font-weight: normal;
-	}
-
-	input {
-		margin: 0 .5rem 0 0;
-		width: auto;
-	}
-
-}
 
 .enhance {
 
@@ -163,7 +213,7 @@ $line-height-half: $line-height / 2;
 			display: none;
 
 			&:checked {
-				
+
 				+ .o-checkbox__label:before,
 				+ .o-radio__label:before {
 					background-color: $pri;
@@ -207,27 +257,6 @@ $line-height-half: $line-height / 2;
 			}
 
 		}
-	}
-
-}
-
-
-//= BUTTON ===================================================
-
-.o-input + .c-button,
-.o-select + .c-button,
-.o-textarea + .c-button {
-	margin-top: $line-height * 2;
-}
-
-@include respond-max( $mq-medium ) {
-
-	.enhance {
-
-		.o-fieldset__item + .o-fieldset__item {
-			// margin-top: $padding-small / 2;
-		}
-
 	}
 
 }

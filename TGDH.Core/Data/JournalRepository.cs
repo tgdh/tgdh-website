@@ -74,9 +74,10 @@ namespace TGDH.Core.Data
               cat =>  cat.Equals(item.Name.ConvertToId())
             );
 
-            item.GetPropertyValue<string>("categories").ToList().Any(
+          /*  item.GetPropertyValue<string>("categories").ToList().Any(
               cat => StringInList(cat.Name.ConvertToId(),categories)
             );
+        */
         }
 
         public static IEnumerable<IPublishedContent> FilterBySelectedPrevaluePages(IEnumerable<IPublishedContent> source, string categories)

@@ -1,0 +1,37 @@
+/* ===========================================================
+
+  # Campaign - PPC
+
+=========================================================== */
+
+.s-webPPC {
+
+	.o-page {
+		padding-right: 0 !important;
+	}
+
+	.c-cover__copy {
+		font-size: 1.6rem;
+	}
+
+	.o-page__scroll-top {
+		background-color: transparent;
+	}
+
+}
+
+@include respond-min( $mq-large ) {
+
+	.s-webPPC {
+
+		.c-cover__headline {
+			font-size: 	4.8rem;
+		}
+
+		.c-cover__body {
+			max-width: 56rem;
+		}
+
+	}
+
+}

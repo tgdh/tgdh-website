@@ -47,6 +47,18 @@
 	}
 }
 
+.c-button--secondary {
+	color: $white;
+	background-color: $pri;
+
+	&:hover,
+	&:focus {
+		color: $black;
+		background-color: $white;
+		border-color: $pri;
+	}
+}
+
 .c-button--skiplink {
 	color: $white;
 	background-color: $pri;

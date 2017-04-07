@@ -3,10 +3,12 @@ import FontFaceObserver from 'fontfaceobserver';
 
 const Fonts = () => {
 //	const lato = new FontFaceObserver('Lato');
+	const opensans = new FontFaceObserver('Open Sans');
 	const playfair = new FontFaceObserver('Playfair Display');
 
 	Promise.all([
 //		lato.load(),
+		opensans.load(),
 		playfair.load()
 	]).then(() => {
 		// Add fonts-loaded class to html to apply fonts to the page

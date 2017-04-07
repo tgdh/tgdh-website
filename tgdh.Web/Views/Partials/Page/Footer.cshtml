@@ -7,8 +7,7 @@
 
 	var dateToday = DateTime.Today;
 
-	var homePage = Model.Site();
-	var settings = homePage.Children("globalSettings").FirstOrDefault();
+	var settings = Umbraco.TypedContent(1062);
 	var socialChannels = new SocialChannelsViewModel {
 		SocialChannels = settings.GetPropertyValue<IEnumerable<IPublishedContent>>("socialChannels")
 	};
