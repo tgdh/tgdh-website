@@ -15,6 +15,13 @@
         <meta charset="utf-8">
 		<meta name="format-detection" content="telephone=no">
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui" />
+		<!-- Google Tag Manager -->
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-MDZGW36');</script>
+		<!-- End Google Tag Manager -->
 		<!-- <meta name="google-site-verification" content=""> -->
         @Html.Partial("~/Views/Partials/Page/SEO.cshtml")
 		<link rel="shortcut icon" href="/favicon.ico" />
@@ -43,18 +50,21 @@
 		<noscript><img src="http://www.1-creative-1.com/21196.png" style="display:none;" /></noscript>
     </head>
     <body class="o-page">
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MDZGW36"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
 		<div class="o-page__inner">
 			@Html.Partial("~/Views/Partials/Page/Notifications.cshtml")
 			@Html.Partial("~/Views/Partials/Campaigns/PPCWeb/Header.cshtml")
 			@Html.Partial("~/Views/Partials/Campaigns/PPCWeb/Content.cshtml")
 		</div>
-		@Html.Partial("~/Views/Partials/Page/Footer.cshtml")
+		@Html.Partial("~/Views/Partials/Campaigns/PPCWeb/Footer.cshtml")
 
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
         <!--[if gte IE 9]><!-->
             <script src="/assets/js/main.js"></script>
         <!--<![endif]-->
-		@Html.Partial("~/Views/Partials/Page/Analytics.cshtml")
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
