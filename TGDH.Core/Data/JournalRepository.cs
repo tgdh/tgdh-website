@@ -70,19 +70,25 @@ namespace TGDH.Core.Data
 
         public static bool CategoryIsMatch(IPublishedContent item, string categories)
         {
-            return categories.Split(',').Any(
-              cat =>  cat.Equals(item.Name.ConvertToId())
+            if (string.IsNullOrWhiteSpace(categories))
+            {
+                return false;
+            }
+
+            var umbracoHelper = new UmbracoHelper(UmbracoContext.Current);
+            var itemCateogires = item.GetPropertyValue<string>("categories");
+            if( string.IsNullOrWhiteSpace(itemCateogires) ) {
+              return false;
+            }
+            return itemCateogires.Split(',').ToList().Any(
+              catId => StringInList(umbracoHelper.TypedContent(catId).Name, categories)
             );
 
-          /*  item.GetPropertyValue<string>("categories").ToList().Any(
-              cat => StringInList(cat.Name.ConvertToId(),categories)
-            );
-        */
         }
 
         public static IEnumerable<IPublishedContent> FilterBySelectedPrevaluePages(IEnumerable<IPublishedContent> source, string categories)
         {
-          if(!String.IsNullOrWhiteSpace(categories))
+          if(String.IsNullOrWhiteSpace(categories))
           {
             return source;
           }

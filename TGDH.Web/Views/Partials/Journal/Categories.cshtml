@@ -20,7 +20,7 @@
 	<h3 class="o-pod__headline u-visually-hidden">Categories</h3>
 	<ul class="c-link-list">
 		<li class="c-link-list__item">
-			<a href="@pageUrl" class="c-link-list__link @allActiveClass">
+			<a href="@pageUrl#featuredPost" class="c-link-list__link @allActiveClass">
 				<span class="c-link-list__link__value">All</span>
 			</a>
 		</li>
@@ -30,7 +30,7 @@
 			var activeClass = qCat.Equals(catId, StringComparison.OrdinalIgnoreCase) ? "is-active" : "";
 
 			<li class="c-link-list__item">
-				<a href="@catUrl" class="c-link-list__link @activeClass">
+				<a href="@catUrl#featuredPost" class="c-link-list__link @activeClass">
 					<span class="c-link-list__link__value">@item.Name</span>
 				</a>
 			</li>

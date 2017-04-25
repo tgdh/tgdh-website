@@ -21,20 +21,6 @@
 	};
 }
 
-@*
-// A: "brand,advertising"
-// b: "brand"
-// C: "1243,1243"
-
-
-// StringInList( B, A )
-//
-
-// c -
-// C.Split(',').Any( stringId => StringInList(Umbraco.TypedContent(stringId).Name, A) )
-
-@**@
-
 <main id="main" class="o-page__content" role="main">
 	@Html.Partial("~/Views/Partials/Components/Cover.cshtml", coverModel)
 	@Html.Partial("~/Views/Partials/Journal/FeaturedPost.cshtml")
@@ -55,13 +41,12 @@
 	                @PagingTemplate.RenderPaging(paging, Model.Id, "posts")
 	            </nav>
 			} else {
-				<p>Sorry, we're all out of posts</p>
+				<p>Sorry, we don't have any posts that match your filter</p>
 			}
 		</div>
-		@*
 		<div class="o-col o-col--last">
 			@Html.Partial("~/Views/Partials/Journal/Categories.cshtml")
 		</div>
-		*@
+
 	</div>
 </main>
