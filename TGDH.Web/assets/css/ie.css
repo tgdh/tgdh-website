@@ -3884,6 +3884,53 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 
 /* ===========================================================
 
+	# Sidebar pager
+
+=========================================================== */
+@media only screen and (min-width: 1000px) {
+  .enhance .c-sidebar-pager {
+    width: 100%;
+    position: absolute;
+    right: 0;
+    top: 9.4rem; }
+  .enhance .c-sidebar-pager__page,
+  .enhance .c-sidebar-pager__gateway {
+    display: block;
+    text-align: center;
+    padding: 1rem;
+    clear: both;
+    transition: color 0.3s ease, background-color 0.3s ease; }
+    .enhance .c-sidebar-pager__page:hover, .enhance .c-sidebar-pager__page:focus,
+    .enhance .c-sidebar-pager__gateway:hover,
+    .enhance .c-sidebar-pager__gateway:focus {
+      color: #FFFFFF;
+      background-color: #000000; }
+      .enhance .c-sidebar-pager__page:hover svg, .enhance .c-sidebar-pager__page:focus svg,
+      .enhance .c-sidebar-pager__gateway:hover svg,
+      .enhance .c-sidebar-pager__gateway:focus svg {
+        fill: #FFFFFF; }
+  .enhance .c-sidebar-pager__page--prev:hover .c-sidebar-pager__page__icon {
+    -webkit-transform: translateX(-0.5rem);
+            transform: translateX(-0.5rem); }
+  .enhance .c-sidebar-pager__page--next:hover .c-sidebar-pager__page__icon {
+    -webkit-transform: translateX(0.5rem);
+            transform: translateX(0.5rem); }
+  .enhance .c-sidebar-pager__page__icon,
+  .enhance .c-sidebar-pager__gateway__icon {
+    vertical-align: middle;
+    transition: fill 0.3s ease, -webkit-transform 0.3s ease;
+    transition: fill 0.3s ease, transform 0.3s ease;
+    transition: fill 0.3s ease, transform 0.3s ease, -webkit-transform 0.3s ease; }
+  .enhance .c-sidebar-pager__gateway__icon {
+    width: 28px;
+    height: 28px; } }
+
+@media only screen and (max-height: 780px) {
+  .c-sidebar-pager {
+    display: none; } }
+
+/* ===========================================================
+
 	# Colour swatch
 
 =========================================================== */
@@ -4498,9 +4545,6 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 	# Free Content
 
 =========================================================== */
-.s-free-content a {
-  text-decoration: underline; }
-
 @media only screen and (min-width: 600px) {
   .s-free-content .o-table {
     margin: 4rem 0; } }

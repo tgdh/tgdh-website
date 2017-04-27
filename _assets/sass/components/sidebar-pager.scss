@@ -1,0 +1,80 @@
+/* ===========================================================
+
+	# Sidebar pager
+
+=========================================================== */
+
+@include respond-min( $mq-large ) {
+
+	.enhance {
+
+		.c-sidebar-pager {
+			width: 100%;
+			position: absolute;
+			right: 0;
+			top: 9.4rem;
+		}
+
+		.c-sidebar-pager__page,
+		.c-sidebar-pager__gateway {
+			display: block;
+			text-align: center;
+			padding: 1rem;
+			clear: both;
+			transition: color $speed $ease,
+						background-color $speed $ease;
+
+			&:hover,
+			&:focus {
+				color: $white;
+				background-color: $pri;
+
+				svg {
+					fill: $white;
+				}
+			}
+		}
+
+		.c-sidebar-pager__page--prev {
+
+			&:hover {
+				.c-sidebar-pager__page__icon {
+					transform: translateX(-.5rem);
+				}
+			}
+
+		}
+
+		.c-sidebar-pager__page--next {
+
+			&:hover {
+				.c-sidebar-pager__page__icon {
+					transform: translateX(.5rem);
+				}
+			}
+
+		}
+
+		.c-sidebar-pager__page__icon,
+		.c-sidebar-pager__gateway__icon {
+			vertical-align: middle;
+			transition: fill $speed $ease,
+						transform $speed $ease;
+		}
+
+		.c-sidebar-pager__gateway__icon {
+			width: 28px;
+			height: 28px;
+		}
+
+	}
+
+}
+
+@media only screen and ( max-height: 780px) {
+
+	.c-sidebar-pager {
+		display: none;
+	}
+
+}
