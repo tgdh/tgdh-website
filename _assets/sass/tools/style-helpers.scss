@@ -50,3 +50,32 @@
 	}
 
 }
+
+@mixin underline-link( $invert: false, $borderSize: 2px ) {
+	background-image: linear-gradient(currentColor,currentColor);
+	background-repeat: no-repeat;
+	background-size: 100% $borderSize;
+	background-position: center bottom 15%;
+	background-origin: padding-box;
+
+	transition: text-shadow $speed $ease,
+				color $speed $ease,
+				background-color $speed $ease,
+				box-shadow $speed $ease;
+
+	@if $invert {
+		text-shadow: 3px 0 $pri,
+					 2px 0 $pri,
+					 1px 0 $pri,
+					 -1px 0 $pri,
+					 -2px 0 $pri,
+					 -3px 0 $pri;
+	} @else {
+		text-shadow: 3px 0 $background-colour,
+					 2px 0 $background-colour,
+					 1px 0 $background-colour,
+					 -1px 0 $background-colour,
+					 -2px 0 $background-colour,
+					 -3px 0 $background-colour;
+	}
+}
