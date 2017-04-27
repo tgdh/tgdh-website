@@ -1,7 +1,7 @@
 @inherits UmbracoViewPage<IPublishedContent>
 @{
     Layout = "Master.cshtml";
-	var selection = Model.Descendants().Where( x => x.IsVisible());
+
 
 	var cover = new CoverViewModel {
 		ImageIds = Model.GetPropertyValue<string>("coverImage"),
@@ -15,47 +15,5 @@
 
 <main id="main" class="o-page__content" role="main">
 	@Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
-	@if( selection.Any() ) {
-
-
-		<div class="c-tile-wrap u-clearfix">
-			@foreach( var item in selection ) {
-				var imageId = item.GetPropertyValue<int>("coverImage");
-				if( imageId == 0 ) {
-					imageId = item.GetPropertyValue<int>("pageImage");
-				}
-				var quote = Umbraco.StripHtml(item.GetPropertyValue<IHtmlString>("quote"));
-
-				var tileData = new TileViewModel {
-					Url = item.Url,
-					Headline = item.Name,
-					Subtitle = item.GetPropertyValue<IHtmlString>("coverSubtitle"),
-					ImageId = imageId,
-					Quote = quote.ToString()
-				};
-				@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
-			}
-
-			@{
-				if( selection.Count() % 2 == 1 ) {
-					var featuredPage = Umbraco.TypedContent(Model.GetPropertyValue<int>("featuredPage"));
-					if(featuredPage != null)  {
-						@*
-						var imageId = featuredPage.GetPropertyValue<int>("coverImage");
-						if( imageId == 0 ) {
-							imageId = featuredPage.GetPropertyValue<int>("pageImage");
-						}
-						*@
-						var tileData = new TileViewModel {
-							Url = featuredPage.Url,
-							Headline = featuredPage.Name,
-							Subtitle = featuredPage.GetPropertyValue<IHtmlString>("coverSubtitle"),
-							ModifierClass = "u-hide--small u-hide--medium"
-						};
-						@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
-					}
-				}
-			}
-		</div>
-	}
+	@Html.Partial("~/Views/Partials/CaseStudies/CaseStudyListing.cshtml")
 </main>
