@@ -1,7 +1,12 @@
 @using TGDH.Core.ExtensionMethods
 @inherits UmbracoViewPage<IPublishedContent>
 @{
-    var selection = Model.AncestorsOrSelf().Where(x =>x.IsVisible() && x.Level != 1 && x.TemplateId > 0).OrderBy(x => x.Level);
+    var selection = Model.AncestorsOrSelf().Where(x =>
+		x.IsVisible()
+		&& x.Level != 1
+		&& x.TemplateId > 0
+		|| x.DocumentTypeAlias == "careers"
+	).OrderBy(x => x.Level);
 	var aboutPage = Umbraco.TypedContent(TGDH.Core.Constants.AboutPageId);
 }
 @if( Model.Level == 1 ) {
