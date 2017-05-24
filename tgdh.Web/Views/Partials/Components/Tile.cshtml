@@ -13,7 +13,7 @@
 	}
 }
 <article class="c-tile @Model.ModifierClass">
-    <a id="@StringExtensionMethods.ConvertToId(Model.Headline)" href="@Model.Url" class="c-tile__link" style="background-image: url(@imageUrl);">
+    <a id="@Model.Headline.ConvertToId()" href="@Model.Url" class="c-tile__link" style="background-image: url(@imageUrl);">
         <div class="c-tile__content js-tilt">
 			<div class="c-tile__copy">
 				@if(!String.IsNullOrWhiteSpace(Model.Headline))

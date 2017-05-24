@@ -25,7 +25,7 @@
 			</a>
 		</li>
 		@foreach( var item in categories ) {
-			var catId = StringExtensionMethods.ConvertToId(item.Name);
+			var catId = item.Name.ConvertToId();
 			var catUrl = pageUrl + "?category=" + catId;
 			var activeClass = qCat.Equals(catId, StringComparison.OrdinalIgnoreCase) ? "is-active" : "";
 

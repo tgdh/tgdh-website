@@ -753,7 +753,6 @@
     <Content Include="bin\System.Web.WebPages.Razor.dll" />
     <Content Include="bin\System.Web.WebPages.Razor.xml" />
     <Content Include="bin\System.Web.WebPages.xml" />
-    <Content Include="bin\TGDH.ExtensionMethods.dll" />
     <Content Include="bin\TGDH.Web.dll" />
     <Content Include="bin\TGDH.Web.pdb" />
     <Content Include="bin\TidyNet.dll" />

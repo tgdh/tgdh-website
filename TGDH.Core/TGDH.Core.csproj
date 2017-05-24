@@ -193,13 +193,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="TGDH.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\TGDH.Web\bin\TGDH.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="TGDH.ExtensionMethods">
-      <HintPath>..\TGDH.Web\bin\TGDH.ExtensionMethods.dll</HintPath>
-    </Reference>
     <Reference Include="TGDH.Web">
       <HintPath>..\TGDH.Web\bin\TGDH.Web.dll</HintPath>
     </Reference>

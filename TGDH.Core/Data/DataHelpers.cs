@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TGDH.ExtensionMethods.Strings;
-using TGDH.ExtensionMethods.Int;
+using TGDH.Core.ExtensionMethods;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 
@@ -44,7 +43,7 @@ namespace TGDH.Core.Data
         public static IEnumerable<IPublishedContent> FilterByYearAndMonth(IEnumerable<IPublishedContent> source, string year, string month, string propertyAlias)
         {
             int yearInt;
-            var monthInt = IntExtentionsMethods.GetMonthNumber(month);
+            var monthInt = IntExtensionMethods.GetMonthNumber(month);
             var isValidYear = int.TryParse(year, out yearInt);
 
             if (!isValidYear) return source;
