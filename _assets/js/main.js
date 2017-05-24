@@ -5,7 +5,7 @@ import LoadFonts from './modules/LoadFonts';
 import { $ } from './modules/Bling';
 import ToggleNav from './modules/ToggleNav';
 import lazySizes from './modules/LazyLoad';
-import imageComparison from './modules/ImageComparison';
+import InitImageComparison from './modules/ImageCompare';
 import carousel from './modules/Carousel';
 import tilt from './modules/Tilt';
 import GMap from './modules/GMaps';
@@ -23,7 +23,7 @@ import StickyHeader from './modules/StickyHeader';
 	lazySizes();
 	carousel();
 	if (enhance) {
-		imageComparison();
+		InitImageComparison();
 		tilt();
 		const map = new GMap($('.js-map'));
 		const $toggleButton = $('.js-nav-toggle');

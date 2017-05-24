@@ -1,4 +1,4 @@
-import ImageComparison from 'image-comparison';
+import ImageComparison from '../lib/ImageComparison';
 import { $$ } from './Bling';
 
 const initComparisonImages = () => {
