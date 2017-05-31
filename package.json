@@ -54,6 +54,7 @@
     "aos": "^2.1.1",
     "fontfaceobserver": "^2.0.8",
     "google-maps-api-loader": "^0.3.0",
+    "gsap": "^1.19.1",
     "headroom.js": "^0.9.3",
     "image-comparison": "^2.0.2",
     "lazysizes": "^3.0.0-rc4",
