@@ -20,7 +20,7 @@
     var alignmentClass = "o-align--" + alignment;
 
 	@* image *@
-    var imageWidth = alignment != "default" ? Model.ImageWidth/2 : Model.ImageWidth;
+    var imageWidth = alignment != "default" && alignment != "full" ? Model.ImageWidth/2 : Model.ImageWidth;
 
 	if( typedMedia.Count() == 1 ) {
 		var singleImageModel = new ImageViewModel
@@ -28,7 +28,8 @@
 			ImageId = typedMedia.First().Id,
 			Alignment = alignment,
 			AspectRatio = Model.AspectRatio,
-			ImageWidth = imageWidth
+			ImageWidth = imageWidth,
+			AdditionalClass = alignment == "full" ? "js-block-reveal" : ""
 		};
 		@Html.Partial("~/Views/Partials/Components/Image.cshtml", singleImageModel)
 		return;
@@ -36,7 +37,7 @@
 
 }
 
-<figure class="c-carousel @aspectRatioClass @alignmentClass @Model.AdditionalClass">
+<figure class="c-carousel @aspectRatioClass @alignmentClass @Model.AdditionalClass js-block-reveal">
     <div class="c-carousel__inner js-carousel swiper-container" data-loop="false" data-autoplay-speed="4000" data-count="1" data-modal-type="gallery">
 		<div class="swiper-wrapper c-carousel__wrapper">
 	        @foreach (var media in typedMedia)

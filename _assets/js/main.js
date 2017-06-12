@@ -11,7 +11,11 @@ import tilt from './modules/Tilt';
 import GMap from './modules/GMaps';
 import initSmoothScroll from './modules/SmoothScroll';
 import StickyHeader from './modules/StickyHeader';
+//import RevealFX from './modules/Reveal';
+import InitAnimations from './modules/Animations';
+import AnimateHullTruck from './modules/AnimateHullTruck';
 
+import BlockReveal from './modules/BlockReveal';
 
 (() => {
 	const enhance = 'querySelector' in document
@@ -23,6 +27,8 @@ import StickyHeader from './modules/StickyHeader';
 	lazySizes();
 	carousel();
 	if (enhance) {
+		const $html = document.querySelector('html');
+
 		InitImageComparison();
 		tilt();
 		const map = new GMap($('.js-map'));
@@ -33,6 +39,13 @@ import StickyHeader from './modules/StickyHeader';
 		initSmoothScroll();
 
 		new StickyHeader($('.js-header-logo'));
+
+		InitAnimations();
+
+		if ($html.classList.contains('s-hullTruckCaseStudy')) {
+			new AnimateHullTruck();
+		}
+
 	}
 	svg4everybody();
 

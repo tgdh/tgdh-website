@@ -144,9 +144,17 @@
 		htmlEncode: false
 	).ToString();
 
+	@*fallback*@
+	string fallback = Url.GetCropUrl(
+		image,
+		cropAlias: "5:54",
+		width: 20,
+		htmlEncode: false
+	).ToString();
+
 	<div class="c-cover__media">
 		<div class="c-cover__decoration" role="decoration"></div>
-		<picture class="c-cover__media-wrap">
+		<picture class="c-cover__media-wrap js-block-reveal" data-reveal-delay="0">
 			<!--[if IE 9]><video style="display: none;"><![endif]-->
 			<source srcset="@xxxLargeImageUrl" data-srcset="@xxxLargeImageUrl" media="(min-width: 1800px)">
 			<source srcset="@xxLargeImageUrl" data-srcset="@xxLargeImageUrl" media="(min-width: 1500px)">
@@ -155,7 +163,7 @@
 			<source srcset="@mediumImageUrl" data-srcset="@mediumImageUrl" media="(min-width: 600px)">
 			<source srcset="@smallImageUrl" data-srcset="@smallImageUrl" media="(max-width: 599px)">
 			<!--[if IE 9]></video><![endif]-->
-			<img src="@xLargeImageUrl&quality=18" data-src="@xLargeImageUrl" alt="@altText" class="c-cover__image js-lazyload" alt="@altText">
+			<img src="@fallback" data-src="@xLargeImageUrl" alt="@altText" class="c-cover__image js-lazyload" alt="@altText">
 		</picture>
 	</div>
 }

@@ -1632,7 +1632,6 @@ img {
   display: block;
   position: relative;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.05);
   background-size: cover;
   background-position: center; }
   .c-cover__media:before {

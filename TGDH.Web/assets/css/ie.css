@@ -294,6 +294,27 @@ footer, header, hgroup, menu, nav, section {
 
 /* ===========================================================
 
+	# Block reveal animations
+
+=========================================================== */
+.enhance .block-revealer__element {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 1; }
+
+.enhance .js-block-reveal {
+  opacity: 0; }
+  .enhance .js-block-reveal.block-revealer {
+    opacity: 1; }
+
+/* ===========================================================
+
 	# Text
 
 =========================================================== */
@@ -2588,7 +2609,6 @@ button.swiper-pagination-bullet {
   display: block;
   position: relative;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.05);
   background-size: cover;
   background-position: center; }
   .c-cover__media:before {
@@ -3180,24 +3200,7 @@ button.swiper-pagination-bullet {
   padding: 2rem 0; }
   .c-article-summary__link:hover .c-article-summary__heading__headline, .c-article-summary__link:focus .c-article-summary__heading__headline {
     color: #FFFFFF;
-    background-color: #000000;
-    box-shadow: 3px 0 0 #000000, -3px 0 0 #000000;
-    text-shadow: 3px 0 #000000, 2px 0 #000000, 1px 0 #000000, -1px 0 #000000, -2px 0 #000000, -3px 0 #000000; }
-
-.u-background--pri .c-article-summary__link .c-article-summary__heading__headline {
-  background-image: linear-gradient(currentColor, currentColor);
-  background-repeat: no-repeat;
-  background-size: 100% 2px;
-  background-position: center bottom 15%;
-  background-origin: padding-box;
-  transition: text-shadow 0.3s ease, color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-  text-shadow: 3px 0 #000000, 2px 0 #000000, 1px 0 #000000, -1px 0 #000000, -2px 0 #000000, -3px 0 #000000; }
-
-.u-background--pri .c-article-summary__link:hover .c-article-summary__heading__headline, .u-background--pri .c-article-summary__link:focus .c-article-summary__heading__headline {
-  color: #000000;
-  background-color: #FFFFFF;
-  box-shadow: 3px 0 0 #FFFFFF, -3px 0 0 #FFFFFF;
-  text-shadow: 3px 0 #FFFFFF, 2px 0 #FFFFFF, 1px 0 #FFFFFF, -1px 0 #FFFFFF, -2px 0 #FFFFFF, -3px 0 #FFFFFF; }
+    background-color: #000000; }
 
 .c-article-summary__heading {
   margin-bottom: 1.6em; }
@@ -3214,13 +3217,14 @@ button.swiper-pagination-bullet {
   margin-bottom: .35rem;
   padding-bottom: 0;
   transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-  background-image: linear-gradient(currentColor, currentColor);
-  background-repeat: no-repeat;
-  background-size: 100% 2px;
-  background-position: center bottom 15%;
-  background-origin: padding-box;
-  transition: text-shadow 0.3s ease, color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-  text-shadow: 3px 0 #FFFFFF, 2px 0 #FFFFFF, 1px 0 #FFFFFF, -1px 0 #FFFFFF, -2px 0 #FFFFFF, -3px 0 #FFFFFF; }
+  transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: inset 0 -2px 0 #000000; }
+  .c-article-summary__heading__headline.c-article-summary__heading__headline:hover, .c-article-summary__heading__headline.c-article-summary__heading__headline:focus {
+    color: #FFFFFF;
+    background-color: #000000;
+    box-shadow: none; }
+  .c-article-summary__heading__headline.c-article-summary__heading__headline:focus {
+    outline: 0.2rem solid #000000; }
 
 .c-article-summary__heading__subtitle {
   opacity: .65;
@@ -4566,7 +4570,8 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
   background-position: center right; }
 
 .s-hullTruckCaseStudy__city-culture {
-  position: relative; }
+  position: relative;
+  overflow: hidden; }
 
 .s-hullTruckCaseStudy__city-culture__image {
   max-width: 50%;
@@ -4575,6 +4580,9 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
   top: 0;
   right: 0;
   opacity: .1; }
+
+.s-hullTruckCaseStudy__advertisting {
+  overflow: hidden; }
 
 .s-hullTruckCaseStudy__advertisting__image-col--first {
   *zoom: 1;

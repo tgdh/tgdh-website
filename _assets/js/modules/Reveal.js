@@ -3,10 +3,6 @@
  * https://github.com/codrops/BlockRevealers/blob/master/js/main.js
  */
 
-
-/**/
-
-//import { TweenMax, Power4 } from "gsap";
 import TweenMax from "gsap/tweenmax";
 import Power4 from "gsap/easepack";
 import CreateDOMEl from './CreateDomEl';
@@ -25,6 +21,8 @@ const defaultOptions = {
 	isContentHidden: true,
 	// The animation/reveal settings. This can be set initially or passed when calling the reveal method.
 	revealSettings: {
+		//
+		delay: 0,
 		// Animation direction: left right (lr) || right left (rl) || top bottom (tb) || bottom top (bt).
 		direction: 'lr',
 		// Revealer´s background color.
@@ -50,6 +48,8 @@ class RevealFx {
 		this.options = extend({}, defaultOptions);
 		extend(this.options, options);
 
+		this.options.revealSettings.delay = parseFloat(this.options.revealSettings.delay);
+
 		this._layout();
 	}
 
@@ -57,7 +57,6 @@ class RevealFx {
 	 * Build the necessary structure.
 	 */
 	_layout() {
-		console.log('init layout');
 		const position = getComputedStyle(this.el).position;
 
 		if (position !== 'fixed' && position !== 'absolute' && position !== 'relative') {
@@ -160,7 +159,6 @@ class RevealFx {
 			scaleX: 0,
 			ease: Power4.easeInOut,
 			onComplete: () => {
-				console.log('complete anim2');
 				self.isAnimating = false;
 				if (typeof revealSettings.onComplete === 'function') {
 					revealSettings.onComplete(self.content, self.revealer);
@@ -169,12 +167,10 @@ class RevealFx {
 		};
 		// First animation step.
 		const animationSettings = {
-			// delay: revealSettings.delay || defaults.delay,
-
+			delay: revealSettings.delay,
 			scaleX: 1,
 			ease: Power4.easeInOut,
 			onComplete: () => {
-				console.log('complete anim1');
 				self.revealer.style.WebkitTransformOrigin = self.revealer.style.transformOrigin = transformSettings.origin.halfway;
 				if (typeof revealSettings.onCover === 'function') {
 					revealSettings.onCover(self.content, self.revealer);
