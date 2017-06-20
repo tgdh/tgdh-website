@@ -22273,13 +22273,7 @@ var CreateDomEl = function CreateDomEl(type, className, content) {
 	return el;
 };
 
-/**
- * Based on codrops
- * https://github.com/codrops/BlockRevealers/blob/master/js/main.js
- */
-
-// Helper vars and functions.
-function extend(a, b) {
+function ExtendObject(a, b) {
 	for (var key in b) {
 		if (b.hasOwnProperty(key)) {
 			a[key] = b[key];
@@ -22288,47 +22282,38 @@ function extend(a, b) {
 	return a;
 }
 
-var defaultOptions$1 = {
-	isContentHidden: true,
-	// The animation/reveal settings. This can be set initially or passed when calling the reveal method.
-	revealSettings: {
-		//
-		delay: 0,
-		// Animation direction: left right (lr) || right left (rl) || top bottom (tb) || bottom top (bt).
-		direction: 'lr',
-		// Revealer´s background color.
-		bgcolor: '#f0f0f0',
-		// Animation speed. This is the speed to "cover" and also "uncover" the element (seperately, not the total time).
-		duration: 500,
-		// Animation easing. This is the easing to "cover" and also "uncover" the element.
-		easing: 'easeInOutQuint',
-		// percentage-based value representing how much of the area should be left covered.
-		coverArea: 0,
-		// Callback for when the revealer is covering the element (halfway through of the whole animation).
-		onCover: function onCover(contentEl, revealerEl) {
-			return false;
-		},
-		// Callback for when the animation starts (animation start).
-		onStart: function onStart(contentEl, revealerEl) {
-			return false;
-		},
-		// Callback for when the revealer has completed uncovering (animation end).
-		onComplete: function onComplete(contentEl, revealerEl) {
-			return false;
-		}
-	}
-};
+/**
+ * Based on codrops
+ * https://github.com/codrops/BlockRevealers/blob/master/js/main.js
+ */
 
-var RevealFx = function () {
-	function RevealFx(el, options) {
-		classCallCheck(this, RevealFx);
+var BlockReveal = function () {
+	function BlockReveal(el, options) {
+		classCallCheck(this, BlockReveal);
 
 		this.el = el;
-		this.options = extend({}, defaultOptions$1);
-		extend(this.options, options);
+		this.options = {
+			isContentHidden: true,
+			revealSettings: {
+				delay: 0,
+				bgcolor: '#000',
+				duration: 500,
+				easing: 'easeInOutQuint',
+				coverArea: 0,
+				onCover: function onCover(contentEl, revealerEl) {
+					return false;
+				},
+				onStart: function onStart(contentEl, revealerEl) {
+					return false;
+				},
+				onComplete: function onComplete(contentEl, revealerEl) {
+					return false;
+				}
+			}
+		};
+		ExtendObject(this.options, options);
 
-		this.options.revealSettings.delay = parseFloat(this.options.revealSettings.delay);
-
+		this.isAnimating = false;
 		this._layout();
 	}
 
@@ -22337,8 +22322,8 @@ var RevealFx = function () {
   */
 
 
-	createClass(RevealFx, [{
-		key: "_layout",
+	createClass(BlockReveal, [{
+		key: '_layout',
 		value: function _layout() {
 			var position = getComputedStyle(this.el).position;
 
@@ -22346,96 +22331,44 @@ var RevealFx = function () {
 				this.el.style.position = 'relative';
 			}
 			// Content element.
-			this.content = new CreateDomEl('div', 'block-revealer__content', this.el.innerHTML);
+			this.content = this.el.children[0];
+			this.content.classList.add('block-revealer__content');
 			if (this.options.isContentHidden) {
 				this.content.style.opacity = 0;
 			}
+
 			// Revealer element (the one that animates)
 			this.revealer = new CreateDomEl('div', 'block-revealer__element');
 			this.el.classList.add('block-revealer');
-			this.el.innerHTML = '';
-			this.el.appendChild(this.content);
 			this.el.appendChild(this.revealer);
 		}
 
 		/**
-   * Gets the revealer element´s transform and transform origin.
+   * Get transform direction
    */
-
-	}, {
-		key: "_getTransformSettings",
-		value: function _getTransformSettings(direction) {
-			var val = void 0;
-			var origin = void 0;
-			var origin_2 = void 0;
-
-			switch (direction) {
-				case 'lr':
-					val = 'scale3d(0,1,1)';
-					origin = '0 50%';
-					origin_2 = '100% 50%';
-					break;
-				case 'rl':
-					val = 'scale3d(0,1,1)';
-					origin = '100% 50%';
-					origin_2 = '0 50%';
-					break;
-				case 'tb':
-					val = 'scale3d(1,0,1)';
-					origin = '50% 0';
-					origin_2 = '50% 100%';
-					break;
-				case 'bt':
-					val = 'scale3d(1,0,1)';
-					origin = '50% 100%';
-					origin_2 = '50% 0';
-					break;
-				default:
-					val = 'scale3d(0,1,1)';
-					origin = '0 50%';
-					origin_2 = '100% 50%';
-					break;
-			}
-
-			return {
-				// transform value.
-				val: val,
-				// initial and halfway/final transform origin.
-				origin: { initial: origin, halfway: origin_2 }
-			};
-		}
 
 		/**
-   * Reveal animation. If revealSettings is passed, then it will overwrite the options.revealSettings.
+   * Reveal
    */
 
 	}, {
-		key: "reveal",
-		value: function reveal(revealSettings) {
-			// Do nothing if currently animating.
+		key: 'reveal',
+		value: function reveal() {
 			if (this.isAnimating) {
 				return false;
 			}
 			this.isAnimating = true;
 
+			/**/
 			// Set the revealer element´s transform and transform origin.
-			var defaults$$1 = { // In case revealSettings is incomplete, its properties deafault to:
-				duration: 500,
-				easing: 'easeInOutQuint',
-				delay: 0,
-				bgcolor: '#000',
-				direction: 'lr',
-				coverArea: 0
-			},
-			    revealSettings = revealSettings || this.options.revealSettings,
-			    direction = revealSettings.direction || defaults$$1.direction,
-			    transformSettings = this._getTransformSettings(direction);
+			var revealSettings = this.options.revealSettings;
+			var direction = revealSettings.direction;
 
-			this.revealer.style.WebkitTransform = this.revealer.style.transform = transformSettings.val;
-			this.revealer.style.WebkitTransformOrigin = this.revealer.style.transformOrigin = transformSettings.origin.initial;
+			this.revealer.style.WebkitTransform = this.revealer.style.transform = 'scale3d(0,1,1)';
+			this.revealer.style.WebkitTransformOrigin = this.revealer.style.transformOrigin = '0 50%';
 
 			// Set the Revealer´s background color.
-			this.revealer.style.backgroundColor = revealSettings.bgcolor || defaults$$1.bgcolor;
+			this.revealer.style.backgroundColor = revealSettings.bgcolor;
 
 			// Show it. By default the revealer element has opacity = 0 (CSS).
 			this.revealer.style.opacity = 1;
@@ -22460,7 +22393,7 @@ var RevealFx = function () {
 				scaleX: 1,
 				ease: easepack.easeInOut,
 				onComplete: function onComplete() {
-					self.revealer.style.WebkitTransformOrigin = self.revealer.style.transformOrigin = transformSettings.origin.halfway;
+					self.revealer.style.WebkitTransformOrigin = self.revealer.style.transformOrigin = '100% 50%';
 					if (typeof revealSettings.onCover === 'function') {
 						revealSettings.onCover(self.content, self.revealer);
 					}
@@ -22468,32 +22401,27 @@ var RevealFx = function () {
 					tweenmax.to(self.revealer, 0.5, animationSettings_2);
 				}
 			};
-
-			/*
-   		animationSettings.targets = animationSettings_2.targets = this.revealer;
-   		animationSettings.duration = animationSettings_2.duration = revealSettings.duration || defaults.duration;
-   		animationSettings.easing = animationSettings_2.easing = revealSettings.easing || defaults.easing;
-   
-   		const coverArea = revealSettings.coverArea || defaults.coverArea;
-   */
-
-			if (direction === 'lr' || direction === 'rl') {
-				animationSettings.scaleX = 1;
-				animationSettings_2.scaleX = 0;
-			} else {
-				animationSettings.scaleY = 1;
-				animationSettings_2.scaleY = 0;
-			}
+			animationSettings.scaleX = 1;
+			animationSettings_2.scaleX = 0;
 
 			if (typeof revealSettings.onStart === 'function') {
 				revealSettings.onStart(self.content, self.revealer);
 			}
-			// anime(animationSettings);
+
+			/**/
+
 			tweenmax.to(this.revealer, 0.5, animationSettings);
 		}
+
+		/**
+   * Hide
+   */
+
 	}]);
-	return RevealFx;
+	return BlockReveal;
 }();
+
+//import RevealFx from "./Reveal";
 
 var BlockAnimations = function BlockAnimations() {
 	document.addEventListener('DOMContentLoaded', function () {
@@ -22503,7 +22431,7 @@ var BlockAnimations = function BlockAnimations() {
 		}
 
 		Array.from(selection).forEach(function (item) {
-			var blockRevealItem = new RevealFx(item, {
+			var blockRevealItem = new BlockReveal(item, {
 				revealSettings: {
 					delay: item.dataset.revealDelay ? item.dataset.revealDelay : 0,
 					onCover: function onCover(contentEl, revealerEl) {
@@ -22523,7 +22451,7 @@ var BlockAnimations = function BlockAnimations() {
 						blockRevealItem.reveal();
 					}
 				},
-				exited: function exited() {
+				exit: function exit() {
 					waypoint.destroy();
 				}
 			});
@@ -35345,65 +35273,6 @@ var AnimateHullTruck = function () {
 		}
 	}]);
 	return AnimateHullTruck;
-}();
-
-/**
- * Based on codrops
- * https://github.com/codrops/BlockRevealers/blob/master/js/main.js
- */
-
-var BlockReveal = function () {
-	function BlockReveal(el, options) {
-		classCallCheck(this, BlockReveal);
-
-		this.el = el;
-		this.options = {
-			isContentHidden: true
-		};
-
-		this._layout();
-	}
-
-	/**
-  * Build the necessary structure.
-  */
-
-
-	createClass(BlockReveal, [{
-		key: "_layout",
-		value: function _layout() {
-			var position = getComputedStyle(this.el).position;
-
-			if (position !== 'fixed' && position !== 'absolute' && position !== 'relative') {
-				this.el.style.position = 'relative';
-			}
-			// Content element.
-			this.content = new CreateDomEl('div', 'block-revealer__content', this.el.innerHTML);
-			if (this.options.isContentHidden) {
-				this.content.style.opacity = 0;
-			}
-			// Revealer element (the one that animates)
-			this.revealer = new CreateDomEl('div', 'block-revealer__element');
-			this.el.classList.add('block-revealer');
-			this.el.innerHTML = '';
-			this.el.appendChild(this.content);
-			this.el.appendChild(this.revealer);
-		}
-
-		/**
-   * Get transform direction
-   */
-
-		/**
-   * Reveal
-   */
-
-		/**
-   * Hide
-   */
-
-	}]);
-	return BlockReveal;
 }();
 
 //import RevealFX from './modules/Reveal';

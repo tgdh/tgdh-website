@@ -18,10 +18,12 @@
 }
 
 <section class="c-image-col u-clearfix @Model.ModifierClass js-block-reveal">
-	<div class="c-image-col__col">
-		<img src="@firstImageUrl" alt="@firstImage.GetPropertyValue("altText")" class="c-image-col__image">
-	</div>
-	<div class="c-image-col__col">
-		<img src="@lastImageUrl" alt="@lastImage.GetPropertyValue("altText")" class="c-image-col__image">
+	<div class="c-image-col__inner">
+		<div class="c-image-col__col">
+			<img src="@firstImageUrl" alt="@firstImage.GetPropertyValue("altText")" class="c-image-col__image">
+		</div>
+		<div class="c-image-col__col">
+			<img src="@lastImageUrl" alt="@lastImage.GetPropertyValue("altText")" class="c-image-col__image">
+		</div>
 	</div>
 </section>

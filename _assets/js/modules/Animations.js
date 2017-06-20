@@ -1,6 +1,7 @@
 import * as Waypoints from "waypoints/lib/noframework.waypoints";
 import * as inviews from "waypoints/lib/shortcuts/inview";
-import RevealFx from "./Reveal";
+import BlockReveal from "./BlockReveal";
+//import RevealFx from "./Reveal";
 
 const BlockAnimations = () => {
 	document.addEventListener('DOMContentLoaded', () => {
@@ -10,7 +11,7 @@ const BlockAnimations = () => {
 		}
 
 		Array.from(selection).forEach((item) => {
-			const blockRevealItem = new RevealFx(item, {
+			const blockRevealItem = new BlockReveal(item, {
 				revealSettings: {
 					delay: item.dataset.revealDelay ? item.dataset.revealDelay : 0,
 					onCover: function(contentEl, revealerEl) {
@@ -30,15 +31,12 @@ const BlockAnimations = () => {
 						blockRevealItem.reveal();
 					}
 				},
-				exited: () => {
+				exit: () => {
 					waypoint.destroy();
 				}
 			});
 
 		});
-
-
-
 	});
 };
 
