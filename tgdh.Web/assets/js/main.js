@@ -3450,11 +3450,19 @@ function ImageComparison(options) {
     if (!this.images[0] || !this.images[1]) {
         console.error('Need two images!');
     }
+<<<<<<< HEAD
 
     this._build();
     this._setEvents();
 }
 
+=======
+
+    this._build();
+    this._setEvents();
+}
+
+>>>>>>> dev
 /**
  * Build HTML structure
  * @private
