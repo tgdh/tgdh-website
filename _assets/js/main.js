@@ -14,6 +14,7 @@ import StickyHeader from './modules/StickyHeader';
 //import RevealFX from './modules/Reveal';
 import InitAnimations from './modules/Animations';
 import AnimateHullTruck from './modules/AnimateHullTruck';
+import AnimateAIM from './modules/AnimateAIM';
 
 import BlockReveal from './modules/BlockReveal';
 
@@ -44,6 +45,10 @@ import BlockReveal from './modules/BlockReveal';
 
 		if ($html.classList.contains('s-hullTruckCaseStudy')) {
 			new AnimateHullTruck();
+		}
+
+		if ($html.classList.contains('s-caseStudyAIM')) {
+			new AnimateAIM();
 		}
 
 	}

@@ -3450,19 +3450,11 @@ function ImageComparison(options) {
     if (!this.images[0] || !this.images[1]) {
         console.error('Need two images!');
     }
-<<<<<<< HEAD
 
     this._build();
     this._setEvents();
 }
 
-=======
-
-    this._build();
-    this._setEvents();
-}
-
->>>>>>> dev
 /**
  * Build HTML structure
  * @private
@@ -35283,6 +35275,51 @@ var AnimateHullTruck = function () {
 	return AnimateHullTruck;
 }();
 
+var AnimateAIM = function () {
+	function AnimateAIM() {
+		classCallCheck(this, AnimateAIM);
+
+		this.windowHeight = window.innerHeight;
+		this.controller = new ScrollMagic.Controller();
+		//this.cityCulture();
+		//this.advertising();
+		this.websiteDesktop();
+		this.websiteMobile();
+	}
+
+	createClass(AnimateAIM, [{
+		key: "websiteDesktop",
+		value: function websiteDesktop() {
+			var $elem = document.querySelector('.js-caseStudyAIM__web__desktop__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyAIM__web__desktop__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyAIM__web__desktop',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteMobile",
+		value: function websiteMobile() {
+			var $elemFirst = document.querySelector('.js-caseStudyAIM__web__mobile__image-first');
+			var $elemSecond = document.querySelector('.js-caseStudyAIM__web__mobile__image-second');
+
+			var elemFirstWidth = $elemFirst.offsetWidth;
+			var elemSecondWidth = $elemSecond.offsetWidth;
+
+			var tween = new TimeLineMax().add([tweenmax.fromTo('.js-caseStudyAIM__web__mobile__image-first', 1, { x: -elemFirstWidth }, { x: 0, ease: easepack.easeInOut }), tweenmax.fromTo('.js-caseStudyAIM__web__mobile__image-second', 1.2, { x: -elemSecondWidth }, { x: 0, ease: easepack.easeInOut })]);
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyAIM__web__mobile',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}]);
+	return AnimateAIM;
+}();
+
 //import RevealFX from './modules/Reveal';
 (function () {
 	var enhance = 'querySelector' in document && 'localStorage' in window && 'addEventListener' in window && 'classList' in document.documentElement;
@@ -35308,6 +35345,10 @@ var AnimateHullTruck = function () {
 
 		if ($html.classList.contains('s-hullTruckCaseStudy')) {
 			new AnimateHullTruck();
+		}
+
+		if ($html.classList.contains('s-caseStudyAIM')) {
+			new AnimateAIM();
 		}
 	}
 	svg4everybody();
