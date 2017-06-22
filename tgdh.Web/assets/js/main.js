@@ -35281,13 +35281,28 @@ var AnimateAIM = function () {
 
 		this.windowHeight = window.innerHeight;
 		this.controller = new ScrollMagic.Controller();
-		//this.cityCulture();
-		//this.advertising();
+		this.campaign();
 		this.websiteDesktop();
 		this.websiteMobile();
 	}
 
 	createClass(AnimateAIM, [{
+		key: "campaign",
+		value: function campaign() {
+			var sectionHeight = document.querySelector('.js-caseStudyAIM__campaign').offsetHeight;
+			var $elem = document.querySelector('.js-caseStudyAIM__campaign__image');
+			var elemHeight = $elem.offsetHeight;
+			var elemWidth = $elem.offsetWidth;
+
+			var tween = new tweenmax.fromTo('.js-caseStudyAIM__campaign__image', 1, { y: 0, x: elemWidth / 2 }, { y: 0, x: 0, ease: easepack.easeInOut });
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyAIM__campaign',
+				triggerHook: 'onEnter',
+				duration: sectionHeight * 1.5
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
 		key: "websiteDesktop",
 		value: function websiteDesktop() {
 			var $elem = document.querySelector('.js-caseStudyAIM__web__desktop__image');
@@ -35671,6 +35686,147 @@ var AnimatePoleStar = function () {
 	return AnimatePoleStar;
 }();
 
+var AnimateStWilfs = function () {
+	function AnimateStWilfs() {
+		classCallCheck(this, AnimateStWilfs);
+
+		this.windowHeight = window.innerHeight;
+		this.controller = new ScrollMagic.Controller();
+		this.messaging();
+		this.brief();
+		this.brandGuide();
+		this.livery();
+		this.websiteDesktop();
+		this.websiteMobile();
+		this.websiteDesktop2();
+		this.contentSocial();
+	}
+
+	createClass(AnimateStWilfs, [{
+		key: "messaging",
+		value: function messaging() {
+			var sectionHeight = document.querySelector('.js-caseStudyStWilf__messaging').offsetHeight;
+			var $elem = document.querySelector('.js-caseStudyStWilf__messaging__image');
+			var elemHeight = $elem.offsetHeight;
+			var elemWidth = $elem.offsetWidth;
+
+			var tween = new tweenmax.fromTo('.js-caseStudyStWilf__messaging__image', 1, { y: -elemHeight, x: elemWidth }, { y: 0, x: 0, ease: easepack.easeInOut });
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyStWilf__messaging',
+				triggerHook: 'onEnter',
+				duration: sectionHeight * 1.5
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "brief",
+		value: function brief() {
+			var sectionHeight = document.querySelector('.js-caseStudyStWilf__brief').offsetHeight;
+			var $elem = document.querySelector('.js-caseStudyStWilf__brief__image');
+			var elemHeight = $elem.offsetHeight;
+			var elemWidth = $elem.offsetWidth;
+
+			var tween = new tweenmax.fromTo('.js-caseStudyStWilf__brief__image', 1, { y: 0, x: elemWidth / 2 }, { y: 0, x: 0, ease: easepack.easeInOut });
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyStWilf__brief',
+				triggerHook: 'onEnter',
+				duration: sectionHeight * 1.5
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "brandGuide",
+		value: function brandGuide() {
+			var sectionHeight = document.querySelector('.js-caseStudyStWilf__brand-guide').offsetHeight;
+			var $elem = document.querySelector('.js-caseStudyStWilf__brand-guide__image');
+			var elemHeight = $elem.offsetHeight;
+			var elemWidth = $elem.offsetWidth;
+
+			var tween = new tweenmax.fromTo('.js-caseStudyStWilf__brand-guide__image', 1, { y: -elemHeight, x: 0 }, { y: 0, x: 0, ease: easepack.easeInOut });
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyStWilf__brand-guide',
+				triggerHook: 'onEnter',
+				duration: sectionHeight * 1.5
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "livery",
+		value: function livery() {
+			var sectionHeight = document.querySelector('.js-caseStudyStWilf__livery').offsetHeight;
+			var $elem = document.querySelector('.js-caseStudyStWilf__livery__image');
+			var elemHeight = $elem.offsetHeight;
+			var elemWidth = $elem.offsetWidth;
+
+			var tween = new tweenmax.fromTo('.js-caseStudyStWilf__livery__image', 1, { y: 0, x: elemWidth }, { y: 0, x: 0, ease: easepack.easeInOut });
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyStWilf__livery',
+				triggerHook: 'onEnter',
+				duration: sectionHeight * 1.5
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteDesktop",
+		value: function websiteDesktop() {
+			var $elem = document.querySelector('.js-caseStudyStWilf__web__desktop__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyStWilf__web__desktop__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyStWilf__web__desktop',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteMobile",
+		value: function websiteMobile() {
+			var $elemFirst = document.querySelector('.js-caseStudyStWilf__web__mobile__image-first');
+			var $elemSecond = document.querySelector('.js-caseStudyStWilf__web__mobile__image-second');
+
+			var elemFirstWidth = $elemFirst.offsetWidth;
+			var elemSecondWidth = $elemSecond.offsetWidth;
+
+			var tween = new TimeLineMax().add([tweenmax.fromTo('.js-caseStudyStWilf__web__mobile__image-first', 1, { x: -elemFirstWidth }, { x: 0, ease: easepack.easeInOut }), tweenmax.fromTo('.js-caseStudyStWilf__web__mobile__image-second', 1.2, { x: -elemSecondWidth }, { x: 0, ease: easepack.easeInOut })]);
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyStWilf__web__mobile',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteDesktop2",
+		value: function websiteDesktop2() {
+			var $elem = document.querySelector('.js-caseStudyStWilf__web__desktop-2__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyStWilf__web__desktop-2__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyStWilf__web__desktop-2',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "contentSocial",
+		value: function contentSocial() {
+			var sectionHeight = document.querySelector('.js-caseStudyStWilf__content-social').offsetHeight;
+			var $elem = document.querySelector('.js-caseStudyStWilf__content-social__image');
+			var elemHeight = $elem.offsetHeight;
+			var elemWidth = $elem.offsetWidth;
+
+			var tween = new tweenmax.fromTo('.js-caseStudyStWilf__content-social__image', 1, { y: elemHeight, x: 0 }, { y: 0, x: 0, ease: easepack.easeInOut });
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyStWilf__content-social',
+				triggerHook: 'onEnter',
+				duration: sectionHeight * 1.5
+			}).setTween(tween).addTo(this.controller);
+		}
+	}]);
+	return AnimateStWilfs;
+}();
+
 var TriggerAnimations = function TriggerAnimations() {
 	var $html = document.querySelector('html');
 
@@ -35706,6 +35862,10 @@ var TriggerAnimations = function TriggerAnimations() {
 
 	if ($html.classList.contains('s-caseStudyPoleStar')) {
 		new AnimatePoleStar();
+	}
+
+	if ($html.classList.contains('s-caseStudyStWilf')) {
+		new AnimateStWilfs();
 	}
 };
 

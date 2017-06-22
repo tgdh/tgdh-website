@@ -4988,6 +4988,9 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
     position: relative;
     z-index: 1; }
 
+.s-caseStudyStWilf__messaging {
+  overflow: hidden; }
+
 .s-caseStudyStWilf__messaging__image {
   max-width: 30%;
   position: absolute;
@@ -5084,6 +5087,9 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
     clear: both; }
   .s-caseStudyStWilf__livery__image-col__item:last-child {
     margin-right: 0%; }
+
+.s-caseStudyStWilf__content-social {
+  overflow: hidden; }
 
 @media only screen and (max-width: 799px) {
   .s-caseStudyStWilf__content-social .c-mobile-frame {
