@@ -79,3 +79,26 @@
 					 -3px 0 $background-colour;
 	}
 }
+
+@mixin better-underline($body-background: $background-colour, $underline-color: currentColor) {
+	background-image: linear-gradient(to right, $underline-color 0%, $underline-color 100%);
+	background-position: center bottom 10%;
+    background-repeat: repeat-x;
+	background-size: 100% 2px;
+	text-decoration: none;
+    text-shadow: .05em 0 0 $body-background,
+				-.05em 0 0 $body-background,
+				0 .05em 0 $body-background,
+				0 -.05em 0 $body-background,
+				.1em 0 0 $body-background,
+				-.1em 0 0 $body-background,
+				0 .1em 0 $body-background,
+				0 -.1em 0 $body-background;
+
+    &:hover,
+    &:focus {
+        background-image: none;
+        text-shadow: none;
+    }
+}
+
