@@ -3,6 +3,7 @@ import AnimateHullTruck from './AnimateHullTruck';
 import AnimateAIM from './AnimateAIM';
 import AnimateEvodia from './AnimateEvodia';
 import AnimateHenley from './AnimateHenley';
+import AnimateMayerBrown from './AnimateMayerBrown';
 
 
 const TriggerAnimations = () => {
@@ -24,6 +25,10 @@ const TriggerAnimations = () => {
 
 	if ($html.classList.contains('s-caseStudyHenley')) {
 		new AnimateHenley();
+	}
+
+	if ($html.classList.contains('s-caseStudyMayerbrown')) {
+		new AnimateMayerBrown();
 	}
 
 };

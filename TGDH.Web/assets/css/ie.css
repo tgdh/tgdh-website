@@ -4835,7 +4835,8 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 
 =========================================================== */
 .s-caseStudyMayerbrown__content-social {
-  position: relative; }
+  position: relative;
+  overflow: hidden; }
   .s-caseStudyMayerbrown__content-social .o-section__inner {
     position: relative;
     z-index: 1; }

@@ -35436,6 +35436,66 @@ var AnimateHenley = function () {
 	return AnimateHenley;
 }();
 
+var AnimateMayerBrown = function () {
+	function AnimateMayerBrown() {
+		classCallCheck(this, AnimateMayerBrown);
+
+		this.windowHeight = window.innerHeight;
+		this.controller = new ScrollMagic.Controller();
+		this.websiteDesktop();
+		this.websiteMobile();
+		this.contentSocial();
+	}
+
+	createClass(AnimateMayerBrown, [{
+		key: "websiteDesktop",
+		value: function websiteDesktop() {
+			var $elem = document.querySelector('.js-caseStudyMayerbrown__web__desktop__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyMayerbrown__web__desktop__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyMayerbrown__web__desktop',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteMobile",
+		value: function websiteMobile() {
+			var $elemFirst = document.querySelector('.js-caseStudyMayerbrown__web__mobile__image-first');
+			var $elemSecond = document.querySelector('.js-caseStudyMayerbrown__web__mobile__image-second');
+
+			var elemFirstWidth = $elemFirst.offsetWidth;
+			var elemSecondWidth = $elemSecond.offsetWidth;
+
+			var tween = new TimeLineMax().add([tweenmax.fromTo('.js-caseStudyMayerbrown__web__mobile__image-first', 1, { x: -elemFirstWidth }, { x: 0, ease: easepack.easeInOut }), tweenmax.fromTo('.js-caseStudyMayerbrown__web__mobile__image-second', 1.2, { x: -elemSecondWidth }, { x: 0, ease: easepack.easeInOut })]);
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyMayerbrown__web__mobile',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "contentSocial",
+		value: function contentSocial() {
+			var sectionHeight = document.querySelector('.js-caseStudyMayerbrown__content-social').offsetHeight;
+			var $elem = document.querySelector('.js-caseStudyMayerbrown__content-social__image');
+			var elemHeight = $elem.offsetHeight;
+			var elemWidth = $elem.offsetWidth;
+
+			var tween = new tweenmax.fromTo('.js-caseStudyMayerbrown__content-social__image', 1, { y: elemHeight, x: elemWidth }, { y: 0, x: 0, ease: easepack.easeInOut });
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyMayerbrown__content-social',
+				triggerHook: 'onEnter',
+				duration: sectionHeight * 1.5
+			}).setTween(tween).addTo(this.controller);
+		}
+	}]);
+	return AnimateMayerBrown;
+}();
+
 var TriggerAnimations = function TriggerAnimations() {
 	var $html = document.querySelector('html');
 
@@ -35455,6 +35515,10 @@ var TriggerAnimations = function TriggerAnimations() {
 
 	if ($html.classList.contains('s-caseStudyHenley')) {
 		new AnimateHenley();
+	}
+
+	if ($html.classList.contains('s-caseStudyMayerbrown')) {
+		new AnimateMayerBrown();
 	}
 };
 
