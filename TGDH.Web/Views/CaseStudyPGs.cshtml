@@ -42,7 +42,8 @@
 		var gallery1 = new GalleryViewModel
 		{
 			MediaIds = Model.GetPropertyValue<string>("galleryImages"),
-			AspectRatio = "16:9"
+			AspectRatio = "16:9",
+			Alignment = "full width"
 		};
 		@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", gallery1)
 	}
@@ -51,7 +52,8 @@
 		var gallery2 = new GalleryViewModel
 		{
 			MediaIds = Model.GetPropertyValue<string>("galleryImages2"),
-			AspectRatio = "16:9"
+			AspectRatio = "16:9",
+			Alignment = "full width"
 		};
 		@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", gallery2)
 	}
@@ -60,7 +62,8 @@
 		var gallery3 = new GalleryViewModel
 		{
 			MediaIds = Model.GetPropertyValue<string>("galleryImages3"),
-			AspectRatio = "16:9"
+			AspectRatio = "16:9",
+			Alignment = "full width"
 		};
 		@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", gallery3)
 	}
@@ -99,9 +102,9 @@
 	var bgImage = Umbraco.TypedMedia(Model.GetPropertyValue<int>("campaignBackgroundImage"));
 	var imageUrl = bgImage != null ? bgImage.Url + "?width=500" : "";
 
-	<section class="o-section s-caseStudyPGS__campaign">
+	<section class="o-section s-caseStudyPGS__campaign js-caseStudyPGS__campaign">
 		@if(!String.IsNullOrWhiteSpace(imageUrl)) {
-			<img src="@imageUrl" alt="@bgImage.GetPropertyValue("altText")" class="s-caseStudyPGS__campaign__image--bg">
+			<img src="@imageUrl" alt="@bgImage.GetPropertyValue("altText")" class="s-caseStudyPGS__campaign__image--bg js-caseStudyPGS__campaign__image">
 		}
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
@@ -155,9 +158,9 @@
 	var image = Umbraco.TypedMedia(Model.GetPropertyValue<int>("prospectusSixthFormBackgroundImage"));
 	var imageUrl = image != null ? image.Url + "?width=500" : "";
 
-	<section class="o-section s-caseStudyPGS__sixth-form">
+	<section class="o-section s-caseStudyPGS__sixth-form js-caseStudyPGS__sixth-form">
 		@if(!String.IsNullOrWhiteSpace(imageUrl)) {
-			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-caseStudyPGS__sixth-form__image">
+			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-caseStudyPGS__sixth-form__image js-caseStudyPGS__sixth-form__image">
 		}
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)

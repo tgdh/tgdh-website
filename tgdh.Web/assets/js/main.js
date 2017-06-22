@@ -35552,6 +35552,52 @@ var AnimateOctagon = function () {
 	return AnimateOctagon;
 }();
 
+var AnimatePGS = function () {
+	function AnimatePGS() {
+		classCallCheck(this, AnimatePGS);
+
+		this.windowHeight = window.innerHeight;
+		this.controller = new ScrollMagic.Controller();
+		this.campaign();
+		this.sixthForm();
+	}
+
+	createClass(AnimatePGS, [{
+		key: "campaign",
+		value: function campaign() {
+			var sectionHeight = document.querySelector('.js-caseStudyPGS__campaign').offsetHeight;
+			var $elem = document.querySelector('.js-caseStudyPGS__campaign__image');
+			var elemHeight = $elem.offsetHeight;
+			var elemWidth = $elem.offsetWidth;
+
+			var tween = new tweenmax.fromTo('.js-caseStudyPGS__campaign__image', 1, { y: 0, x: elemWidth }, { y: 0, x: 0, ease: easepack.easeInOut });
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyPGS__campaign',
+				triggerHook: 'onEnter',
+				duration: sectionHeight * 1.5
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "sixthForm",
+		value: function sixthForm() {
+			var sectionHeight = document.querySelector('.js-caseStudyPGS__sixth-form').offsetHeight;
+			var $elem = document.querySelector('.js-caseStudyPGS__sixth-form__image');
+			var elemHeight = $elem.offsetHeight;
+			var elemWidth = $elem.offsetWidth;
+
+			var tween = new tweenmax.fromTo('.js-caseStudyPGS__sixth-form__image', 1, { y: elemHeight, x: elemWidth }, { y: 0, x: 0, ease: easepack.easeInOut });
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyPGS__sixth-form',
+				triggerHook: 'onEnter',
+				duration: sectionHeight * 1.5
+			}).setTween(tween).addTo(this.controller);
+		}
+	}]);
+	return AnimatePGS;
+}();
+
 var TriggerAnimations = function TriggerAnimations() {
 	var $html = document.querySelector('html');
 
@@ -35579,6 +35625,10 @@ var TriggerAnimations = function TriggerAnimations() {
 
 	if ($html.classList.contains('s-caseStudyOctagon')) {
 		new AnimateOctagon();
+	}
+
+	if ($html.classList.contains('s-caseStudyPGS')) {
+		new AnimatePGS();
 	}
 };
 

@@ -4925,8 +4925,7 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
   position: absolute;
   right: 0;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%); }
+  margin-top: -429px; }
 
 @media only screen and (max-width: 999px) {
   .s-caseStudyPGS__sixth-form__image {

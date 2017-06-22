@@ -5,6 +5,7 @@ import AnimateEvodia from './AnimateEvodia';
 import AnimateHenley from './AnimateHenley';
 import AnimateMayerBrown from './AnimateMayerBrown';
 import AnimateOctagon from './AnimateOctagon';
+import AnimatePGS from './AnimatePGs';
 
 const TriggerAnimations = () => {
 	const $html = document.querySelector('html');
@@ -33,6 +34,10 @@ const TriggerAnimations = () => {
 
 	if ($html.classList.contains('s-caseStudyOctagon')) {
 		new AnimateOctagon();
+	}
+
+	if ($html.classList.contains('s-caseStudyPGS')) {
+		new AnimatePGS();
 	}
 
 };
