@@ -29,12 +29,12 @@
 	@RenderCampaign()
 
 	@{
-        var introImageColModel = new ImageColumnsViewModel {
+        var imageColModel = new ImageColumnsViewModel {
             FirstImageId = Model.GetPropertyValue<int>("imageCol1"),
             LastImageId = Model.GetPropertyValue<int>("imageCol2"),
             ModifierClass = "s-caseStudyAIM__image-cols"
         };
-        @Html.Partial("~/Views/Partials/Components/ImageColumns.cshtml", introImageColModel)
+        @Html.Partial("~/Views/Partials/Components/ImageColumns.cshtml", imageColModel)
     }
 
 	@RenderWebsite()

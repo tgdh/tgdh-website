@@ -15,6 +15,7 @@ import StickyHeader from './modules/StickyHeader';
 import InitAnimations from './modules/Animations';
 import AnimateHullTruck from './modules/AnimateHullTruck';
 import AnimateAIM from './modules/AnimateAIM';
+import AnimateEvodia from './modules/AnimateEvodia';
 
 import BlockReveal from './modules/BlockReveal';
 
@@ -49,6 +50,10 @@ import BlockReveal from './modules/BlockReveal';
 
 		if ($html.classList.contains('s-caseStudyAIM')) {
 			new AnimateAIM();
+		}
+
+		if( $html.classList.contains('s-caseStudyEvodia') ) {
+			new AnimateEvodia();
 		}
 
 	}

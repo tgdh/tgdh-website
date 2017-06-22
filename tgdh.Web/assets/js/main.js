@@ -35320,6 +35320,49 @@ var AnimateAIM = function () {
 	return AnimateAIM;
 }();
 
+var AnimateEvodia = function () {
+	function AnimateEvodia() {
+		classCallCheck(this, AnimateEvodia);
+
+		this.windowHeight = window.innerHeight;
+		this.controller = new ScrollMagic.Controller();
+		this.websiteDesktop();
+		this.websiteMobile();
+	}
+
+	createClass(AnimateEvodia, [{
+		key: "websiteDesktop",
+		value: function websiteDesktop() {
+			var $elem = document.querySelector('.js-caseStudyEvodia__web__desktop__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyEvodia__web__desktop__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyEvodia__web__desktop',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteMobile",
+		value: function websiteMobile() {
+			var $elemFirst = document.querySelector('.js-caseStudyEvodia__web__mobile__image-first');
+			var $elemSecond = document.querySelector('.js-caseStudyEvodia__web__mobile__image-second');
+
+			var elemFirstWidth = $elemFirst.offsetWidth;
+			var elemSecondWidth = $elemSecond.offsetWidth;
+
+			var tween = new TimeLineMax().add([tweenmax.fromTo('.js-caseStudyEvodia__web__mobile__image-first', 1, { x: -elemFirstWidth }, { x: 0, ease: easepack.easeInOut }), tweenmax.fromTo('.js-caseStudyEvodia__web__mobile__image-second', 1.2, { x: -elemSecondWidth }, { x: 0, ease: easepack.easeInOut })]);
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyEvodia__web__mobile',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}]);
+	return AnimateEvodia;
+}();
+
 //import RevealFX from './modules/Reveal';
 (function () {
 	var enhance = 'querySelector' in document && 'localStorage' in window && 'addEventListener' in window && 'classList' in document.documentElement;
@@ -35349,6 +35392,10 @@ var AnimateAIM = function () {
 
 		if ($html.classList.contains('s-caseStudyAIM')) {
 			new AnimateAIM();
+		}
+
+		if ($html.classList.contains('s-caseStudyEvodia')) {
+			new AnimateEvodia();
 		}
 	}
 	svg4everybody();
