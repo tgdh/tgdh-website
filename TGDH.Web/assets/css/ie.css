@@ -3218,7 +3218,6 @@ button.swiper-pagination-bullet {
 
 .c-article-summary__heading__headline.c-article-summary__heading__headline {
   display: inline;
-  margin-bottom: .35rem;
   padding-bottom: 0;
   transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
   transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
@@ -3242,6 +3241,22 @@ button.swiper-pagination-bullet {
 
 .c-article-summary__cta {
   font-weight: 900; }
+
+.c-article-summary__meta {
+  margin-bottom: 1.6em; }
+
+.c-article-summary__image-wrap {
+  border-radius: 50%;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 1rem; }
+
+.c-article-summary__meta__label {
+  display: inline-block;
+  font-style: italic;
+  font-size: 1.8rem;
+  opacity: .65; }
 
 /* ===========================================================
 

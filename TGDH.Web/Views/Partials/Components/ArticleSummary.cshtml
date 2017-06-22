@@ -5,6 +5,15 @@
 	}
 
 	var ctaLabel = !String.IsNullOrWhiteSpace(Model.CTALabel) ? Model.CTALabel : "Read more";
+
+	var hasThumbnail = Model.Thumbnail != null;
+	var thumbnailUrl = "";
+	if(hasThumbnail) {
+		thumbnailUrl = Url.GetCropUrl(Model.Thumbnail, cropAlias:  "1:1", width: 50, quality: 100, htmlEncode: false).ToString();
+	}
+
+	var hasThumbnailLabel = !String.IsNullOrWhiteSpace(Model.ThumbnailLabel);
+
 }
 
 <article class="c-article-summary">
@@ -17,6 +26,18 @@
 					<span class="c-article-summary__heading__subtitle u-font-sec">@Model.Subtitle</span>
 				}
 			</header>
+		}
+		@if(hasThumbnail || hasThumbnailLabel ) {
+			<div class="c-article-summary__meta u-clearfix">
+				@if(hasThumbnail) {
+					<div class="c-article-summary__image-wrap">
+						<img src="@thumbnailUrl" alt="@Model.Thumbnail.GetPropertyValue("altText")" class="c-article-summary__image">
+					</div>
+				}
+				@if( hasThumbnailLabel ) {
+					<div class="c-article-summary__meta__label u-font-sec">@Model.ThumbnailLabel</div>
+				}
+			</div>
 		}
 		<div class="c-article-summary__copy">
 			@Model.Copy

@@ -30,11 +30,19 @@
 		<div class="o-col o-col--first">
 			@if( selection.Any() ) {
 				foreach( var item in selection ) {
+					var author = Umbraco.TypedContent(item.GetPropertyValue<int>("author"));
+					var articleDate = item.GetPropertyValue<DateTime>("releaseDate");
+
 				    var articleSnippet = new ArticleSummaryViewModel {
 				        Url = item.Url,
 						Headline = item.Name,
+						ThumbnailLabel = articleDate.ToString("%d") + IntExtensionMethods.GetDaySuffix(articleDate.Day) + " " + articleDate.ToString("MMM yyyy"),
 						Copy = item.GetPropertyValue<string>("pageDescription")
 				    };
+
+					if( author != null ) {
+						articleSnippet.Thumbnail = Umbraco.TypedMedia(author.GetPropertyValue<int>("profilePicture"));
+					}
 					@Html.Partial("~/Views/Partials/Components/ArticleSummary.cshtml", articleSnippet);
 				}
 				<nav class="c-pagination">
