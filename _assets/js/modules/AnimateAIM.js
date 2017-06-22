@@ -8,11 +8,30 @@ class AnimateAIM {
 	constructor() {
 		this.windowHeight = window.innerHeight;
 		this.controller = new ScrollMagic.Controller();
-		//this.cityCulture();
-		//this.advertising();
+		this.campaign();
 		this.websiteDesktop();
 		this.websiteMobile();
 	}
+
+	campaign() {
+		const sectionHeight = document.querySelector('.js-caseStudyAIM__campaign').offsetHeight;
+		const $elem = document.querySelector('.js-caseStudyAIM__campaign__image');
+		const elemHeight = $elem.offsetHeight;
+		const elemWidth = $elem.offsetWidth;
+
+		const tween = new TweenMax.fromTo('.js-caseStudyAIM__campaign__image', 1,
+					{ y: 0, x: elemWidth / 2 },
+					{ y: 0, x: 0, ease: Power4.easeInOut });
+
+		const scene = new ScrollMagic.Scene({
+			triggerElement: '.js-caseStudyAIM__campaign',
+			triggerHook: 'onEnter',
+			duration: sectionHeight * 1.5
+		})
+		.setTween(tween)
+		.addTo(this.controller);
+	}
+
 	websiteDesktop() {
 		const $elem = document.querySelector('.js-caseStudyAIM__web__desktop__image');
 		const elemWidth = $elem.offsetWidth;

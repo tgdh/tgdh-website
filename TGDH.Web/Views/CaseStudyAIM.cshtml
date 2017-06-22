@@ -151,7 +151,7 @@
 	var bgImage = Umbraco.TypedMedia(Model.GetPropertyValue<int>("campaignBackgroundImage"));
 	var bgImageUrl = bgImage != null ? bgImage.Url + "?width=900" : "";
 
-	<section class="o-section s-caseStudyAIM__campaign">
+	<section class="o-section s-caseStudyAIM__campaign js-caseStudyAIM__campaign">
 		@{
 			var image1 = new ImageViewModel
 			{
@@ -168,7 +168,7 @@
 		}
 
 		@if( !String.IsNullOrWhiteSpace(bgImageUrl) ){
-			<img src="@bgImageUrl" alt="@bgImage.GetPropertyValue("altText")" class="s-caseStudyAIM__campaing__background">
+			<img src="@bgImageUrl" alt="@bgImage.GetPropertyValue("altText")" class="s-caseStudyAIM__campaing__background js-caseStudyAIM__campaign__image">
 		}
 
 		<div class="o-section__inner o-wrap o-wrap--x-large">
