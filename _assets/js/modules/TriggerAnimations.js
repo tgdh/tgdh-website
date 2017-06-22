@@ -5,7 +5,8 @@ import AnimateEvodia from './AnimateEvodia';
 import AnimateHenley from './AnimateHenley';
 import AnimateMayerBrown from './AnimateMayerBrown';
 import AnimateOctagon from './AnimateOctagon';
-import AnimatePGS from './AnimatePGs';
+import AnimatePGS from './AnimatePGS';
+import AnimatePoleStar from './AnimatePoleStar';
 
 const TriggerAnimations = () => {
 	const $html = document.querySelector('html');
@@ -38,6 +39,10 @@ const TriggerAnimations = () => {
 
 	if ($html.classList.contains('s-caseStudyPGS')) {
 		new AnimatePGS();
+	}
+
+	if ($html.classList.contains('s-caseStudyPoleStar')) {
+		new AnimatePoleStar();
 	}
 
 };

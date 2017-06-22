@@ -35598,6 +35598,79 @@ var AnimatePGS = function () {
 	return AnimatePGS;
 }();
 
+var AnimatePoleStar = function () {
+	function AnimatePoleStar() {
+		classCallCheck(this, AnimatePoleStar);
+
+		this.windowHeight = window.innerHeight;
+		this.controller = new ScrollMagic.Controller();
+		this.journey();
+		this.websiteDesktop();
+		this.websiteMobile();
+		this.websiteDesktop2();
+	}
+
+	createClass(AnimatePoleStar, [{
+		key: "journey",
+		value: function journey() {
+			var sectionHeight = document.querySelector('.js-caseStudyPoleStar__journey').offsetHeight;
+			var $elem = document.querySelector('.js-caseStudyPoleStar__journey__image');
+			var elemHeight = $elem.offsetHeight;
+			var elemWidth = $elem.offsetWidth;
+
+			var tween = new tweenmax.fromTo('.js-caseStudyPoleStar__journey__image', 1, { y: -elemHeight, x: elemWidth }, { y: 0, x: 0, ease: easepack.easeInOut });
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyPoleStar__journey',
+				triggerHook: 'onEnter',
+				duration: sectionHeight * 1.5
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteDesktop",
+		value: function websiteDesktop() {
+			var $elem = document.querySelector('.js-caseStudyPoleStar__web__desktop__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyPoleStar__web__desktop__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyPoleStar__web__desktop',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteMobile",
+		value: function websiteMobile() {
+			var $elemFirst = document.querySelector('.js-caseStudyPoleStar__web__mobile__image-first');
+			var $elemSecond = document.querySelector('.js-caseStudyPoleStar__web__mobile__image-second');
+
+			var elemFirstWidth = $elemFirst.offsetWidth;
+			var elemSecondWidth = $elemSecond.offsetWidth;
+
+			var tween = new TimeLineMax().add([tweenmax.fromTo('.js-caseStudyPoleStar__web__mobile__image-first', 1, { x: -elemFirstWidth }, { x: 0, ease: easepack.easeInOut }), tweenmax.fromTo('.js-caseStudyPoleStar__web__mobile__image-second', 1.2, { x: -elemSecondWidth }, { x: 0, ease: easepack.easeInOut })]);
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyPoleStar__web__mobile',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteDesktop2",
+		value: function websiteDesktop2() {
+			var $elem = document.querySelector('.js-caseStudyPoleStar__web__desktop-2__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyPoleStar__web__desktop-2__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyPoleStar__web__desktop-2',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}]);
+	return AnimatePoleStar;
+}();
+
 var TriggerAnimations = function TriggerAnimations() {
 	var $html = document.querySelector('html');
 
@@ -35629,6 +35702,10 @@ var TriggerAnimations = function TriggerAnimations() {
 
 	if ($html.classList.contains('s-caseStudyPGS')) {
 		new AnimatePGS();
+	}
+
+	if ($html.classList.contains('s-caseStudyPoleStar')) {
+		new AnimatePoleStar();
 	}
 };
 
