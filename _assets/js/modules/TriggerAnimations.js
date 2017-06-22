@@ -4,7 +4,7 @@ import AnimateAIM from './AnimateAIM';
 import AnimateEvodia from './AnimateEvodia';
 import AnimateHenley from './AnimateHenley';
 import AnimateMayerBrown from './AnimateMayerBrown';
-
+import AnimateOctagon from './AnimateOctagon';
 
 const TriggerAnimations = () => {
 	const $html = document.querySelector('html');
@@ -29,6 +29,10 @@ const TriggerAnimations = () => {
 
 	if ($html.classList.contains('s-caseStudyMayerbrown')) {
 		new AnimateMayerBrown();
+	}
+
+	if ($html.classList.contains('s-caseStudyOctagon')) {
+		new AnimateOctagon();
 	}
 
 };

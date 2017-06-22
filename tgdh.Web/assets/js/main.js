@@ -35496,6 +35496,62 @@ var AnimateMayerBrown = function () {
 	return AnimateMayerBrown;
 }();
 
+var AnimateOctagon = function () {
+	function AnimateOctagon() {
+		classCallCheck(this, AnimateOctagon);
+
+		this.windowHeight = window.innerHeight;
+		this.controller = new ScrollMagic.Controller();
+		this.websiteDesktop();
+		this.websiteMobile();
+		this.websiteDesktop2();
+	}
+
+	createClass(AnimateOctagon, [{
+		key: "websiteDesktop",
+		value: function websiteDesktop() {
+			var $elem = document.querySelector('.js-caseStudyOctagon__web__desktop__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyOctagon__web__desktop__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyOctagon__web__desktop',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteMobile",
+		value: function websiteMobile() {
+			var $elemFirst = document.querySelector('.js-caseStudyOctagon__web__mobile__image-first');
+			var $elemSecond = document.querySelector('.js-caseStudyOctagon__web__mobile__image-second');
+
+			var elemFirstWidth = $elemFirst.offsetWidth;
+			var elemSecondWidth = $elemSecond.offsetWidth;
+
+			var tween = new TimeLineMax().add([tweenmax.fromTo('.js-caseStudyOctagon__web__mobile__image-first', 1, { x: -elemFirstWidth }, { x: 0, ease: easepack.easeInOut }), tweenmax.fromTo('.js-caseStudyOctagon__web__mobile__image-second', 1.2, { x: -elemSecondWidth }, { x: 0, ease: easepack.easeInOut })]);
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyOctagon__web__mobile',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteDesktop2",
+		value: function websiteDesktop2() {
+			var $elem = document.querySelector('.js-caseStudyOctagon__web__desktop-2__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyOctagon__web__desktop-2__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyOctagon__web__desktop-2',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}]);
+	return AnimateOctagon;
+}();
+
 var TriggerAnimations = function TriggerAnimations() {
 	var $html = document.querySelector('html');
 
@@ -35519,6 +35575,10 @@ var TriggerAnimations = function TriggerAnimations() {
 
 	if ($html.classList.contains('s-caseStudyMayerbrown')) {
 		new AnimateMayerBrown();
+	}
+
+	if ($html.classList.contains('s-caseStudyOctagon')) {
+		new AnimateOctagon();
 	}
 };
 
