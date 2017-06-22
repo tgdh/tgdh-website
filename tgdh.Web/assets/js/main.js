@@ -35363,7 +35363,101 @@ var AnimateEvodia = function () {
 	return AnimateEvodia;
 }();
 
-//import RevealFX from './modules/Reveal';
+var AnimateHenley = function () {
+	function AnimateHenley() {
+		classCallCheck(this, AnimateHenley);
+
+		this.windowHeight = window.innerHeight;
+		this.controller = new ScrollMagic.Controller();
+		this.planning();
+		this.websiteDesktop();
+		this.websiteMobile();
+		this.websiteDesktop2();
+	}
+
+	createClass(AnimateHenley, [{
+		key: "planning",
+		value: function planning() {
+			var sectionHeight = document.querySelector('.js-caseStudyHenley__planning').offsetHeight;
+			var $elem = document.querySelector('.js-caseStudyHenley__planning__image');
+			var elemHeight = $elem.offsetHeight;
+			var elemWidth = $elem.offsetWidth;
+
+			var tween = new tweenmax.fromTo('.js-caseStudyHenley__planning__image', 1, { y: elemHeight, x: elemWidth }, { y: 0, x: 0, ease: easepack.easeInOut });
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyHenley__planning',
+				triggerHook: 'onEnter',
+				duration: sectionHeight * 1.5
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteDesktop",
+		value: function websiteDesktop() {
+			var $elem = document.querySelector('.js-caseStudyHenley__web__desktop__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyHenley__web__desktop__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyHenley__web__desktop',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteMobile",
+		value: function websiteMobile() {
+			var $elemFirst = document.querySelector('.js-caseStudyHenley__web__mobile__image-first');
+			var $elemSecond = document.querySelector('.js-caseStudyHenley__web__mobile__image-second');
+
+			var elemFirstWidth = $elemFirst.offsetWidth;
+			var elemSecondWidth = $elemSecond.offsetWidth;
+
+			var tween = new TimeLineMax().add([tweenmax.fromTo('.js-caseStudyHenley__web__mobile__image-first', 1, { x: -elemFirstWidth }, { x: 0, ease: easepack.easeInOut }), tweenmax.fromTo('.js-caseStudyHenley__web__mobile__image-second', 1.2, { x: -elemSecondWidth }, { x: 0, ease: easepack.easeInOut })]);
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyHenley__web__mobile',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteDesktop2",
+		value: function websiteDesktop2() {
+			var $elem = document.querySelector('.js-caseStudyHenley__web__desktop-2__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyHenley__web__desktop-2__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyHenley__web__desktop-2',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}]);
+	return AnimateHenley;
+}();
+
+var TriggerAnimations = function TriggerAnimations() {
+	var $html = document.querySelector('html');
+
+	BlockAnimations();
+
+	if ($html.classList.contains('s-hullTruckCaseStudy')) {
+		new AnimateHullTruck();
+	}
+
+	if ($html.classList.contains('s-caseStudyAIM')) {
+		new AnimateAIM();
+	}
+
+	if ($html.classList.contains('s-caseStudyEvodia')) {
+		new AnimateEvodia();
+	}
+
+	if ($html.classList.contains('s-caseStudyHenley')) {
+		new AnimateHenley();
+	}
+};
+
 (function () {
 	var enhance = 'querySelector' in document && 'localStorage' in window && 'addEventListener' in window && 'classList' in document.documentElement;
 
@@ -35371,8 +35465,6 @@ var AnimateEvodia = function () {
 	Lazyload();
 	Carousel();
 	if (enhance) {
-		var $html = document.querySelector('html');
-
 		initComparisonImages();
 		tilt();
 		var map = new GMap($('.js-map'));
@@ -35384,19 +35476,7 @@ var AnimateEvodia = function () {
 
 		new StickyHeader($('.js-header-logo'));
 
-		BlockAnimations();
-
-		if ($html.classList.contains('s-hullTruckCaseStudy')) {
-			new AnimateHullTruck();
-		}
-
-		if ($html.classList.contains('s-caseStudyAIM')) {
-			new AnimateAIM();
-		}
-
-		if ($html.classList.contains('s-caseStudyEvodia')) {
-			new AnimateEvodia();
-		}
+		TriggerAnimations();
 	}
 	svg4everybody();
 

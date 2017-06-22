@@ -1,46 +1,31 @@
-import Velocity from 'velocity-animate';
-import * as velocityui from 'velocity-animate/velocity.ui';
-import { $ } from './Bling';
+import InitAnimations from './Animations';
+import AnimateHullTruck from './AnimateHullTruck';
+import AnimateAIM from './AnimateAIM';
+import AnimateEvodia from './AnimateEvodia';
+import AnimateHenley from './AnimateHenley';
 
-const animateHullTruck = () => {
-	const stats1 = $('.js-ht-stats-1').querySelectorAll('.js-stat');
-	Velocity(stats1, 'transition.slideUpIn', { stagger: 300 });
 
-	console.log(stats1);
+const TriggerAnimations = () => {
+	const $html = document.querySelector('html');
+
+	InitAnimations();
+
+	if ($html.classList.contains('s-hullTruckCaseStudy')) {
+		new AnimateHullTruck();
+	}
+
+	if ($html.classList.contains('s-caseStudyAIM')) {
+		new AnimateAIM();
+	}
+
+	if ($html.classList.contains('s-caseStudyEvodia')) {
+		new AnimateEvodia();
+	}
+
+	if ($html.classList.contains('s-caseStudyHenley')) {
+		new AnimateHenley();
+	}
+
 };
 
-const triggerAnimations = () => {
-	animateHullTruck();
-};
-
-/*
-// https://github.com/terwanerik/ScrollTrigger
-import AOS from 'aos';
-
-const triggerAnimations = () => {
-	AOS.init();
-};
-*/
-
-/*
-import ScrollTrigger from 'scrolltrigger-classes';
-
-const triggerAnimations = () => {
-	document.addEventListener('DOMContentLoaded', () => {
-		const trigger = new ScrollTrigger({
-			toggle: {
-				visible: 'visibleClass',
-				hidden: 'hiddenClass'
-			},
-			offset: {
-				x: 0,
-				y: 100
-			},
-			addHeight: true,
-			once: false
-		}, document.body, window);
-	});
-};
-*/
-
-export default triggerAnimations;
+export default TriggerAnimations;

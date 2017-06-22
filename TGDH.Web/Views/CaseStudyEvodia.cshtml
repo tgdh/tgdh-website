@@ -38,13 +38,11 @@
 	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote1Model)
 	@RenderPlanning()
 
-	@{
-        @Html.Partial("~/Views/Partials/Components/ImageColumns.cshtml", new ImageColumnsViewModel {
-            FirstImageId = Model.GetPropertyValue<int>("imageCol1"),
-            LastImageId = Model.GetPropertyValue<int>("imageCol2"),
-            ModifierClass = "s-caseStudyEvodia__image-cols"
-        })
-    }
+	@Html.Partial("~/Views/Partials/Components/ImageColumns.cshtml", new ImageColumnsViewModel {
+		FirstImageId = Model.GetPropertyValue<int>("imageCol1"),
+		LastImageId = Model.GetPropertyValue<int>("imageCol2"),
+		ModifierClass = "s-caseStudyEvodia__image-cols"
+	})
 	@RenderWebsite()
 
 	@Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage)

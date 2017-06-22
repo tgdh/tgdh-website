@@ -11,13 +11,7 @@ import tilt from './modules/Tilt';
 import GMap from './modules/GMaps';
 import initSmoothScroll from './modules/SmoothScroll';
 import StickyHeader from './modules/StickyHeader';
-//import RevealFX from './modules/Reveal';
-import InitAnimations from './modules/Animations';
-import AnimateHullTruck from './modules/AnimateHullTruck';
-import AnimateAIM from './modules/AnimateAIM';
-import AnimateEvodia from './modules/AnimateEvodia';
-
-import BlockReveal from './modules/BlockReveal';
+import TriggerAnimations from './modules/TriggerAnimations';
 
 (() => {
 	const enhance = 'querySelector' in document
@@ -29,8 +23,6 @@ import BlockReveal from './modules/BlockReveal';
 	lazySizes();
 	carousel();
 	if (enhance) {
-		const $html = document.querySelector('html');
-
 		InitImageComparison();
 		tilt();
 		const map = new GMap($('.js-map'));
@@ -42,19 +34,7 @@ import BlockReveal from './modules/BlockReveal';
 
 		new StickyHeader($('.js-header-logo'));
 
-		InitAnimations();
-
-		if ($html.classList.contains('s-hullTruckCaseStudy')) {
-			new AnimateHullTruck();
-		}
-
-		if ($html.classList.contains('s-caseStudyAIM')) {
-			new AnimateAIM();
-		}
-
-		if( $html.classList.contains('s-caseStudyEvodia') ) {
-			new AnimateEvodia();
-		}
+		TriggerAnimations();
 
 	}
 	svg4everybody();
