@@ -1,52 +1,47 @@
 class ClickDrag {
 	constructor(el) {
-		this.init();
+		this.el = el;
+		this.isDown = false;
+		this.startX = 0;
+		this.scrollTop = 0;
+
+		this.addEventListeners();
 	}
-	attachEventHandlers() {
-		this.toggle.on('click', () => {
-			this.toggle.blur();
-			this.toggleOpen();
+
+	addEventListeners() {
+		this.el.addEventListener('mousedown', (e) => {
+			console.log('mouse down');
+			console.log(e);
+			this.isDown = true;
+			this.el.classList.add('active');
+			this.startX = e.pageY - this.el.offsetTop;
+			this.scrollTop = this.el.scrollTop;
 		});
 
-		this.backdrop.on('click', () => {
-			this.close();
+		this.el.addEventListener('mouseleave', () => {
+			console.log('mouse leave');
+			this.isDown = false;
+			this.el.classList.remove('active');
+		});
+
+		this.el.addEventListener('mouseup', () => {
+			console.log('mouse up');
+			this.isDown = false;
+			this.el.classList.remove('active');
+		});
+
+		this.el.addEventListener('mousemove', (e) => {
+			if (!this.isDown) return;  // stop the fn from running
+
+			console.log('mouse move');
+
+			e.preventDefault();
+			const startY = e.pageY - this.el.offsetTop;
+			const walk = (y - this.startY) * 3;
+			this.el.scrollTop = this.scrollTop - walk;
 		});
 	}
-	init() {
-		this.setAriaHidden();
-		$('body').appendChild(this.backdrop);
-		this.attachEventHandlers();
-		this.body.appendChild(this.backdrop);
-	}
+
 }
+
 export default ClickDrag;
-
-
-
-//
-const slider = document.querySelector('.items');
-let isDown = false;
-let startX;
-let scrollLeft;
-
-slider.addEventListener('mousedown', (e) => {
-	isDown = true;
-	slider.classList.add('active');
-	startX = e.pageX - slider.offsetLeft;
-	scrollLeft = slider.scrollLeft;
-});
-slider.addEventListener('mouseleave', () => {
-	isDown = false;
-	slider.classList.remove('active');
-});
-slider.addEventListener('mouseup', () => {
-	isDown = false;
-	slider.classList.remove('active');
-});
-slider.addEventListener('mousemove', (e) => {
-	if (!isDown) return;  // stop the fn from running
-	e.preventDefault();
-	const x = e.pageX - slider.offsetLeft;
-	const walk = (x - startX) * 3;
-	slider.scrollLeft = scrollLeft - walk;
-});
