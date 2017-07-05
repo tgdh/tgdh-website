@@ -232,6 +232,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Controllers\BriefingFormController.cs" />
     <Compile Include="Controllers\CallbackFormController.cs" />
     <Compile Include="Data\CareerRepository.cs" />
     <Compile Include="Data\CaseStudyRepository.cs" />
@@ -240,6 +241,7 @@
     <Compile Include="Data\TeamRepository.cs" />
     <Compile Include="ExtensionMethods\IntExtentionsMethods.cs" />
     <Compile Include="ExtensionMethods\StringExtensionMethods.cs" />
+    <Compile Include="Models\BriefingForm.cs" />
     <Compile Include="Models\CallbackForm.cs" />
     <Compile Include="Models\LinkPickerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

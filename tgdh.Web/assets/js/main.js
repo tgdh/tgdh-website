@@ -489,7 +489,7 @@ var headroom = createCommonjsModule(function (module, exports) {
 var whatInput = createCommonjsModule(function (module, exports) {
 	/**
   * what-input - A global utility for tracking the current input method (mouse, keyboard or touch).
-  * @version v4.1.1
+  * @version v4.3.0
   * @link https://github.com/ten1seven/what-input
   * @license MIT
   */
@@ -551,17 +551,19 @@ var whatInput = createCommonjsModule(function (module, exports) {
       * variables
       */
 
-					// cache document.documentElement
-					var docElem = document.documentElement;
-
 					// last used input type
 					var currentInput = 'initial';
 
 					// last used input intent
 					var currentIntent = null;
 
+					// cache document.documentElement
+					var doc = document.documentElement;
+
 					// form input types
 					var formInputs = ['input', 'select', 'textarea'];
+
+					var functionList = [];
 
 					// list of modifier keys commonly used with the mouse and
 					// can be safely ignored to prevent false keyboard detection
@@ -572,16 +574,21 @@ var whatInput = createCommonjsModule(function (module, exports) {
 					93 // Windows menu / right Apple cmd
 					];
 
+					// list of keys for which we change intent even for form inputs
+					var changeIntentMap = [9 // tab
+					];
+
 					// mapping of events to input types
 					var inputMap = {
-						'keyup': 'keyboard',
-						'mousedown': 'mouse',
-						'mousemove': 'mouse',
-						'MSPointerDown': 'pointer',
-						'MSPointerMove': 'pointer',
-						'pointerdown': 'pointer',
-						'pointermove': 'pointer',
-						'touchstart': 'touch'
+						keydown: 'keyboard',
+						keyup: 'keyboard',
+						mousedown: 'mouse',
+						mousemove: 'mouse',
+						MSPointerDown: 'pointer',
+						MSPointerMove: 'pointer',
+						pointerdown: 'pointer',
+						pointermove: 'pointer',
+						touchstart: 'touch'
 					};
 
 					// array of all used input types
@@ -595,8 +602,8 @@ var whatInput = createCommonjsModule(function (module, exports) {
 
 					// store current mouse position
 					var mousePos = {
-						'x': null,
-						'y': null
+						x: null,
+						y: null
 					};
 
 					// map of IE 10 pointer events
@@ -605,6 +612,18 @@ var whatInput = createCommonjsModule(function (module, exports) {
 						3: 'touch', // treat pen like touch
 						4: 'mouse'
 					};
+
+					var supportsPassive = false;
+
+					try {
+						var opts = Object.defineProperty({}, 'passive', {
+							get: function get() {
+								supportsPassive = true;
+							}
+						});
+
+						window.addEventListener('test', null, opts);
+					} catch (e) {}
 
 					/*
       * set up
@@ -629,29 +648,29 @@ var whatInput = createCommonjsModule(function (module, exports) {
 
 						// pointer events (mouse, pen, touch)
 						if (window.PointerEvent) {
-							docElem.addEventListener('pointerdown', updateInput);
-							docElem.addEventListener('pointermove', setIntent);
+							doc.addEventListener('pointerdown', updateInput);
+							doc.addEventListener('pointermove', setIntent);
 						} else if (window.MSPointerEvent) {
-							docElem.addEventListener('MSPointerDown', updateInput);
-							docElem.addEventListener('MSPointerMove', setIntent);
+							doc.addEventListener('MSPointerDown', updateInput);
+							doc.addEventListener('MSPointerMove', setIntent);
 						} else {
 							// mouse events
-							docElem.addEventListener('mousedown', updateInput);
-							docElem.addEventListener('mousemove', setIntent);
+							doc.addEventListener('mousedown', updateInput);
+							doc.addEventListener('mousemove', setIntent);
 
 							// touch events
 							if ('ontouchstart' in window) {
-								docElem.addEventListener('touchstart', touchBuffer);
-								docElem.addEventListener('touchend', touchBuffer);
+								doc.addEventListener('touchstart', touchBuffer);
+								doc.addEventListener('touchend', touchBuffer);
 							}
 						}
 
 						// mouse wheel
-						docElem.addEventListener(detectWheel(), setIntent);
+						doc.addEventListener(detectWheel(), setIntent, supportsPassive ? { passive: true } : false);
 
 						// keyboard events
-						docElem.addEventListener('keydown', updateInput);
-						docElem.addEventListener('keyup', updateInput);
+						doc.addEventListener('keydown', updateInput);
+						doc.addEventListener('keyup', updateInput);
 					};
 
 					// checks conditions before updating new input
@@ -665,18 +684,17 @@ var whatInput = createCommonjsModule(function (module, exports) {
 							if (currentInput !== value || currentIntent !== value) {
 								var activeElem = document.activeElement;
 								var activeInput = false;
+								var notFormInput = activeElem && activeElem.nodeName && formInputs.indexOf(activeElem.nodeName.toLowerCase()) === -1;
 
-								if (activeElem && activeElem.nodeName && formInputs.indexOf(activeElem.nodeName.toLowerCase()) === -1) {
+								if (notFormInput || changeIntentMap.indexOf(eventKey) !== -1) {
 									activeInput = true;
 								}
 
 								if (value === 'touch' ||
-
 								// ignore mouse modifier keys
-								value === 'mouse' && ignoreMap.indexOf(eventKey) === -1 ||
-
+								value === 'mouse' ||
 								// don't switch if the current element is a form input
-								value === 'keyboard' && activeInput) {
+								value === 'keyboard' && eventKey && activeInput && ignoreMap.indexOf(eventKey) === -1) {
 									// set the current and catch-all variable
 									currentInput = currentIntent = value;
 
@@ -688,13 +706,15 @@ var whatInput = createCommonjsModule(function (module, exports) {
 
 					// updates the doc and `inputTypes` array with new input
 					var setInput = function setInput() {
-						docElem.setAttribute('data-whatinput', currentInput);
-						docElem.setAttribute('data-whatintent', currentInput);
+						doc.setAttribute('data-whatinput', currentInput);
+						doc.setAttribute('data-whatintent', currentInput);
 
 						if (inputTypes.indexOf(currentInput) === -1) {
 							inputTypes.push(currentInput);
-							docElem.className += ' whatinput-types-' + currentInput;
+							doc.className += ' whatinput-types-' + currentInput;
 						}
+
+						fireFunctions('input');
 					};
 
 					// updates input intent for `mousemove` and `pointermove`
@@ -719,7 +739,9 @@ var whatInput = createCommonjsModule(function (module, exports) {
 							if (currentIntent !== value) {
 								currentIntent = value;
 
-								docElem.setAttribute('data-whatintent', currentIntent);
+								doc.setAttribute('data-whatintent', currentIntent);
+
+								fireFunctions('intent');
 							}
 						}
 					};
@@ -733,6 +755,14 @@ var whatInput = createCommonjsModule(function (module, exports) {
 							updateInput(event);
 						} else {
 							isBuffering = true;
+						}
+					};
+
+					var fireFunctions = function fireFunctions(type) {
+						for (var i = 0, len = functionList.length; i < len; i++) {
+							if (functionList[i].type === type) {
+								functionList[i].fn.call(undefined, currentIntent);
+							}
 						}
 					};
 
@@ -766,6 +796,14 @@ var whatInput = createCommonjsModule(function (module, exports) {
 						return wheelType;
 					};
 
+					var objPos = function objPos(match) {
+						for (var i = 0, len = functionList.length; i < len; i++) {
+							if (functionList[i].fn === match) {
+								return i;
+							}
+						}
+					};
+
 					/*
       * init
       */
@@ -792,13 +830,36 @@ var whatInput = createCommonjsModule(function (module, exports) {
 						// returns array: all the detected input types
 						types: function types() {
 							return inputTypes;
+						},
+
+						// overwrites ignored keys with provided array
+						ignoreKeys: function ignoreKeys(arr) {
+							ignoreMap = arr;
+						},
+
+						// attach functions to input and intent "events"
+						// funct: function to fire on change
+						// eventType: 'input'|'intent'
+						registerOnChange: function registerOnChange(fn, eventType) {
+							functionList.push({
+								fn: fn,
+								type: eventType || 'input'
+							});
+						},
+
+						unRegisterOnChange: function unRegisterOnChange(fn) {
+							var position = objPos(fn);
+
+							if (position) {
+								functionList.splice(position, 1);
+							}
 						}
 					};
 				}();
 
 				/***/
-			}
-			/******/])
+			}]
+			/******/)
 		);
 	});
 	
@@ -814,7 +875,7 @@ var svg4everybody = createCommonjsModule(function (module) {
         // like Node.
         module.exports = factory() : root.svg4everybody = factory();
     }(commonjsGlobal, function () {
-        /*! svg4everybody v2.1.7 | github.com/jonathantneal/svg4everybody */
+        /*! svg4everybody v2.1.8 | github.com/jonathantneal/svg4everybody */
         function embed(parent, svg, target) {
             // if the target exists
             if (target) {
@@ -864,6 +925,7 @@ var svg4everybody = createCommonjsModule(function (module) {
                         svg = getSVGAncestor(parent);
                     if (svg) {
                         var src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                        !src && opts.attributeName && (src = use.getAttribute(opts.attributeName));
                         if (polyfill) {
                             if (!opts.validate || opts.validate(src, svg, use)) {
                                 // remove the <use> element
@@ -926,7 +988,7 @@ var svg4everybody = createCommonjsModule(function (module) {
 });
 
 var fontfaceobserver_standalone = createCommonjsModule(function (module) {
-  (function () {
+  /* Font Face Observer v2.0.13 - © Bram Stein. License: BSD-3-Clause */(function () {
     function l(a, b) {
       document.addEventListener ? a.addEventListener("scroll", b, !1) : a.attachEvent("scroll", b);
     }function m(a) {
@@ -940,7 +1002,7 @@ var fontfaceobserver_standalone = createCommonjsModule(function (module) {
       this.f.style.cssText = "max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";this.h.style.cssText = "display:inline-block;width:200%;height:200%;font-size:16px;max-width:none;";this.b.appendChild(this.h);this.c.appendChild(this.f);this.a.appendChild(this.b);this.a.appendChild(this.c);
     }
     function t(a, b) {
-      a.a.style.cssText = "max-width:none;min-width:20px;min-height:20px;display:inline-block;overflow:hidden;position:absolute;width:auto;margin:0;padding:0;top:-999px;left:-999px;white-space:nowrap;font-synthesis:none;font:" + b + ";";
+      a.a.style.cssText = "max-width:none;min-width:20px;min-height:20px;display:inline-block;overflow:hidden;position:absolute;width:auto;margin:0;padding:0;top:-999px;white-space:nowrap;font-synthesis:none;font:" + b + ";";
     }function y(a) {
       var b = a.a.offsetWidth,
           c = b + 100;a.f.style.width = c + "px";a.c.scrollLeft = c;a.b.scrollLeft = a.b.scrollWidth + 100;return a.g !== b ? (a.g = b, !0) : !1;
@@ -3716,23 +3778,24 @@ var initComparisonImages = function initComparisonImages() {
 
 var swiper = createCommonjsModule(function (module) {
     /**
-     * Swiper 3.4.1
+     * Swiper 3.4.2
      * Most modern mobile touch slider and framework with hardware accelerated transitions
      * 
      * http://www.idangero.us/swiper/
      * 
-     * Copyright 2016, Vladimir Kharlampidi
+     * Copyright 2017, Vladimir Kharlampidi
      * The iDangero.us
      * http://www.idangero.us/
      * 
      * Licensed under MIT
      * 
-     * Released on: December 13, 2016
+     * Released on: March 10, 2017
      */
     (function () {
         'use strict';
 
         var $;
+
         /*===========================
         Swiper
         ===========================*/
@@ -3938,6 +4001,8 @@ var swiper = createCommonjsModule(function (module) {
                 Callbacks:
                 onInit: function (swiper)
                 onDestroy: function (swiper)
+                onBeforeResize: function (swiper)
+                onAfterResize: function (swiper)
                 onClick: function (swiper, e)
                 onTap: function (swiper, e)
                 onDoubleTap: function (swiper, e)
@@ -3960,6 +4025,7 @@ var swiper = createCommonjsModule(function (module) {
                 onAutoplayStop: function (swiper),
                 onLazyImageLoad: function (swiper, slide, image)
                 onLazyImageReady: function (swiper, slide, image)
+                onKeyPress: function (swiper, keyCode)
                 */
 
             };
@@ -4119,7 +4185,6 @@ var swiper = createCommonjsModule(function (module) {
                 s.params.centeredSlides = false;
                 s.params.spaceBetween = 0;
                 s.params.virtualTranslate = true;
-                s.params.setWrapperSize = false;
             }
             if (s.params.effect === 'fade' || s.params.effect === 'flip') {
                 s.params.slidesPerView = 1;
@@ -4127,7 +4192,6 @@ var swiper = createCommonjsModule(function (module) {
                 s.params.slidesPerGroup = 1;
                 s.params.watchSlidesProgress = true;
                 s.params.spaceBetween = 0;
-                s.params.setWrapperSize = false;
                 if (typeof initialVirtualTranslate === 'undefined') {
                     s.params.virtualTranslate = true;
                 }
@@ -4532,6 +4596,7 @@ var swiper = createCommonjsModule(function (module) {
 
                     if (s.params.centeredSlides) {
                         slidePosition = slidePosition + slideSize / 2 + prevSlideSize / 2 + spaceBetween;
+                        if (prevSlideSize === 0 && i !== 0) slidePosition = slidePosition - s.size / 2 - spaceBetween;
                         if (i === 0) slidePosition = slidePosition - s.size / 2 - spaceBetween;
                         if (Math.abs(slidePosition) < 1 / 1000) slidePosition = 0;
                         if (index % s.params.slidesPerGroup === 0) s.snapGrid.push(slidePosition);
@@ -4896,6 +4961,7 @@ var swiper = createCommonjsModule(function (module) {
                 if (s.params.scrollbar && s.scrollbar) {
                     s.scrollbar.set();
                 }
+                var newTranslate;
                 function forceSetTranslate() {
                     var translate = s.rtl ? -s.translate : s.translate;
                     newTranslate = Math.min(Math.max(s.translate, s.maxTranslate()), s.minTranslate());
@@ -4904,7 +4970,7 @@ var swiper = createCommonjsModule(function (module) {
                     s.updateClasses();
                 }
                 if (updateTranslate) {
-                    var translated, newTranslate;
+                    var translated;
                     if (s.controller && s.controller.spline) {
                         s.controller.spline = undefined;
                     }
@@ -4932,6 +4998,7 @@ var swiper = createCommonjsModule(function (module) {
               Resize Handler
               ===========================*/
             s.onResize = function (forceUpdatePagination) {
+                if (s.params.onBeforeResize) s.params.onBeforeResize(s);
                 //Breakpoints
                 if (s.params.breakpoints) {
                     s.setBreakpoint();
@@ -4975,6 +5042,7 @@ var swiper = createCommonjsModule(function (module) {
                 // Return locks after resize
                 s.params.allowSwipeToPrev = allowSwipeToPrev;
                 s.params.allowSwipeToNext = allowSwipeToNext;
+                if (s.params.onAfterResize) s.params.onAfterResize(s);
             };
 
             /*=========================
@@ -5289,7 +5357,7 @@ var swiper = createCommonjsModule(function (module) {
                 if (isScrolling) {
                     s.emit('onTouchMoveOpposite', s, e);
                 }
-                if (typeof startMoving === 'undefined' && s.browser.ieTouch) {
+                if (typeof startMoving === 'undefined') {
                     if (s.touches.currentX !== s.touches.startX || s.touches.currentY !== s.touches.startY) {
                         startMoving = true;
                     }
@@ -5299,7 +5367,7 @@ var swiper = createCommonjsModule(function (module) {
                     isTouched = false;
                     return;
                 }
-                if (!startMoving && s.browser.ieTouch) {
+                if (!startMoving) {
                     return;
                 }
                 s.allowClick = false;
@@ -6398,6 +6466,7 @@ var swiper = createCommonjsModule(function (module) {
                             srcset = _img.attr('data-srcset'),
                             sizes = _img.attr('data-sizes');
                         s.loadImage(_img[0], src || background, srcset, sizes, false, function () {
+                            if (typeof s === 'undefined' || s === null || !s) return;
                             if (background) {
                                 _img.css('background-image', 'url("' + background + '")');
                                 _img.removeAttr('data-background');
@@ -6570,9 +6639,9 @@ var swiper = createCommonjsModule(function (module) {
                 disableDraggable: function disableDraggable() {
                     var sb = s.scrollbar;
                     var target = s.support.touch ? sb.track : document;
-                    $(sb.track).off(s.draggableEvents.start, sb.dragStart);
-                    $(target).off(s.draggableEvents.move, sb.dragMove);
-                    $(target).off(s.draggableEvents.end, sb.dragEnd);
+                    $(sb.track).off(sb.draggableEvents.start, sb.dragStart);
+                    $(target).off(sb.draggableEvents.move, sb.dragMove);
+                    $(target).off(sb.draggableEvents.end, sb.dragEnd);
                 },
                 set: function set$$1() {
                     if (!s.params.scrollbar) return;
@@ -6669,6 +6738,20 @@ var swiper = createCommonjsModule(function (module) {
               ===========================*/
             s.controller = {
                 LinearSpline: function LinearSpline(x, y) {
+                    var binarySearch = function () {
+                        var maxIndex, minIndex, guess;
+                        return function (array, val) {
+                            minIndex = -1;
+                            maxIndex = array.length;
+                            while (maxIndex - minIndex > 1) {
+                                if (array[guess = maxIndex + minIndex >> 1] <= val) {
+                                    minIndex = guess;
+                                } else {
+                                    maxIndex = guess;
+                                }
+                            }return maxIndex;
+                        };
+                    }();
                     this.x = x;
                     this.y = y;
                     this.lastIndex = x.length - 1;
@@ -6689,21 +6772,6 @@ var swiper = createCommonjsModule(function (module) {
                         // y2 := ((x2−x1) × (y3−y1)) ÷ (x3−x1) + y1
                         return (x2 - this.x[i1]) * (this.y[i3] - this.y[i1]) / (this.x[i3] - this.x[i1]) + this.y[i1];
                     };
-
-                    var binarySearch = function () {
-                        var maxIndex, minIndex, guess;
-                        return function (array, val) {
-                            minIndex = -1;
-                            maxIndex = array.length;
-                            while (maxIndex - minIndex > 1) {
-                                if (array[guess = maxIndex + minIndex >> 1] <= val) {
-                                    minIndex = guess;
-                                } else {
-                                    maxIndex = guess;
-                                }
-                            }return maxIndex;
-                        };
-                    }();
                 },
                 //xxx: for now i will just save one spline function to to
                 getInterpolateFunction: function getInterpolateFunction(c) {
@@ -6737,7 +6805,7 @@ var swiper = createCommonjsModule(function (module) {
                         c.setWrapperTranslate(controlledTranslate, false, s);
                         c.updateActiveIndex();
                     }
-                    if (s.isArray(controlled)) {
+                    if (Array.isArray(controlled)) {
                         for (var i = 0; i < controlled.length; i++) {
                             if (controlled[i] !== byController && controlled[i] instanceof Swiper) {
                                 setControlledTranslate(controlled[i]);
@@ -6764,7 +6832,7 @@ var swiper = createCommonjsModule(function (module) {
                             });
                         }
                     }
-                    if (s.isArray(controlled)) {
+                    if (Array.isArray(controlled)) {
                         for (i = 0; i < controlled.length; i++) {
                             if (controlled[i] !== byController && controlled[i] instanceof Swiper) {
                                 setControlledTransition(controlled[i]);
@@ -6805,14 +6873,15 @@ var swiper = createCommonjsModule(function (module) {
                     if (!s.params.hashnav || s.params.history) return;
                     s.hashnav.initialized = true;
                     var hash = document.location.hash.replace('#', '');
-                    if (!hash) return;
-                    var speed = 0;
-                    for (var i = 0, length = s.slides.length; i < length; i++) {
-                        var slide = s.slides.eq(i);
-                        var slideHash = slide.attr('data-hash') || slide.attr('data-history');
-                        if (slideHash === hash && !slide.hasClass(s.params.slideDuplicateClass)) {
-                            var index = slide.index();
-                            s.slideTo(index, speed, s.params.runCallbacksOnInit, true);
+                    if (hash) {
+                        var speed = 0;
+                        for (var i = 0, length = s.slides.length; i < length; i++) {
+                            var slide = s.slides.eq(i);
+                            var slideHash = slide.attr('data-hash') || slide.attr('data-history');
+                            if (slideHash === hash && !slide.hasClass(s.params.slideDuplicateClass)) {
+                                var index = slide.index();
+                                s.slideTo(index, speed, s.params.runCallbacksOnInit, true);
+                            }
                         }
                     }
                     if (s.params.hashnavWatchState) s.hashnav.attachEvents();
@@ -6939,6 +7008,7 @@ var swiper = createCommonjsModule(function (module) {
                     if (kc === 40) s.slideNext();
                     if (kc === 38) s.slidePrev();
                 }
+                s.emit('onKeyPress', s, kc);
             }
             s.disableKeyboardControl = function () {
                 s.params.keyboardControl = false;
@@ -6956,15 +7026,6 @@ var swiper = createCommonjsModule(function (module) {
                 event: false,
                 lastScrollTime: new window.Date().getTime()
             };
-            if (s.params.mousewheelControl) {
-                /**
-                 * The best combination if you prefer spinX + spinY normalization.  It favors
-                 * the older DOMMouseScroll for Firefox, as FF does not include wheelDelta with
-                 * 'wheel' event, making spin speed determination impossible.
-                 */
-                s.mousewheel.event = navigator.userAgent.indexOf('firefox') > -1 ? 'DOMMouseScroll' : isEventSupported() ? 'wheel' : 'mousewheel';
-            }
-
             function isEventSupported() {
                 var eventName = 'onwheel';
                 var isSupported = eventName in document;
@@ -6985,104 +7046,6 @@ var swiper = createCommonjsModule(function (module) {
 
                 return isSupported;
             }
-
-            function handleMousewheel(e) {
-                if (e.originalEvent) e = e.originalEvent; //jquery fix
-                var delta = 0;
-                var rtlFactor = s.rtl ? -1 : 1;
-
-                var data = normalizeWheel(e);
-
-                if (s.params.mousewheelForceToAxis) {
-                    if (s.isHorizontal()) {
-                        if (Math.abs(data.pixelX) > Math.abs(data.pixelY)) delta = data.pixelX * rtlFactor;else return;
-                    } else {
-                        if (Math.abs(data.pixelY) > Math.abs(data.pixelX)) delta = data.pixelY;else return;
-                    }
-                } else {
-                    delta = Math.abs(data.pixelX) > Math.abs(data.pixelY) ? -data.pixelX * rtlFactor : -data.pixelY;
-                }
-
-                if (delta === 0) return;
-
-                if (s.params.mousewheelInvert) delta = -delta;
-
-                if (!s.params.freeMode) {
-                    if (new window.Date().getTime() - s.mousewheel.lastScrollTime > 60) {
-                        if (delta < 0) {
-                            if ((!s.isEnd || s.params.loop) && !s.animating) {
-                                s.slideNext();
-                                s.emit('onScroll', s, e);
-                            } else if (s.params.mousewheelReleaseOnEdges) return true;
-                        } else {
-                            if ((!s.isBeginning || s.params.loop) && !s.animating) {
-                                s.slidePrev();
-                                s.emit('onScroll', s, e);
-                            } else if (s.params.mousewheelReleaseOnEdges) return true;
-                        }
-                    }
-                    s.mousewheel.lastScrollTime = new window.Date().getTime();
-                } else {
-                    //Freemode or scrollContainer:
-                    var position = s.getWrapperTranslate() + delta * s.params.mousewheelSensitivity;
-                    var wasBeginning = s.isBeginning,
-                        wasEnd = s.isEnd;
-
-                    if (position >= s.minTranslate()) position = s.minTranslate();
-                    if (position <= s.maxTranslate()) position = s.maxTranslate();
-
-                    s.setWrapperTransition(0);
-                    s.setWrapperTranslate(position);
-                    s.updateProgress();
-                    s.updateActiveIndex();
-
-                    if (!wasBeginning && s.isBeginning || !wasEnd && s.isEnd) {
-                        s.updateClasses();
-                    }
-
-                    if (s.params.freeModeSticky) {
-                        clearTimeout(s.mousewheel.timeout);
-                        s.mousewheel.timeout = setTimeout(function () {
-                            s.slideReset();
-                        }, 300);
-                    } else {
-                        if (s.params.lazyLoading && s.lazy) {
-                            s.lazy.load();
-                        }
-                    }
-                    // Emit event
-                    s.emit('onScroll', s, e);
-
-                    // Stop autoplay
-                    if (s.params.autoplay && s.params.autoplayDisableOnInteraction) s.stopAutoplay();
-
-                    // Return page scroll on edge positions
-                    if (position === 0 || position === s.maxTranslate()) return;
-                }
-
-                if (e.preventDefault) e.preventDefault();else e.returnValue = false;
-                return false;
-            }
-            s.disableMousewheelControl = function () {
-                if (!s.mousewheel.event) return false;
-                var target = s.container;
-                if (s.params.mousewheelEventsTarged !== 'container') {
-                    target = $(s.params.mousewheelEventsTarged);
-                }
-                target.off(s.mousewheel.event, handleMousewheel);
-                return true;
-            };
-
-            s.enableMousewheelControl = function () {
-                if (!s.mousewheel.event) return false;
-                var target = s.container;
-                if (s.params.mousewheelEventsTarged !== 'container') {
-                    target = $(s.params.mousewheelEventsTarged);
-                }
-                target.on(s.mousewheel.event, handleMousewheel);
-                return true;
-            };
-
             /**
              * Mouse wheel (and 2-finger trackpad) support on the web sucks.  It is
              * complicated, thus this doc is long and (hopefully) detailed enough to answer
@@ -7252,6 +7215,112 @@ var swiper = createCommonjsModule(function (module) {
                     pixelY: pY
                 };
             }
+            if (s.params.mousewheelControl) {
+                /**
+                 * The best combination if you prefer spinX + spinY normalization.  It favors
+                 * the older DOMMouseScroll for Firefox, as FF does not include wheelDelta with
+                 * 'wheel' event, making spin speed determination impossible.
+                 */
+                s.mousewheel.event = navigator.userAgent.indexOf('firefox') > -1 ? 'DOMMouseScroll' : isEventSupported() ? 'wheel' : 'mousewheel';
+            }
+            function handleMousewheel(e) {
+                if (e.originalEvent) e = e.originalEvent; //jquery fix
+                var delta = 0;
+                var rtlFactor = s.rtl ? -1 : 1;
+
+                var data = normalizeWheel(e);
+
+                if (s.params.mousewheelForceToAxis) {
+                    if (s.isHorizontal()) {
+                        if (Math.abs(data.pixelX) > Math.abs(data.pixelY)) delta = data.pixelX * rtlFactor;else return;
+                    } else {
+                        if (Math.abs(data.pixelY) > Math.abs(data.pixelX)) delta = data.pixelY;else return;
+                    }
+                } else {
+                    delta = Math.abs(data.pixelX) > Math.abs(data.pixelY) ? -data.pixelX * rtlFactor : -data.pixelY;
+                }
+
+                if (delta === 0) return;
+
+                if (s.params.mousewheelInvert) delta = -delta;
+
+                if (!s.params.freeMode) {
+                    if (new window.Date().getTime() - s.mousewheel.lastScrollTime > 60) {
+                        if (delta < 0) {
+                            if ((!s.isEnd || s.params.loop) && !s.animating) {
+                                s.slideNext();
+                                s.emit('onScroll', s, e);
+                            } else if (s.params.mousewheelReleaseOnEdges) return true;
+                        } else {
+                            if ((!s.isBeginning || s.params.loop) && !s.animating) {
+                                s.slidePrev();
+                                s.emit('onScroll', s, e);
+                            } else if (s.params.mousewheelReleaseOnEdges) return true;
+                        }
+                    }
+                    s.mousewheel.lastScrollTime = new window.Date().getTime();
+                } else {
+                    //Freemode or scrollContainer:
+                    var position = s.getWrapperTranslate() + delta * s.params.mousewheelSensitivity;
+                    var wasBeginning = s.isBeginning,
+                        wasEnd = s.isEnd;
+
+                    if (position >= s.minTranslate()) position = s.minTranslate();
+                    if (position <= s.maxTranslate()) position = s.maxTranslate();
+
+                    s.setWrapperTransition(0);
+                    s.setWrapperTranslate(position);
+                    s.updateProgress();
+                    s.updateActiveIndex();
+
+                    if (!wasBeginning && s.isBeginning || !wasEnd && s.isEnd) {
+                        s.updateClasses();
+                    }
+
+                    if (s.params.freeModeSticky) {
+                        clearTimeout(s.mousewheel.timeout);
+                        s.mousewheel.timeout = setTimeout(function () {
+                            s.slideReset();
+                        }, 300);
+                    } else {
+                        if (s.params.lazyLoading && s.lazy) {
+                            s.lazy.load();
+                        }
+                    }
+                    // Emit event
+                    s.emit('onScroll', s, e);
+
+                    // Stop autoplay
+                    if (s.params.autoplay && s.params.autoplayDisableOnInteraction) s.stopAutoplay();
+
+                    // Return page scroll on edge positions
+                    if (position === 0 || position === s.maxTranslate()) return;
+                }
+
+                if (e.preventDefault) e.preventDefault();else e.returnValue = false;
+                return false;
+            }
+            s.disableMousewheelControl = function () {
+                if (!s.mousewheel.event) return false;
+                var target = s.container;
+                if (s.params.mousewheelEventsTarged !== 'container') {
+                    target = $(s.params.mousewheelEventsTarged);
+                }
+                target.off(s.mousewheel.event, handleMousewheel);
+                s.params.mousewheelControl = false;
+                return true;
+            };
+
+            s.enableMousewheelControl = function () {
+                if (!s.mousewheel.event) return false;
+                var target = s.container;
+                if (s.params.mousewheelEventsTarged !== 'container') {
+                    target = $(s.params.mousewheelEventsTarged);
+                }
+                target.on(s.mousewheel.event, handleMousewheel);
+                s.params.mousewheelControl = true;
+                return true;
+            };
 
             /*=========================
               Parallax
@@ -8763,12 +8832,14 @@ var swiper = createCommonjsModule(function (module) {
 
         window.Swiper = Swiper;
     })();
+
     /*===========================
     Swiper AMD Export
     ===========================*/
     {
         module.exports = window.Swiper;
     }
+
     
 });
 
@@ -8822,7 +8893,7 @@ var VanillaTilt$1 = function () {
    * Created by Șandor Sergiu (micku7zu) on 1/27/2017.
    * Original idea: https://github.com/gijsroge/tilt.js
    * MIT License.
-   * Version 1.3.0
+   * Version 1.4.0
    */
 
   var VanillaTilt = function () {
@@ -8848,23 +8919,41 @@ var VanillaTilt$1 = function () {
 
       this.reverse = this.settings.reverse ? -1 : 1;
 
+      this.glare = this.isSettingTrue(this.settings.glare);
+      this.glarePrerender = this.isSettingTrue(this.settings["glare-prerender"]);
+
+      if (this.glare) {
+        this.prepareGlare();
+      }
+
       this.addEventListeners();
     }
+
+    VanillaTilt.prototype.isSettingTrue = function isSettingTrue(setting) {
+      return setting === "" || setting === true || setting === 1;
+    };
 
     VanillaTilt.prototype.addEventListeners = function addEventListeners() {
       this.onMouseEnterBind = this.onMouseEnter.bind(this);
       this.onMouseMoveBind = this.onMouseMove.bind(this);
       this.onMouseLeaveBind = this.onMouseLeave.bind(this);
+      this.onWindowResizeBind = this.onWindowResizeBind.bind(this);
 
       this.element.addEventListener("mouseenter", this.onMouseEnterBind);
       this.element.addEventListener("mousemove", this.onMouseMoveBind);
       this.element.addEventListener("mouseleave", this.onMouseLeaveBind);
+      if (this.glare) {
+        window.addEventListener("resize", this.onWindowResizeBind);
+      }
     };
 
     VanillaTilt.prototype.removeEventListeners = function removeEventListeners() {
       this.element.removeEventListener("mouseenter", this.onMouseEnterBind);
       this.element.removeEventListener("mousemove", this.onMouseMoveBind);
       this.element.removeEventListener("mouseleave", this.onMouseLeaveBind);
+      if (this.glare) {
+        window.removeEventListener("resize", this.onWindowResizeBind);
+      }
     };
 
     VanillaTilt.prototype.destroy = function destroy() {
@@ -8909,6 +8998,11 @@ var VanillaTilt$1 = function () {
 
         _this.element.style.transform = "perspective(" + _this.settings.perspective + "px) " + "rotateX(0deg) " + "rotateY(0deg) " + "scale3d(1, 1, 1)";
       });
+
+      if (this.glare) {
+        this.glareElement.style.transform = 'rotate(180deg) translate(-50%, -50%)';
+        this.glareElement.style.opacity = '0';
+      }
     };
 
     VanillaTilt.prototype.getValues = function getValues() {
@@ -8920,12 +9014,14 @@ var VanillaTilt$1 = function () {
 
       var tiltX = (this.reverse * (this.settings.max / 2 - x * this.settings.max)).toFixed(2);
       var tiltY = (this.reverse * (y * this.settings.max - this.settings.max / 2)).toFixed(2);
+      var angle = Math.atan2(this.event.clientX - (this.left + this.width / 2), -(this.event.clientY - (this.top + this.height / 2))) * (180 / Math.PI);
 
       return {
         tiltX: tiltX,
         tiltY: tiltY,
         percentageX: x * 100,
-        percentageY: y * 100
+        percentageY: y * 100,
+        angle: angle
       };
     };
 
@@ -8943,6 +9039,11 @@ var VanillaTilt$1 = function () {
 
       this.element.style.transform = "perspective(" + this.settings.perspective + "px) " + "rotateX(" + (this.settings.axis === "x" ? 0 : values.tiltY) + "deg) " + "rotateY(" + (this.settings.axis === "y" ? 0 : values.tiltX) + "deg) " + "scale3d(" + this.settings.scale + ", " + this.settings.scale + ", " + this.settings.scale + ")";
 
+      if (this.glare) {
+        this.glareElement.style.transform = "rotate(" + values.angle + "deg) translate(-50%, -50%)";
+        this.glareElement.style.opacity = "" + values.percentageY * this.settings["max-glare"] / 100;
+      }
+
       this.element.dispatchEvent(new CustomEvent("tiltChange", {
         "detail": values
       }));
@@ -8950,13 +9051,78 @@ var VanillaTilt$1 = function () {
       this.updateCall = null;
     };
 
+    /**
+     * Appends the glare element (if glarePrerender equals false)
+     * and sets the default style
+     */
+
+    VanillaTilt.prototype.prepareGlare = function prepareGlare() {
+      // If option pre-render is enabled we assume all html/css is present for an optimal glare effect.
+      if (!this.glarePrerender) {
+        // Create glare element
+        var jsTiltGlare = document.createElement("div");
+        jsTiltGlare.classList.add("js-tilt-glare");
+
+        var jsTiltGlareInner = document.createElement("div");
+        jsTiltGlareInner.classList.add("js-tilt-glare-inner");
+
+        jsTiltGlare.appendChild(jsTiltGlareInner);
+        this.element.appendChild(jsTiltGlare);
+      }
+
+      this.glareElementWrapper = this.element.querySelector(".js-tilt-glare");
+      this.glareElement = this.element.querySelector(".js-tilt-glare-inner");
+
+      if (this.glarePrerender) {
+        return;
+      }
+
+      Object.assign(this.glareElementWrapper.style, {
+        "position": "absolute",
+        "top": "0",
+        "left": "0",
+        "width": "100%",
+        "height": "100%",
+        "overflow": "hidden"
+      });
+
+      Object.assign(this.glareElement.style, {
+        'position': 'absolute',
+        'top': '50%',
+        'left': '50%',
+        'pointer-events': 'none',
+        'background-image': "linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)",
+        'width': this.element.offsetWidth * 2 + "px",
+        'height': this.element.offsetWidth * 2 + "px",
+        'transform': 'rotate(180deg) translate(-50%, -50%)',
+        'transform-origin': '0% 0%',
+        'opacity': '0'
+      });
+    };
+
+    VanillaTilt.prototype.updateGlareSize = function updateGlareSize() {
+      Object.assign(this.glareElement.style, {
+        'width': "" + this.element.offsetWidth * 2,
+        'height': "" + this.element.offsetWidth * 2
+      });
+    };
+
+    VanillaTilt.prototype.onWindowResizeBind = function onWindowResizeBind() {
+      this.updateGlareSize();
+    };
+
     VanillaTilt.prototype.setTransition = function setTransition() {
       var _this2 = this;
 
       clearTimeout(this.transitionTimeout);
       this.element.style.transition = this.settings.speed + "ms " + this.settings.easing;
+      if (this.glare) this.glareElement.style.transition = "opacity " + this.settings.speed + "ms " + this.settings.easing;
+
       this.transitionTimeout = setTimeout(function () {
-        return _this2.element.style.transition = "";
+        _this2.element.style.transition = "";
+        if (_this2.glare) {
+          _this2.glareElement.style.transition = "";
+        }
       }, this.settings.speed);
     };
 
@@ -8970,11 +9136,13 @@ var VanillaTilt$1 = function () {
         speed: "300",
         transition: true,
         axis: null,
+        glare: false,
+        "max-glare": 1,
+        "glare-prerender": false,
         reset: true
       };
 
       var newSettings = {};
-
       for (var property in defaultSettings) {
         if (property in settings) {
           newSettings[property] = settings[property];
@@ -9044,7 +9212,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
    * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
    * @license   Licensed under MIT license
    *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
-   * @version   4.1.0
+   * @version   4.1.1
    */
 
   (function (global, factory) {
@@ -9053,7 +9221,8 @@ var es6Promise = createCommonjsModule(function (module, exports) {
     'use strict';
 
     function objectOrFunction(x) {
-      return typeof x === 'function' || (typeof x === 'undefined' ? 'undefined' : _typeof(x)) === 'object' && x !== null;
+      var type = typeof x === 'undefined' ? 'undefined' : _typeof(x);
+      return x !== null && (type === 'object' || type === 'function');
     }
 
     function isFunction(x) {
@@ -9061,12 +9230,12 @@ var es6Promise = createCommonjsModule(function (module, exports) {
     }
 
     var _isArray = undefined;
-    if (!Array.isArray) {
+    if (Array.isArray) {
+      _isArray = Array.isArray;
+    } else {
       _isArray = function _isArray(x) {
         return Object.prototype.toString.call(x) === '[object Array]';
       };
-    } else {
-      _isArray = Array.isArray;
     }
 
     var isArray = _isArray;
@@ -9254,7 +9423,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       @return {Promise} a promise that will become fulfilled with the given
       `value`
     */
-    function resolve(object) {
+    function resolve$1(object) {
       /*jshint validthis:true */
       var Constructor = this;
 
@@ -9263,7 +9432,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       }
 
       var promise = new Constructor(noop);
-      _resolve(promise, object);
+      resolve(promise, object);
       return promise;
     }
 
@@ -9294,24 +9463,24 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       }
     }
 
-    function tryThen(then, value, fulfillmentHandler, rejectionHandler) {
+    function tryThen(then$$1, value, fulfillmentHandler, rejectionHandler) {
       try {
-        then.call(value, fulfillmentHandler, rejectionHandler);
+        then$$1.call(value, fulfillmentHandler, rejectionHandler);
       } catch (e) {
         return e;
       }
     }
 
-    function handleForeignThenable(promise, thenable, then) {
+    function handleForeignThenable(promise, thenable, then$$1) {
       asap(function (promise) {
         var sealed = false;
-        var error = tryThen(then, thenable, function (value) {
+        var error = tryThen(then$$1, thenable, function (value) {
           if (sealed) {
             return;
           }
           sealed = true;
           if (thenable !== value) {
-            _resolve(promise, value);
+            resolve(promise, value);
           } else {
             fulfill(promise, value);
           }
@@ -9321,12 +9490,12 @@ var es6Promise = createCommonjsModule(function (module, exports) {
           }
           sealed = true;
 
-          _reject(promise, reason);
+          reject(promise, reason);
         }, 'Settle: ' + (promise._label || ' unknown promise'));
 
         if (!sealed && error) {
           sealed = true;
-          _reject(promise, error);
+          reject(promise, error);
         }
       }, promise);
     }
@@ -9335,36 +9504,36 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       if (thenable._state === FULFILLED) {
         fulfill(promise, thenable._result);
       } else if (thenable._state === REJECTED) {
-        _reject(promise, thenable._result);
+        reject(promise, thenable._result);
       } else {
         subscribe(thenable, undefined, function (value) {
-          return _resolve(promise, value);
+          return resolve(promise, value);
         }, function (reason) {
-          return _reject(promise, reason);
+          return reject(promise, reason);
         });
       }
     }
 
-    function handleMaybeThenable(promise, maybeThenable, then$$) {
-      if (maybeThenable.constructor === promise.constructor && then$$ === then && maybeThenable.constructor.resolve === resolve) {
+    function handleMaybeThenable(promise, maybeThenable, then$$1) {
+      if (maybeThenable.constructor === promise.constructor && then$$1 === then && maybeThenable.constructor.resolve === resolve$1) {
         handleOwnThenable(promise, maybeThenable);
       } else {
-        if (then$$ === GET_THEN_ERROR) {
-          _reject(promise, GET_THEN_ERROR.error);
+        if (then$$1 === GET_THEN_ERROR) {
+          reject(promise, GET_THEN_ERROR.error);
           GET_THEN_ERROR.error = null;
-        } else if (then$$ === undefined) {
+        } else if (then$$1 === undefined) {
           fulfill(promise, maybeThenable);
-        } else if (isFunction(then$$)) {
-          handleForeignThenable(promise, maybeThenable, then$$);
+        } else if (isFunction(then$$1)) {
+          handleForeignThenable(promise, maybeThenable, then$$1);
         } else {
           fulfill(promise, maybeThenable);
         }
       }
     }
 
-    function _resolve(promise, value) {
+    function resolve(promise, value) {
       if (promise === value) {
-        _reject(promise, selfFulfillment());
+        reject(promise, selfFulfillment());
       } else if (objectOrFunction(value)) {
         handleMaybeThenable(promise, value, getThen(value));
       } else {
@@ -9393,7 +9562,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       }
     }
 
-    function _reject(promise, reason) {
+    function reject(promise, reason) {
       if (promise._state !== PENDING) {
         return;
       }
@@ -9478,7 +9647,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
         }
 
         if (promise === value) {
-          _reject(promise, cannotReturnOwn());
+          reject(promise, cannotReturnOwn());
           return;
         }
       } else {
@@ -9489,25 +9658,25 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       if (promise._state !== PENDING) {
         // noop
       } else if (hasCallback && succeeded) {
-        _resolve(promise, value);
+        resolve(promise, value);
       } else if (failed) {
-        _reject(promise, error);
+        reject(promise, error);
       } else if (settled === FULFILLED) {
         fulfill(promise, value);
       } else if (settled === REJECTED) {
-        _reject(promise, value);
+        reject(promise, value);
       }
     }
 
     function initializePromise(promise, resolver) {
       try {
         resolver(function resolvePromise(value) {
-          _resolve(promise, value);
+          resolve(promise, value);
         }, function rejectPromise(reason) {
-          _reject(promise, reason);
+          reject(promise, reason);
         });
       } catch (e) {
-        _reject(promise, e);
+        reject(promise, e);
       }
     }
 
@@ -9523,7 +9692,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       promise._subscribers = [];
     }
 
-    function Enumerator(Constructor, input) {
+    function Enumerator$1(Constructor, input) {
       this._instanceConstructor = Constructor;
       this.promise = new Constructor(noop);
 
@@ -9532,7 +9701,6 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       }
 
       if (isArray(input)) {
-        this._input = input;
         this.length = input.length;
         this._remaining = input.length;
 
@@ -9542,13 +9710,13 @@ var es6Promise = createCommonjsModule(function (module, exports) {
           fulfill(this.promise, this._result);
         } else {
           this.length = this.length || 0;
-          this._enumerate();
+          this._enumerate(input);
           if (this._remaining === 0) {
             fulfill(this.promise, this._result);
           }
         }
       } else {
-        _reject(this.promise, validationError());
+        reject(this.promise, validationError());
       }
     }
 
@@ -9556,20 +9724,17 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       return new Error('Array Methods must be provided an Array');
     }
 
-    Enumerator.prototype._enumerate = function () {
-      var length = this.length;
-      var _input = this._input;
-
-      for (var i = 0; this._state === PENDING && i < length; i++) {
-        this._eachEntry(_input[i], i);
+    Enumerator$1.prototype._enumerate = function (input) {
+      for (var i = 0; this._state === PENDING && i < input.length; i++) {
+        this._eachEntry(input[i], i);
       }
     };
 
-    Enumerator.prototype._eachEntry = function (entry, i) {
+    Enumerator$1.prototype._eachEntry = function (entry, i) {
       var c = this._instanceConstructor;
-      var resolve$$ = c.resolve;
+      var resolve$$1 = c.resolve;
 
-      if (resolve$$ === resolve) {
+      if (resolve$$1 === resolve$1) {
         var _then = getThen(entry);
 
         if (_then === then && entry._state !== PENDING) {
@@ -9577,28 +9742,28 @@ var es6Promise = createCommonjsModule(function (module, exports) {
         } else if (typeof _then !== 'function') {
           this._remaining--;
           this._result[i] = entry;
-        } else if (c === Promise) {
+        } else if (c === Promise$2) {
           var promise = new c(noop);
           handleMaybeThenable(promise, entry, _then);
           this._willSettleAt(promise, i);
         } else {
-          this._willSettleAt(new c(function (resolve$$) {
-            return resolve$$(entry);
+          this._willSettleAt(new c(function (resolve$$1) {
+            return resolve$$1(entry);
           }), i);
         }
       } else {
-        this._willSettleAt(resolve$$(entry), i);
+        this._willSettleAt(resolve$$1(entry), i);
       }
     };
 
-    Enumerator.prototype._settledAt = function (state, i, value) {
+    Enumerator$1.prototype._settledAt = function (state, i, value) {
       var promise = this.promise;
 
       if (promise._state === PENDING) {
         this._remaining--;
 
         if (state === REJECTED) {
-          _reject(promise, value);
+          reject(promise, value);
         } else {
           this._result[i] = value;
         }
@@ -9609,7 +9774,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       }
     };
 
-    Enumerator.prototype._willSettleAt = function (promise, i) {
+    Enumerator$1.prototype._willSettleAt = function (promise, i) {
       var enumerator = this;
 
       subscribe(promise, undefined, function (value) {
@@ -9666,8 +9831,8 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       fulfilled, or rejected if any of them become rejected.
       @static
     */
-    function all(entries) {
-      return new Enumerator(this, entries).promise;
+    function all$1(entries) {
+      return new Enumerator$1(this, entries).promise;
     }
 
     /**
@@ -9735,7 +9900,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       @return {Promise} a promise which settles in the same way as the first passed
       promise to settle.
     */
-    function race(entries) {
+    function race$1(entries) {
       /*jshint validthis:true */
       var Constructor = this;
 
@@ -9787,11 +9952,11 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       Useful for tooling.
       @return {Promise} a promise rejected with the given `reason`.
     */
-    function reject(reason) {
+    function reject$1(reason) {
       /*jshint validthis:true */
       var Constructor = this;
       var promise = new Constructor(noop);
-      _reject(promise, reason);
+      reject(promise, reason);
       return promise;
     }
 
@@ -9906,27 +10071,27 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       Useful for tooling.
       @constructor
     */
-    function Promise(resolver) {
+    function Promise$2(resolver) {
       this[PROMISE_ID] = nextId();
       this._result = this._state = undefined;
       this._subscribers = [];
 
       if (noop !== resolver) {
         typeof resolver !== 'function' && needsResolver();
-        this instanceof Promise ? initializePromise(this, resolver) : needsNew();
+        this instanceof Promise$2 ? initializePromise(this, resolver) : needsNew();
       }
     }
 
-    Promise.all = all;
-    Promise.race = race;
-    Promise.resolve = resolve;
-    Promise.reject = reject;
-    Promise._setScheduler = setScheduler;
-    Promise._setAsap = setAsap;
-    Promise._asap = asap;
+    Promise$2.all = all$1;
+    Promise$2.race = race$1;
+    Promise$2.resolve = resolve$1;
+    Promise$2.reject = reject$1;
+    Promise$2._setScheduler = setScheduler;
+    Promise$2._setAsap = setAsap;
+    Promise$2._asap = asap;
 
-    Promise.prototype = {
-      constructor: Promise,
+    Promise$2.prototype = {
+      constructor: Promise$2,
 
       /**
         The primary way of interacting with a promise is through its `then` method,
@@ -10155,7 +10320,8 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       }
     };
 
-    function polyfill() {
+    /*global self*/
+    function polyfill$1() {
       var local = undefined;
 
       if (typeof commonjsGlobal !== 'undefined') {
@@ -10185,15 +10351,16 @@ var es6Promise = createCommonjsModule(function (module, exports) {
         }
       }
 
-      local.Promise = Promise;
+      local.Promise = Promise$2;
     }
 
     // Strange compat..
-    Promise.polyfill = polyfill;
-    Promise.Promise = Promise;
+    Promise$2.polyfill = polyfill$1;
+    Promise$2.Promise = Promise$2;
 
-    return Promise;
+    return Promise$2;
   });
+
   
 });
 

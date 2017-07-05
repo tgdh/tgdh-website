@@ -1,0 +1,878 @@
+@using Umbraco.Web
+@using TGDH.Core.Models
+@inherits UmbracoViewPage<BriefingForm>
+@{
+	var success = TempData["BriefingFormValidationPasses"] != null;
+	var error = TempData["BriefingFormValidationFailed"] != null;
+	var folderId = TempData["BriefingFormFormFolderId"];
+	var fileUpload = TempData["brief"] != null;
+	var uploadError = TempData["Error"] != null;
+}
+<main id="main" class="o-page__content" role="main">
+	<section class="o-page__content__wrap s-free-content u-clearfix c-proposal__overflow">
+		@if(uploadError)
+		{
+			<div class="o-wrap o-wrap--x-large">
+				<header class="o-col--two-one u-clearfix c-cover__heading">
+					<h1>Whoops...</h1>
+					<div class="c-cover__subtitle u-font-sec">
+						<p>Thats not good.</p>
+					</div>
+				</header>
+				<div class="u-space-top u-epsilon c-proposal__copy">
+					<p>We're having a few issues at the moment, why not call us on <a href="tel:02392334971">023 9233 4971</a>.</p>
+				</div>
+			</div>
+		}
+		@if (success)
+		{
+			<div class="o-wrap o-wrap--x-large">
+				<header class="o-col--two-one u-clearfix c-cover__heading">
+					<h1>Thank you</h1>
+					<div class="c-cover__subtitle u-font-sec">
+						<p>Your form was successfully submitted to us.</p>
+					</div>
+				</header>
+				<div class="u-space-top u-epsilon c-proposal__copy">
+					<p>We will take all of your requirements and get back to you shortly.</p>
+				</div>
+			</div>
+		}
+		else
+		{
+			<div class="o-wrap o-wrap--x-large">
+				<header class="o-col--two-one u-clearfix c-cover__heading">
+					<h1>Digital proposal</h1>
+					<div class="c-cover__subtitle u-font-sec">
+						<p>Submit an online brief to us</p>
+					</div>
+				</header>
+				<div class="u-space-top u-epsilon c-proposal__copy">
+					<p>Please follow the steps below to complete the online briefing process.</p>
+				</div>
+			</div>
+			<div class="c-proposal__wrapper o-wrap o-wrap--x-large u-clearfix c-proposal__about">
+                <aside class="c-proposal__sidebar first--active">
+                    <div class="c-proposal__title c-cover__heading js-sidebar-link js-active js-about-you showing--pip" id="1">
+                        <h2 class="u-gamma">About you</h2>
+                        <div class="c-cover__subtitle u-font-sec">
+                            <p>Who you are</p>
+                        </div>
+                    </div>
+                    <div class="c-proposal__title c-cover__heading js-sidebar-link js-the-brief" id="2">
+                        <h2 class="u-gamma">The brief</h2>
+                        <div class="c-cover__subtitle u-font-sec">
+                            <p>What you need</p>
+                        </div>
+                    </div>
+                    <div class="c-proposal__title c-cover__heading js-sidebar-link js-build-your-proposal" id="10">
+                        <h2 class="u-gamma">Build your proposal</h2>
+                        <div class="c-cover__subtitle u-font-sec">
+                            <p>Refine your requirements</p>
+                        </div>
+                    </div>
+                </aside>
+				<div class="c-proposal__content slide-one">
+                    <div class="c-proposal__span c-proposal__about">
+						@using (Html.BeginUmbracoForm("ProcessFormSubmission", "BriefingForm", FormMethod.Post, new { data_persist="garlic", id = "briefing-form", @class = "c-proposal__form js-form", @style = "height: 650px" }))
+						{
+							@Html.AntiForgeryToken()
+							<!-- User deets -->
+							<div class="c-proposal__form-section js-form-section u-clearfix is--showing" id="1">
+                                <header class="c-proposal__heading">
+                                    <h2 class="o-heading__headline u-alpha c-proposal__heading-text">About you</h2>
+                                    <p class="c-proposal__fancy">How can we get in touch with you?</p>
+                                </header>
+                                <div class="c-proposal__input-section u-clearfix ">
+                                    <div class="c-proposal__input-wrapper c-proposal__input-half js--first--focus--input">
+                                        @Html.TextBoxFor(x => x.YourName, new {
+											required ="",
+											@data_msg = "Please enter your name" ,
+											@class = "c-proposal__input-text js-first--focus",
+											@placeholder = @Html.DisplayNameFor(x => x.YourName)
+										})
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__input-half">
+                                        @Html.TextBoxFor(x => x.PhoneNumber, new {
+											type = "number",
+											required="",
+											@class = "c-proposal__input-text",
+											@data_msg = "Please enter a phone number" ,
+											@placeholder = @Html.DisplayNameFor(x => x.PhoneNumber)
+										})
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__input-half">
+                                        @Html.TextBoxFor(x => x.EmailAddress, new {
+											type = "email",
+											required="",
+											@class = "c-proposal__input-text",
+											@data_msg = "Please enter an email address" ,
+											@placeholder = @Html.DisplayNameFor(x => x.EmailAddress)
+										})
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__input-half">
+                                        @Html.TextBoxFor(x => x.CompanyName, new {
+											required="",
+											@class = "c-proposal__input-text",
+											@data_msg = "Please enter a company name" ,
+											@placeholder = @Html.DisplayNameFor(x => x.CompanyName)
+										})
+                                    </div>
+                                </div>
+                                <div class="c-proposal__navigation u-clearfix">
+									<span class="c-proposal__navigation-button navigation--left is--disabled is--hidden">Back</span>
+                                    <span class="c-proposal__navigation-button navigation--right js-check-validity is--disabled js-navigate" id="2" data-section="js-the-brief" tabindex="0">Next</span>
+                                </div>
+                            </div>
+
+							<!-- Brief Start -->
+							<div class="c-proposal__form-section js-form-section u-clearfix has-upload" id="2">
+                                <header class="c-proposal__heading">
+                                    <h2 class="o-heading__headline u-alpha c-proposal__heading-text">The brief</h2>
+                                    <p class="c-proposal__fancy">Set a budget and supply or create a brief.</p>
+                                </header>
+                                <div class="c-proposal__input-section u-clearfix">
+                                    <h5 class="c-proposal__input-title">Your budget</h5>
+                                    <div class="c-proposal__input-wrapper c-proposal__input-third-plus no--padding c-proposal__error-radio c-proposal__radio__wrapper js--first--focus--input">
+										@Html.RadioButtonFor(x => x.Budget, "5-10k", new{
+											data_storage="false",
+											tabindex="0",
+											required = "",
+											id = "5-10k",
+											@data_msg = "Please select your budget" ,
+											@class = "c-proposal__input-radio",
+										})
+                                        <label for="5-10k" class="js-radio-input">&pound;5k - &pound;10k</label>
+                                        <div class="c-proposal__radio-button"></div>
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__input-third-plus mobile-margin-left no--padding c-proposal__error-radio c-proposal__radio__wrapper">
+                                        @Html.RadioButtonFor(x => x.Budget, "10-20k", new{
+											data_storage="false",
+											tabindex="0",
+											required = "",
+											id = "10-20k",
+											@data_msg = "Please select your budget" ,
+											@class = "c-proposal__input-radio",
+										})
+                                        <label for="10-20k" class="js-radio-input">&pound;20k - &pound;30k</label>
+                                        <div class="c-proposal__radio-button"></div>
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__input-third-plus no--padding c-proposal__error-radio c-proposal__radio__wrapper">
+                                        @Html.RadioButtonFor(x => x.Budget, "20-30k", new{
+											data_storage="false",
+											tabindex="0",
+											required = "",
+											id = "20-30k",
+											@data_msg = "Please select your budget" ,
+											@class = "c-proposal__input-radio",
+										})
+                                        <label for="20-30k" class="js-radio-input">&pound;10k - &pound;20k</label>
+                                        <div class="c-proposal__radio-button"></div>
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__input-third-plus mobile-margin-left c-proposal__error-radio c-proposal__radio__wrapper">
+                                        @Html.RadioButtonFor(x => x.Budget, "30k+", new{
+											data_storage="false",
+											tabindex="0",
+											required = "",
+											id = "30k+",
+											@data_msg = "Please select your budget" ,
+											@class = "c-proposal__input-radio",
+										})
+                                        <label for="30k+">Over &pound;30k</label>
+                                        <div class="c-proposal__radio-button"></div>
+                                    </div>
+									<h5 class="c-proposal__input-title">Your brief</h5>
+                                    <div class="c-proposal__input-wrapper c-proposal__input-full no--padding c-proposal__error-radio c-proposal__radio__wrapper">
+                                        @Html.RadioButtonFor(x => x.BreifUploadOrCreation, "already-have-brief", new
+										{
+											data_storage="false",
+											required = "",
+											tabindex="0",
+											id = "already-have-brief",
+											@data_msg = "Please choose an option",
+											@class = "c-proposal__input-radio js-already-have-a-brief",
+										})
+                                        <label for="already-have-brief" class="js-radio-input">Already have a brief</label>
+                                        <div class="c-proposal__radio-button"></div>
+                                    </div>
+
+                                    <div class="c-proposal__input-wrapper c-proposal__input-full c-proposal__error-radio c-proposal__radio__wrapper">
+                                        @Html.RadioButtonFor(x => x.BreifUploadOrCreation, "create-a-brief", new
+										{
+											data_storage="false",
+											required = "",
+											tabindex="0",
+											id = "create-brief",
+											@data_msg = "Please choose an option",
+											@class = "c-proposal__input-radio js-create-brief",
+										})
+										<label for="create-brief" class="js-radio-input">Create your own brief</label>
+                                        <div class="c-proposal__radio-button"></div>
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__input-full c-proposal__file-wrapper c-proposal__error-file-upload js-brief-upload-input js--is-minimised">
+										@Html.TextBoxFor(x => x.Attachment, new {
+											data_storage="false",
+											type = "file",
+											tabindex="0",
+											@required = "",
+											@class = "c-proposal__input-upload js-brief js-toggle-brief-required",
+											@name = "brief-file",
+											@id = "file-upload",
+											@accepts = "application/pdf, application/msword"
+										})
+                                        <div class="c-proposal__file-upload-text">
+                                            <svg class="u-icon u-icon--32">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#arrow-up"></use>
+                                            </svg>
+                                            <span>Drag & Drop<br> to upload</span>
+                                            <p class="c-proposal__replace"><span>Click here</span> to change upload</p>
+                                        </div>
+                                        <p class="c-proposal__max-file-size">*Max 2MB size</p>
+                                    </div>
+								</div>
+                                <div class="c-proposal__navigation has--file--upload u-clearfix">
+                                    <span class="c-proposal__navigation-button navigation--left js-navigate" id="1" data-section="js-about-you" tabindex="0">Back</span>
+                                    <span class="c-proposal__navigation-button navigation--right js-check-validity is--disabled js-navigate js-breif-id js-radio-button" id="3" data-section="js-the-brief" tabindex="0">Next</span>
+                                </div>
+                            </div>
+
+							<!-- 1/7 -->
+							<div class="c-proposal__form-section js-form-section u-clearfix js-ignore-from-validation" id="3">
+                                <header class="c-proposal__heading">
+                                    <h2 class="o-heading__headline u-alpha c-proposal__heading-text">The briefing form</h2>
+                                    <p class="c-proposal__fancy">Answer the following questions as far as you are able. Please put <strong>"don't know"</strong> if you're not sure.</p>
+                                    <span class="c-proposal__page-num">1/7</span>
+                                </header>
+                                <div class="c-proposal__sub-title-content u-clearfix">
+                                    <h3 class="u-delta">Project summary</h3>
+                                    <p>State general project information</p>
+                                </div>
+                                <div class="c-proposal__input-section u-clearfix">
+                                    <div class="c-proposal__input-wrapper js--first--focus--input">
+                                        <label for="purpose-of-site" class="c-proposal__bold-label">Briefly what are the purposes of the new site? *</label>
+                                        @Html.TextAreaFor(x => x.PurposesOfTheNewSite, new {
+											onkeyup="textAreaAdjust(this)",
+											tabindex="0",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required purpose--focus",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.PurposesOfTheNewSite)
+										})
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea">
+                                        <label for="secondary-goals" class="c-proposal__bold-label">What are the secondary goals of the new site? *</label>
+                                        @Html.TextAreaFor(x => x.SecondaryGoalsOfTheNewSite, new {
+											onkeyup="textAreaAdjust(this)",
+											tabindex="0",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.SecondaryGoalsOfTheNewSite)
+										})
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea">
+                                        <label for="three-years-time" class="c-proposal__bold-label">In 3 years&apos; time, what are you hoping that the site will be doing for you? *</label>
+                                        @Html.TextAreaFor(x => x.ThreeYearsTime, new {
+											onkeyup="textAreaAdjust(this)",
+											tabindex="0",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.ThreeYearsTime)
+										})
+                                    </div>
+                                </div>
+                                <div class="c-proposal__navigation u-clearfix">
+                                    <span class="c-proposal__navigation-button navigation--left js-navigate" id="2" data-section="js-the-brief" tabindex="0">Back</span>
+                                    <span class="c-proposal__navigation-button navigation--right js-check-validity is--disabled js-navigate" id="4" data-section="js-the-brief" tabindex="0">Next</span>
+                                </div>
+                            </div>
+
+							<!-- 2/7 -->
+							<div class="c-proposal__form-section js-form-section u-clearfix js-ignore-from-validation" id="4">
+                                <header class="c-proposal__heading">
+                                    <h2 class="o-heading__headline u-alpha c-proposal__heading-text">The briefing form</h2>
+                                    <p class="c-proposal__fancy">Answer the following questions as far as you are able. Please put <strong>"don't know"</strong> if you're not sure.</p>
+                                    <span class="c-proposal__page-num">2/7</span>
+                                </header>
+                                <div class="c-proposal__sub-title-content u-clearfix">
+                                    <h3 class="u-delta">Audience profile</h3>
+                                    <p>Profile the target audience. Provide enough detail to enhance everyones understanding of who the audience is. Include some audience demographic information. Your goal with this section is to answer the following: Who is the target? What do they care about? And what they do online on a daily basis?</p>
+                                </div>
+                                <div class="c-proposal__input-section u-clearfix">
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea js--first--focus--input">
+                                        <label for="target-audience" class="c-proposal__bold-label">Who is your target audience? *</label>
+                                        @Html.TextAreaFor(x => x.CurrentTargetAudience, new {
+											onkeyup="textAreaAdjust(this)",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.CurrentTargetAudience)
+										})
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea">
+                                        <label for="typical-task" class="c-proposal__bold-label">What is a typical task each of these visitors might perform on the new site? *</label>
+                                        @Html.TextAreaFor(x => x.TypicalTask, new {
+											onkeyup="textAreaAdjust(this)",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.TypicalTask)
+										})
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea">
+                                        <label for="intersted-in" class="c-proposal__bold-label">What do these people care about? Why are they interested in what the site will be offering? What trigger would prompt them to visit the site, and why would they be enticed to return? *</label>
+                                        @Html.TextAreaFor(x => x.CurrentVisitorInformation, new {
+											onkeyup="textAreaAdjust(this)",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.CurrentVisitorInformation)
+										})
+                                    </div>
+                                </div>
+                                <div class="c-proposal__navigation u-clearfix">
+                                    <span class="c-proposal__navigation-button navigation--left js-navigate" id="3" data-section="js-the-brief" tabindex="0">Back</span>
+                                    <span class="c-proposal__navigation-button navigation--right js-check-validity is--disabled js-navigate" id="5" data-section="js-the-brief" tabindex="0">Next</span>
+                                </div>
+                            </div>
+
+							<!-- 3/7 -->
+							<div class="c-proposal__form-section js-form-section u-clearfix js-ignore-from-validation" id="5">
+                                <header class="c-proposal__heading">
+                                    <h2 class="o-heading__headline u-alpha c-proposal__heading-text">The briefing form</h2>
+                                    <p class="c-proposal__fancy">Answer the following questions as far as you are able. Please put <strong>"don't know"</strong> if you're not sure.</p>
+                                    <span class="c-proposal__page-num">3/7</span>
+                                </header>
+                                <div class="c-proposal__sub-title-content u-clearfix">
+                                    <h3 class="u-delta">Perception/tone/guidelines</h3>
+                                    <p>How should your target audience respond to your new online presence?</p>
+                                </div>
+                                <div class="c-proposal__input-section u-clearfix">
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea js--first--focus--input">
+                                        <label for="current-think-and-feel" class="c-proposal__bold-label">What does the target audience think and feel about the current website? *</label>
+                                        @Html.TextAreaFor(x => x.TargetAudienceThinkAndFeel, new {
+											onkeyup="textAreaAdjust(this)",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.TargetAudienceThinkAndFeel)
+										})
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea">
+                                        <label for="new-think-and-feel" class="c-proposal__bold-label">What do we want them to think and feel? *</label>
+                                        @Html.TextAreaFor(x => x.WhatYouWantAudienceThinkAndFeel, new {
+											onkeyup="textAreaAdjust(this)",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.WhatYouWantAudienceThinkAndFeel)
+										})
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea">
+                                        <label for="improvements-help" class="c-proposal__bold-label">How would an improved website help to achieve this goal? *</label>
+                                        @Html.TextAreaFor(x => x.ImproveWebsiteAchieve, new {
+											onkeyup="textAreaAdjust(this)",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.ImproveWebsiteAchieve)
+										})
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea">
+                                        <label for="tadjectives-percieved" class="c-proposal__bold-label">What adjectives can be used to describe the way the website should be perceived? *</label>
+                                        @Html.TextAreaFor(x => x.AdjectivesDescribePerceived, new {
+											onkeyup="textAreaAdjust(this)",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.AdjectivesDescribePerceived)
+										})
+                                    </div>
+                                </div>
+                                <div class="c-proposal__navigation u-clearfix">
+                                    <span class="c-proposal__navigation-button navigation--left js-navigate" id="4" data-section="js-the-brief" tabindex="0">Back</span>
+                                    <span class="c-proposal__navigation-button navigation--right js-check-validity is--disabled js-navigate" id="6" data-section="js-the-brief" tabindex="0">Next</span>
+                                </div>
+                            </div>
+
+							<!-- 4/7 -->
+							<div class="c-proposal__form-section js-form-section u-clearfix js-ignore-from-validation" id="6">
+                                <header class="c-proposal__heading">
+                                    <h2 class="o-heading__headline u-alpha c-proposal__heading-text">The briefing form</h2>
+                                    <p class="c-proposal__fancy">Answer the following questions as far as you are able. Please put <strong>"don't know"</strong> if you're not sure.</p>
+                                    <span class="c-proposal__page-num">4/7</span>
+                                </header>
+                                <div class="c-proposal__sub-title-content u-clearfix">
+                                    <h3 class="u-delta">Communication strategy</h3>
+                                    <p>How will we convince them?</p>
+                                </div>
+                                <div class="c-proposal__input-section u-clearfix">
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea js--first--focus--input">
+                                        <label for="overall-message" class="c-proposal__bold-label">What is the overall message you are trying to convey to your target audience? *</label>
+										@Html.TextAreaFor(x => x.OverallMessage, new {
+											onkeyup="textAreaAdjust(this)",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.OverallMessage)
+										})
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea">
+                                        <label for="measure-success" class="c-proposal__bold-label">How will you measure the success of the redesigned site? *</label>
+                                        @Html.TextAreaFor(x => x.MeasureSuccess, new {
+											onkeyup="textAreaAdjust(this)",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.MeasureSuccess)
+										})
+                                    </div>
+                                </div>
+                                <div class="c-proposal__navigation u-clearfix">
+                                    <span class="c-proposal__navigation-button navigation--left js-navigate" id="5" data-section="js-the-brief" tabindex="0">Back</span>
+                                    <span class="c-proposal__navigation-button navigation--right js-check-validity is--disabled js-navigate" id="7" data-section="js-the-brief" tabindex="0">Next</span>
+                                </div>
+                            </div>
+
+							<!-- 5/7 -->
+							<div class="c-proposal__form-section js-form-section u-clearfix js-ignore-from-validation" id="7">
+                                <header class="c-proposal__heading">
+                                    <h2 class="o-heading__headline u-alpha c-proposal__heading-text">The briefing form</h2>
+                                    <p class="c-proposal__fancy">Answer the following questions as far as you are able. Please put <strong>"don't know"</strong> if you're not sure.</p>
+                                    <span class="c-proposal__page-num">5/7</span>
+                                </header>
+                                <div class="c-proposal__sub-title-content u-clearfix">
+                                    <h3 class="u-delta">Competitive positioning</h3>
+                                    <p>How you are different from your competition. What are the factors that will make you a success?</p>
+                                </div>
+                                <div class="c-proposal__input-section u-clearfix">
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea js--first--focus--input">
+                                        <label for="distinctive-features" class="c-proposal__bold-label">What are the distinctive features of this area of activity? *</label>
+                                        @Html.TextAreaFor(x => x.DistinctiveFeatures, new {
+											onkeyup="textAreaAdjust(this)",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.DistinctiveFeatures)
+										})
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea">
+                                        <label for="current-success" class="c-proposal__bold-label">What areas of the current site are successful and why? *</label>
+                                        @Html.TextAreaFor(x => x.CurrentSiteSuccess, new {
+											onkeyup="textAreaAdjust(this)",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.CurrentSiteSuccess)
+										})
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea">
+                                        <label for="urrent-success-not" class="c-proposal__bold-label">What areas of the current site are not successful and why not? *</label>
+                                        @Html.TextAreaFor(x => x.CurrentSiteFlaws, new {
+											onkeyup="textAreaAdjust(this)",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.CurrentSiteFlaws)
+										})
+                                    </div>
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea">
+                                        <label for="additional-features" class="c-proposal__bold-label">What additional features do you think the site requires? *</label>
+                                        @Html.TextAreaFor(x => x.AdditionalFeatures, new {
+											onkeyup="textAreaAdjust(this)",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.AdditionalFeatures)
+										})
+                                    </div>
+                                </div>
+                                <div class="c-proposal__navigation u-clearfix">
+                                    <span class="c-proposal__navigation-button navigation--left js-navigate" id="6" data-section="js-the-brief" tabindex="0">Back</span>
+                                    <span class="c-proposal__navigation-button navigation--right js-check-validity is--disabled js-navigate" id="8" data-section="js-the-brief" tabindex="0">Next</span>
+                                </div>
+                            </div>
+
+							<!-- 6/7 -->
+							<div class="c-proposal__form-section js-form-section u-clearfix js-ignore-from-validation" id="8">
+                                <header class="c-proposal__heading">
+                                    <h2 class="o-heading__headline u-alpha c-proposal__heading-text">The briefing form</h2>
+                                    <p class="c-proposal__fancy">Answer the following questions as far as you are able. Please put <strong>"don't know"</strong> if you're not sure.</p>
+                                    <span class="c-proposal__page-num">6/7</span>
+                                </header>
+                                <div class="c-proposal__sub-title-content u-clearfix">
+                                    <h3 class="u-delta">Resources</h3>
+                                    <p>How you will be able to maintain the new site.</p>
+                                </div>
+                                <div class="c-proposal__input-section u-clearfix">
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea js--first--focus--input">
+                                        <label for="resources-available" class="c-proposal__bold-label">What resources are available to manage the new site? *</label>
+                                        @Html.TextAreaFor(x => x.ResourcesManageNewSite, new {
+											onkeyup="textAreaAdjust(this)",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.ResourcesManageNewSite)
+										})
+                                    </div>
+                                </div>
+                                <div class="c-proposal__navigation u-clearfix">
+                                    <span class="c-proposal__navigation-button navigation--left js-navigate" id="7" data-section="js-the-brief" tabindex="0">Back</span>
+                                    <span class="c-proposal__navigation-button navigation--right js-check-validity is--disabled js-navigate" id="9" data-section="js-the-brief" tabindex="0">Next</span>
+                                </div>
+                            </div>
+
+							<!-- 7/7 -->
+							<div class="c-proposal__form-section js-form-section u-clearfix js-ignore-from-validation" id="9">
+                                <header class="c-proposal__heading">
+                                    <h2 class="o-heading__headline u-alpha c-proposal__heading-text">The briefing form</h2>
+                                    <p class="c-proposal__fancy">Answer the following questions as far as you are able. Please put <strong>"don't know"</strong> if you're not sure.</p>
+                                    <span class="c-proposal__page-num">7/7</span>
+                                </header>
+                                <div class="c-proposal__sub-title-content u-clearfix">
+                                    <h3 class="u-delta">Targeted message</h3>
+                                </div>
+                                <div class="c-proposal__input-section u-clearfix">
+                                    <div class="c-proposal__input-wrapper c-proposal__textarea js--first--focus--input">
+                                        <label for="phase" class="c-proposal__bold-label">State a concise phrase that will appropriately describe the site once it is launched. *</label>
+                                        @Html.TextAreaFor(x => x.ConcicePhrase, new {
+											onkeyup="textAreaAdjust(this)",
+											required="",
+											@class = "c-proposal__textarea-input js-not-required",
+											@data_msg = "This field is required" ,
+											@placeholder = @Html.DisplayNameFor(x => x.ConcicePhrase)
+										})
+                                    </div>
+                                </div>
+                                <div class="c-proposal__navigation u-clearfix">
+                                    <span class="c-proposal__navigation-button navigation--left js-navigate" id="8" data-section="js-the-brief" tabindex="0">Back</span>
+                                    <span class="c-proposal__navigation-button navigation--right js-check-validity is--disabled js-navigate" id="10" data-section="js-build-your-proposal" tabindex="0">Next</span>
+                                </div>
+                            </div>
+
+							<!-- 1/3 -->
+							<div class="c-proposal__form-section js-form-section u-clearfix is--valid always--valid" id="10">
+                                <header class="c-proposal__heading">
+                                    <h2 class="o-heading__headline u-alpha c-proposal__heading-text">Build your proposal</h2>
+                                    <p class="c-proposal__fancy">Tick the boxes and select which information would you like us to provide more info with. </p>
+                                    <span class="c-proposal__page-num">1/3</span>
+                                </header>
+                                <div class="c-proposal__build-titles-wrapper u-clearfix">
+                                    <ul class="c-proposal__build-titles first--active">
+                                        <li class="c-proposal__build-title u-delta js-proposal__tabs" id="10">All about us</li>
+                                        <li class="c-proposal__build-title u-delta js-proposal__tabs" id="11">How we do things</li>
+                                        <li class="c-proposal__build-title u-delta js-proposal__tabs" id="12">Your project</li>
+                                    </ul>
+                                </div>
+                                <section class="c-proposal__form-content">
+                                    <p><strong>TGDH introduction</strong></p>
+                                    <p>We work together every day to create wonderful things for our clients, and we have fun doing it. Please select a profile or case study to get more information about who we are, and what we do.</p>
+                                    <hr class="c-proposal__hr-padded">
+                                    <p><strong>The profiles</strong></p>
+                                </section>
+                                <div class="c-proposal__input-section u-clearfix">
+									@*
+                                    <label class="c-proposal__input-wrapper c-proposal__input-third c-proposal__square-profile c-proposal__checkbox js-checkbox--hidden-field" for="ProfileAdam">
+										@Html.CheckBoxFor(x => x.ProfileAdam, new {
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<img src="/assets/img/temp/adam.jpg" alt="Adam Stephenson" for="ProfileAdam" class="c-proposal__profile-image js-checkbox--hidden-field">
+										<div class="c-proposal__checkbox-box js-checkbox--hidden-field" for="ProfileAdam"></div>
+										<span for="ProfileAdam" class="c-proposal__profile-label js-checkbox--hidden-field">Adam Stephenson<br><p class="c-proposal__fancy c-proposal__job-title">Digital Project Manager</p></span>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-third c-proposal__square-profile c-proposal__checkbox js-checkbox--hidden-field" for="ProfileAndrea">
+										@Html.CheckBoxFor(x => x.ProfileAndrea, new {
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<img src="/assets/img/temp/andrea.jpg" alt="Andrea Oggiano" for="ProfileAndrea" class="c-proposal__profile-image js-checkbox--hidden-field">
+										<div class="c-proposal__checkbox-box js-checkbox--hidden-field" for="ProfileAndrea"></div>
+										<span for="ProfileAndrea" class="c-proposal__profile-label js-checkbox--hidden-field">Andrea Oggiano<br><p class="c-proposal__fancy c-proposal__job-title">Web Designer</p></span>
+									</label>
+									*@
+									<label class="c-proposal__input-wrapper c-proposal__input-third c-proposal__square-profile c-proposal__checkbox js-checkbox--hidden-field" for="ProfileDan">
+										@Html.CheckBoxFor(x => x.ProfileDan, new {
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<img src="/assets/img/temp/dan_j.jpg" alt="Dan Jubb" for="ProfileDan" class="c-proposal__profile-image js-checkbox--hidden-field">
+										<div class="c-proposal__checkbox-box js-checkbox--hidden-field" for="ProfileDan"></div>
+										<span for="ProfileDan" class="c-proposal__profile-label js-checkbox--hidden-field">Dan Jubb<br><p class="c-proposal__fancy c-proposal__job-title">Head of Brand and Strategy</p></span>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-third c-proposal__square-profile c-proposal__checkbox js-checkbox--hidden-field" for="ProfileDebbie">
+										@Html.CheckBoxFor(x => x.ProfileDebbie, new {
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<img src="/assets/img/temp/debbie.jpg" alt="Debbie Lawrenson" for="ProfileDebbie" class="c-proposal__profile-image js-checkbox--hidden-field">
+										<div class="c-proposal__checkbox-box js-checkbox--hidden-field" for="ProfileDebbie"></div>
+										<span for="ProfileDebbie" class="c-proposal__profile-label js-checkbox--hidden-field">Debbie Lawrenson<br><p class="c-proposal__fancy c-proposal__job-title">Head of Digital</p></span>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-third c-proposal__square-profile c-proposal__checkbox js-checkbox--hidden-field" for="ProfileKev">
+										@Html.CheckBoxFor(x => x.ProfileKev, new {
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<img src="/assets/img/temp/kev.jpg" alt="Kev Simpson" for="ProfileKev" class="c-proposal__profile-image js-checkbox--hidden-field">
+										<div class="c-proposal__checkbox-box js-checkbox--hidden-field" for="ProfileKev"></div>
+										<span for="ProfileKev" class="c-proposal__profile-label js-checkbox--hidden-field">Kev Simpson<br><p class="c-proposal__fancy c-proposal__job-title">Head of Development</p></span>
+									</label>
+									@*
+									<label class="c-proposal__input-wrapper c-proposal__input-third c-proposal__square-profile c-proposal__checkbox js-checkbox--hidden-field" for="ProfileLewis">
+										@Html.CheckBoxFor(x => x.ProfileLewis, new {
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<img src="/assets/img/temp/lewis.jpg" alt="Lewis Smith" for="ProfileLewis" class="c-proposal__profile-image js-checkbox--hidden-field">
+										<div class="c-proposal__checkbox-box js-checkbox--hidden-field" for="ProfileLewis"></div>
+										<span for="ProfileLewis" class="c-proposal__profile-label js-checkbox--hidden-field">Lewis Smith<br><p class="c-proposal__fancy c-proposal__job-title">Developer</p></span>
+									</label>
+									*@
+									<label class="c-proposal__input-wrapper c-proposal__input-third c-proposal__square-profile c-proposal__checkbox js-checkbox--hidden-field" for="ProfileLuke">
+										@Html.CheckBoxFor(x => x.ProfileLuke, new {
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<img src="/assets/img/temp/luke.jpg" alt="Luke Gibson" for="ProfileLuke" class="c-proposal__profile-image js-checkbox--hidden-field">
+										<div class="c-proposal__checkbox-box js-checkbox--hidden-field" for="ProfileLuke"></div>
+										<span for="ProfileLuke" class="c-proposal__profile-label js-checkbox--hidden-field">Luke Gibson<br><p class="c-proposal__fancy c-proposal__job-title">Developer</p></span>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-third c-proposal__square-profile c-proposal__checkbox js-checkbox--hidden-field" for="ProfileMaureen">
+										@Html.CheckBoxFor(x => x.ProfileMaureen, new {
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<img src="/assets/img/temp/maureen.jpg" alt="Maureen Doolan" for="ProfileMaureen" class="c-proposal__profile-image js-checkbox--hidden-field">
+										<div class="c-proposal__checkbox-box js-checkbox--hidden-field" for="ProfileMaureen"></div>
+										<span for="ProfileMaureen" class="c-proposal__profile-label js-checkbox--hidden-field">Maureen Doolan<br><p class="c-proposal__fancy c-proposal__job-title">Social and Content Manager</p></span>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-third c-proposal__square-profile c-proposal__checkbox js-checkbox--hidden-field" for="ProfileSam">
+										@Html.CheckBoxFor(x => x.ProfileSam, new {
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<img src="/assets/img/temp/sam.jpg" alt="Sam McGuire" for="ProfileSam" class="c-proposal__profile-image js-checkbox--hidden-field">
+										<div class="c-proposal__checkbox-box js-checkbox--hidden-field" for="ProfileSam"></div>
+										<span for="ProfileSam" class="c-proposal__profile-label js-checkbox--hidden-field">Sam McGuire<br><p class="c-proposal__fancy c-proposal__job-title">Web Designer</p></span>
+									</label>
+                                </div>
+                                <section class="c-proposal__form-content">
+                                    <hr class="c-proposal__hr-padded">
+                                    <p><strong>Case studies</strong></p>
+                                </section>
+                                <div class="c-proposal__input-section u-clearfix">
+                                    <label class="c-proposal__input-wrapper c-proposal__input-third c-proposal__square-profile c-proposal__checkbox js-checkbox--hidden-field js--first--focus--input" for="CaseStudyEvodia">
+										@Html.CheckBoxFor(x => x.CaseStudyEvodia, new {
+											@value = "false",
+											@class = "c-proposal__input-checkbox focus--adam"
+										})
+										<img src="/assets/img/temp/evodia.jpg" alt="Evodia" for="CaseStudyEvodia" class="c-proposal__profile-image js-checkbox--hidden-field">
+										<span class="c-proposal__checkbox-box js-checkbox--hidden-field" for="CaseStudyEvodia"></span>
+										<span for="CaseStudyEvodia" class="c-proposal__profile-label js-checkbox--hidden-field">Evodia<br><p class="c-proposal__fancy c-proposal__job-title">Recruitment</p></span>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-third c-proposal__square-profile c-proposal__checkbox js-checkbox--hidden-field" for="CaseStudyOctogon">
+										@Html.CheckBoxFor(x => x.CaseStudyOctogon, new {
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<img src="/assets/img/temp/octogon.jpg" alt="Evodia" for="CaseStudyOctogon" class="c-proposal__profile-image js-checkbox--hidden-field">
+										<span class="c-proposal__checkbox-box js-checkbox--hidden-field" for="CaseStudyOctogon"></span>
+										<span for="CaseStudyOctogon" class="c-proposal__profile-label js-checkbox--hidden-field">Octogon<br><p class="c-proposal__fancy c-proposal__job-title">Theatre</p></span>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-third c-proposal__square-profile c-proposal__checkbox js-checkbox--hidden-field" for="CaseStudyMayerBrown">
+										@Html.CheckBoxFor(x => x.CaseStudyMayerBrown, new {
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<img src="/assets/img/temp/truck.jpg" alt="Evodia" for="CaseStudyMayerBrown" class="c-proposal__profile-image js-checkbox--hidden-field">
+										<span class="c-proposal__checkbox-box js-checkbox--hidden-field" for="CaseStudyMayerBrown"></span>
+										<span for="CaseStudyMayerBrown" class="c-proposal__profile-label js-checkbox--hidden-field">Mayer Brown<br><p class="c-proposal__fancy c-proposal__job-title">Transport</p></span>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-third c-proposal__square-profile c-proposal__checkbox js-checkbox--hidden-field" for="CaseStudyPoleStarGlobal">
+										@Html.CheckBoxFor(x => x.CaseStudyPoleStarGlobal, new {
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<img src="/assets/img/temp/pole-star.jpg" alt="Evodia" for="CaseStudyPoleStarGlobal" class="c-proposal__profile-image js-checkbox--hidden-field">
+										<span class="c-proposal__checkbox-box js-checkbox--hidden-field" for="CaseStudyPoleStarGlobal"></span>
+										<span for="CaseStudyPoleStarGlobal" class="c-proposal__profile-label js-checkbox--hidden-field">Pole Start Global<br><p class="c-proposal__fancy c-proposal__job-title">Technology</p></span>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-third c-proposal__square-profile c-proposal__checkbox js-checkbox--hidden-field" for="CaseStudyStWilfridsHospice">
+										@Html.CheckBoxFor(x => x.CaseStudyStWilfridsHospice, new {
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<img src="/assets/img/temp/hospice.jpg" alt="Evodia" for="CaseStudyStWilfridsHospice" class="c-proposal__profile-image js-checkbox--hidden-field">
+										<span class="c-proposal__checkbox-box js-checkbox--hidden-field" for="CaseStudyStWilfridsHospice"></span>
+										<span for="CaseStudyStWilfridsHospice" class="c-proposal__profile-label js-checkbox--hidden-field">St Wilfrids Hospice<br><p class="c-proposal__fancy c-proposal__job-title">Health Care</p></span>
+									</label>
+                                </div>
+                                <div class="c-proposal__navigation u-clearfix">
+                                    <span class="c-proposal__navigation-button navigation--left js-navigate js-brief-build-back" id="9" data-section="js-the-brief" tabindex="0">Back</span>
+                                    <span class="c-proposal__navigation-button navigation--right js-navigate" id="11" data-section="js-build-your-proposal" tabindex="0">Next</span>
+                                </div>
+                            </div>
+
+							<!-- 2/3 -->
+							<div class="c-proposal__form-section js-form-section u-clearfix is--valid always--valid" id="11">
+                                <header class="c-proposal__heading">
+                                    <h2 class="o-heading__headline u-alpha c-proposal__heading-text">Build your proposal</h2>
+                                    <p class="c-proposal__fancy">Tick the boxes and select which information would you like us to provide more info with. </p>
+                                    <span class="c-proposal__page-num">2/3</span>
+                                </header>
+                                <div class="c-proposal__build-titles-wrapper u-clearfix">
+                                    <ul class="c-proposal__build-titles second--active">
+                                        <li class="c-proposal__build-title u-delta js-proposal__tabs" id="10">All about us</li>
+                                        <li class="c-proposal__build-title u-delta js-proposal__tabs" id="11">How we do things</li>
+                                        <li class="c-proposal__build-title u-delta js-proposal__tabs" id="12">Your project</li>
+                                    </ul>
+                                </div>
+                                <section class="c-proposal__form-content">
+                                    <p>It&apos;s always good to know how we work, so here you can find some information on our methods, systems, and processes.</p>
+                                    <hr class="c-proposal__hr-padded">
+                                    <p><strong>The workflow</strong></p>
+                                </section>
+                                <div class="c-proposal__input-section u-clearfix">
+                                    <label class="c-proposal__input-wrapper c-proposal__input-half js--first--focus--input c-proposal__checkbox no--padding js-checkbox--hidden-field" for="HowWeDoThingsApproachAndMethodology">
+										@Html.CheckBoxFor(x => x.HowWeDoThingsApproachAndMethodology, new
+										{
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<label class="c-proposal__checkbox-box js-checkbox--hidden-field" for="HowWeDoThingsApproachAndMethodology"></label>
+										<label for="HowWeDoThingsApproachAndMethodology" class="c-proposal__profile-label js-checkbox--hidden-field">Approach and Methodology</label>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-half c-proposal__checkbox no--padding js-checkbox--hidden-field" for="HowWeDoThingsAboutUmbraco">
+										@Html.CheckBoxFor(x => x.HowWeDoThingsAboutUmbraco, new
+										{
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<label class="c-proposal__checkbox-box js-checkbox--hidden-field" for="HowWeDoThingsAboutUmbraco"></label>
+										<label for="HowWeDoThingsAboutUmbraco" class="c-proposal__profile-label js-checkbox--hidden-field">About Umbraco (The CMS)</label>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-half c-proposal__checkbox no--padding js-checkbox--hidden-field" for="HowWeDoThingsBrowser">
+										@Html.CheckBoxFor(x => x.HowWeDoThingsBrowser, new
+										{
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<label class="c-proposal__checkbox-box js-checkbox--hidden-field" for="HowWeDoThingsBrowser"></label>
+										<label for="HowWeDoThingsBrowser" class="c-proposal__profile-label js-checkbox--hidden-field">Browser Support & Testing</label>
+									</label>
+                                </div>
+                                <div class="c-proposal__navigation u-clearfix">
+                                    <span class="c-proposal__navigation-button navigation--left js-navigate" id="10" data-section="js-build-your-proposal" tabindex="0">Back</span>
+                                    <span class="c-proposal__navigation-button navigation--right js-navigate" id="12" data-section="js-build-your-proposal" tabindex="0">Next</span>
+                                </div>
+                            </div>
+
+							<!-- 3/3 -->
+							<div class="c-proposal__form-section js-form-section u-clearfix is--valid always--valid" id="12">
+                                <header class="c-proposal__heading">
+                                    <h2 class="o-heading__headline u-alpha c-proposal__heading-text">Build your proposal</h2>
+                                    <p class="c-proposal__fancy">Tick the boxes and select which information would you like us to provide more info with. </p>
+                                    <span class="c-proposal__page-num">3/3</span>
+                                </header>
+                                <div class="c-proposal__build-titles-wrapper u-clearfix">
+                                    <ul class="c-proposal__build-titles third--active">
+                                        <li class="c-proposal__build-title u-delta js-proposal__tabs" id="10">All about us</li>
+                                        <li class="c-proposal__build-title u-delta js-proposal__tabs" id="11">How we do things</li>
+                                        <li class="c-proposal__build-title u-delta js-proposal__tabs" id="12">Your project</li>
+                                    </ul>
+                                </div>
+                                <section class="c-proposal__form-content">
+                                    <p>Below you can tailor the project requirements to your exact needs, making sure we include the specifics you need.</p>
+                                </section>
+                                <div class="c-proposal__input-section u-clearfix">
+                                    <label class="c-proposal__input-wrapper c-proposal__input-half js--first--focus--input c-proposal__checkbox no--padding js-checkbox--hidden-field" for="YourProjectOurUnderstanding">
+										@Html.CheckBoxFor(x => x.YourProjectOurUnderstanding, new
+										{
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<label class="c-proposal__checkbox-box js-checkbox--hidden-field" for="YourProjectOurUnderstanding"></label>
+										<label for="YourProjectOurUnderstanding" class="c-proposal__profile-label js-checkbox--hidden-field">Our understanding of your requirements</label>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-half c-proposal__checkbox no--padding js-checkbox--hidden-field" for="YourProjectProjectCosts">
+										@Html.CheckBoxFor(x => x.YourProjectProjectCosts, new
+										{
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<label class="c-proposal__checkbox-box js-checkbox--hidden-field" for="YourProjectProjectCosts"></label>
+										<label for="YourProjectProjectCosts" class="c-proposal__profile-label js-checkbox--hidden-field">Project costs & deliverables <span>(No costs)</span></label>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-half c-proposal__checkbox no--padding js-checkbox--hidden-field" for="YourProjectCopywriting">
+										@Html.CheckBoxFor(x => x.YourProjectCopywriting, new
+										{
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<label class="c-proposal__checkbox-box js-checkbox--hidden-field" for="YourProjectCopywriting"></label>
+										<label for="YourProjectCopywriting" class="c-proposal__profile-label js-checkbox--hidden-field">Copywriting <span>(No costs)</span></label>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-half c-proposal__checkbox no--padding js-checkbox--hidden-field" for="YourProjectContentAndSocial">
+										@Html.CheckBoxFor(x => x.YourProjectContentAndSocial, new
+										{
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<label class="c-proposal__checkbox-box js-checkbox--hidden-field" for="YourProjectContentAndSocial"></label>
+										<label for="YourProjectContentAndSocial" class="c-proposal__profile-label js-checkbox--hidden-field">Content & social strategy</label>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-half c-proposal__checkbox no--padding js-checkbox--hidden-field" for="YourProjectPricing">
+										@Html.CheckBoxFor(x => x.YourProjectPricing, new
+										{
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<label class="c-proposal__checkbox-box js-checkbox--hidden-field" for="YourProjectPricing"></label>
+										<label for="YourProjectPricing" class="c-proposal__profile-label js-checkbox--hidden-field">Pricing schedule</label>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-half c-proposal__checkbox no--padding js-checkbox--hidden-field" for="YourProjectHosting">
+										@Html.CheckBoxFor(x => x.YourProjectHosting, new
+										{
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<label class="c-proposal__checkbox-box js-checkbox--hidden-field" for="YourProjectHosting"></label>
+										<label for="YourProjectHosting" class="c-proposal__profile-label js-checkbox--hidden-field">Hosting</label>
+									</label>
+									<label class="c-proposal__input-wrapper c-proposal__input-half c-proposal__checkbox no--padding js-checkbox--hidden-field" for="YourProjectCloseAndProjectAgreement">
+										@Html.CheckBoxFor(x => x.YourProjectCloseAndProjectAgreement, new
+										{
+											@value = "false",
+											@class = "c-proposal__input-checkbox"
+										})
+										<label class="c-proposal__checkbox-box js-checkbox--hidden-field" for="YourProjectCloseAndProjectAgreement"></label>
+										<label for="YourProjectCloseAndProjectAgreement" class="c-proposal__profile-label js-checkbox--hidden-field">Close & project agreement</label>
+									</label>
+                                </div>
+                                <div class="c-proposal__navigation u-clearfix">
+                                    <span class="c-proposal__navigation-button navigation--left js-navigate" id="11" data-section="js-build-your-proposal" tabindex="0">Back</span>
+									<button class="c-proposal__navigation-button navigation--right" type="submit" tabindex="0">Submit</button>
+                                </div>
+                            </div>
+						}
+					</div>
+				</div>
+			</div>
+		}
+	</section>
+</main>
+
+@section Scripts {
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+	<script src="/assets/js/lgeacy.js></script>
+
+	<script>
+		function textAreaAdjust(o) {
+			o.style.height = "120px";
+			o.style.height = (8+o.scrollHeight)+"px";
+		}
+	</script>
+
+}

@@ -46,6 +46,18 @@ var AUTOPREFIXER_BROWSERS = [
 ];
 
 /* ===========================================================
+	# Legacy scripts
+=========================================================== */
+
+var legacyScripts = [
+	paths.assetsFolder + '/_components/garlicjs/dist/garlic-standalone.min.js',
+	paths.assetsFolder + '/_components/jquery-validation/dist/jquery.validate.js',
+	paths.assetsFolder + '/_components/jquery-validation/dist/additiona-methods.js',
+    paths.assetsFolder + '/js/legacy/**.js',
+	paths.assetsFolder + '/js/legacy.js'
+];
+
+/* ===========================================================
 	# Tasks
 =========================================================== */
 
@@ -68,6 +80,23 @@ gulp.task( 'css', function() {
 //        .pipe( $.notify({ message: 'CSS: <%= file.relative %>' }) );
 });
 
+// JS - legacy
+gulp.task('js-legacy', function() {
+    var main = gulp.src( legacyScripts )
+//        .pipe( $.newer('.tmp/scripts') )
+        .pipe( $.sourcemaps.init() )
+        .pipe( $.sourcemaps.write() )
+//        .pipe( gulp.dest('.tmp/scripts') )
+        .pipe( $.concat('legacy.js') )
+        .pipe( $.if( isProduction, $.uglify({preserveComments: 'some'}) ) )
+//        .pipe( $.size({title: '[Main JS]'}) )
+        .pipe( $.sourcemaps.write('.') )
+        .pipe( $.if( isProduction, cachebust.resources() ) )
+        .pipe( gulp.dest( paths.assetsBuildFolder + '/js' ) );
+//        .pipe( $.notify({ message: 'JS: <%= file.relative %>' }) );
+
+    return merge( main );
+});
 
 /*
 // JS
@@ -275,12 +304,15 @@ gulp.task( 'watch', function() {
     gulp.watch( paths.assetsFolder + '/js/**/*.js', [ 'js' ] );
     gulp.watch( paths.assetsFolder + '/img/**/*', ['images'] );
 	gulp.watch( paths.assetsFolder + '/img/icons/**/*.svg', ['icons'] );
+
+	gulp.watch( paths.assetsFolder + '/js/legacy/*.js', ['js-legacy'] );
+	gulp.watch( paths.assetsFolder + '/js/components/*.js', ['js-legacy'] );
 //	gulp.watch( paths.templates + '/**/*.html', ['templates'] );
 } );
 
 
 // Copy master template with correct asset references
-gulp.task('refAssets', ['css','js'], function() {
+gulp.task('refAssets', ['css','js','js-legacy'], function() {
     return gulp.src( paths.templates + '/Master.cshtml')
         .pipe( $.if( isProduction, cachebust.references() ) )
         .pipe( gulp.dest( paths.siteFolder + '/Views' ) );
