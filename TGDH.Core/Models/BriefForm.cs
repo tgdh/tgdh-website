@@ -5,7 +5,7 @@ using System.Web;
 
 namespace TGDH.Core.Models
 {
-    public class BriefingForm
+    public class BriefForm
     {
         [DisplayName("Your name")]
         public string YourName { get; set; }
@@ -65,59 +65,59 @@ namespace TGDH.Core.Models
         [DisplayName("State a concise phrase that will appropriately describe the site once it is launched")]
         public string ConcicePhrase { get; set; }
 
+        public List<CheckboxListItem> CaseStudies { get; set; }
 
+        public List<CheckboxListItem> Profiles { get; set; }
 
-        [Display(Name = "Debbie, ")]
-        public bool ProfileDebbie { get; set; }
+        public List<CheckboxListItem> Workflow { get; set; }
 
-        [Display(Name = "Andrea, ")]
-        public bool ProfileAndrea { get; set; }
-
-        [Display(Name = "Luke, ")]
-        public bool ProfileLuke { get; set; }
-
-        [Display(Name = "Luke, ")]
-        public bool ProfileKev { get; set; }
-
-        [Display(Name = "Sam, ")]
-        public bool ProfileSam { get; set; }
-
-        [Display(Name = "Maureen, ")]
-        public bool ProfileMaureen { get; set; }
-
-        [Display(Name = "Adam, ")]
-        public bool ProfileAdam { get; set; }
-
-        [Display(Name = "Lewis, ")]
-        public bool ProfileLewis { get; set; }
-
-        [Display(Name = "Dan , ")]
-        public bool ProfileDan { get; set; }
-
-
-
-        public bool CaseStudyEvodia { get; set; }
-        public bool CaseStudyOctogon { get; set; }
-        public bool CaseStudyMayerBrown { get; set; }
-        public bool CaseStudyPoleStarGlobal { get; set; }
-        public bool CaseStudyStWilfridsHospice { get; set; }
-
-        public bool HowWeDoThingsApproachAndMethodology { get; set; }
-        public bool HowWeDoThingsAboutUmbraco { get; set; }
-        public bool HowWeDoThingsBrowser { get; set; }
-
-        public bool YourProjectOurUnderstanding { get; set; }
-        public bool YourProjectProjectCosts { get; set; }
-        public bool YourProjectCopywriting { get; set; }
-        public bool YourProjectContentAndSocial { get; set; }
-        public bool YourProjectPricing { get; set; }
-        public bool YourProjectHosting { get; set; }
-        public bool YourProjectCloseAndProjectAgreement { get; set; }
+        public List<CheckboxListItem> ProjectSpecifics { get; set; }
 
         public string BreifUploadOrCreation { get; set; }
 
         public HttpPostedFileBase Attachment { get; set; }
-    }
 
+        public BriefForm()
+        {
+            //
+            // If the list is going to be displayed with an image
+            // then the image name should be a urlSegment() of the name passed in - e.g. debbie-lawrenson
+            //
+
+            CaseStudies = new List<CheckboxListItem>() {
+                new CheckboxListItem {Id = 0, Name = "Evodia", Subtitle = "Recruitment", Checked = false},
+                new CheckboxListItem {Id = 1, Name = "Octagon", Subtitle = "Theatre", Checked = false},
+                new CheckboxListItem {Id = 2, Name = "Mayer Brown", Subtitle = "Transform", Checked = false},
+                new CheckboxListItem {Id = 3, Name = "Pole Star Global", Subtitle = "Technology", Checked = false},
+                new CheckboxListItem {Id = 4, Name = "St Wilfrid's Hospice", Subtitle = "Health Care", Checked = false},
+            };
+
+            Profiles = new List<CheckboxListItem>() {
+                new CheckboxListItem {Id = 0, Name = "Dan Jubb", Subtitle = "Head of Brand and Strategy", Checked = false},
+                new CheckboxListItem {Id = 1, Name = "Debbie Lawrenson", Subtitle = "Head of Digital", Checked = false},
+                new CheckboxListItem {Id = 2, Name = "Kev Simpson", Subtitle = "Head of Development", Checked = false},
+                new CheckboxListItem {Id = 3, Name = "Luke Gibson", Subtitle = "Developer", Checked = false},
+                new CheckboxListItem {Id = 4, Name = "Maureen Doolan", Subtitle = "Social and Content Manager", Checked = false},
+                new CheckboxListItem {Id = 5, Name = "Sam McGuire", Subtitle = "Web Designer", Checked = false}
+            };
+
+            Workflow = new List<CheckboxListItem>() {
+                new CheckboxListItem {Id = 0, Name = "Approach and Methodology", Checked = false},
+                new CheckboxListItem {Id = 1, Name = "Browser Support & Testing", Checked = false},
+                new CheckboxListItem {Id = 2, Name = "About Umbraco (The CMS)", Checked = false}
+            };
+
+            ProjectSpecifics = new List<CheckboxListItem>() {
+                new CheckboxListItem {Id = 0, Name = "Our understanding of your requirements", Checked = false},
+                new CheckboxListItem {Id = 1, Name = "Main project deliverables", Checked = false},
+                new CheckboxListItem {Id = 2, Name = "Copywriting addition", Checked = false},
+                new CheckboxListItem {Id = 3, Name = "Content & social strategy addition", Checked = false},
+                new CheckboxListItem {Id = 4, Name = "Hosting addition", Checked = false},
+                new CheckboxListItem {Id = 5, Name = "Pricing schedule", Checked = false},
+                new CheckboxListItem {Id = 6, Name = "Project agreement", Checked = false}
+            };
+
+        }
+    }
     
 }

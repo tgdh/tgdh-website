@@ -11,12 +11,11 @@ using System.Net.Mail;
 using System.IO;
 using TGDH.Core.ExtensionMethods;
 using System.Linq;
-using System.Reflection;
-using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace TGDH.Core.Controllers
 {
-    public class BriefingFormController : SurfaceController
+    public class BriefFormController : SurfaceController
     {
         public readonly MailHelper _mailHelper = new MailHelper();
         private const int FormFolderId = Constants.BriefingFormFolderId;
@@ -29,12 +28,12 @@ namespace TGDH.Core.Controllers
 
         public ActionResult RenderBriefingForm()
         {
-            return PartialView("~/Views/Partials/Forms/BriefingFormView.cshtml", new BriefingForm());
+            return PartialView("~/Views/Partials/Forms/BriefingFormView.cshtml", new BriefForm());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ProcessFormSubmission(BriefingForm model)
+        public ActionResult ProcessFormSubmission(BriefForm model)
         {
             if (!ModelState.IsValid)
             {
@@ -42,6 +41,8 @@ namespace TGDH.Core.Controllers
 
                 return CurrentUmbracoPage();
             }
+
+            LogHelper.Warn(GetType(), "Briefing form model name: " + model.YourName);
 
             TempData["BriefingFormValidationPasses"] = "The form has been validated successfully.";
             TempData["BriefingFormFormFolderId"] = FormFolderId;
@@ -58,7 +59,7 @@ namespace TGDH.Core.Controllers
             return RedirectToCurrentUmbracoPage();
         }
 
-        private string SaveUploadedFile(BriefingForm model)
+        private string SaveUploadedFile(BriefForm model)
         {
             if (model.BreifUploadOrCreation == "already-have-brief")
             {
@@ -86,10 +87,9 @@ namespace TGDH.Core.Controllers
 
                     TempData["SavePassed"] = "File Upload Successful";
 
-                    CreateProfileList(model);
-                    CreateCaseStudyList(model);
-                    HowWeDoThingsList(model);
-                    YourProjectList(model);
+                    //CreateProfileList(model);
+                    //CreateCaseStudyList(model);
+                  //  YourProjectList(model);
                     SaveBriefingFormSubmission(model);
                     SendEmailNotifications(model);
                     return "passed";
@@ -105,152 +105,23 @@ namespace TGDH.Core.Controllers
             else
             {
                 //No brief uploaded so ignore upload stage
-                CreateProfileList(model);
-                CreateCaseStudyList(model);
-                HowWeDoThingsList(model);
-                YourProjectList(model);
+            //    CreateProfileList(model);
+            //    CreateCaseStudyList(model);
+             //   YourProjectList(model);
                 SaveBriefingFormSubmission(model);
                 SendEmailNotifications(model);
                 return "passed";
             }
         }
-
-        private void CreateProfileList(BriefingForm model)
-        {
-            if (model.ProfileAdam == true)
-            {
-                profiles = profiles + "Adam Stephenson" + ", ";
-            }
-            if (model.ProfileAndrea == true)
-            {
-                profiles = profiles + "Andrea Oggiano" + ", ";
-            }
-            if (model.ProfileDan == true)
-            {
-                profiles = profiles + "Dan Jubb" + ", ";
-            }
-            if (model.ProfileDebbie == true)
-            {
-                profiles = profiles + "Debbie Lawrenson" + ", ";
-            }
-            if (model.ProfileKev == true)
-            {
-                profiles = profiles + "Kev Simpson" + ", ";
-            }
-            if (model.ProfileLewis == true)
-            {
-                profiles = profiles + "Lewis Smith" + ", ";
-            }
-            if (model.ProfileLuke == true)
-            {
-                profiles = profiles + "Luke Gibson" + ", ";
-            }
-            if (model.ProfileMaureen == true)
-            {
-                profiles = profiles + "Maureen Doolan" + ", ";
-            }
-            if (model.ProfileSam == true)
-            {
-                profiles = profiles + "Sam McGuire" + ", ";
-            }
-            if (profiles == "")
-            {
-                profiles = "No Profiles Chosen.";
-            }
-        }
-
-        private void CreateCaseStudyList(BriefingForm model)
-        {
-            if (model.CaseStudyEvodia == true)
-            {
-                caseStudies = caseStudies + "Evodia" + ", ";
-            }
-            if (model.CaseStudyMayerBrown == true)
-            {
-                caseStudies = caseStudies + "Mayer Brown" + ", ";
-            }
-            if (model.CaseStudyOctogon == true)
-            {
-                caseStudies = caseStudies + "Octogon" + ", ";
-            }
-            if (model.CaseStudyPoleStarGlobal == true)
-            {
-                caseStudies = caseStudies + "Pole Star Global" + ", ";
-            }
-            if (model.CaseStudyStWilfridsHospice == true)
-            {
-                caseStudies = caseStudies + "St Wilfrid's Hospice" + ", ";
-            }
-            if (caseStudies == "")
-            {
-                caseStudies = "No Case Studies Chosen.";
-            }
-        }
-
-        private void HowWeDoThingsList(BriefingForm model)
-        {
-            if (model.HowWeDoThingsApproachAndMethodology == true)
-            {
-                howWeDoThings = howWeDoThings + "Approach & Methodology" + ", ";
-            }
-            if (model.HowWeDoThingsAboutUmbraco == true)
-            {
-                howWeDoThings = howWeDoThings + "About Umbraco" + ", ";
-            }
-            if (model.HowWeDoThingsBrowser == true)
-            {
-                howWeDoThings = howWeDoThings + "Browser Support & Testing" + ", ";
-            }
-            if (howWeDoThings == "")
-            {
-                howWeDoThings = "No Options Chosen.";
-            }
-        }
-
-        private void YourProjectList(BriefingForm model)
-        {
-            if (model.YourProjectOurUnderstanding == true)
-            {
-                yourProject = yourProject + "Our Understanding of your requirements" + ", ";
-            }
-            if (model.YourProjectProjectCosts == true)
-            {
-                yourProject = yourProject + "Project costs & deliverables" + ", ";
-            }
-            if (model.YourProjectCopywriting == true)
-            {
-                yourProject = yourProject + "Copywriting" + ", ";
-            }
-            if (model.YourProjectContentAndSocial == true)
-            {
-                yourProject = yourProject + "Content & social strategy" + ", ";
-            }
-            if (model.YourProjectPricing == true)
-            {
-                yourProject = yourProject + "Pricing schedule" + ", ";
-            }
-            if (model.YourProjectHosting == true)
-            {
-                yourProject = yourProject + "Hosting" + ", ";
-            }
-            if (model.YourProjectCloseAndProjectAgreement == true)
-            {
-                yourProject = yourProject + "Close & project agreement" + ", ";
-            }
-            if (yourProject == "")
-            {
-                yourProject = "No Options Chosen.";
-            }
-        }
-
-        private void SaveBriefingFormSubmission(BriefingForm model)
+        
+        private void SaveBriefingFormSubmission(BriefForm model)
         {
             try
             {
                 var contentService = Services.ContentService;
                 var formSubmission = contentService.CreateContent(model.YourName + ", " + model.PhoneNumber + " - " + DateTime.Now.ToShortDateString(), FormFolderId, "briefingFormContent");
 
-                formSubmission.SetValue("name", model.YourName);
+                formSubmission.SetValue("yourName", model.YourName);
                 formSubmission.SetValue("phoneNumber", model.PhoneNumber);
                 formSubmission.SetValue("emailAddress", model.EmailAddress);
                 formSubmission.SetValue("companyName", model.CompanyName);
@@ -273,10 +144,13 @@ namespace TGDH.Core.Controllers
                 formSubmission.SetValue("additionalFeatures", model.AdditionalFeatures);
                 formSubmission.SetValue("resourcesManageNewSite", model.ResourcesManageNewSite);
                 formSubmission.SetValue("concicePhrase", model.ConcicePhrase);
-                formSubmission.SetValue("staffProfiles", profiles);
-                formSubmission.SetValue("caseStudies", caseStudies);
-                formSubmission.SetValue("howWeDoThings", howWeDoThings);
-                formSubmission.SetValue("yourProject", yourProject);
+                
+
+                formSubmission.SetValue("teamProfiles", GetResultsFromList(model.Profiles));
+                formSubmission.SetValue("caseStudies", GetResultsFromList(model.CaseStudies));
+                formSubmission.SetValue("workflow", GetResultsFromList(model.Workflow));
+                formSubmission.SetValue("projectSpecifics", GetResultsFromList(model.ProjectSpecifics));
+                
                 if (model.BreifUploadOrCreation == "already-have-brief")
                 {
                     formSubmission.SetValue("briefUploadTitle", fileUploadName);
@@ -290,7 +164,35 @@ namespace TGDH.Core.Controllers
 
         }
 
-        private void SendEmailNotifications(BriefingForm model)
+        public string GetResultsFromList(List<CheckboxListItem> selection)
+        {
+            if (selection == null || !selection.Any())
+            {
+                return "N/A";
+            }
+
+            var stringToReturn = "";
+
+            foreach(var item in selection)
+            {
+                if( item.Checked )
+                {
+                    if(String.IsNullOrWhiteSpace(stringToReturn)) {
+                        stringToReturn = item.Name + ", ";
+                    } else {
+                        stringToReturn = stringToReturn + System.Environment.NewLine + item.Name + ", ";
+                    }
+                }
+            }
+
+            if(String.IsNullOrWhiteSpace(stringToReturn)) {
+                stringToReturn = "N/A";
+            }
+
+            return stringToReturn.TrimEnd(", ");
+        }
+
+        private void SendEmailNotifications(BriefForm model)
         {
             var formFolder = Umbraco.TypedContent(FormFolderId);
             var briefUploaded = "";
@@ -426,13 +328,7 @@ namespace TGDH.Core.Controllers
             {
                 HtmlConcicePhrase = "";
             }
-
-            var HtmlCaseStudies = "";
-            var HtmlWorkFlow = "";
-            var HtmlTailoredRequirements = "";
-
-
-
+            
             string emailBody = string.Empty;
             string emailInnerBody = "" +
                 "<h2>About</h2>" + 
@@ -442,25 +338,25 @@ namespace TGDH.Core.Controllers
                 "<p><strong>Company: </strong>{{Company}}</p>" +
                 "<br><h2>Brief</h2>" +
                 "<p><strong>Budget: </strong>{{Budget}}</p>" +
-                HtmlBrief +
-                HtmlPurpose +
-                HtmlSecondaryGoals + 
-                HtmlThreeYears +
-                HtmlTargetAudience +
-                HtmlTypicalTask +
-                HtmlLongQuestion +
-                HtmlTargetAudienceThinkAndFeel +
-                HtmlWhatYouWantAudienceThinkAndFeel +
-                HtmlImproveWebsiteAchieve +
-                HtmlAdjectivesDescribePerceived +
-                HtmlOverallMessage +
-                HtmlSuccess +
-                HtmlDisFeature + 
-                HtmlCurrentSiteSuccess + 
-                HtmlCurrentSiteFlaws + 
-                HtmlAdditionalFeatures +
-                HtmlResourcesManageNewSite + 
-                HtmlConcicePhrase +
+                    HtmlBrief +
+                    HtmlPurpose +
+                    HtmlSecondaryGoals + 
+                    HtmlThreeYears +
+                    HtmlTargetAudience +
+                    HtmlTypicalTask +
+                    HtmlLongQuestion +
+                    HtmlTargetAudienceThinkAndFeel +
+                    HtmlWhatYouWantAudienceThinkAndFeel +
+                    HtmlImproveWebsiteAchieve +
+                    HtmlAdjectivesDescribePerceived +
+                    HtmlOverallMessage +
+                    HtmlSuccess +
+                    HtmlDisFeature + 
+                    HtmlCurrentSiteSuccess + 
+                    HtmlCurrentSiteFlaws + 
+                    HtmlAdditionalFeatures +
+                    HtmlResourcesManageNewSite + 
+                    HtmlConcicePhrase +
                 "<br><h2>Build Your Proposal</h2>" +
                 "<p><strong>Staff Profiles:</strong> " + profiles + "</p>" +
                 "<p><strong>Case Studies:</strong> " + caseStudies + "</p>" +

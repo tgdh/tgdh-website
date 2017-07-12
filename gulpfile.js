@@ -306,7 +306,7 @@ gulp.task( 'watch', function() {
 	gulp.watch( paths.assetsFolder + '/img/icons/**/*.svg', ['icons'] );
 
 	gulp.watch( paths.assetsFolder + '/js/legacy/*.js', ['js-legacy'] );
-	gulp.watch( paths.assetsFolder + '/js/components/*.js', ['js-legacy'] );
+	gulp.watch( paths.assetsFolder + '/js/legacy.js', ['js-legacy'] );
 //	gulp.watch( paths.templates + '/**/*.html', ['templates'] );
 } );
 

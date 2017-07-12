@@ -1,0 +1,17 @@
+@inherits UmbracoViewPage<CheckboxViewModel>
+
+@*
+<input class="b-form__checkbox" id="ExampleCheckbox" value="@Model.Label" name="ExampleCheckbox" type="checkbox" value="true">
+<input name="ExampleCheckbox" type="hidden" value="false">
+*@
+
+
+<input class="b-form__checkbox" value="@Model.Label" id="@Model.Id" type="checkbox" name="@Model.Name">
+<input name="ExampleCheckbox" type="hidden" value="false">
+<label for="{{ .id }}" class="b-form__label b-form__label--alt">
+	<span class="b-form__checkbox-button">
+		<span class="b-form__checkbox-icon">&#10004;</span>
+	</span>
+	@Model.Label
+</label>
+

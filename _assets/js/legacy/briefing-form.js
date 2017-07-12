@@ -1,5 +1,6 @@
+/* eslint-disable */
 var BriefingForm = (function ($) {
-	'use strict';    
+	'use strict';
     // All the static variables used throughout the code.
     var form = '.js-form',
         button = '.js-check-validity',
@@ -19,7 +20,7 @@ var BriefingForm = (function ($) {
         completeSectionShowing = '.c-proposal__form-section.is--showing',
         uploadBriefHeight = 300,
         proposalTab = '.js-proposal__tabs';
-    
+
     // Updates hidden fields for checkboxes as umbraco adds hiddenfields that need to be toggled.
     var _updateHiddenFieldValues = function(){
         $('.js-checkbox--hidden-field').on('click', function(){
@@ -40,7 +41,7 @@ var BriefingForm = (function ($) {
             var file = this.files[0];
             var fileName = file.name;
             var fileSize = file.size;
-            
+
             var ext = $('.c-proposal__input-upload').val().split('.').pop().toLowerCase();
             if($.inArray(ext, ['pdf','docx']) === -1) {
                 // wrong file type
@@ -50,7 +51,7 @@ var BriefingForm = (function ($) {
                 setTimeout(function(){
                     $(completeSectionShowing).children(nav).children(button).addClass('is--disabled');
                 },10);
-                
+
             }
             else if(fileSize >= 2000000){
                 // file too large
@@ -80,24 +81,25 @@ var BriefingForm = (function ($) {
                 if(!$(this).hasClass('is--disabled')){
                     $('body,html').animate({scrollTop: 390}, 500);
                 }
-            }); 
+            });
         }else{
             $('.js-navigate').on('click', function(){
                 if(!$(this).hasClass('is--disabled')){
                     $('body,html').animate({scrollTop: 275}, 500);
                 }
-            }); 
+            });
         }
     };
     // Updates the height of the form when the screen is resized
     var _updateSectionHeight = function(){
         var resizedHeight = $(completeSectionShowing).outerHeight();
         $(form).height(resizedHeight);
+		/*
         $('.c-proposal__textarea-input').on('keyup click change', function(){
-            console.log('running');
             var resizedHeight = $(completeSectionShowing).outerHeight();
             $(form).height(resizedHeight);
         });
+		*/
     };
     // Check the validity of the current input / textareas on button press
     var _focus = function(){
@@ -112,7 +114,7 @@ var BriefingForm = (function ($) {
             }
         });
     };
-    // Toggle animation for next / previous section 
+    // Toggle animation for next / previous section
     var _toggleSection = function(){
         $(leftRight).on('click',function(){
             var $this = $(this);
@@ -173,7 +175,7 @@ var BriefingForm = (function ($) {
                 }
             }
         });
-    }; 
+    };
     // Code to show the pip for the correct section in the sidebar
     var _getCurrentSection = function(){
         $(leftRight).on('click', function(){
@@ -196,7 +198,7 @@ var BriefingForm = (function ($) {
             $(form).height(newHeight);
         });
     };
-    // Event handlers. 
+    // Event handlers.
     var _checkValidity = function(){
         // Adds enter button functionality to span for back and next.
         $(button).keypress(function(e){
@@ -308,7 +310,7 @@ var BriefingForm = (function ($) {
             $(formSection).each(function(){
                 var $self = $(this),
                     thisId = parseInt($self.attr('id'));
-                
+
                 if(targetId !== thisId){
                     if(!$self.hasClass('is--valid')){
                         return false;
@@ -323,10 +325,10 @@ var BriefingForm = (function ($) {
                     $('.js-form-section[id="'+targetId+'"]').addClass('is--showing');
                     return false;
                 }
-            });           
+            });
         });
     };
-    // Custom JS for brief upload / creation 
+    // Custom JS for brief upload / creation
     var _brief = function(){
         $('.js-create-brief').on('click', function(){
             if($('.js-brief-upload-input').hasClass('js--showing')){
@@ -370,14 +372,14 @@ var BriefingForm = (function ($) {
         $(checkTypes).on('click focusout keyup change keydown', function(){
             var validElements = 0,
                 totalElements = 0;
-            
-            $(completeSectionShowing).children(inputSection).children(inputWrapper).each(function(){   
+
+            $(completeSectionShowing).children(inputSection).children(inputWrapper).each(function(){
                 var type = $(this).children(checkTypes).attr('type');
                 // File ignored as its not always mandatory (brief can be created also)
                 if(type !== 'file'){
                     totalElements++;
                     if($(this).children(checkTypes).hasClass('valid')){
-                        validElements++;                    
+                        validElements++;
                     }
                 }
             });
@@ -401,7 +403,7 @@ var BriefingForm = (function ($) {
         setTimeout(function(){
             $(totalFields).each(function(){
                 numberInThisSection++;
-                if(!$.trim(this.value).length) { 
+                if(!$.trim(this.value).length) {
                     $(this).removeClass('valid').attr('aria-invalid','true');
                 }else{
                     $(this).addClass('valid').attr('aria-invalid','false').removeAttr('required');
@@ -488,10 +490,7 @@ var BriefingForm = (function ($) {
             });
         });
     };
-    // Update Textarea height based on content
-    var _updateTextareaHeight = function(textarea){
-        
-    };
+
     // Function calls
     var init = function() {
         var wWidth = $(window).width();
@@ -501,7 +500,6 @@ var BriefingForm = (function ($) {
             _scrollTop(wWidth);
 		});
         _updateSectionHeight();
-        _updateTextareaHeight();
         _checkForLocalStorage();
         _checkNextSection();
         _focus();
@@ -515,9 +513,10 @@ var BriefingForm = (function ($) {
         _proposalButtonClick();
         _updateHiddenFieldValues();
 	};
-	
+
     return {
 		init: init
 	};
 
 })(jQuery);
+/* eslint-enable */

@@ -1,0 +1,78 @@
+﻿@inherits UmbracoViewPage<IPublishedContent>
+@{
+    Layout = "Master.cshtml";
+	var headline = Model.HasValue("headline") ? Model.GetPropertyValue<string>("headline") : Model.Name;
+	var coverImageIds = Model.GetPropertyValue<string>("coverImage");
+}
+
+<main id="main" class="o-page__content" role="main">
+	<div class="o-page__content__wrap u-clearfix s-free-content">
+		<h1 class="o-wrap o-wrap--small u-beta">Form stylguide</h1>
+
+		<div class="o-wrap o-wrap--small">
+
+			<h2 class="u-space-top"># Input field</h2>
+
+			<div class="o-form__field o-form__field--compact">
+				<input class="o-form__input" id="Name" name="Name" required="required" type="text" value="" aria-required="true" aria-describedby="Name-error" aria-invalid="true">
+				<label class="o-form__label" for="Name">Your name</label>
+            </div>
+
+			<h2 class="u-space-top"># Textarea</h2>
+
+			<div class="o-form__field">
+				<label for="textarea" class="o-form__label">Briefly what are the purposes of the new site? *</label>
+				<textarea name="" id="textarea" class="o-form__textarea" placeholder="Enter your text..."></textarea>
+			</div>
+
+			<h2 class="u-space-top"># Select</h2>
+
+			<h2 class="u-space-top"># Checkbox</h2>
+			<div class="o-form__field">
+				<fieldset class="o-fieldset">
+					<legend class="o-fieldset__legend">The workflow</legend>
+					<ul class="o-fieldset__list o-fieldset__list--halfs u-clearfix">
+						@for ( var i = 0; i < 3; i++ ) {
+							var inputId = "checkbox" + i;
+
+							<li class="o-fieldset__item">
+								<label class="o-label o-checkbox" for="@inputId">
+									<input type="checkbox" id="@inputId" name="@inputId" value="" class="o-checkbox__input">
+									<span class="o-checkbox__label">Checkbox label</span>
+								</label>
+							</li>
+						}
+					</ul>
+				</fieldset>
+			</div>
+
+			<h2 class="u-space-top"># Radio button</h2>
+			<fieldset class="o-fieldset">
+				<legend class="o-fieldset__legend">The workflow</legend>
+				<ul class="o-fieldset__list o-fieldset__list--halfs u-clearfix">
+					@for ( var i = 0; i < 3; i++ ) {
+						var radioId = "radio" + i;
+
+						<li class="o-fieldset__item">
+							<label class="o-label o-radio" for="@radioId">
+								<input class="o-radio__input" value="" id="@radioId" type="radio" name="@radioId">
+								<span class="o-radio__label">Checkbox label</span>
+							</label>
+						</li>
+					}
+				</ul>
+			</fieldset>
+
+
+
+			<h2 class="u-space-top"># Buttons</h2>
+			<button class="c-button c-button--primary">Primary</button>
+			<button class="c-button c-button--secondary">Secondary</button>
+			<button class="c-button c-button--secondary is-disabled">Disabled</button>
+
+
+
+	</div>
+
+    </div>
+</main>

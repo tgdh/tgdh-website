@@ -4,7 +4,10 @@
 @{
     Layout = "Master.cshtml";
 }
-@Html.Partial("~/Views/Partials/Forms/BriefingFormView.cshtml", new BriefingForm{})
+@Html.Partial("~/Views/Partials/Forms/BriefingFormView.cshtml", new BriefForm{})
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="/assets/js/legacy.js"></script>
+@section Scripts {
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+	<script src="/assets/js/legacy.js"></script>
+}

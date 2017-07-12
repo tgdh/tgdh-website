@@ -2561,6 +2561,7 @@
     <Content Include="Views\Partials\CaseStudies\FeaturedCaseStudies.cshtml" />
     <Content Include="Views\CaseStudies.cshtml" />
     <Content Include="Views\Journal.cshtml" />
+    <Content Include="Views\Partials\Forms\BriefingFormView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

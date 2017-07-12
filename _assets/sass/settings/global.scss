@@ -62,9 +62,9 @@ $type-scale-large:			1.250;
 $heading-colour:			$black;
 $text-colour:				$black;
 $background-colour:			$white;
-$border-colour:				#ccc;
+$border-colour:				#b2b2b2;
 $link-colour:				$pri;
-$form-placeholder-colour:	#ccc;
+$form-placeholder-colour:	rgba($text-colour,0.5);
 $placeholder-colour:		rgba(0,0,0,.05);
 $highlight-colour:			lighten( $pri, 80 );
 

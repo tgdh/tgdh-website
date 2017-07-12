@@ -43,6 +43,18 @@ $line-height-half: $line-height / 2;
 
 .o-form__field {
 	position: relative;
+
+	& + & {
+		margin-top: $line-height * 2;
+	}
+}
+
+.s-webPPC {
+
+	.o-form__field + .o-form__field {
+		margin-top: 0;
+	}
+
 }
 
 
@@ -83,7 +95,8 @@ $line-height-half: $line-height / 2;
 
 .o-form__label {
 	display: block;
-	margin-bottom: .35em;
+	font-weight: $bold;
+	margin-bottom: $line-height / 2;
 
 	&[for] {
 		cursor: pointer;
@@ -93,12 +106,13 @@ $line-height-half: $line-height / 2;
 .enhance {
 
 	.o-form__field--compact {
+		margin-top: $line-height;
 
 		.o-form__label {
-			opacity: .65;
+			opacity: 0.5;
 			font-size: 1.6rem;
 			position: absolute;
-			top: 0;
+			top: -0.3rem;
 			padding: 0;
 			transform: translate( 1rem, 50% );
 			transition: color $speed $ease,
@@ -184,21 +198,93 @@ $line-height-half: $line-height / 2;
 
 //= FIELDSET =================================================
 
+.o-fieldset__legend {
+	font-weight: $bold;
+	margin-bottom: $line-height;
+}
+
+.o-fieldset__list {
+	list-style: none;
+}
+
+.o-fieldset__item {
+	margin: 0 0 1rem;
+}
+
+.o-fieldset__list--half {
+
+	.o-fieldset__item {
+
+		@include respond-min ($mq-medium) {
+			@include column(1/2, $gutter: 3, $cycle: 2);
+		}
+
+	}
+}
+
 .enhance {
+
+	.o-checkbox {
+
+		&:before,
+		&:after {
+			content: "";
+			display: block;
+			position: absolute;
+			background-color: #fff;
+			z-index: 1;
+		}
+
+		&:before {
+			width: 7px;
+			height: 2px;
+			transform: rotate(45deg);
+			top: 24px;
+			left: 4px;
+		}
+
+		&:after {
+			width: 12px;
+			height: 2px;
+			transform: rotate(135deg);
+			top: 22px;
+			left: 7px;
+		}
+
+	}
+
+	.o-radio {
+
+		&:before {
+			content: "";
+			display: block;
+			position: absolute;
+			background-color: #fff;
+			z-index: 1;
+
+			width: 8px;
+			height: 8px;
+			top: 20px;
+			left: 7px;
+			border-radius: 50%;
+
+		}
+
+	}
 
 	.o-checkbox,
 	.o-radio {
 		font-weight: normal;
-		padding: $line-height-half $line-height-half $line-height-half 3rem;
+		padding: $line-height-half $line-height-half $line-height-half 4rem;
 		position: relative;
 
 		.o-checkbox__label:before,
 		.o-radio__label:before {
 			content: "";
-			width: 2rem;
-			height: 2rem;
+			width: 2.2rem;
+			height: 2.2rem;
 			background: transparent;
-			border: $border-width solid $border-colour;
+			border: 2px solid $pri;
 			box-sizing: border-box;
 			content: '';
 			position: absolute;
@@ -220,25 +306,24 @@ $line-height-half: $line-height / 2;
 					border-color: darken( $pri, 10 );
 				}
 
+				+ input[type="hidden"] {
+
+					+ .o-checkbox__label:before,
+					+ .o-radio__label:before {
+						background-color: $pri;
+						border-color: darken( $pri, 10 );
+					}
+
+				}
+
 			}
 
-		}
-
-		.o-checkbox__label:before {
-			border-radius: $border-radius;
 		}
 
 		.o-radio__label:before {
 			border-radius: 50%;
 		}
 
-	}
-
-
-	.o-label--checkbox {
-		&:after {
-			border-radius: $border-radius;
-		}
 	}
 
 	.o-label--radio {
