@@ -2108,10 +2108,10 @@ var BriefingForm = (function ($) {
 
 (function($) {
 	$(document).ready(function() {
-		window.BriefingForm.init();
+//		window.BriefingForm.init();
 	});
 })(jQuery);
 
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiIiwic291cmNlcyI6WyJsZWdhY3kuanMiXSwic291cmNlc0NvbnRlbnQiOlsiKGZ1bmN0aW9uKCQpIHtcblx0JChkb2N1bWVudCkucmVhZHkoZnVuY3Rpb24oKSB7XG5cdFx0d2luZG93LkJyaWVmaW5nRm9ybS5pbml0KCk7XG5cdH0pO1xufSkoalF1ZXJ5KTtcbiJdLCJmaWxlIjoibGVnYWN5LmpzIiwic291cmNlUm9vdCI6Ii9zb3VyY2UvIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiIiwic291cmNlcyI6WyJsZWdhY3kuanMiXSwic291cmNlc0NvbnRlbnQiOlsiKGZ1bmN0aW9uKCQpIHtcblx0JChkb2N1bWVudCkucmVhZHkoZnVuY3Rpb24oKSB7XG4vL1x0XHR3aW5kb3cuQnJpZWZpbmdGb3JtLmluaXQoKTtcblx0fSk7XG59KShqUXVlcnkpO1xuIl0sImZpbGUiOiJsZWdhY3kuanMiLCJzb3VyY2VSb290IjoiL3NvdXJjZS8ifQ==
 
 //# sourceMappingURL=legacy.js.map

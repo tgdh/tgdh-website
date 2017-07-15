@@ -1,5 +1,5 @@
 (function($) {
 	$(document).ready(function() {
-		window.BriefingForm.init();
+//		window.BriefingForm.init();
 	});
 })(jQuery);

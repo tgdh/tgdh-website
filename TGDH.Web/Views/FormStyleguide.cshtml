@@ -10,6 +10,30 @@
 		<h1 class="o-wrap o-wrap--small u-beta">Form stylguide</h1>
 
 		<div class="o-wrap o-wrap--small">
+			<h2># Checkbox & radio</h2>
+			<div class="o-form__checkbox-wrap">
+
+				<input class="o-form__checkbox" value="{{ .label }}" id="radio" type="checkbox" name="{{ .name }}">
+				<label for="radio" class="o-form__label o-form__label--alt">
+
+					<img src="/assets/img/briefing-form/profiles/debbie-lawrenson.jpg" alt="Debbie Lawrenson">
+
+					<span class="o-form__checkbox-button">
+						<div class="o-form__checkbox-icon"></div>
+					</span>
+					<span class="o-form__checkbox-label-text">Label</span>
+				</label>
+			</div>
+
+			<div class="o-form__radio-wrap">
+				<input class="o-form__radio" value="{{ .label }}" id="{{ .id }}" type="radio" name="{{ .name }}">
+				<label for="{{ .id }}" class="o-form__label o-form__label--alt">
+					<span class="o-form__radio-button"></span>
+					<span class="o-form__radio-label-text">Label</span>
+				</label>
+			</div>
+
+
 
 			<h2 class="u-space-top"># Input field</h2>
 
@@ -34,11 +58,13 @@
 					<ul class="o-fieldset__list o-fieldset__list--halfs u-clearfix">
 						@for ( var i = 0; i < 3; i++ ) {
 							var inputId = "checkbox" + i;
-
 							<li class="o-fieldset__item">
-								<label class="o-label o-checkbox" for="@inputId">
-									<input type="checkbox" id="@inputId" name="@inputId" value="" class="o-checkbox__input">
-									<span class="o-checkbox__label">Checkbox label</span>
+								<input class="o-form__checkbox" value="{{ .label }}" id="@inputId" type="checkbox" name="{{ .name }}">
+								<label for="@inputId" class="o-form__label o-form__label--alt">
+									<span class="o-form__checkbox-button">
+										<div class="o-form__checkbox-icon"></div>
+									</span>
+									<span class="o-form__checkbox-label-text">Label</span>
 								</label>
 							</li>
 						}
@@ -54,9 +80,10 @@
 						var radioId = "radio" + i;
 
 						<li class="o-fieldset__item">
-							<label class="o-label o-radio" for="@radioId">
-								<input class="o-radio__input" value="" id="@radioId" type="radio" name="@radioId">
-								<span class="o-radio__label">Checkbox label</span>
+							<input class="o-form__radio" value="{{ .label }}" id="@radioId" type="radio" name="{{ .name }}">
+							<label for="@radioId" class="o-form__label o-form__label--alt">
+								<span class="o-form__radio-button"></span>
+								<span class="o-form__radio-label-text">Label</span>
 							</label>
 						</li>
 					}
