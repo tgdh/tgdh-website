@@ -1,4 +1,3 @@
-import Headroom from 'headroom.js';
 import whatInput from 'what-input';
 import svg4everybody from 'svg4everybody';
 import LoadFonts from './modules/LoadFonts';
@@ -12,6 +11,7 @@ import GMap from './modules/GMaps';
 import initSmoothScroll from './modules/SmoothScroll';
 import StickyHeader from './modules/StickyHeader';
 import TriggerAnimations from './modules/TriggerAnimations';
+import InitHeadroom from './modules/InitHeadroom';
 
 (() => {
 	const enhance = 'querySelector' in document
@@ -32,18 +32,11 @@ import TriggerAnimations from './modules/TriggerAnimations';
 		}
 		initSmoothScroll();
 
+		new InitHeadroom();
 		new StickyHeader($('.js-header-logo'));
 
 		TriggerAnimations();
-
 	}
 	svg4everybody();
 
-	if (window.matchMedia('(max-width: 999px)').matches) {
-		const header = $('.js-header');
-		const headroom = new Headroom(header);
-		const headerHeight = window.getComputedStyle(header).height;
-		$('body').style.paddingTop = headerHeight;
-		headroom.init();
-	}
 })();

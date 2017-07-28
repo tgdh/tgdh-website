@@ -3906,9 +3906,13 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 	# Sidebar pager
 
 =========================================================== */
+.c-sidebar-pager {
+  display: none; }
+
 @media only screen and (min-width: 1000px) {
   .enhance .c-sidebar-pager {
     width: 100%;
+    display: block;
     position: absolute;
     right: 0;
     top: 9.4rem; }
