@@ -5135,6 +5135,11 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 .s-about__careers__content {
   position: relative; }
 
+.s-about__footer-image {
+  position: relative;
+  z-index: 1;
+  background-color: #FFFFFF; }
+
 @media only screen and (max-width: 999px) {
   .s-about__careers__plant {
     opacity: .15; } }

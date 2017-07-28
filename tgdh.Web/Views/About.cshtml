@@ -28,7 +28,7 @@
 		Alignment = "Full width",
 		AspectRatio = "16:9",
 		ImageWidth = 1600,
-		AdditionalClass = "js-block-reveal"
+		AdditionalClass = "js-block-reveal s-about__footer-image"
 	})
 </main>
 
@@ -94,9 +94,9 @@
 		Subtitle = Model.GetPropertyValue<string>("careersSubtitle")
 	};
 
-	<section id="careers" class="o-section u-background--light s-about__careers">
+	<section id="careers" class="o-section u-background--light s-about__careers js-about-careers">
 		@if(!String.IsNullOrWhiteSpace(imageUrl)) {
-			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-about__careers__plant">
+			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-about__careers__plant js-about-plant">
 		}
 		<div class="o-wrap o-wrap--x-large s-about__careers__content">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)

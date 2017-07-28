@@ -13,6 +13,8 @@ import AnimatePGS from './AnimatePGS';
 import AnimatePoleStar from './AnimatePoleStar';
 import AnimateStWilfs from './AnimateStWilfs';
 
+import AnimateAbout from './AnimateAbout';
+
 const TriggerAnimations = () => {
 	const $html = document.querySelector('html');
 
@@ -52,6 +54,10 @@ const TriggerAnimations = () => {
 
 	if ($html.classList.contains('s-caseStudyStWilf')) {
 		new AnimateStWilfs();
+	}
+
+	if ($html.classList.contains('s-about')) {
+		new AnimateAbout();
 	}
 
 /*

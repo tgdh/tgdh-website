@@ -26,7 +26,7 @@ const BlockAnimations = () => {
 			const blockRevealItem = new BlockReveal(item, {
 				revealSettings: {
 					delay: item.dataset.revealDelay ? item.dataset.revealDelay : 0,
-					onCover: function(contentEl, revealerEl) {
+					onCover: (contentEl, revealerEl) => {
 						contentEl.style.opacity = 1;
 					}
 				}
@@ -36,12 +36,12 @@ const BlockAnimations = () => {
 				element: item,
 				enter: (direction) => {
 					if (elHeight > viewHeight) {
-						console.log('enter');
+						// console.log('enter');
 						RevealElement(item, blockRevealItem);
 					}
 				},
 				entered: (direction) => {
-					console.log('entered');
+					// console.log('entered');
 					RevealElement(item, blockRevealItem);
 				},
 				exit: () => {

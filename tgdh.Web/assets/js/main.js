@@ -24065,12 +24065,12 @@ var BlockAnimations = function BlockAnimations() {
 				element: item,
 				enter: function enter(direction) {
 					if (elHeight > viewHeight) {
-						console.log('enter');
+						// console.log('enter');
 						RevealElement(item, blockRevealItem);
 					}
 				},
 				entered: function entered(direction) {
-					console.log('entered');
+					// console.log('entered');
 					RevealElement(item, blockRevealItem);
 				},
 				exit: function exit() {
@@ -36184,6 +36184,31 @@ var AnimateStWilfs = function () {
 	return AnimateStWilfs;
 }();
 
+var AnimateAbout = function () {
+	function AnimateAbout() {
+		classCallCheck(this, AnimateAbout);
+
+		this.windowHeight = window.innerHeight;
+		this.controller = new ScrollMagic.Controller();
+		this.plant();
+	}
+
+	createClass(AnimateAbout, [{
+		key: "plant",
+		value: function plant() {
+			var $elem = document.querySelector('.js-about-plant');
+			var elemHeight = $elem.offsetHeight;
+			var tween = new tweenmax.fromTo('.js-about-plant', 1, { y: elemHeight / 3 }, { y: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-about-careers',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}]);
+	return AnimateAbout;
+}();
+
 var TriggerAnimations = function TriggerAnimations() {
 	var $html = document.querySelector('html');
 
@@ -36223,6 +36248,10 @@ var TriggerAnimations = function TriggerAnimations() {
 
 	if ($html.classList.contains('s-caseStudyStWilf')) {
 		new AnimateStWilfs();
+	}
+
+	if ($html.classList.contains('s-about')) {
+		new AnimateAbout();
 	}
 
 	/*
