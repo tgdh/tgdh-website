@@ -41,6 +41,15 @@
 			@include shift($ratios: -5.5/12, $col-or-span: column, $gutter: 10)
 		}
 
+		.c-image-offset-column__col--last {
+
+			.c-desktop-frame {
+				margin-left: -40%;
+				margin-right: inherit;
+			}
+
+		}
+
 	}
 
 	.flexbox {

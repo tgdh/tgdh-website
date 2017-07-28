@@ -4310,6 +4310,9 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
   .c-image-offset-column--reverse .c-image-offset-column__col--image {
     position: relative;
     left: -50.4166666667%; }
+  .c-image-offset-column--reverse .c-image-offset-column__col--last .c-desktop-frame {
+    margin-left: -40%;
+    margin-right: inherit; }
   .flexbox .c-image-offset-column {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -5107,6 +5110,38 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
     .s-caseStudyStWilf__content-social .c-mobile-frame {
       max-width: 28rem;
       margin: auto; } }
+
+/* ===========================================================
+
+  # Case study - Watford
+
+=========================================================== */
+.s-caseStudyWatford__season-guide {
+  position: relative;
+  overflow: hidden; }
+  .s-caseStudyWatford__season-guide .o-section__inner {
+    position: relative;
+    z-index: 1; }
+
+.s-caseStudyWatford__season-guide__image {
+  max-height: 100%;
+  position: absolute;
+  right: -8%;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%); }
+
+@media only screen and (max-width: 1279px) {
+  .s-caseStudyWatford__season-guide__image {
+    display: none; } }
+
+@media only screen and (max-width: 799px) {
+  .s-caseStudyWatford__branding__fonts img {
+    max-width: 90%; } }
+
+@media only screen and (min-width: 800px) {
+  .s-caseStudyWatford__branding__fonts img {
+    max-width: 75%; } }
 
 /* ===========================================================
 

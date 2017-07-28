@@ -35742,6 +35742,70 @@ var AnimateStWilfs = function () {
 	return AnimateStWilfs;
 }();
 
+var AnimateWatford = function () {
+	function AnimateWatford() {
+		classCallCheck(this, AnimateWatford);
+
+		this.windowHeight = window.innerHeight;
+		this.controller = new ScrollMagic.Controller();
+		this.seasonGuide();
+		this.websiteDesktop();
+		this.websiteDesktop2();
+		this.websiteDesktop3();
+	}
+
+	createClass(AnimateWatford, [{
+		key: "seasonGuide",
+		value: function seasonGuide() {
+			var $elem = document.querySelector('.js-caseStudyWatford__season-guide__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyWatford__season-guide__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyWatford__season-guide',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteDesktop",
+		value: function websiteDesktop() {
+			var $elem = document.querySelector('.js-caseStudyWatford__web__desktop__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyWatford__web__desktop__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyWatford__web__desktop',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteDesktop2",
+		value: function websiteDesktop2() {
+			var $elem = document.querySelector('.js-caseStudyWatford__web__desktop-2__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyWatford__web__desktop-2__image', 1, { x: -(elemWidth / 4) }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyWatford__web__desktop-2',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "websiteDesktop3",
+		value: function websiteDesktop3() {
+			var $elem = document.querySelector('.js-caseStudyWatford__web__desktop-3__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyWatford__web__desktop-3__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyWatford__web__desktop-3',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}]);
+	return AnimateWatford;
+}();
+
 var AnimateAbout = function () {
 	function AnimateAbout() {
 		classCallCheck(this, AnimateAbout);
@@ -35806,6 +35870,10 @@ var TriggerAnimations = function TriggerAnimations() {
 
 	if ($html.classList.contains('s-caseStudyStWilf')) {
 		new AnimateStWilfs();
+	}
+
+	if ($html.classList.contains('s-caseStudyWatford')) {
+		new AnimateWatford();
 	}
 
 	if ($html.classList.contains('s-about')) {

@@ -12,6 +12,7 @@ import AnimateOctagon from './AnimateOctagon';
 import AnimatePGS from './AnimatePGS';
 import AnimatePoleStar from './AnimatePoleStar';
 import AnimateStWilfs from './AnimateStWilfs';
+import AnimateWatford from './AnimateWatford';
 
 import AnimateAbout from './AnimateAbout';
 
@@ -56,9 +57,14 @@ const TriggerAnimations = () => {
 		new AnimateStWilfs();
 	}
 
+	if ($html.classList.contains('s-caseStudyWatford')) {
+		new AnimateWatford();
+	}
+
 	if ($html.classList.contains('s-about')) {
 		new AnimateAbout();
 	}
+
 
 /*
 	function gridScale() {
