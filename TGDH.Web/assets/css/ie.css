@@ -4943,6 +4943,45 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
   # Case study - Octagon
 
 =========================================================== */
+.s-caseStudyOctagon__anniversary,
+.s-caseStudyOctagon__report {
+  position: relative;
+  overflow: hidden; }
+  .s-caseStudyOctagon__anniversary .o-section__inner,
+  .s-caseStudyOctagon__report .o-section__inner {
+    position: relative;
+    z-index: 1; }
+
+.s-caseStudyOctagon__report__image {
+  max-height: 100%;
+  position: absolute;
+  right: -8%;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%); }
+
+@media only screen and (max-width: 1279px) {
+  .s-caseStudyOctagon__report__image {
+    display: none; } }
+
+@media only screen and (min-width: 1280px) {
+  .s-caseStudyOctagon__report {
+    min-height: 67rem; } }
+
+.s-caseStudyOctagon__anniversary__image {
+  max-height: 100%;
+  position: absolute;
+  right: 0;
+  top: 4rem; }
+
+@media only screen and (max-width: 1279px) {
+  .s-caseStudyOctagon__anniversary__image {
+    display: none; } }
+
+@media only screen and (min-width: 1280px) {
+  .s-caseStudyOctagon__anniversary {
+    min-height: 67rem; } }
+
 @media only screen and (max-width: 799px) {
   .s-caseStudyOctagon__branding__fonts img {
     max-width: 90%; } }
@@ -4950,6 +4989,22 @@ a.c-pagination__link:hover, a.c-pagination__link:focus {
 @media only screen and (min-width: 800px) {
   .s-caseStudyOctagon__branding__fonts img {
     max-width: 75%; } }
+
+.s-caseStudyOctagon__content-social {
+  overflow: hidden; }
+
+@media only screen and (max-width: 799px) {
+  .s-caseStudyOctagon__content-social .c-mobile-frame {
+    max-width: 20rem;
+    margin: 1.6em auto 0; } }
+
+@media only screen and (min-width: 800px) {
+  .s-caseStudyOctagon__content-social {
+    position: relative;
+    z-index: 1; }
+    .s-caseStudyOctagon__content-social .c-mobile-frame {
+      max-width: 28rem;
+      margin: auto; } }
 
 /* ===========================================================
 

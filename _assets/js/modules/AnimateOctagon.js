@@ -8,9 +8,27 @@ class AnimateOctagon {
 	constructor() {
 		this.windowHeight = window.innerHeight;
 		this.controller = new ScrollMagic.Controller();
+		this.report();
 		this.websiteDesktop();
 		this.websiteMobile();
 		this.websiteDesktop2();
+		this.anniversary();
+		this.contentSocial();
+	}
+
+	report() {
+		const $elem = document.querySelector('.js-caseStudyOctagon__report__image');
+		const elemWidth = $elem.offsetWidth;
+		const tween = new TweenMax.fromTo('.js-caseStudyOctagon__report__image', 1,
+					{ x: (elemWidth / 4) },
+					{ x: 0, ease: Power4.easeInOut });
+		const scene = new ScrollMagic.Scene({
+			triggerElement: '.js-caseStudyOctagon__report',
+			triggerHook: 'onEnter',
+			duration: this.windowHeight
+		})
+		.setTween(tween)
+		.addTo(this.controller);
 	}
 
 	websiteDesktop() {
@@ -63,6 +81,40 @@ class AnimateOctagon {
 			triggerElement: '.js-caseStudyOctagon__web__desktop-2',
 			triggerHook: 'onEnter',
 			duration: this.windowHeight
+		})
+		.setTween(tween)
+		.addTo(this.controller);
+	}
+
+	anniversary() {
+		const $elem = document.querySelector('.js-caseStudyOctagon__anniversary__image');
+		const elemWidth = $elem.offsetWidth;
+		const tween = new TweenMax.fromTo('.js-caseStudyOctagon__anniversary__image', 1,
+					{ x: (elemWidth / 4) },
+					{ x: 0, ease: Power4.easeInOut });
+		const scene = new ScrollMagic.Scene({
+			triggerElement: '.js-caseStudyOctagon__anniversary',
+			triggerHook: 'onEnter',
+			duration: this.windowHeight
+		})
+		.setTween(tween)
+		.addTo(this.controller);
+	}
+
+	contentSocial() {
+		const sectionHeight = document.querySelector('.js-caseStudyOctagon__content-social').offsetHeight;
+		const $elem = document.querySelector('.js-caseStudyOctagon__content-social__image');
+		const elemHeight = $elem.offsetHeight;
+		const elemWidth = $elem.offsetWidth;
+
+		const tween = new TweenMax.fromTo('.js-caseStudyOctagon__content-social__image', 1,
+					{ y: elemHeight, x: 0 },
+					{ y: 0, x: 0, ease: Power4.easeInOut });
+
+		const scene = new ScrollMagic.Scene({
+			triggerElement: '.js-caseStudyOctagon__content-social',
+			triggerHook: 'onEnter',
+			duration: sectionHeight * 1.5
 		})
 		.setTween(tween)
 		.addTo(this.controller);

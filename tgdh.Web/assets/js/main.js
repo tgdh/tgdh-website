@@ -35432,12 +35432,27 @@ var AnimateOctagon = function () {
 
 		this.windowHeight = window.innerHeight;
 		this.controller = new ScrollMagic.Controller();
+		this.report();
 		this.websiteDesktop();
 		this.websiteMobile();
 		this.websiteDesktop2();
+		this.anniversary();
+		this.contentSocial();
 	}
 
 	createClass(AnimateOctagon, [{
+		key: "report",
+		value: function report() {
+			var $elem = document.querySelector('.js-caseStudyOctagon__report__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyOctagon__report__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyOctagon__report',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
 		key: "websiteDesktop",
 		value: function websiteDesktop() {
 			var $elem = document.querySelector('.js-caseStudyOctagon__web__desktop__image');
@@ -35476,6 +35491,34 @@ var AnimateOctagon = function () {
 				triggerElement: '.js-caseStudyOctagon__web__desktop-2',
 				triggerHook: 'onEnter',
 				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "anniversary",
+		value: function anniversary() {
+			var $elem = document.querySelector('.js-caseStudyOctagon__anniversary__image');
+			var elemWidth = $elem.offsetWidth;
+			var tween = new tweenmax.fromTo('.js-caseStudyOctagon__anniversary__image', 1, { x: elemWidth / 4 }, { x: 0, ease: easepack.easeInOut });
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyOctagon__anniversary',
+				triggerHook: 'onEnter',
+				duration: this.windowHeight
+			}).setTween(tween).addTo(this.controller);
+		}
+	}, {
+		key: "contentSocial",
+		value: function contentSocial() {
+			var sectionHeight = document.querySelector('.js-caseStudyOctagon__content-social').offsetHeight;
+			var $elem = document.querySelector('.js-caseStudyOctagon__content-social__image');
+			var elemHeight = $elem.offsetHeight;
+			var elemWidth = $elem.offsetWidth;
+
+			var tween = new tweenmax.fromTo('.js-caseStudyOctagon__content-social__image', 1, { y: elemHeight, x: 0 }, { y: 0, x: 0, ease: easepack.easeInOut });
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: '.js-caseStudyOctagon__content-social',
+				triggerHook: 'onEnter',
+				duration: sectionHeight * 1.5
 			}).setTween(tween).addTo(this.controller);
 		}
 	}]);

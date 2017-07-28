@@ -4,6 +4,71 @@
 
 =========================================================== */
 
+
+.s-caseStudyOctagon__anniversary,
+.s-caseStudyOctagon__report {
+	position: relative;
+	overflow: hidden;
+
+	.o-section__inner {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+// report
+
+.s-caseStudyOctagon__report__image {
+	max-height: 100%;
+	position: absolute;
+	right: -8%;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+@include respond-max( $mq-x-large ) {
+
+	.s-caseStudyOctagon__report__image {
+		display: none;
+	}
+
+}
+
+@include respond-min( $mq-x-large ) {
+
+	.s-caseStudyOctagon__report {
+		min-height: 67rem;
+	}
+
+}
+
+// anniversary
+
+.s-caseStudyOctagon__anniversary__image {
+	max-height: 100%;
+	position: absolute;
+	right: 0;
+	top: 4rem;
+}
+
+@include respond-max( $mq-x-large ) {
+
+	.s-caseStudyOctagon__anniversary__image {
+		display: none;
+	}
+
+}
+
+@include respond-min( $mq-x-large ) {
+
+	.s-caseStudyOctagon__anniversary {
+		min-height: 67rem;
+	}
+
+}
+
+// fonts
+
 @include respond-max( $mq-medium ) {
 
 	.s-caseStudyOctagon__branding__fonts {
@@ -25,6 +90,39 @@
 			max-width: 75%;
 		}
 
+	}
+
+}
+
+// content & social
+
+.s-caseStudyOctagon__content-social {
+	overflow: hidden;
+}
+
+@include respond-max( $mq-medium ) {
+
+	.s-caseStudyOctagon__content-social {
+
+		.c-mobile-frame {
+			max-width: 20rem;
+			margin: $line-height auto 0;
+		}
+
+	}
+
+}
+
+@include respond-min( $mq-medium ) {
+
+	.s-caseStudyOctagon__content-social {
+		position: relative;
+		z-index: 1;
+
+		.c-mobile-frame {
+			max-width: 28rem;
+			margin: auto;
+		}
 	}
 
 }

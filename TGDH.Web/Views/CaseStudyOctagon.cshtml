@@ -166,7 +166,13 @@
         Subtitle = Model.GetPropertyValue<string>("reportSubtitle")
     };
 
-	<section class="o-section u-background--light">
+	var image = Umbraco.TypedMedia(Model.GetPropertyValue<int>("reportImage"));
+	var imageUrl = image != null ? image.Url + "?width=640" : "";
+
+	<section class="o-section u-background--light s-caseStudyOctagon__report js-caseStudyOctagon__report">
+		@if(!String.IsNullOrWhiteSpace(imageUrl)) {
+			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-caseStudyOctagon__report__image js-caseStudyOctagon__report__image">
+		}
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
@@ -184,7 +190,13 @@
         Subtitle = Model.GetPropertyValue<string>("anniversarySubtitle")
     };
 
-	<section class="o-section u-background--light">
+	var image = Umbraco.TypedMedia(Model.GetPropertyValue<int>("anniversaryImage"));
+	var imageUrl = image != null ? image.Url + "?width=560" : "";
+
+	<section class="o-section u-background--light s-caseStudyOctagon__anniversary js-caseStudyOctagon__anniversary">
+		@if(!String.IsNullOrWhiteSpace(imageUrl)) {
+			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-caseStudyOctagon__anniversary__image js-caseStudyOctagon__anniversary__image">
+		}
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
@@ -309,15 +321,16 @@
 
 	var mobileImage = new DeviceFrameViewModel
 	{
-		ImageId = Model.GetPropertyValue<int>("contentSocialImage"),
-		Type = "mobile"
+		ImageId = Model.GetPropertyValue<int>("contentSocialMobileImage"),
+		Type = "mobile",
+		ModifierClass = "js-caseStudyOctagon__content-social__image"
 	};
 
-	<section class="o-section s-octagon__content-social">
+	<section class="o-section s-caseStudyOctagon__content-social js-caseStudyOctagon__content-social">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
-			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
+					@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
 					@Model.GetPropertyValue("contentSocialCopy")
 				</div>
 				<div class="o-col o-col--last">
