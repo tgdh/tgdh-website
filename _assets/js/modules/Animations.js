@@ -9,8 +9,20 @@ const BlockAnimations = () => {
 		if (!selection) {
 			return;
 		}
+		const viewHeight = document.documentElement.clientHeight;
+
+		const RevealElement = function (item, blockRevealItem) {
+			if (item.querySelector('.js-lazyload')) {
+				item.querySelector('img').addEventListener('lazybeforeunveil', (e) => {
+					blockRevealItem.reveal();
+				});
+			} else {
+				blockRevealItem.reveal();
+			}
+		};
 
 		Array.from(selection).forEach((item) => {
+			const elHeight = item.offsetHeight;
 			const blockRevealItem = new BlockReveal(item, {
 				revealSettings: {
 					delay: item.dataset.revealDelay ? item.dataset.revealDelay : 0,
@@ -22,14 +34,15 @@ const BlockAnimations = () => {
 
 			const waypoint = new Waypoint.Inview({
 				element: item,
-				entered: (direction) => {
-					if(item.querySelector('.js-lazyload')) {
-						item.querySelector('img').addEventListener('lazybeforeunveil', (e) => {
-							blockRevealItem.reveal();
-						});
-					} else {
-						blockRevealItem.reveal();
+				enter: (direction) => {
+					if (elHeight > viewHeight) {
+						console.log('enter');
+						RevealElement(item, blockRevealItem);
 					}
+				},
+				entered: (direction) => {
+					console.log('entered');
+					RevealElement(item, blockRevealItem);
 				},
 				exit: () => {
 					waypoint.destroy();
@@ -38,6 +51,7 @@ const BlockAnimations = () => {
 
 		});
 	});
+
 };
 
 export default BlockAnimations;

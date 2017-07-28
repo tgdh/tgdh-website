@@ -52,8 +52,8 @@ var createClass = function () {
 
 var headroom = createCommonjsModule(function (module, exports) {
   /*!
-   * headroom.js v0.9.3 - Give your page some headroom. Hide your header until you need it
-   * Copyright (c) 2016 Nick Williams - http://wicky.nillia.ms/headroom.js
+   * headroom.js v0.9.4 - Give your page some headroom. Hide your header until you need it
+   * Copyright (c) 2017 Nick Williams - http://wicky.nillia.ms/headroom.js
    * License: MIT
    */
 
@@ -201,7 +201,7 @@ var headroom = createCommonjsModule(function (module, exports) {
         this.debouncer = new Debouncer(this.update.bind(this));
         this.elem.classList.add(this.classes.initial);
 
-        // defer event registration to handle browser 
+        // defer event registration to handle browser
         // potentially restoring previous scroll position
         setTimeout(this.attachEvent.bind(this), 100);
 
@@ -215,7 +215,13 @@ var headroom = createCommonjsModule(function (module, exports) {
         var classes = this.classes;
 
         this.initialised = false;
-        this.elem.classList.remove(classes.unpinned, classes.pinned, classes.top, classes.notTop, classes.initial);
+
+        for (var key in classes) {
+          if (classes.hasOwnProperty(key)) {
+            this.elem.classList.remove(classes[key]);
+          }
+        }
+
         this.scroller.removeEventListener('scroll', this.debouncer, false);
       },
 
@@ -489,7 +495,7 @@ var headroom = createCommonjsModule(function (module, exports) {
 var whatInput = createCommonjsModule(function (module, exports) {
 	/**
   * what-input - A global utility for tracking the current input method (mouse, keyboard or touch).
-  * @version v4.1.1
+  * @version v4.3.1
   * @link https://github.com/ten1seven/what-input
   * @license MIT
   */
@@ -551,17 +557,19 @@ var whatInput = createCommonjsModule(function (module, exports) {
       * variables
       */
 
-					// cache document.documentElement
-					var docElem = document.documentElement;
-
 					// last used input type
 					var currentInput = 'initial';
 
 					// last used input intent
 					var currentIntent = null;
 
+					// cache document.documentElement
+					var doc = document.documentElement;
+
 					// form input types
 					var formInputs = ['input', 'select', 'textarea'];
+
+					var functionList = [];
 
 					// list of modifier keys commonly used with the mouse and
 					// can be safely ignored to prevent false keyboard detection
@@ -572,16 +580,21 @@ var whatInput = createCommonjsModule(function (module, exports) {
 					93 // Windows menu / right Apple cmd
 					];
 
+					// list of keys for which we change intent even for form inputs
+					var changeIntentMap = [9 // tab
+					];
+
 					// mapping of events to input types
 					var inputMap = {
-						'keyup': 'keyboard',
-						'mousedown': 'mouse',
-						'mousemove': 'mouse',
-						'MSPointerDown': 'pointer',
-						'MSPointerMove': 'pointer',
-						'pointerdown': 'pointer',
-						'pointermove': 'pointer',
-						'touchstart': 'touch'
+						keydown: 'keyboard',
+						keyup: 'keyboard',
+						mousedown: 'mouse',
+						mousemove: 'mouse',
+						MSPointerDown: 'pointer',
+						MSPointerMove: 'pointer',
+						pointerdown: 'pointer',
+						pointermove: 'pointer',
+						touchstart: 'touch'
 					};
 
 					// array of all used input types
@@ -595,8 +608,8 @@ var whatInput = createCommonjsModule(function (module, exports) {
 
 					// store current mouse position
 					var mousePos = {
-						'x': null,
-						'y': null
+						x: null,
+						y: null
 					};
 
 					// map of IE 10 pointer events
@@ -605,6 +618,18 @@ var whatInput = createCommonjsModule(function (module, exports) {
 						3: 'touch', // treat pen like touch
 						4: 'mouse'
 					};
+
+					var supportsPassive = false;
+
+					try {
+						var opts = Object.defineProperty({}, 'passive', {
+							get: function get() {
+								supportsPassive = true;
+							}
+						});
+
+						window.addEventListener('test', null, opts);
+					} catch (e) {}
 
 					/*
       * set up
@@ -626,32 +651,33 @@ var whatInput = createCommonjsModule(function (module, exports) {
 						// `pointermove`, `MSPointerMove`, `mousemove` and mouse wheel event binding
 						// can only demonstrate potential, but not actual, interaction
 						// and are treated separately
+						var options = supportsPassive ? { passive: true } : false;
 
 						// pointer events (mouse, pen, touch)
 						if (window.PointerEvent) {
-							docElem.addEventListener('pointerdown', updateInput);
-							docElem.addEventListener('pointermove', setIntent);
+							doc.addEventListener('pointerdown', updateInput);
+							doc.addEventListener('pointermove', setIntent);
 						} else if (window.MSPointerEvent) {
-							docElem.addEventListener('MSPointerDown', updateInput);
-							docElem.addEventListener('MSPointerMove', setIntent);
+							doc.addEventListener('MSPointerDown', updateInput);
+							doc.addEventListener('MSPointerMove', setIntent);
 						} else {
 							// mouse events
-							docElem.addEventListener('mousedown', updateInput);
-							docElem.addEventListener('mousemove', setIntent);
+							doc.addEventListener('mousedown', updateInput);
+							doc.addEventListener('mousemove', setIntent);
 
 							// touch events
 							if ('ontouchstart' in window) {
-								docElem.addEventListener('touchstart', touchBuffer);
-								docElem.addEventListener('touchend', touchBuffer);
+								doc.addEventListener('touchstart', touchBuffer, options);
+								doc.addEventListener('touchend', touchBuffer);
 							}
 						}
 
 						// mouse wheel
-						docElem.addEventListener(detectWheel(), setIntent);
+						doc.addEventListener(detectWheel(), setIntent, options);
 
 						// keyboard events
-						docElem.addEventListener('keydown', updateInput);
-						docElem.addEventListener('keyup', updateInput);
+						doc.addEventListener('keydown', updateInput);
+						doc.addEventListener('keyup', updateInput);
 					};
 
 					// checks conditions before updating new input
@@ -665,18 +691,17 @@ var whatInput = createCommonjsModule(function (module, exports) {
 							if (currentInput !== value || currentIntent !== value) {
 								var activeElem = document.activeElement;
 								var activeInput = false;
+								var notFormInput = activeElem && activeElem.nodeName && formInputs.indexOf(activeElem.nodeName.toLowerCase()) === -1;
 
-								if (activeElem && activeElem.nodeName && formInputs.indexOf(activeElem.nodeName.toLowerCase()) === -1) {
+								if (notFormInput || changeIntentMap.indexOf(eventKey) !== -1) {
 									activeInput = true;
 								}
 
 								if (value === 'touch' ||
-
 								// ignore mouse modifier keys
-								value === 'mouse' && ignoreMap.indexOf(eventKey) === -1 ||
-
+								value === 'mouse' ||
 								// don't switch if the current element is a form input
-								value === 'keyboard' && activeInput) {
+								value === 'keyboard' && eventKey && activeInput && ignoreMap.indexOf(eventKey) === -1) {
 									// set the current and catch-all variable
 									currentInput = currentIntent = value;
 
@@ -688,13 +713,15 @@ var whatInput = createCommonjsModule(function (module, exports) {
 
 					// updates the doc and `inputTypes` array with new input
 					var setInput = function setInput() {
-						docElem.setAttribute('data-whatinput', currentInput);
-						docElem.setAttribute('data-whatintent', currentInput);
+						doc.setAttribute('data-whatinput', currentInput);
+						doc.setAttribute('data-whatintent', currentInput);
 
 						if (inputTypes.indexOf(currentInput) === -1) {
 							inputTypes.push(currentInput);
-							docElem.className += ' whatinput-types-' + currentInput;
+							doc.className += ' whatinput-types-' + currentInput;
 						}
+
+						fireFunctions('input');
 					};
 
 					// updates input intent for `mousemove` and `pointermove`
@@ -719,7 +746,9 @@ var whatInput = createCommonjsModule(function (module, exports) {
 							if (currentIntent !== value) {
 								currentIntent = value;
 
-								docElem.setAttribute('data-whatintent', currentIntent);
+								doc.setAttribute('data-whatintent', currentIntent);
+
+								fireFunctions('intent');
 							}
 						}
 					};
@@ -733,6 +762,14 @@ var whatInput = createCommonjsModule(function (module, exports) {
 							updateInput(event);
 						} else {
 							isBuffering = true;
+						}
+					};
+
+					var fireFunctions = function fireFunctions(type) {
+						for (var i = 0, len = functionList.length; i < len; i++) {
+							if (functionList[i].type === type) {
+								functionList[i].fn.call(undefined, currentIntent);
+							}
 						}
 					};
 
@@ -766,6 +803,14 @@ var whatInput = createCommonjsModule(function (module, exports) {
 						return wheelType;
 					};
 
+					var objPos = function objPos(match) {
+						for (var i = 0, len = functionList.length; i < len; i++) {
+							if (functionList[i].fn === match) {
+								return i;
+							}
+						}
+					};
+
 					/*
       * init
       */
@@ -792,6 +837,29 @@ var whatInput = createCommonjsModule(function (module, exports) {
 						// returns array: all the detected input types
 						types: function types() {
 							return inputTypes;
+						},
+
+						// overwrites ignored keys with provided array
+						ignoreKeys: function ignoreKeys(arr) {
+							ignoreMap = arr;
+						},
+
+						// attach functions to input and intent "events"
+						// funct: function to fire on change
+						// eventType: 'input'|'intent'
+						registerOnChange: function registerOnChange(fn, eventType) {
+							functionList.push({
+								fn: fn,
+								type: eventType || 'input'
+							});
+						},
+
+						unRegisterOnChange: function unRegisterOnChange(fn) {
+							var position = objPos(fn);
+
+							if (position) {
+								functionList.splice(position, 1);
+							}
 						}
 					};
 				}();
@@ -814,7 +882,7 @@ var svg4everybody = createCommonjsModule(function (module) {
         // like Node.
         module.exports = factory() : root.svg4everybody = factory();
     }(commonjsGlobal, function () {
-        /*! svg4everybody v2.1.7 | github.com/jonathantneal/svg4everybody */
+        /*! svg4everybody v2.1.9 | github.com/jonathantneal/svg4everybody */
         function embed(parent, svg, target) {
             // if the target exists
             if (target) {
@@ -861,9 +929,9 @@ var svg4everybody = createCommonjsModule(function (module) {
                     // get the current <use>
                     var use = uses[index],
                         parent = use.parentNode,
-                        svg = getSVGAncestor(parent);
-                    if (svg) {
-                        var src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                        svg = getSVGAncestor(parent),
+                        src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                    if (!src && opts.attributeName && (src = use.getAttribute(opts.attributeName)), svg && src) {
                         if (polyfill) {
                             if (!opts.validate || opts.validate(src, svg, use)) {
                                 // remove the <use> element
@@ -926,7 +994,7 @@ var svg4everybody = createCommonjsModule(function (module) {
 });
 
 var fontfaceobserver_standalone = createCommonjsModule(function (module) {
-  (function () {
+  /* Font Face Observer v2.0.13 - © Bram Stein. License: BSD-3-Clause */(function () {
     function l(a, b) {
       document.addEventListener ? a.addEventListener("scroll", b, !1) : a.attachEvent("scroll", b);
     }function m(a) {
@@ -940,7 +1008,7 @@ var fontfaceobserver_standalone = createCommonjsModule(function (module) {
       this.f.style.cssText = "max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";this.h.style.cssText = "display:inline-block;width:200%;height:200%;font-size:16px;max-width:none;";this.b.appendChild(this.h);this.c.appendChild(this.f);this.a.appendChild(this.b);this.a.appendChild(this.c);
     }
     function t(a, b) {
-      a.a.style.cssText = "max-width:none;min-width:20px;min-height:20px;display:inline-block;overflow:hidden;position:absolute;width:auto;margin:0;padding:0;top:-999px;left:-999px;white-space:nowrap;font-synthesis:none;font:" + b + ";";
+      a.a.style.cssText = "max-width:none;min-width:20px;min-height:20px;display:inline-block;overflow:hidden;position:absolute;width:auto;margin:0;padding:0;top:-999px;white-space:nowrap;font-synthesis:none;font:" + b + ";";
     }function y(a) {
       var b = a.a.offsetWidth,
           c = b + 100;a.f.style.width = c + "px";a.c.scrollLeft = c;a.b.scrollLeft = a.b.scrollWidth + 100;return a.g !== b ? (a.g = b, !0) : !1;
@@ -3716,23 +3784,24 @@ var initComparisonImages = function initComparisonImages() {
 
 var swiper = createCommonjsModule(function (module) {
     /**
-     * Swiper 3.4.1
+     * Swiper 3.4.2
      * Most modern mobile touch slider and framework with hardware accelerated transitions
      * 
      * http://www.idangero.us/swiper/
      * 
-     * Copyright 2016, Vladimir Kharlampidi
+     * Copyright 2017, Vladimir Kharlampidi
      * The iDangero.us
      * http://www.idangero.us/
      * 
      * Licensed under MIT
      * 
-     * Released on: December 13, 2016
+     * Released on: March 10, 2017
      */
     (function () {
         'use strict';
 
         var $;
+
         /*===========================
         Swiper
         ===========================*/
@@ -3938,6 +4007,8 @@ var swiper = createCommonjsModule(function (module) {
                 Callbacks:
                 onInit: function (swiper)
                 onDestroy: function (swiper)
+                onBeforeResize: function (swiper)
+                onAfterResize: function (swiper)
                 onClick: function (swiper, e)
                 onTap: function (swiper, e)
                 onDoubleTap: function (swiper, e)
@@ -3960,6 +4031,7 @@ var swiper = createCommonjsModule(function (module) {
                 onAutoplayStop: function (swiper),
                 onLazyImageLoad: function (swiper, slide, image)
                 onLazyImageReady: function (swiper, slide, image)
+                onKeyPress: function (swiper, keyCode)
                 */
 
             };
@@ -4119,7 +4191,6 @@ var swiper = createCommonjsModule(function (module) {
                 s.params.centeredSlides = false;
                 s.params.spaceBetween = 0;
                 s.params.virtualTranslate = true;
-                s.params.setWrapperSize = false;
             }
             if (s.params.effect === 'fade' || s.params.effect === 'flip') {
                 s.params.slidesPerView = 1;
@@ -4127,7 +4198,6 @@ var swiper = createCommonjsModule(function (module) {
                 s.params.slidesPerGroup = 1;
                 s.params.watchSlidesProgress = true;
                 s.params.spaceBetween = 0;
-                s.params.setWrapperSize = false;
                 if (typeof initialVirtualTranslate === 'undefined') {
                     s.params.virtualTranslate = true;
                 }
@@ -4532,6 +4602,7 @@ var swiper = createCommonjsModule(function (module) {
 
                     if (s.params.centeredSlides) {
                         slidePosition = slidePosition + slideSize / 2 + prevSlideSize / 2 + spaceBetween;
+                        if (prevSlideSize === 0 && i !== 0) slidePosition = slidePosition - s.size / 2 - spaceBetween;
                         if (i === 0) slidePosition = slidePosition - s.size / 2 - spaceBetween;
                         if (Math.abs(slidePosition) < 1 / 1000) slidePosition = 0;
                         if (index % s.params.slidesPerGroup === 0) s.snapGrid.push(slidePosition);
@@ -4896,6 +4967,7 @@ var swiper = createCommonjsModule(function (module) {
                 if (s.params.scrollbar && s.scrollbar) {
                     s.scrollbar.set();
                 }
+                var newTranslate;
                 function forceSetTranslate() {
                     var translate = s.rtl ? -s.translate : s.translate;
                     newTranslate = Math.min(Math.max(s.translate, s.maxTranslate()), s.minTranslate());
@@ -4904,7 +4976,7 @@ var swiper = createCommonjsModule(function (module) {
                     s.updateClasses();
                 }
                 if (updateTranslate) {
-                    var translated, newTranslate;
+                    var translated;
                     if (s.controller && s.controller.spline) {
                         s.controller.spline = undefined;
                     }
@@ -4932,6 +5004,7 @@ var swiper = createCommonjsModule(function (module) {
               Resize Handler
               ===========================*/
             s.onResize = function (forceUpdatePagination) {
+                if (s.params.onBeforeResize) s.params.onBeforeResize(s);
                 //Breakpoints
                 if (s.params.breakpoints) {
                     s.setBreakpoint();
@@ -4975,6 +5048,7 @@ var swiper = createCommonjsModule(function (module) {
                 // Return locks after resize
                 s.params.allowSwipeToPrev = allowSwipeToPrev;
                 s.params.allowSwipeToNext = allowSwipeToNext;
+                if (s.params.onAfterResize) s.params.onAfterResize(s);
             };
 
             /*=========================
@@ -5289,7 +5363,7 @@ var swiper = createCommonjsModule(function (module) {
                 if (isScrolling) {
                     s.emit('onTouchMoveOpposite', s, e);
                 }
-                if (typeof startMoving === 'undefined' && s.browser.ieTouch) {
+                if (typeof startMoving === 'undefined') {
                     if (s.touches.currentX !== s.touches.startX || s.touches.currentY !== s.touches.startY) {
                         startMoving = true;
                     }
@@ -5299,7 +5373,7 @@ var swiper = createCommonjsModule(function (module) {
                     isTouched = false;
                     return;
                 }
-                if (!startMoving && s.browser.ieTouch) {
+                if (!startMoving) {
                     return;
                 }
                 s.allowClick = false;
@@ -6398,6 +6472,7 @@ var swiper = createCommonjsModule(function (module) {
                             srcset = _img.attr('data-srcset'),
                             sizes = _img.attr('data-sizes');
                         s.loadImage(_img[0], src || background, srcset, sizes, false, function () {
+                            if (typeof s === 'undefined' || s === null || !s) return;
                             if (background) {
                                 _img.css('background-image', 'url("' + background + '")');
                                 _img.removeAttr('data-background');
@@ -6570,9 +6645,9 @@ var swiper = createCommonjsModule(function (module) {
                 disableDraggable: function disableDraggable() {
                     var sb = s.scrollbar;
                     var target = s.support.touch ? sb.track : document;
-                    $(sb.track).off(s.draggableEvents.start, sb.dragStart);
-                    $(target).off(s.draggableEvents.move, sb.dragMove);
-                    $(target).off(s.draggableEvents.end, sb.dragEnd);
+                    $(sb.track).off(sb.draggableEvents.start, sb.dragStart);
+                    $(target).off(sb.draggableEvents.move, sb.dragMove);
+                    $(target).off(sb.draggableEvents.end, sb.dragEnd);
                 },
                 set: function set$$1() {
                     if (!s.params.scrollbar) return;
@@ -6669,6 +6744,20 @@ var swiper = createCommonjsModule(function (module) {
               ===========================*/
             s.controller = {
                 LinearSpline: function LinearSpline(x, y) {
+                    var binarySearch = function () {
+                        var maxIndex, minIndex, guess;
+                        return function (array, val) {
+                            minIndex = -1;
+                            maxIndex = array.length;
+                            while (maxIndex - minIndex > 1) {
+                                if (array[guess = maxIndex + minIndex >> 1] <= val) {
+                                    minIndex = guess;
+                                } else {
+                                    maxIndex = guess;
+                                }
+                            }return maxIndex;
+                        };
+                    }();
                     this.x = x;
                     this.y = y;
                     this.lastIndex = x.length - 1;
@@ -6689,21 +6778,6 @@ var swiper = createCommonjsModule(function (module) {
                         // y2 := ((x2−x1) × (y3−y1)) ÷ (x3−x1) + y1
                         return (x2 - this.x[i1]) * (this.y[i3] - this.y[i1]) / (this.x[i3] - this.x[i1]) + this.y[i1];
                     };
-
-                    var binarySearch = function () {
-                        var maxIndex, minIndex, guess;
-                        return function (array, val) {
-                            minIndex = -1;
-                            maxIndex = array.length;
-                            while (maxIndex - minIndex > 1) {
-                                if (array[guess = maxIndex + minIndex >> 1] <= val) {
-                                    minIndex = guess;
-                                } else {
-                                    maxIndex = guess;
-                                }
-                            }return maxIndex;
-                        };
-                    }();
                 },
                 //xxx: for now i will just save one spline function to to
                 getInterpolateFunction: function getInterpolateFunction(c) {
@@ -6737,7 +6811,7 @@ var swiper = createCommonjsModule(function (module) {
                         c.setWrapperTranslate(controlledTranslate, false, s);
                         c.updateActiveIndex();
                     }
-                    if (s.isArray(controlled)) {
+                    if (Array.isArray(controlled)) {
                         for (var i = 0; i < controlled.length; i++) {
                             if (controlled[i] !== byController && controlled[i] instanceof Swiper) {
                                 setControlledTranslate(controlled[i]);
@@ -6764,7 +6838,7 @@ var swiper = createCommonjsModule(function (module) {
                             });
                         }
                     }
-                    if (s.isArray(controlled)) {
+                    if (Array.isArray(controlled)) {
                         for (i = 0; i < controlled.length; i++) {
                             if (controlled[i] !== byController && controlled[i] instanceof Swiper) {
                                 setControlledTransition(controlled[i]);
@@ -6805,14 +6879,15 @@ var swiper = createCommonjsModule(function (module) {
                     if (!s.params.hashnav || s.params.history) return;
                     s.hashnav.initialized = true;
                     var hash = document.location.hash.replace('#', '');
-                    if (!hash) return;
-                    var speed = 0;
-                    for (var i = 0, length = s.slides.length; i < length; i++) {
-                        var slide = s.slides.eq(i);
-                        var slideHash = slide.attr('data-hash') || slide.attr('data-history');
-                        if (slideHash === hash && !slide.hasClass(s.params.slideDuplicateClass)) {
-                            var index = slide.index();
-                            s.slideTo(index, speed, s.params.runCallbacksOnInit, true);
+                    if (hash) {
+                        var speed = 0;
+                        for (var i = 0, length = s.slides.length; i < length; i++) {
+                            var slide = s.slides.eq(i);
+                            var slideHash = slide.attr('data-hash') || slide.attr('data-history');
+                            if (slideHash === hash && !slide.hasClass(s.params.slideDuplicateClass)) {
+                                var index = slide.index();
+                                s.slideTo(index, speed, s.params.runCallbacksOnInit, true);
+                            }
                         }
                     }
                     if (s.params.hashnavWatchState) s.hashnav.attachEvents();
@@ -6939,6 +7014,7 @@ var swiper = createCommonjsModule(function (module) {
                     if (kc === 40) s.slideNext();
                     if (kc === 38) s.slidePrev();
                 }
+                s.emit('onKeyPress', s, kc);
             }
             s.disableKeyboardControl = function () {
                 s.params.keyboardControl = false;
@@ -6956,15 +7032,6 @@ var swiper = createCommonjsModule(function (module) {
                 event: false,
                 lastScrollTime: new window.Date().getTime()
             };
-            if (s.params.mousewheelControl) {
-                /**
-                 * The best combination if you prefer spinX + spinY normalization.  It favors
-                 * the older DOMMouseScroll for Firefox, as FF does not include wheelDelta with
-                 * 'wheel' event, making spin speed determination impossible.
-                 */
-                s.mousewheel.event = navigator.userAgent.indexOf('firefox') > -1 ? 'DOMMouseScroll' : isEventSupported() ? 'wheel' : 'mousewheel';
-            }
-
             function isEventSupported() {
                 var eventName = 'onwheel';
                 var isSupported = eventName in document;
@@ -6985,104 +7052,6 @@ var swiper = createCommonjsModule(function (module) {
 
                 return isSupported;
             }
-
-            function handleMousewheel(e) {
-                if (e.originalEvent) e = e.originalEvent; //jquery fix
-                var delta = 0;
-                var rtlFactor = s.rtl ? -1 : 1;
-
-                var data = normalizeWheel(e);
-
-                if (s.params.mousewheelForceToAxis) {
-                    if (s.isHorizontal()) {
-                        if (Math.abs(data.pixelX) > Math.abs(data.pixelY)) delta = data.pixelX * rtlFactor;else return;
-                    } else {
-                        if (Math.abs(data.pixelY) > Math.abs(data.pixelX)) delta = data.pixelY;else return;
-                    }
-                } else {
-                    delta = Math.abs(data.pixelX) > Math.abs(data.pixelY) ? -data.pixelX * rtlFactor : -data.pixelY;
-                }
-
-                if (delta === 0) return;
-
-                if (s.params.mousewheelInvert) delta = -delta;
-
-                if (!s.params.freeMode) {
-                    if (new window.Date().getTime() - s.mousewheel.lastScrollTime > 60) {
-                        if (delta < 0) {
-                            if ((!s.isEnd || s.params.loop) && !s.animating) {
-                                s.slideNext();
-                                s.emit('onScroll', s, e);
-                            } else if (s.params.mousewheelReleaseOnEdges) return true;
-                        } else {
-                            if ((!s.isBeginning || s.params.loop) && !s.animating) {
-                                s.slidePrev();
-                                s.emit('onScroll', s, e);
-                            } else if (s.params.mousewheelReleaseOnEdges) return true;
-                        }
-                    }
-                    s.mousewheel.lastScrollTime = new window.Date().getTime();
-                } else {
-                    //Freemode or scrollContainer:
-                    var position = s.getWrapperTranslate() + delta * s.params.mousewheelSensitivity;
-                    var wasBeginning = s.isBeginning,
-                        wasEnd = s.isEnd;
-
-                    if (position >= s.minTranslate()) position = s.minTranslate();
-                    if (position <= s.maxTranslate()) position = s.maxTranslate();
-
-                    s.setWrapperTransition(0);
-                    s.setWrapperTranslate(position);
-                    s.updateProgress();
-                    s.updateActiveIndex();
-
-                    if (!wasBeginning && s.isBeginning || !wasEnd && s.isEnd) {
-                        s.updateClasses();
-                    }
-
-                    if (s.params.freeModeSticky) {
-                        clearTimeout(s.mousewheel.timeout);
-                        s.mousewheel.timeout = setTimeout(function () {
-                            s.slideReset();
-                        }, 300);
-                    } else {
-                        if (s.params.lazyLoading && s.lazy) {
-                            s.lazy.load();
-                        }
-                    }
-                    // Emit event
-                    s.emit('onScroll', s, e);
-
-                    // Stop autoplay
-                    if (s.params.autoplay && s.params.autoplayDisableOnInteraction) s.stopAutoplay();
-
-                    // Return page scroll on edge positions
-                    if (position === 0 || position === s.maxTranslate()) return;
-                }
-
-                if (e.preventDefault) e.preventDefault();else e.returnValue = false;
-                return false;
-            }
-            s.disableMousewheelControl = function () {
-                if (!s.mousewheel.event) return false;
-                var target = s.container;
-                if (s.params.mousewheelEventsTarged !== 'container') {
-                    target = $(s.params.mousewheelEventsTarged);
-                }
-                target.off(s.mousewheel.event, handleMousewheel);
-                return true;
-            };
-
-            s.enableMousewheelControl = function () {
-                if (!s.mousewheel.event) return false;
-                var target = s.container;
-                if (s.params.mousewheelEventsTarged !== 'container') {
-                    target = $(s.params.mousewheelEventsTarged);
-                }
-                target.on(s.mousewheel.event, handleMousewheel);
-                return true;
-            };
-
             /**
              * Mouse wheel (and 2-finger trackpad) support on the web sucks.  It is
              * complicated, thus this doc is long and (hopefully) detailed enough to answer
@@ -7252,6 +7221,112 @@ var swiper = createCommonjsModule(function (module) {
                     pixelY: pY
                 };
             }
+            if (s.params.mousewheelControl) {
+                /**
+                 * The best combination if you prefer spinX + spinY normalization.  It favors
+                 * the older DOMMouseScroll for Firefox, as FF does not include wheelDelta with
+                 * 'wheel' event, making spin speed determination impossible.
+                 */
+                s.mousewheel.event = navigator.userAgent.indexOf('firefox') > -1 ? 'DOMMouseScroll' : isEventSupported() ? 'wheel' : 'mousewheel';
+            }
+            function handleMousewheel(e) {
+                if (e.originalEvent) e = e.originalEvent; //jquery fix
+                var delta = 0;
+                var rtlFactor = s.rtl ? -1 : 1;
+
+                var data = normalizeWheel(e);
+
+                if (s.params.mousewheelForceToAxis) {
+                    if (s.isHorizontal()) {
+                        if (Math.abs(data.pixelX) > Math.abs(data.pixelY)) delta = data.pixelX * rtlFactor;else return;
+                    } else {
+                        if (Math.abs(data.pixelY) > Math.abs(data.pixelX)) delta = data.pixelY;else return;
+                    }
+                } else {
+                    delta = Math.abs(data.pixelX) > Math.abs(data.pixelY) ? -data.pixelX * rtlFactor : -data.pixelY;
+                }
+
+                if (delta === 0) return;
+
+                if (s.params.mousewheelInvert) delta = -delta;
+
+                if (!s.params.freeMode) {
+                    if (new window.Date().getTime() - s.mousewheel.lastScrollTime > 60) {
+                        if (delta < 0) {
+                            if ((!s.isEnd || s.params.loop) && !s.animating) {
+                                s.slideNext();
+                                s.emit('onScroll', s, e);
+                            } else if (s.params.mousewheelReleaseOnEdges) return true;
+                        } else {
+                            if ((!s.isBeginning || s.params.loop) && !s.animating) {
+                                s.slidePrev();
+                                s.emit('onScroll', s, e);
+                            } else if (s.params.mousewheelReleaseOnEdges) return true;
+                        }
+                    }
+                    s.mousewheel.lastScrollTime = new window.Date().getTime();
+                } else {
+                    //Freemode or scrollContainer:
+                    var position = s.getWrapperTranslate() + delta * s.params.mousewheelSensitivity;
+                    var wasBeginning = s.isBeginning,
+                        wasEnd = s.isEnd;
+
+                    if (position >= s.minTranslate()) position = s.minTranslate();
+                    if (position <= s.maxTranslate()) position = s.maxTranslate();
+
+                    s.setWrapperTransition(0);
+                    s.setWrapperTranslate(position);
+                    s.updateProgress();
+                    s.updateActiveIndex();
+
+                    if (!wasBeginning && s.isBeginning || !wasEnd && s.isEnd) {
+                        s.updateClasses();
+                    }
+
+                    if (s.params.freeModeSticky) {
+                        clearTimeout(s.mousewheel.timeout);
+                        s.mousewheel.timeout = setTimeout(function () {
+                            s.slideReset();
+                        }, 300);
+                    } else {
+                        if (s.params.lazyLoading && s.lazy) {
+                            s.lazy.load();
+                        }
+                    }
+                    // Emit event
+                    s.emit('onScroll', s, e);
+
+                    // Stop autoplay
+                    if (s.params.autoplay && s.params.autoplayDisableOnInteraction) s.stopAutoplay();
+
+                    // Return page scroll on edge positions
+                    if (position === 0 || position === s.maxTranslate()) return;
+                }
+
+                if (e.preventDefault) e.preventDefault();else e.returnValue = false;
+                return false;
+            }
+            s.disableMousewheelControl = function () {
+                if (!s.mousewheel.event) return false;
+                var target = s.container;
+                if (s.params.mousewheelEventsTarged !== 'container') {
+                    target = $(s.params.mousewheelEventsTarged);
+                }
+                target.off(s.mousewheel.event, handleMousewheel);
+                s.params.mousewheelControl = false;
+                return true;
+            };
+
+            s.enableMousewheelControl = function () {
+                if (!s.mousewheel.event) return false;
+                var target = s.container;
+                if (s.params.mousewheelEventsTarged !== 'container') {
+                    target = $(s.params.mousewheelEventsTarged);
+                }
+                target.on(s.mousewheel.event, handleMousewheel);
+                s.params.mousewheelControl = true;
+                return true;
+            };
 
             /*=========================
               Parallax
@@ -8763,12 +8838,14 @@ var swiper = createCommonjsModule(function (module) {
 
         window.Swiper = Swiper;
     })();
+
     /*===========================
     Swiper AMD Export
     ===========================*/
     {
         module.exports = window.Swiper;
     }
+
     
 });
 
@@ -8822,7 +8899,7 @@ var VanillaTilt$1 = function () {
    * Created by Șandor Sergiu (micku7zu) on 1/27/2017.
    * Original idea: https://github.com/gijsroge/tilt.js
    * MIT License.
-   * Version 1.3.0
+   * Version 1.4.1
    */
 
   var VanillaTilt = function () {
@@ -8842,32 +8919,58 @@ var VanillaTilt$1 = function () {
       this.updateCall = null;
 
       this.updateBind = this.update.bind(this);
+      this.resetBind = this.reset.bind(this);
 
       this.element = element;
       this.settings = this.extendSettings(settings);
 
       this.reverse = this.settings.reverse ? -1 : 1;
 
+      this.glare = this.isSettingTrue(this.settings.glare);
+      this.glarePrerender = this.isSettingTrue(this.settings["glare-prerender"]);
+
+      if (this.glare) {
+        this.prepareGlare();
+      }
+
       this.addEventListeners();
     }
+
+    VanillaTilt.prototype.isSettingTrue = function isSettingTrue(setting) {
+      return setting === "" || setting === true || setting === 1;
+    };
 
     VanillaTilt.prototype.addEventListeners = function addEventListeners() {
       this.onMouseEnterBind = this.onMouseEnter.bind(this);
       this.onMouseMoveBind = this.onMouseMove.bind(this);
       this.onMouseLeaveBind = this.onMouseLeave.bind(this);
+      this.onWindowResizeBind = this.onWindowResizeBind.bind(this);
 
       this.element.addEventListener("mouseenter", this.onMouseEnterBind);
       this.element.addEventListener("mousemove", this.onMouseMoveBind);
       this.element.addEventListener("mouseleave", this.onMouseLeaveBind);
+      if (this.glare) {
+        window.addEventListener("resize", this.onWindowResizeBind);
+      }
     };
 
     VanillaTilt.prototype.removeEventListeners = function removeEventListeners() {
       this.element.removeEventListener("mouseenter", this.onMouseEnterBind);
       this.element.removeEventListener("mousemove", this.onMouseMoveBind);
       this.element.removeEventListener("mouseleave", this.onMouseLeaveBind);
+      if (this.glare) {
+        window.removeEventListener("resize", this.onWindowResizeBind);
+      }
     };
 
     VanillaTilt.prototype.destroy = function destroy() {
+      clearTimeout(this.transitionTimeout);
+      if (this.updateCall !== null) {
+        cancelAnimationFrame(this.updateCall);
+      }
+
+      this.reset();
+
       this.removeEventListeners();
       this.element.vanillaTilt = null;
       delete this.element.vanillaTilt;
@@ -8894,21 +8997,22 @@ var VanillaTilt$1 = function () {
       this.setTransition();
 
       if (this.settings.reset) {
-        this.reset();
+        requestAnimationFrame(this.resetBind);
       }
     };
 
     VanillaTilt.prototype.reset = function reset() {
-      var _this = this;
+      this.event = {
+        pageX: this.left + this.width / 2,
+        pageY: this.top + this.height / 2
+      };
 
-      requestAnimationFrame(function () {
-        _this.event = {
-          pageX: _this.left + _this.width / 2,
-          pageY: _this.top + _this.height / 2
-        };
+      this.element.style.transform = "perspective(" + this.settings.perspective + "px) " + "rotateX(0deg) " + "rotateY(0deg) " + "scale3d(1, 1, 1)";
 
-        _this.element.style.transform = "perspective(" + _this.settings.perspective + "px) " + "rotateX(0deg) " + "rotateY(0deg) " + "scale3d(1, 1, 1)";
-      });
+      if (this.glare) {
+        this.glareElement.style.transform = 'rotate(180deg) translate(-50%, -50%)';
+        this.glareElement.style.opacity = '0';
+      }
     };
 
     VanillaTilt.prototype.getValues = function getValues() {
@@ -8920,12 +9024,14 @@ var VanillaTilt$1 = function () {
 
       var tiltX = (this.reverse * (this.settings.max / 2 - x * this.settings.max)).toFixed(2);
       var tiltY = (this.reverse * (y * this.settings.max - this.settings.max / 2)).toFixed(2);
+      var angle = Math.atan2(this.event.clientX - (this.left + this.width / 2), -(this.event.clientY - (this.top + this.height / 2))) * (180 / Math.PI);
 
       return {
         tiltX: tiltX,
         tiltY: tiltY,
         percentageX: x * 100,
-        percentageY: y * 100
+        percentageY: y * 100,
+        angle: angle
       };
     };
 
@@ -8943,6 +9049,11 @@ var VanillaTilt$1 = function () {
 
       this.element.style.transform = "perspective(" + this.settings.perspective + "px) " + "rotateX(" + (this.settings.axis === "x" ? 0 : values.tiltY) + "deg) " + "rotateY(" + (this.settings.axis === "y" ? 0 : values.tiltX) + "deg) " + "scale3d(" + this.settings.scale + ", " + this.settings.scale + ", " + this.settings.scale + ")";
 
+      if (this.glare) {
+        this.glareElement.style.transform = "rotate(" + values.angle + "deg) translate(-50%, -50%)";
+        this.glareElement.style.opacity = "" + values.percentageY * this.settings["max-glare"] / 100;
+      }
+
       this.element.dispatchEvent(new CustomEvent("tiltChange", {
         "detail": values
       }));
@@ -8950,13 +9061,78 @@ var VanillaTilt$1 = function () {
       this.updateCall = null;
     };
 
+    /**
+     * Appends the glare element (if glarePrerender equals false)
+     * and sets the default style
+     */
+
+    VanillaTilt.prototype.prepareGlare = function prepareGlare() {
+      // If option pre-render is enabled we assume all html/css is present for an optimal glare effect.
+      if (!this.glarePrerender) {
+        // Create glare element
+        var jsTiltGlare = document.createElement("div");
+        jsTiltGlare.classList.add("js-tilt-glare");
+
+        var jsTiltGlareInner = document.createElement("div");
+        jsTiltGlareInner.classList.add("js-tilt-glare-inner");
+
+        jsTiltGlare.appendChild(jsTiltGlareInner);
+        this.element.appendChild(jsTiltGlare);
+      }
+
+      this.glareElementWrapper = this.element.querySelector(".js-tilt-glare");
+      this.glareElement = this.element.querySelector(".js-tilt-glare-inner");
+
+      if (this.glarePrerender) {
+        return;
+      }
+
+      Object.assign(this.glareElementWrapper.style, {
+        "position": "absolute",
+        "top": "0",
+        "left": "0",
+        "width": "100%",
+        "height": "100%",
+        "overflow": "hidden"
+      });
+
+      Object.assign(this.glareElement.style, {
+        'position': 'absolute',
+        'top': '50%',
+        'left': '50%',
+        'pointer-events': 'none',
+        'background-image': "linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)",
+        'width': this.element.offsetWidth * 2 + "px",
+        'height': this.element.offsetWidth * 2 + "px",
+        'transform': 'rotate(180deg) translate(-50%, -50%)',
+        'transform-origin': '0% 0%',
+        'opacity': '0'
+      });
+    };
+
+    VanillaTilt.prototype.updateGlareSize = function updateGlareSize() {
+      Object.assign(this.glareElement.style, {
+        'width': "" + this.element.offsetWidth * 2,
+        'height': "" + this.element.offsetWidth * 2
+      });
+    };
+
+    VanillaTilt.prototype.onWindowResizeBind = function onWindowResizeBind() {
+      this.updateGlareSize();
+    };
+
     VanillaTilt.prototype.setTransition = function setTransition() {
-      var _this2 = this;
+      var _this = this;
 
       clearTimeout(this.transitionTimeout);
       this.element.style.transition = this.settings.speed + "ms " + this.settings.easing;
+      if (this.glare) this.glareElement.style.transition = "opacity " + this.settings.speed + "ms " + this.settings.easing;
+
       this.transitionTimeout = setTimeout(function () {
-        return _this2.element.style.transition = "";
+        _this.element.style.transition = "";
+        if (_this.glare) {
+          _this.glareElement.style.transition = "";
+        }
       }, this.settings.speed);
     };
 
@@ -8970,11 +9146,13 @@ var VanillaTilt$1 = function () {
         speed: "300",
         transition: true,
         axis: null,
+        glare: false,
+        "max-glare": 1,
+        "glare-prerender": false,
         reset: true
       };
 
       var newSettings = {};
-
       for (var property in defaultSettings) {
         if (property in settings) {
           newSettings[property] = settings[property];
@@ -9044,7 +9222,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
    * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
    * @license   Licensed under MIT license
    *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
-   * @version   4.1.0
+   * @version   4.1.1
    */
 
   (function (global, factory) {
@@ -9053,7 +9231,8 @@ var es6Promise = createCommonjsModule(function (module, exports) {
     'use strict';
 
     function objectOrFunction(x) {
-      return typeof x === 'function' || (typeof x === 'undefined' ? 'undefined' : _typeof(x)) === 'object' && x !== null;
+      var type = typeof x === 'undefined' ? 'undefined' : _typeof(x);
+      return x !== null && (type === 'object' || type === 'function');
     }
 
     function isFunction(x) {
@@ -9061,12 +9240,12 @@ var es6Promise = createCommonjsModule(function (module, exports) {
     }
 
     var _isArray = undefined;
-    if (!Array.isArray) {
+    if (Array.isArray) {
+      _isArray = Array.isArray;
+    } else {
       _isArray = function _isArray(x) {
         return Object.prototype.toString.call(x) === '[object Array]';
       };
-    } else {
-      _isArray = Array.isArray;
     }
 
     var isArray = _isArray;
@@ -9254,7 +9433,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       @return {Promise} a promise that will become fulfilled with the given
       `value`
     */
-    function resolve(object) {
+    function resolve$1(object) {
       /*jshint validthis:true */
       var Constructor = this;
 
@@ -9263,7 +9442,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       }
 
       var promise = new Constructor(noop);
-      _resolve(promise, object);
+      resolve(promise, object);
       return promise;
     }
 
@@ -9294,24 +9473,24 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       }
     }
 
-    function tryThen(then, value, fulfillmentHandler, rejectionHandler) {
+    function tryThen(then$$1, value, fulfillmentHandler, rejectionHandler) {
       try {
-        then.call(value, fulfillmentHandler, rejectionHandler);
+        then$$1.call(value, fulfillmentHandler, rejectionHandler);
       } catch (e) {
         return e;
       }
     }
 
-    function handleForeignThenable(promise, thenable, then) {
+    function handleForeignThenable(promise, thenable, then$$1) {
       asap(function (promise) {
         var sealed = false;
-        var error = tryThen(then, thenable, function (value) {
+        var error = tryThen(then$$1, thenable, function (value) {
           if (sealed) {
             return;
           }
           sealed = true;
           if (thenable !== value) {
-            _resolve(promise, value);
+            resolve(promise, value);
           } else {
             fulfill(promise, value);
           }
@@ -9321,12 +9500,12 @@ var es6Promise = createCommonjsModule(function (module, exports) {
           }
           sealed = true;
 
-          _reject(promise, reason);
+          reject(promise, reason);
         }, 'Settle: ' + (promise._label || ' unknown promise'));
 
         if (!sealed && error) {
           sealed = true;
-          _reject(promise, error);
+          reject(promise, error);
         }
       }, promise);
     }
@@ -9335,36 +9514,36 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       if (thenable._state === FULFILLED) {
         fulfill(promise, thenable._result);
       } else if (thenable._state === REJECTED) {
-        _reject(promise, thenable._result);
+        reject(promise, thenable._result);
       } else {
         subscribe(thenable, undefined, function (value) {
-          return _resolve(promise, value);
+          return resolve(promise, value);
         }, function (reason) {
-          return _reject(promise, reason);
+          return reject(promise, reason);
         });
       }
     }
 
-    function handleMaybeThenable(promise, maybeThenable, then$$) {
-      if (maybeThenable.constructor === promise.constructor && then$$ === then && maybeThenable.constructor.resolve === resolve) {
+    function handleMaybeThenable(promise, maybeThenable, then$$1) {
+      if (maybeThenable.constructor === promise.constructor && then$$1 === then && maybeThenable.constructor.resolve === resolve$1) {
         handleOwnThenable(promise, maybeThenable);
       } else {
-        if (then$$ === GET_THEN_ERROR) {
-          _reject(promise, GET_THEN_ERROR.error);
+        if (then$$1 === GET_THEN_ERROR) {
+          reject(promise, GET_THEN_ERROR.error);
           GET_THEN_ERROR.error = null;
-        } else if (then$$ === undefined) {
+        } else if (then$$1 === undefined) {
           fulfill(promise, maybeThenable);
-        } else if (isFunction(then$$)) {
-          handleForeignThenable(promise, maybeThenable, then$$);
+        } else if (isFunction(then$$1)) {
+          handleForeignThenable(promise, maybeThenable, then$$1);
         } else {
           fulfill(promise, maybeThenable);
         }
       }
     }
 
-    function _resolve(promise, value) {
+    function resolve(promise, value) {
       if (promise === value) {
-        _reject(promise, selfFulfillment());
+        reject(promise, selfFulfillment());
       } else if (objectOrFunction(value)) {
         handleMaybeThenable(promise, value, getThen(value));
       } else {
@@ -9393,7 +9572,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       }
     }
 
-    function _reject(promise, reason) {
+    function reject(promise, reason) {
       if (promise._state !== PENDING) {
         return;
       }
@@ -9478,7 +9657,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
         }
 
         if (promise === value) {
-          _reject(promise, cannotReturnOwn());
+          reject(promise, cannotReturnOwn());
           return;
         }
       } else {
@@ -9489,25 +9668,25 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       if (promise._state !== PENDING) {
         // noop
       } else if (hasCallback && succeeded) {
-        _resolve(promise, value);
+        resolve(promise, value);
       } else if (failed) {
-        _reject(promise, error);
+        reject(promise, error);
       } else if (settled === FULFILLED) {
         fulfill(promise, value);
       } else if (settled === REJECTED) {
-        _reject(promise, value);
+        reject(promise, value);
       }
     }
 
     function initializePromise(promise, resolver) {
       try {
         resolver(function resolvePromise(value) {
-          _resolve(promise, value);
+          resolve(promise, value);
         }, function rejectPromise(reason) {
-          _reject(promise, reason);
+          reject(promise, reason);
         });
       } catch (e) {
-        _reject(promise, e);
+        reject(promise, e);
       }
     }
 
@@ -9523,7 +9702,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       promise._subscribers = [];
     }
 
-    function Enumerator(Constructor, input) {
+    function Enumerator$1(Constructor, input) {
       this._instanceConstructor = Constructor;
       this.promise = new Constructor(noop);
 
@@ -9532,7 +9711,6 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       }
 
       if (isArray(input)) {
-        this._input = input;
         this.length = input.length;
         this._remaining = input.length;
 
@@ -9542,13 +9720,13 @@ var es6Promise = createCommonjsModule(function (module, exports) {
           fulfill(this.promise, this._result);
         } else {
           this.length = this.length || 0;
-          this._enumerate();
+          this._enumerate(input);
           if (this._remaining === 0) {
             fulfill(this.promise, this._result);
           }
         }
       } else {
-        _reject(this.promise, validationError());
+        reject(this.promise, validationError());
       }
     }
 
@@ -9556,20 +9734,17 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       return new Error('Array Methods must be provided an Array');
     }
 
-    Enumerator.prototype._enumerate = function () {
-      var length = this.length;
-      var _input = this._input;
-
-      for (var i = 0; this._state === PENDING && i < length; i++) {
-        this._eachEntry(_input[i], i);
+    Enumerator$1.prototype._enumerate = function (input) {
+      for (var i = 0; this._state === PENDING && i < input.length; i++) {
+        this._eachEntry(input[i], i);
       }
     };
 
-    Enumerator.prototype._eachEntry = function (entry, i) {
+    Enumerator$1.prototype._eachEntry = function (entry, i) {
       var c = this._instanceConstructor;
-      var resolve$$ = c.resolve;
+      var resolve$$1 = c.resolve;
 
-      if (resolve$$ === resolve) {
+      if (resolve$$1 === resolve$1) {
         var _then = getThen(entry);
 
         if (_then === then && entry._state !== PENDING) {
@@ -9577,28 +9752,28 @@ var es6Promise = createCommonjsModule(function (module, exports) {
         } else if (typeof _then !== 'function') {
           this._remaining--;
           this._result[i] = entry;
-        } else if (c === Promise) {
+        } else if (c === Promise$2) {
           var promise = new c(noop);
           handleMaybeThenable(promise, entry, _then);
           this._willSettleAt(promise, i);
         } else {
-          this._willSettleAt(new c(function (resolve$$) {
-            return resolve$$(entry);
+          this._willSettleAt(new c(function (resolve$$1) {
+            return resolve$$1(entry);
           }), i);
         }
       } else {
-        this._willSettleAt(resolve$$(entry), i);
+        this._willSettleAt(resolve$$1(entry), i);
       }
     };
 
-    Enumerator.prototype._settledAt = function (state, i, value) {
+    Enumerator$1.prototype._settledAt = function (state, i, value) {
       var promise = this.promise;
 
       if (promise._state === PENDING) {
         this._remaining--;
 
         if (state === REJECTED) {
-          _reject(promise, value);
+          reject(promise, value);
         } else {
           this._result[i] = value;
         }
@@ -9609,7 +9784,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       }
     };
 
-    Enumerator.prototype._willSettleAt = function (promise, i) {
+    Enumerator$1.prototype._willSettleAt = function (promise, i) {
       var enumerator = this;
 
       subscribe(promise, undefined, function (value) {
@@ -9666,8 +9841,8 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       fulfilled, or rejected if any of them become rejected.
       @static
     */
-    function all(entries) {
-      return new Enumerator(this, entries).promise;
+    function all$1(entries) {
+      return new Enumerator$1(this, entries).promise;
     }
 
     /**
@@ -9735,7 +9910,7 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       @return {Promise} a promise which settles in the same way as the first passed
       promise to settle.
     */
-    function race(entries) {
+    function race$1(entries) {
       /*jshint validthis:true */
       var Constructor = this;
 
@@ -9787,11 +9962,11 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       Useful for tooling.
       @return {Promise} a promise rejected with the given `reason`.
     */
-    function reject(reason) {
+    function reject$1(reason) {
       /*jshint validthis:true */
       var Constructor = this;
       var promise = new Constructor(noop);
-      _reject(promise, reason);
+      reject(promise, reason);
       return promise;
     }
 
@@ -9906,27 +10081,27 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       Useful for tooling.
       @constructor
     */
-    function Promise(resolver) {
+    function Promise$2(resolver) {
       this[PROMISE_ID] = nextId();
       this._result = this._state = undefined;
       this._subscribers = [];
 
       if (noop !== resolver) {
         typeof resolver !== 'function' && needsResolver();
-        this instanceof Promise ? initializePromise(this, resolver) : needsNew();
+        this instanceof Promise$2 ? initializePromise(this, resolver) : needsNew();
       }
     }
 
-    Promise.all = all;
-    Promise.race = race;
-    Promise.resolve = resolve;
-    Promise.reject = reject;
-    Promise._setScheduler = setScheduler;
-    Promise._setAsap = setAsap;
-    Promise._asap = asap;
+    Promise$2.all = all$1;
+    Promise$2.race = race$1;
+    Promise$2.resolve = resolve$1;
+    Promise$2.reject = reject$1;
+    Promise$2._setScheduler = setScheduler;
+    Promise$2._setAsap = setAsap;
+    Promise$2._asap = asap;
 
-    Promise.prototype = {
-      constructor: Promise,
+    Promise$2.prototype = {
+      constructor: Promise$2,
 
       /**
         The primary way of interacting with a promise is through its `then` method,
@@ -10155,7 +10330,8 @@ var es6Promise = createCommonjsModule(function (module, exports) {
       }
     };
 
-    function polyfill() {
+    /*global self*/
+    function polyfill$1() {
       var local = undefined;
 
       if (typeof commonjsGlobal !== 'undefined') {
@@ -10185,15 +10361,16 @@ var es6Promise = createCommonjsModule(function (module, exports) {
         }
       }
 
-      local.Promise = Promise;
+      local.Promise = Promise$2;
     }
 
     // Strange compat..
-    Promise.polyfill = polyfill;
-    Promise.Promise = Promise;
+    Promise$2.polyfill = polyfill$1;
+    Promise$2.Promise = Promise$2;
 
-    return Promise;
+    return Promise$2;
   });
+
   
 });
 
@@ -10755,8 +10932,8 @@ var StickyHeader = function () {
 
 var tweenmax = createCommonjsModule(function (module) {
 	/*!
-  * VERSION: 1.19.1
-  * DATE: 2017-01-17
+  * VERSION: 1.20.2
+  * DATE: 2017-06-30
   * UPDATES AND DOCS AT: http://greensock.com
   * 
   * Includes all of the following: TweenLite, TweenMax, TimelineLite, TimelineMax, EasePack, CSSPlugin, RoundPropsPlugin, BezierPlugin, AttrPlugin, DirectionalRotationPlugin
@@ -10795,7 +10972,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			    TweenMax = function TweenMax(target, duration, vars) {
 				TweenLite.call(this, target, duration, vars);
 				this._cycle = 0;
-				this._yoyo = this.vars.yoyo === true;
+				this._yoyo = this.vars.yoyo === true || !!this.vars.yoyoEase;
 				this._repeat = this.vars.repeat || 0;
 				this._repeatDelay = this.vars.repeatDelay || 0;
 				this._dirty = true; //ensures that if there is any repeat, the totalDuration will get recalculated to accurately report it.
@@ -10808,7 +10985,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			    p = TweenMax.prototype = TweenLite.to({}, 0.1, {}),
 			    _blankArray = [];
 
-			TweenMax.version = "1.19.1";
+			TweenMax.version = "1.20.2";
 			p.constructor = TweenMax;
 			p.kill()._gc = false;
 			TweenMax.killTweensOf = TweenMax.killDelayedCallsTo = TweenLite.killTweensOf;
@@ -10818,9 +10995,10 @@ var tweenmax = createCommonjsModule(function (module) {
 			TweenMax.render = TweenLite.render;
 
 			p.invalidate = function () {
-				this._yoyo = this.vars.yoyo === true;
+				this._yoyo = this.vars.yoyo === true || !!this.vars.yoyoEase;
 				this._repeat = this.vars.repeat || 0;
 				this._repeatDelay = this.vars.repeatDelay || 0;
+				this._yoyoEase = null;
 				this._uncache(true);
 				return TweenLite.prototype.invalidate.call(this);
 			};
@@ -10898,7 +11076,8 @@ var tweenmax = createCommonjsModule(function (module) {
 				    r,
 				    type,
 				    pow,
-				    rawPrevTime;
+				    rawPrevTime,
+				    yoyoEase;
 				if (time >= totalDur - 0.0000001 && time >= 0) {
 					//to work around occasional floating point math artifacts.
 					this._totalTime = totalDur;
@@ -10963,6 +11142,19 @@ var tweenmax = createCommonjsModule(function (module) {
 						this._time = this._totalTime - this._cycle * cycleDuration;
 						if (this._yoyo) if ((this._cycle & 1) !== 0) {
 							this._time = duration - this._time;
+							yoyoEase = this._yoyoEase || this.vars.yoyoEase; //note: we don't set this._yoyoEase in _init() like we do other properties because it's TweenMax-specific and doing it here allows us to optimize performance (most tweens don't have a yoyoEase). Note that we also must skip the this.ratio calculation further down right after we _init() in this function, because we're doing it here.
+							if (yoyoEase) {
+								if (!this._yoyoEase) {
+									if (yoyoEase === true && !this._initted) {
+										//if it's not initted and yoyoEase is true, this._ease won't have been populated yet so we must discern it here.
+										yoyoEase = this.vars.ease;
+										this._yoyoEase = yoyoEase = !yoyoEase ? TweenLite.defaultEase : yoyoEase instanceof Ease ? yoyoEase : typeof yoyoEase === "function" ? new Ease(yoyoEase, this.vars.easeParams) : Ease.map[yoyoEase] || TweenLite.defaultEase;
+									} else {
+										this._yoyoEase = yoyoEase = yoyoEase === true ? this._ease : yoyoEase instanceof Ease ? yoyoEase : Ease.map[yoyoEase];
+									}
+								}
+								this.ratio = yoyoEase ? 1 - yoyoEase.getRatio((duration - this._time) / duration) : 0;
+							}
 						}
 						if (this._time > duration) {
 							this._time = duration;
@@ -10971,7 +11163,7 @@ var tweenmax = createCommonjsModule(function (module) {
 						}
 					}
 
-					if (this._easeType) {
+					if (this._easeType && !yoyoEase) {
 						r = this._time / duration;
 						type = this._easeType;
 						pow = this._easePower;
@@ -11000,7 +11192,7 @@ var tweenmax = createCommonjsModule(function (module) {
 						} else {
 							this.ratio = 1 - r / 2;
 						}
-					} else {
+					} else if (!yoyoEase) {
 						this.ratio = this._ease.getRatio(this._time / duration);
 					}
 				}
@@ -11027,9 +11219,9 @@ var tweenmax = createCommonjsModule(function (module) {
 						return;
 					}
 					//_ease is initially set to defaultEase, so now that init() has run, _ease is set properly and we need to recalculate the ratio. Overall this is faster than using conditional logic earlier in the method to avoid having to set ratio twice because we only init() once but renderTime() gets called VERY frequently.
-					if (this._time && !isComplete) {
+					if (this._time && !isComplete && !yoyoEase) {
 						this.ratio = this._ease.getRatio(this._time / duration);
-					} else if (isComplete && this._ease._calcEnd) {
+					} else if (isComplete && this._ease._calcEnd && !yoyoEase) {
 						this.ratio = this._ease.getRatio(this._time === 0 ? 0 : 1);
 					}
 				}
@@ -11470,7 +11662,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			},
 			    p = TimelineLite.prototype = new SimpleTimeline();
 
-			TimelineLite.version = "1.19.1";
+			TimelineLite.version = "1.20.2";
 			p.constructor = TimelineLite;
 			p.kill()._gc = p._forcingPlayhead = p._hasPause = false;
 
@@ -11636,6 +11828,11 @@ var tweenmax = createCommonjsModule(function (module) {
 
 				SimpleTimeline.prototype.add.call(this, value, position);
 
+				if (value._time) {
+					//in case, for example, the _startTime is moved on a tween that has already rendered. Imagine it's at its end state, then the startTime is moved WAY later (after the end of this timeline), it should render at its beginning.
+					value.render((this.rawTime() - value._startTime) * value._timeScale, false, false);
+				}
+
 				//if the timeline has already ended but the inserted tween/timeline extends the duration, we should enable this timeline again so that it renders properly. We should also align the playhead with the parent timeline's when appropriate.
 				if (this._gc || this._time === this._duration) if (!this._paused) if (this._duration < this.duration()) {
 					//in case any of the ancestors had completed but should now be enabled...
@@ -11719,7 +11916,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			};
 
 			p._parseTimeOrLabel = function (timeOrLabel, offsetOrLabel, appendIfAbsent, ignore) {
-				var i;
+				var clippedDuration, i;
 				//if we're about to add a tween/timeline (or an array of them) that's already a child of this timeline, we should remove it first so that it doesn't contaminate the duration().
 				if (ignore instanceof Animation && ignore.timeline === this) {
 					this.remove(ignore);
@@ -11731,8 +11928,9 @@ var tweenmax = createCommonjsModule(function (module) {
 						}
 					}
 				}
+				clippedDuration = this.duration() > 99999999999 ? this.recent().endTime(false) : this._duration; //in case there's a child that infinitely repeats, users almost never intend for the insertion point of a new child to be based on a SUPER long value like that so we clip it and assume the most recently-added child's endTime should be used instead.
 				if (typeof offsetOrLabel === "string") {
-					return this._parseTimeOrLabel(offsetOrLabel, appendIfAbsent && typeof timeOrLabel === "number" && this._labels[offsetOrLabel] == null ? timeOrLabel - this.duration() : 0, appendIfAbsent);
+					return this._parseTimeOrLabel(offsetOrLabel, appendIfAbsent && typeof timeOrLabel === "number" && this._labels[offsetOrLabel] == null ? timeOrLabel - clippedDuration : 0, appendIfAbsent);
 				}
 				offsetOrLabel = offsetOrLabel || 0;
 				if (typeof timeOrLabel === "string" && (isNaN(timeOrLabel) || this._labels[timeOrLabel] != null)) {
@@ -11740,14 +11938,14 @@ var tweenmax = createCommonjsModule(function (module) {
 					i = timeOrLabel.indexOf("=");
 					if (i === -1) {
 						if (this._labels[timeOrLabel] == null) {
-							return appendIfAbsent ? this._labels[timeOrLabel] = this.duration() + offsetOrLabel : offsetOrLabel;
+							return appendIfAbsent ? this._labels[timeOrLabel] = clippedDuration + offsetOrLabel : offsetOrLabel;
 						}
 						return this._labels[timeOrLabel] + offsetOrLabel;
 					}
 					offsetOrLabel = parseInt(timeOrLabel.charAt(i - 1) + "1", 10) * Number(timeOrLabel.substr(i + 1));
-					timeOrLabel = i > 1 ? this._parseTimeOrLabel(timeOrLabel.substr(0, i - 1), 0, appendIfAbsent) : this.duration();
+					timeOrLabel = i > 1 ? this._parseTimeOrLabel(timeOrLabel.substr(0, i - 1), 0, appendIfAbsent) : clippedDuration;
 				} else if (timeOrLabel == null) {
-					timeOrLabel = this.duration();
+					timeOrLabel = clippedDuration;
 				}
 				return Number(timeOrLabel) + offsetOrLabel;
 			};
@@ -12210,7 +12408,7 @@ var tweenmax = createCommonjsModule(function (module) {
 
 			p.constructor = TimelineMax;
 			p.kill()._gc = false;
-			TimelineMax.version = "1.19.1";
+			TimelineMax.version = "1.20.2";
 
 			p.invalidate = function () {
 				this._yoyo = this.vars.yoyo === true;
@@ -12394,7 +12592,7 @@ var tweenmax = createCommonjsModule(function (module) {
 						}
 					}
 
-					if (this._hasPause && !this._forcingPlayhead && !suppressEvents && time < dur) {
+					if (this._hasPause && !this._forcingPlayhead && !suppressEvents) {
 						time = this._time;
 						if (time >= prevTime || this._repeat && prevCycle !== this._cycle) {
 							tween = this._first;
@@ -12413,7 +12611,7 @@ var tweenmax = createCommonjsModule(function (module) {
 								tween = tween._prev;
 							}
 						}
-						if (pauseTween) {
+						if (pauseTween && pauseTween._startTime < dur) {
 							this._time = time = pauseTween._startTime;
 							this._totalTime = time + this._cycle * (this._totalDuration + this._repeatDelay);
 						}
@@ -12643,11 +12841,11 @@ var tweenmax = createCommonjsModule(function (module) {
 			//---- GETTERS / SETTERS -------------------------------------------------------------------------------------------------------
 
 			p.progress = function (value, suppressEvents) {
-				return !arguments.length ? this._time / this.duration() : this.totalTime(this.duration() * (this._yoyo && (this._cycle & 1) !== 0 ? 1 - value : value) + this._cycle * (this._duration + this._repeatDelay), suppressEvents);
+				return !arguments.length ? this._time / this.duration() || 0 : this.totalTime(this.duration() * (this._yoyo && (this._cycle & 1) !== 0 ? 1 - value : value) + this._cycle * (this._duration + this._repeatDelay), suppressEvents);
 			};
 
 			p.totalProgress = function (value, suppressEvents) {
-				return !arguments.length ? this._totalTime / this.totalDuration() : this.totalTime(this.totalDuration() * value, suppressEvents);
+				return !arguments.length ? this._totalTime / this.totalDuration() || 0 : this.totalTime(this.totalDuration() * value, suppressEvents);
 			};
 
 			p.totalDuration = function (value) {
@@ -12854,7 +13052,7 @@ var tweenmax = createCommonjsModule(function (module) {
 				}
 				l = values.length - 2;
 				if (l < 0) {
-					a[0] = new Segment(values[0][p], 0, 0, values[l < -1 ? 0 : 1][p]);
+					a[0] = new Segment(values[0][p], 0, 0, values[0][p]);
 					return a;
 				}
 				for (i = 0; i < l; i++) {
@@ -13071,7 +13269,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			    BezierPlugin = _gsScope._gsDefine.plugin({
 				propName: "bezier",
 				priority: -1,
-				version: "1.3.7",
+				version: "1.3.8",
 				API: 2,
 				global: true,
 
@@ -13409,7 +13607,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			    p = CSSPlugin.prototype = new TweenPlugin("css");
 
 			p.constructor = CSSPlugin;
-			CSSPlugin.version = "1.19.1";
+			CSSPlugin.version = "1.20.0";
 			CSSPlugin.API = 2;
 			CSSPlugin.defaultTransformPerspective = 0;
 			CSSPlugin.defaultSkewType = "compensated";
@@ -13564,7 +13762,7 @@ var tweenmax = createCommonjsModule(function (module) {
     * @return {number} value in pixels
     */
 			_convertToPixels = _internals.convertToPixels = function (t, p, v, sfx, recurse) {
-				if (sfx === "px" || !sfx) {
+				if (sfx === "px" || !sfx && p !== "lineHeight") {
 					return v;
 				}
 				if (sfx === "auto" || !v) {
@@ -13584,12 +13782,22 @@ var tweenmax = createCommonjsModule(function (module) {
 				if (precise) {
 					v *= 100;
 				}
-				if (sfx === "%" && p.indexOf("border") !== -1) {
+				if (p === "lineHeight" && !sfx) {
+					//special case of when a simple lineHeight (without a unit) is used. Set it to the value, read back the computed value, and then revert.
+					cache = _getComputedStyle(t).lineHeight;
+					t.style.lineHeight = v;
+					pix = parseFloat(_getComputedStyle(t).lineHeight);
+					t.style.lineHeight = cache;
+				} else if (sfx === "%" && p.indexOf("border") !== -1) {
 					pix = v / 100 * (horiz ? t.clientWidth : t.clientHeight);
 				} else {
 					style.cssText = "border:0 solid red;position:" + _getStyle(t, "position") + ";line-height:0;";
 					if (sfx === "%" || !node.appendChild || sfx.charAt(0) === "v" || sfx === "rem") {
 						node = t.parentNode || _doc.body;
+						if (_getStyle(node, "display").indexOf("flex") !== -1) {
+							//Edge and IE11 have a bug that causes offsetWidth to report as 0 if the container has display:flex and the child is position:relative. Switching to position: absolute solves it.
+							style.position = "absolute";
+						}
 						cache = node._gsCache;
 						time = TweenLite.ticker.frame;
 						if (cache && horiz && cache.time === time) {
@@ -13968,10 +14176,13 @@ var tweenmax = createCommonjsModule(function (module) {
 			    _formatColors = function _formatColors(s, toHSL) {
 				var colors = s.match(_colorExp) || [],
 				    charIndex = 0,
-				    parsed = colors.length ? "" : s,
+				    parsed = "",
 				    i,
 				    color,
 				    temp;
+				if (!colors.length) {
+					return s;
+				}
 				for (i = 0; i < colors.length; i++) {
 					color = colors[i];
 					temp = s.substr(charIndex, s.indexOf(color, charIndex) - charIndex);
@@ -13992,7 +14203,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			_colorExp = new RegExp(_colorExp + ")", "gi");
 
 			CSSPlugin.colorStringFilter = function (a) {
-				var combined = a[0] + a[1],
+				var combined = a[0] + " " + a[1],
 				    toHSL;
 				if (_colorExp.test(combined)) {
 					toHSL = combined.indexOf("hsl(") !== -1 || combined.indexOf("hsla(") !== -1;
@@ -14362,6 +14573,7 @@ var tweenmax = createCommonjsModule(function (module) {
 						str = ev.indexOf(")") + 1;
 						str = ")" + (str ? ev.substr(str) : ""); //if there's a comma or ) at the end, retain it.
 						useHSL = ev.indexOf("hsl") !== -1 && _supportsOpacity;
+						temp = ev; //original string value so we can look for any prefix later.
 						bv = _parseColor(bv, useHSL);
 						ev = _parseColor(ev, useHSL);
 						hasAlpha = bv.length + ev.length > 6;
@@ -14375,9 +14587,9 @@ var tweenmax = createCommonjsModule(function (module) {
 								hasAlpha = false;
 							}
 							if (useHSL) {
-								pt.appendXtra(hasAlpha ? "hsla(" : "hsl(", bv[0], _parseChange(ev[0], bv[0]), ",", false, true).appendXtra("", bv[1], _parseChange(ev[1], bv[1]), "%,", false).appendXtra("", bv[2], _parseChange(ev[2], bv[2]), hasAlpha ? "%," : "%" + str, false);
+								pt.appendXtra(temp.substr(0, temp.indexOf("hsl")) + (hasAlpha ? "hsla(" : "hsl("), bv[0], _parseChange(ev[0], bv[0]), ",", false, true).appendXtra("", bv[1], _parseChange(ev[1], bv[1]), "%,", false).appendXtra("", bv[2], _parseChange(ev[2], bv[2]), hasAlpha ? "%," : "%" + str, false);
 							} else {
-								pt.appendXtra(hasAlpha ? "rgba(" : "rgb(", bv[0], ev[0] - bv[0], ",", true, true).appendXtra("", bv[1], ev[1] - bv[1], ",", true).appendXtra("", bv[2], ev[2] - bv[2], hasAlpha ? "," : str, true);
+								pt.appendXtra(temp.substr(0, temp.indexOf("rgb")) + (hasAlpha ? "rgba(" : "rgb("), bv[0], ev[0] - bv[0], ",", true, true).appendXtra("", bv[1], ev[1] - bv[1], ",", true).appendXtra("", bv[2], ev[2] - bv[2], hasAlpha ? "," : str, true);
 							}
 
 							if (hasAlpha) {
@@ -14823,9 +15035,9 @@ var tweenmax = createCommonjsModule(function (module) {
 					s = s && s.length === 4 ? [s[0].substr(4), Number(s[2].substr(4)), Number(s[1].substr(4)), s[3].substr(4), tm.x || 0, tm.y || 0].join(",") : "";
 				}
 				isDefault = !s || s === "none" || s === "matrix(1, 0, 0, 1, 0, 0)";
-				if (isDefault && _transformProp && ((none = _getComputedStyle(e).display === "none") || !e.parentNode)) {
+				if (_transformProp && ((none = _getComputedStyle(e).display === "none") || !e.parentNode)) {
 					if (none) {
-						//browsers don't report transforms accurately unless the element is in the DOM and has a display value that's not "none".
+						//browsers don't report transforms accurately unless the element is in the DOM and has a display value that's not "none". Firefox and Microsoft browsers have a partial bug where they'll report transforms even if display:none BUT not any percentage-based values like translate(-50%, 8px) will be reported as if it's translate(0, 8px).
 						n = style.display;
 						style.display = "block";
 					}
@@ -14934,7 +15146,6 @@ var tweenmax = createCommonjsModule(function (module) {
 						    t4,
 						    cos,
 						    sin;
-
 						//we manually compensate for non-zero z component of transformOrigin to work around bugs in Safari
 						if (tm.zOrigin) {
 							a34 = -tm.zOrigin;
@@ -14942,6 +15153,7 @@ var tweenmax = createCommonjsModule(function (module) {
 							a24 = a23 * a34 - m[13];
 							a34 = a33 * a34 + tm.zOrigin - m[14];
 						}
+						//note for possible future consolidation: rotationX: Math.atan2(a32, a33), rotationY: Math.atan2(-a31, Math.sqrt(a33 * a33 + a32 * a32)), rotation: Math.atan2(a21, a11), skew: Math.atan2(a12, a22). However, it doesn't seem to be quite as reliable as the full-on backwards rotation procedure.
 						tm.rotationX = angle * _RAD2DEG;
 						//rotationX
 						if (angle) {
@@ -14978,13 +15190,17 @@ var tweenmax = createCommonjsModule(function (module) {
 						angle = Math.atan2(a21, a11);
 						tm.rotation = angle * _RAD2DEG;
 						if (angle) {
-							cos = Math.cos(-angle);
-							sin = Math.sin(-angle);
-							a11 = a11 * cos + a12 * sin;
-							t2 = a21 * cos + a22 * sin;
-							a22 = a21 * -sin + a22 * cos;
-							a32 = a31 * -sin + a32 * cos;
-							a21 = t2;
+							cos = Math.cos(angle);
+							sin = Math.sin(angle);
+							t1 = a11 * cos + a21 * sin;
+							t2 = a12 * cos + a22 * sin;
+							t3 = a13 * cos + a23 * sin;
+							a21 = a21 * cos - a11 * sin;
+							a22 = a22 * cos - a12 * sin;
+							a23 = a23 * cos - a13 * sin;
+							a11 = t1;
+							a12 = t2;
+							a13 = t3;
 						}
 
 						if (tm.rotationX && Math.abs(tm.rotationX) + Math.abs(tm.rotation) > 359.9) {
@@ -14993,24 +15209,45 @@ var tweenmax = createCommonjsModule(function (module) {
 							tm.rotationY = 180 - tm.rotationY;
 						}
 
-						tm.scaleX = (Math.sqrt(a11 * a11 + a21 * a21) * rnd + 0.5 | 0) / rnd;
-						tm.scaleY = (Math.sqrt(a22 * a22 + a23 * a23) * rnd + 0.5 | 0) / rnd;
-						tm.scaleZ = (Math.sqrt(a32 * a32 + a33 * a33) * rnd + 0.5 | 0) / rnd;
-						if (tm.rotationX || tm.rotationY) {
-							tm.skewX = 0;
-						} else {
-							tm.skewX = a12 || a22 ? Math.atan2(a12, a22) * _RAD2DEG + tm.rotation : tm.skewX || 0;
-							if (Math.abs(tm.skewX) > 90 && Math.abs(tm.skewX) < 270) {
-								if (invX) {
-									tm.scaleX *= -1;
-									tm.skewX += tm.rotation <= 0 ? 180 : -180;
-									tm.rotation += tm.rotation <= 0 ? 180 : -180;
-								} else {
-									tm.scaleY *= -1;
-									tm.skewX += tm.skewX <= 0 ? 180 : -180;
-								}
+						//skewX
+						angle = Math.atan2(a12, a22);
+
+						//scales
+						tm.scaleX = (Math.sqrt(a11 * a11 + a21 * a21 + a31 * a31) * rnd + 0.5 | 0) / rnd;
+						tm.scaleY = (Math.sqrt(a22 * a22 + a32 * a32) * rnd + 0.5 | 0) / rnd;
+						tm.scaleZ = (Math.sqrt(a13 * a13 + a23 * a23 + a33 * a33) * rnd + 0.5 | 0) / rnd;
+						a11 /= tm.scaleX;
+						a12 /= tm.scaleY;
+						a21 /= tm.scaleX;
+						a22 /= tm.scaleY;
+						if (Math.abs(angle) > min) {
+							tm.skewX = angle * _RAD2DEG;
+							a12 = 0; //unskews
+							if (tm.skewType !== "simple") {
+								tm.scaleY *= 1 / Math.cos(angle); //by default, we compensate the scale based on the skew so that the element maintains a similar proportion when skewed, so we have to alter the scaleY here accordingly to match the default (non-adjusted) skewing that CSS does (stretching more and more as it skews).
 							}
+						} else {
+							tm.skewX = 0;
 						}
+
+						/* //for testing purposes
+      var transform = "matrix3d(",
+      	comma = ",",
+      	zero = "0";
+      a13 /= tm.scaleZ;
+      a23 /= tm.scaleZ;
+      a31 /= tm.scaleX;
+      a32 /= tm.scaleY;
+      a33 /= tm.scaleZ;
+      transform += ((a11 < min && a11 > -min) ? zero : a11) + comma + ((a21 < min && a21 > -min) ? zero : a21) + comma + ((a31 < min && a31 > -min) ? zero : a31);
+      transform += comma + ((a41 < min && a41 > -min) ? zero : a41) + comma + ((a12 < min && a12 > -min) ? zero : a12) + comma + ((a22 < min && a22 > -min) ? zero : a22);
+      transform += comma + ((a32 < min && a32 > -min) ? zero : a32) + comma + ((a42 < min && a42 > -min) ? zero : a42) + comma + ((a13 < min && a13 > -min) ? zero : a13);
+      transform += comma + ((a23 < min && a23 > -min) ? zero : a23) + comma + ((a33 < min && a33 > -min) ? zero : a33) + comma + ((a43 < min && a43 > -min) ? zero : a43) + comma;
+      transform += a14 + comma + a24 + comma + a34 + comma + (tm.perspective ? (1 + (-a34 / tm.perspective)) : 1) + ")";
+      console.log(transform);
+      document.querySelector(".test").style[_transformProp] = transform;
+      */
+
 						tm.perspective = a43 ? 1 / (a43 < 0 ? -a43 : a43) : 0;
 						tm.x = a14;
 						tm.y = a24;
@@ -15032,16 +15269,6 @@ var tweenmax = createCommonjsModule(function (module) {
 						scaleY = Math.sqrt(d * d + c * c);
 						rotation = a || b ? Math.atan2(b, a) * _RAD2DEG : tm.rotation || 0; //note: if scaleX is 0, we cannot accurately measure rotation. Same for skewX with a scaleY of 0. Therefore, we default to the previously recorded value (or zero if that doesn't exist).
 						skewX = c || d ? Math.atan2(c, d) * _RAD2DEG + rotation : tm.skewX || 0;
-						if (Math.abs(skewX) > 90 && Math.abs(skewX) < 270) {
-							if (invX) {
-								scaleX *= -1;
-								skewX += rotation <= 0 ? 180 : -180;
-								rotation += rotation <= 0 ? 180 : -180;
-							} else {
-								scaleY *= -1;
-								skewX += skewX <= 0 ? 180 : -180;
-							}
-						}
 						tm.scaleX = scaleX;
 						tm.scaleY = scaleY;
 						tm.rotation = rotation;
@@ -15054,6 +15281,16 @@ var tweenmax = createCommonjsModule(function (module) {
 						if (tm.svg) {
 							tm.x -= tm.xOrigin - (tm.xOrigin * a + tm.yOrigin * c);
 							tm.y -= tm.yOrigin - (tm.xOrigin * b + tm.yOrigin * d);
+						}
+					}
+					if (Math.abs(tm.skewX) > 90 && Math.abs(tm.skewX) < 270) {
+						if (invX) {
+							tm.scaleX *= -1;
+							tm.skewX += tm.rotation <= 0 ? 180 : -180;
+							tm.rotation += tm.rotation <= 0 ? 180 : -180;
+						} else {
+							tm.scaleY *= -1;
+							tm.skewX += tm.skewX <= 0 ? 180 : -180;
 						}
 					}
 					tm.zOrigin = zOrigin;
@@ -15327,7 +15564,7 @@ var tweenmax = createCommonjsModule(function (module) {
 					a11 = a22 = 1;
 					a12 = a21 = 0;
 				}
-				// KEY  INDEX   AFFECTS
+				// KEY  INDEX   AFFECTS a[row][column]
 				// a11  0       rotation, rotationY, scaleX
 				// a21  1       rotation, rotationY, scaleX
 				// a31  2       rotationY, scaleX
@@ -15477,6 +15714,7 @@ var tweenmax = createCommonjsModule(function (module) {
 					    y,
 					    matrix,
 					    p;
+					m1.skewType = v.skewType || m1.skewType || CSSPlugin.defaultSkewType;
 					cssp._transform = m1;
 					if (orig && typeof orig === "string" && _transformProp) {
 						//for values like transform:"rotate(60deg) scale(0.5, 0.8)"
@@ -15486,6 +15724,10 @@ var tweenmax = createCommonjsModule(function (module) {
 						copy.position = "absolute";
 						_doc.body.appendChild(_tempDiv);
 						m2 = _getTransform(_tempDiv, null, false);
+						if (m1.skewType === "simple") {
+							//the default _getTransform() reports the skewX/scaleY as if skewType is "compensated", thus we need to adjust that here if skewType is "simple".
+							m2.scaleY *= Math.cos(m2.skewX * _DEG2RAD);
+						}
 						if (m1.svg) {
 							//if it's an SVG element, x/y part of the matrix will be affected by whatever we use as the origin and the offsets, so compensate here...
 							x = m1.xOrigin;
@@ -15559,8 +15801,6 @@ var tweenmax = createCommonjsModule(function (module) {
 						m1.force3D = v.force3D;
 						hasChange = true;
 					}
-
-					m1.skewType = v.skewType || m1.skewType || CSSPlugin.defaultSkewType;
 
 					has3D = m1.force3D || m1.z || m1.rotationX || m1.rotationY || m2.z || m2.rotationX || m2.rotationY || m2.perspective;
 					if (!has3D && v.scale != null) {
@@ -16124,6 +16364,10 @@ var tweenmax = createCommonjsModule(function (module) {
 					sp = _specialProps[p]; //SpecialProp lookup.
 					if (sp) {
 						pt = sp.parse(target, es, p, this, pt, plugin, vars);
+					} else if (p.substr(0, 2) === "--") {
+						//for tweening CSS variables (which always start with "--"). To maximize performance and simplicity, we bypass CSSPlugin altogether and just add a normal property tween to the tween instance itself.
+						this._tween._propLookup[p] = this._addTween.call(this._tween, target.style, "setProperty", _getComputedStyle(target).getPropertyValue(p) + "", es + "", p, false, p);
+						continue;
 					} else {
 						bs = _getStyle(target, p, _cs) + "";
 						isStr = typeof es === "string";
@@ -16169,9 +16413,8 @@ var tweenmax = createCommonjsModule(function (module) {
 							}
 
 							es = en || en === 0 ? (rel ? en + bn : en) + esfx : vars[p]; //ensures that any += or -= prefixes are taken care of. Record the end value before normalizing the suffix because we always want to end the tween on exactly what they intended even if it doesn't match the beginning value's suffix.
-
 							//if the beginning/ending suffixes don't match, normalize them...
-							if (bsfx !== esfx) if (esfx !== "") if (en || en === 0) if (bn) {
+							if (bsfx !== esfx) if (esfx !== "" || p === "lineHeight") if (en || en === 0) if (bn) {
 								//note: if the beginning value (bn) is 0, we don't need to convert units!
 								bn = _convertToPixels(target, p, bn, bsfx);
 								if (esfx === "%") {
@@ -16586,7 +16829,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			_gsScope._gsDefine.plugin({
 				propName: "attr",
 				API: 2,
-				version: "0.6.0",
+				version: "0.6.1",
 
 				//called when the tween renders for the first time. This is where initial values should be recorded and any setup routines should run.
 				init: function init(target, value, tween, index) {
@@ -16615,7 +16858,7 @@ var tweenmax = createCommonjsModule(function (module) {
    */
 		_gsScope._gsDefine.plugin({
 			propName: "directionalRotation",
-			version: "0.3.0",
+			version: "0.3.1",
 			API: 2,
 
 			//called when the tween renders for the first time. This is where initial values should be recorded and any setup routines should run.
@@ -16787,10 +17030,11 @@ var tweenmax = createCommonjsModule(function (module) {
 			};
 
 			//SteppedEase
-			SteppedEase = _class("easing.SteppedEase", function (steps) {
+			SteppedEase = _class("easing.SteppedEase", function (steps, immediateStart) {
 				steps = steps || 1;
 				this._p1 = 1 / steps;
-				this._p2 = steps + 1;
+				this._p2 = steps + (immediateStart ? 0 : 1);
+				this._p3 = immediateStart ? 1 : 0;
 			}, true);
 			p = SteppedEase.prototype = new Ease();
 			p.constructor = SteppedEase;
@@ -16800,10 +17044,10 @@ var tweenmax = createCommonjsModule(function (module) {
 				} else if (p >= 1) {
 					p = 0.999999999;
 				}
-				return (this._p2 * p >> 0) * this._p1;
+				return ((this._p2 * p | 0) + this._p3) * this._p1;
 			};
-			p.config = SteppedEase.config = function (steps) {
-				return new SteppedEase(steps);
+			p.config = SteppedEase.config = function (steps, immediateStart) {
+				return new SteppedEase(steps, immediateStart);
 			};
 
 			//RoughEase
@@ -17099,8 +17343,7 @@ var tweenmax = createCommonjsModule(function (module) {
 				    cur,
 				    a,
 				    n,
-				    cl,
-				    hasModule;
+				    cl;
 				while (--i > -1) {
 					if ((cur = _defLookup[dependencies[i]] || new Definition(dependencies[i], [])).gsClass) {
 						_classes[i] = cur.gsClass;
@@ -17117,13 +17360,7 @@ var tweenmax = createCommonjsModule(function (module) {
 					//exports to multiple environments
 					if (global) {
 						_globals[n] = _exports[n] = cl; //provides a way to avoid global namespace pollution. By default, the main classes like TweenLite, Power1, Strong, etc. are added to window unless a GreenSockGlobals is defined. So if you want to have things added to a custom object instead, just do something like window.GreenSockGlobals = {} before loading any GreenSock files. You can even set up an alias like window.GreenSockGlobals = windows.gs = {} so that you can access everything like gs.TweenLite. Also remember that ALL classes are added to the window.com.greensock object (in their respective packages, like com.greensock.easing.Power1, com.greensock.TweenLite, etc.)
-						hasModule = 'object' !== "undefined" && module.exports;
-						if (!hasModule && typeof undefined === "function" && undefined.amd) {
-							//AMD
-							undefined((window.GreenSockAMDPath ? window.GreenSockAMDPath + "/" : "") + ns.split(".").pop(), [], function () {
-								return cl;
-							});
-						} else if (hasModule) {
+						if ('object' !== "undefined" && module.exports) {
 							//node
 							if (ns === moduleName) {
 								module.exports = _exports[moduleName] = cl;
@@ -17133,6 +17370,11 @@ var tweenmax = createCommonjsModule(function (module) {
 							} else if (_exports[moduleName]) {
 								_exports[moduleName][n] = cl;
 							}
+						} else if (typeof undefined === "function" && undefined.amd) {
+							//AMD
+							undefined((window.GreenSockAMDPath ? window.GreenSockAMDPath + "/" : "") + ns.split(".").pop(), [], function () {
+								return cl;
+							});
 						}
 					}
 					for (i = 0; i < this.sc.length; i++) {
@@ -17167,7 +17409,6 @@ var tweenmax = createCommonjsModule(function (module) {
    * ----------------------------------------------------------------
    */
 		var _baseParams = [0, 0, 1, 1],
-		    _blankArray = [],
 		    Ease = _class("easing.Ease", function (func, extraParams, type, power) {
 			this._func = func;
 			this._type = type || 0;
@@ -17475,10 +17716,14 @@ var tweenmax = createCommonjsModule(function (module) {
 
 		//some browsers (like iOS) occasionally drop the requestAnimationFrame event when the user switches to a different tab and then comes back again, so we use a 2-second setTimeout() to sense if/when that condition occurs and then wake() the ticker.
 		var _checkTimeout = function _checkTimeout() {
-			if (_tickerActive && _getTime() - _lastUpdate > 2000) {
+			if (_tickerActive && _getTime() - _lastUpdate > 2000 && _doc.visibilityState !== "hidden") {
 				_ticker.wake();
 			}
-			setTimeout(_checkTimeout, 2000);
+			var t = setTimeout(_checkTimeout, 2000);
+			if (t.unref) {
+				// allows a node process to exit even if the timeout’s callback hasn't been invoked. Without it, the node process could hang as this function is called every two seconds.
+				t.unref();
+			}
 		};
 		_checkTimeout();
 
@@ -17537,7 +17782,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			    //the 2 root timelines won't have a _timeline; they're always active.
 			startTime = this._startTime,
 			    rawTime;
-			return !tl || !this._gc && !this._paused && tl.isActive() && (rawTime = tl.rawTime(true)) >= startTime && rawTime < startTime + this.totalDuration() / this._timeScale;
+			return !tl || !this._gc && !this._paused && tl.isActive() && (rawTime = tl.rawTime(true)) >= startTime && rawTime < startTime + this.totalDuration() / this._timeScale - 0.0000001;
 		};
 
 		p._enabled = function (enabled, ignoreTimeline) {
@@ -17885,7 +18130,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			this._totalTime = this._time = this._rawPrevTime = time;
 			while (tween) {
 				next = tween._next; //record it here because the value could change after rendering...
-				if (tween._active || time >= tween._startTime && !tween._paused) {
+				if (tween._active || time >= tween._startTime && !tween._paused && !tween._gc) {
 					if (!tween._reversed) {
 						tween.render((time - tween._startTime) * tween._timeScale, suppressEvents, force);
 					} else {
@@ -17990,7 +18235,7 @@ var tweenmax = createCommonjsModule(function (module) {
 		p._firstPT = p._targets = p._overwrittenProps = p._startAt = null;
 		p._notifyPluginsOfEnabled = p._lazy = false;
 
-		TweenLite.version = "1.19.1";
+		TweenLite.version = "1.20.2";
 		TweenLite.defaultEase = p._ease = new Ease(null, null, 1, 1);
 		TweenLite.defaultOverwrite = "auto";
 		TweenLite.ticker = _ticker;
@@ -18011,6 +18256,7 @@ var tweenmax = createCommonjsModule(function (module) {
 		var _lazyTweens = [],
 		    _lazyLookup = {},
 		    _numbersExp = /(?:(-|-=|\+=)?\d*\.?\d*(?:e[\-+]?\d+)?)[0-9]/ig,
+		    _relExp = /[\+-]=-?[\.\d]/,
 
 		//_nonNumbersExp = /(?:([\-+](?!(\d|=)))|[^\d\-+=e]|(e(?![\-+][\d])))+/ig,
 		_setRatio = function _setRatio(v) {
@@ -18018,7 +18264,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			    min = 0.000001,
 			    val;
 			while (pt) {
-				val = !pt.blob ? pt.c * v + pt.s : v === 1 ? this.end : v ? this.join("") : this.start;
+				val = !pt.blob ? pt.c * v + pt.s : v === 1 && this.end ? this.end : v ? this.join("") : this.start;
 				if (pt.m) {
 					val = pt.m(val, this._target || pt.t);
 				} else if (val < min) if (val > -min && !pt.blob) {
@@ -18097,6 +18343,10 @@ var tweenmax = createCommonjsModule(function (module) {
 				a.push(s);
 			}
 			a.setRatio = _setRatio;
+			if (_relExp.test(end)) {
+				//if the end string contains relative values, delete it so that on the final render (in _setRatio()), we don't actually set it to the string with += or -= characters (forces it to use the calculated value).
+				a.end = 0;
+			}
 			return a;
 		},
 
@@ -18116,7 +18366,7 @@ var tweenmax = createCommonjsModule(function (module) {
 				if (funcParam || isNaN(s) || !isRelative && isNaN(end) || typeof s === "boolean" || typeof end === "boolean") {
 					//a blob (string that has multiple numbers in it)
 					pt.fp = funcParam;
-					blob = _blobDif(s, isRelative ? pt.s + pt.c : end, stringFilter || TweenLite.defaultStringFilter, pt);
+					blob = _blobDif(s, isRelative ? parseFloat(pt.s) + pt.c : end, stringFilter || TweenLite.defaultStringFilter, pt);
 					pt = { t: blob, p: "setRatio", s: 0, c: 1, f: 2, pg: 0, n: overwriteProp || prop, pr: 0, m: 0 }; //"2" indicates it's a Blob property tween. Needed for RoundPropsPlugin for example.
 				} else {
 					pt.s = parseFloat(s);
@@ -18139,7 +18389,7 @@ var tweenmax = createCommonjsModule(function (module) {
 		_plugins = TweenLite._plugins = {},
 		    _tweenLookup = _internals.tweenLookup = {},
 		    _tweenLookupNum = 0,
-		    _reservedProps = _internals.reservedProps = { ease: 1, delay: 1, overwrite: 1, onComplete: 1, onCompleteParams: 1, onCompleteScope: 1, useFrames: 1, runBackwards: 1, startAt: 1, onUpdate: 1, onUpdateParams: 1, onUpdateScope: 1, onStart: 1, onStartParams: 1, onStartScope: 1, onReverseComplete: 1, onReverseCompleteParams: 1, onReverseCompleteScope: 1, onRepeat: 1, onRepeatParams: 1, onRepeatScope: 1, easeParams: 1, yoyo: 1, immediateRender: 1, repeat: 1, repeatDelay: 1, data: 1, paused: 1, reversed: 1, autoCSS: 1, lazy: 1, onOverwrite: 1, callbackScope: 1, stringFilter: 1, id: 1 },
+		    _reservedProps = _internals.reservedProps = { ease: 1, delay: 1, overwrite: 1, onComplete: 1, onCompleteParams: 1, onCompleteScope: 1, useFrames: 1, runBackwards: 1, startAt: 1, onUpdate: 1, onUpdateParams: 1, onUpdateScope: 1, onStart: 1, onStartParams: 1, onStartScope: 1, onReverseComplete: 1, onReverseCompleteParams: 1, onReverseCompleteScope: 1, onRepeat: 1, onRepeatParams: 1, onRepeatScope: 1, easeParams: 1, yoyo: 1, immediateRender: 1, repeat: 1, repeatDelay: 1, data: 1, paused: 1, reversed: 1, autoCSS: 1, lazy: 1, onOverwrite: 1, callbackScope: 1, stringFilter: 1, id: 1, yoyoEase: 1 },
 		    _overwriteLookup = { none: 0, all: 1, auto: 2, concurrent: 3, allOnStart: 4, preexisting: 5, "true": 1, "false": 0 },
 		    _rootFramesTimeline = Animation._rootFramesTimeline = new SimpleTimeline(),
 		    _rootTimeline = Animation._rootTimeline = new SimpleTimeline(),
@@ -18336,6 +18586,8 @@ var tweenmax = createCommonjsModule(function (module) {
 				startVars.immediateRender = true;
 				startVars.lazy = immediate && v.lazy !== false;
 				startVars.startAt = startVars.delay = null; //no nesting of startAt objects allowed (otherwise it could cause an infinite loop).
+				startVars.onUpdate = v.onUpdate;
+				startVars.onUpdateScope = v.onUpdateScope || v.callbackScope || this;
 				this._startAt = TweenLite.to(this.target, 0, startVars);
 				if (immediate) {
 					if (this._time > 0) {
@@ -18531,8 +18783,8 @@ var tweenmax = createCommonjsModule(function (module) {
 						this._rawPrevTime = rawPrevTime = !suppressEvents || time || prevRawPrevTime === time ? time : _tinyNum; //when the playhead arrives at EXACTLY time 0 (right on top) of a zero-duration tween, we need to discern if events are suppressed so that when the playhead moves again (next time), it'll trigger the callback. If events are NOT suppressed, obviously the callback would be triggered in this render. Basically, the callback should fire either when the playhead ARRIVES or LEAVES this exact spot, not both. Imagine doing a timeline.seek(0) and there's a callback that sits at 0. Since events are suppressed on that seek() by default, nothing will fire, but when the playhead moves off of that position, the callback should fire. This behavior is what people intuitively expect. We set the _rawPrevTime to be a precise tiny number to indicate this scenario rather than using another property/variable which would increase memory usage. This technique is less readable, but more efficient.
 					}
 				}
-				if (!this._initted) {
-					//if we render the very beginning (time == 0) of a fromTo(), we must force the render (normal tweens wouldn't need to render at a time of 0 when the prevTime was also 0). This is also mandatory to make sure overwriting kicks in immediately.
+				if (!this._initted || this._startAt && this._startAt.progress()) {
+					//if we render the very beginning (time == 0) of a fromTo(), we must force the render (normal tweens wouldn't need to render at a time of 0 when the prevTime was also 0). This is also mandatory to make sure overwriting kicks in immediately. Also, we check progress() because if startAt has already rendered at its end, we should force a render at its beginning. Otherwise, if you put the playhead directly on top of where a fromTo({immediateRender:false}) starts, and then move it backwards, the from() won't revert its values.
 					force = true;
 				}
 			} else {
@@ -18842,7 +19094,7 @@ var tweenmax = createCommonjsModule(function (module) {
 						}
 					}
 				}
-			} else {
+			} else if (target._gsTweenID) {
 				a = _register(target).concat();
 				i = a.length;
 				while (--i > -1) {
@@ -18851,7 +19103,7 @@ var tweenmax = createCommonjsModule(function (module) {
 					}
 				}
 			}
-			return a;
+			return a || [];
 		};
 
 		TweenLite.killTweensOf = TweenLite.killDelayedCallsTo = function (target, onlyActive, vars) {
@@ -19027,8 +19279,8 @@ var tweenmax = createCommonjsModule(function (module) {
 
 var TweenLite$1 = createCommonjsModule(function (module) {
 	/*!
-  * VERSION: 1.19.1
-  * DATE: 2017-01-17
+  * VERSION: 1.20.2
+  * DATE: 2017-06-30
   * UPDATES AND DOCS AT: http://greensock.com
   *
   * @license Copyright (c) 2008-2017, GreenSock. All rights reserved.
@@ -19128,8 +19380,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 				    cur,
 				    a,
 				    n,
-				    cl,
-				    hasModule;
+				    cl;
 				while (--i > -1) {
 					if ((cur = _defLookup[dependencies[i]] || new Definition(dependencies[i], [])).gsClass) {
 						_classes[i] = cur.gsClass;
@@ -19146,13 +19397,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 					//exports to multiple environments
 					if (global) {
 						_globals[n] = _exports[n] = cl; //provides a way to avoid global namespace pollution. By default, the main classes like TweenLite, Power1, Strong, etc. are added to window unless a GreenSockGlobals is defined. So if you want to have things added to a custom object instead, just do something like window.GreenSockGlobals = {} before loading any GreenSock files. You can even set up an alias like window.GreenSockGlobals = windows.gs = {} so that you can access everything like gs.TweenLite. Also remember that ALL classes are added to the window.com.greensock object (in their respective packages, like com.greensock.easing.Power1, com.greensock.TweenLite, etc.)
-						hasModule = 'object' !== "undefined" && module.exports;
-						if (!hasModule && typeof undefined === "function" && undefined.amd) {
-							//AMD
-							undefined((window.GreenSockAMDPath ? window.GreenSockAMDPath + "/" : "") + ns.split(".").pop(), [], function () {
-								return cl;
-							});
-						} else if (hasModule) {
+						if ('object' !== "undefined" && module.exports) {
 							//node
 							if (ns === moduleName) {
 								module.exports = _exports[moduleName] = cl;
@@ -19162,6 +19407,11 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 							} else if (_exports[moduleName]) {
 								_exports[moduleName][n] = cl;
 							}
+						} else if (typeof undefined === "function" && undefined.amd) {
+							//AMD
+							undefined((window.GreenSockAMDPath ? window.GreenSockAMDPath + "/" : "") + ns.split(".").pop(), [], function () {
+								return cl;
+							});
 						}
 					}
 					for (i = 0; i < this.sc.length; i++) {
@@ -19196,7 +19446,6 @@ var TweenLite$1 = createCommonjsModule(function (module) {
    * ----------------------------------------------------------------
    */
 		var _baseParams = [0, 0, 1, 1],
-		    _blankArray = [],
 		    Ease = _class("easing.Ease", function (func, extraParams, type, power) {
 			this._func = func;
 			this._type = type || 0;
@@ -19504,10 +19753,14 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 
 		//some browsers (like iOS) occasionally drop the requestAnimationFrame event when the user switches to a different tab and then comes back again, so we use a 2-second setTimeout() to sense if/when that condition occurs and then wake() the ticker.
 		var _checkTimeout = function _checkTimeout() {
-			if (_tickerActive && _getTime() - _lastUpdate > 2000) {
+			if (_tickerActive && _getTime() - _lastUpdate > 2000 && _doc.visibilityState !== "hidden") {
 				_ticker.wake();
 			}
-			setTimeout(_checkTimeout, 2000);
+			var t = setTimeout(_checkTimeout, 2000);
+			if (t.unref) {
+				// allows a node process to exit even if the timeout’s callback hasn't been invoked. Without it, the node process could hang as this function is called every two seconds.
+				t.unref();
+			}
 		};
 		_checkTimeout();
 
@@ -19566,7 +19819,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 			    //the 2 root timelines won't have a _timeline; they're always active.
 			startTime = this._startTime,
 			    rawTime;
-			return !tl || !this._gc && !this._paused && tl.isActive() && (rawTime = tl.rawTime(true)) >= startTime && rawTime < startTime + this.totalDuration() / this._timeScale;
+			return !tl || !this._gc && !this._paused && tl.isActive() && (rawTime = tl.rawTime(true)) >= startTime && rawTime < startTime + this.totalDuration() / this._timeScale - 0.0000001;
 		};
 
 		p._enabled = function (enabled, ignoreTimeline) {
@@ -19914,7 +20167,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 			this._totalTime = this._time = this._rawPrevTime = time;
 			while (tween) {
 				next = tween._next; //record it here because the value could change after rendering...
-				if (tween._active || time >= tween._startTime && !tween._paused) {
+				if (tween._active || time >= tween._startTime && !tween._paused && !tween._gc) {
 					if (!tween._reversed) {
 						tween.render((time - tween._startTime) * tween._timeScale, suppressEvents, force);
 					} else {
@@ -20019,7 +20272,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 		p._firstPT = p._targets = p._overwrittenProps = p._startAt = null;
 		p._notifyPluginsOfEnabled = p._lazy = false;
 
-		TweenLite.version = "1.19.1";
+		TweenLite.version = "1.20.2";
 		TweenLite.defaultEase = p._ease = new Ease(null, null, 1, 1);
 		TweenLite.defaultOverwrite = "auto";
 		TweenLite.ticker = _ticker;
@@ -20040,6 +20293,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 		var _lazyTweens = [],
 		    _lazyLookup = {},
 		    _numbersExp = /(?:(-|-=|\+=)?\d*\.?\d*(?:e[\-+]?\d+)?)[0-9]/ig,
+		    _relExp = /[\+-]=-?[\.\d]/,
 
 		//_nonNumbersExp = /(?:([\-+](?!(\d|=)))|[^\d\-+=e]|(e(?![\-+][\d])))+/ig,
 		_setRatio = function _setRatio(v) {
@@ -20047,7 +20301,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 			    min = 0.000001,
 			    val;
 			while (pt) {
-				val = !pt.blob ? pt.c * v + pt.s : v === 1 ? this.end : v ? this.join("") : this.start;
+				val = !pt.blob ? pt.c * v + pt.s : v === 1 && this.end ? this.end : v ? this.join("") : this.start;
 				if (pt.m) {
 					val = pt.m(val, this._target || pt.t);
 				} else if (val < min) if (val > -min && !pt.blob) {
@@ -20126,6 +20380,10 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 				a.push(s);
 			}
 			a.setRatio = _setRatio;
+			if (_relExp.test(end)) {
+				//if the end string contains relative values, delete it so that on the final render (in _setRatio()), we don't actually set it to the string with += or -= characters (forces it to use the calculated value).
+				a.end = 0;
+			}
 			return a;
 		},
 
@@ -20145,7 +20403,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 				if (funcParam || isNaN(s) || !isRelative && isNaN(end) || typeof s === "boolean" || typeof end === "boolean") {
 					//a blob (string that has multiple numbers in it)
 					pt.fp = funcParam;
-					blob = _blobDif(s, isRelative ? pt.s + pt.c : end, stringFilter || TweenLite.defaultStringFilter, pt);
+					blob = _blobDif(s, isRelative ? parseFloat(pt.s) + pt.c : end, stringFilter || TweenLite.defaultStringFilter, pt);
 					pt = { t: blob, p: "setRatio", s: 0, c: 1, f: 2, pg: 0, n: overwriteProp || prop, pr: 0, m: 0 }; //"2" indicates it's a Blob property tween. Needed for RoundPropsPlugin for example.
 				} else {
 					pt.s = parseFloat(s);
@@ -20168,7 +20426,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 		_plugins = TweenLite._plugins = {},
 		    _tweenLookup = _internals.tweenLookup = {},
 		    _tweenLookupNum = 0,
-		    _reservedProps = _internals.reservedProps = { ease: 1, delay: 1, overwrite: 1, onComplete: 1, onCompleteParams: 1, onCompleteScope: 1, useFrames: 1, runBackwards: 1, startAt: 1, onUpdate: 1, onUpdateParams: 1, onUpdateScope: 1, onStart: 1, onStartParams: 1, onStartScope: 1, onReverseComplete: 1, onReverseCompleteParams: 1, onReverseCompleteScope: 1, onRepeat: 1, onRepeatParams: 1, onRepeatScope: 1, easeParams: 1, yoyo: 1, immediateRender: 1, repeat: 1, repeatDelay: 1, data: 1, paused: 1, reversed: 1, autoCSS: 1, lazy: 1, onOverwrite: 1, callbackScope: 1, stringFilter: 1, id: 1 },
+		    _reservedProps = _internals.reservedProps = { ease: 1, delay: 1, overwrite: 1, onComplete: 1, onCompleteParams: 1, onCompleteScope: 1, useFrames: 1, runBackwards: 1, startAt: 1, onUpdate: 1, onUpdateParams: 1, onUpdateScope: 1, onStart: 1, onStartParams: 1, onStartScope: 1, onReverseComplete: 1, onReverseCompleteParams: 1, onReverseCompleteScope: 1, onRepeat: 1, onRepeatParams: 1, onRepeatScope: 1, easeParams: 1, yoyo: 1, immediateRender: 1, repeat: 1, repeatDelay: 1, data: 1, paused: 1, reversed: 1, autoCSS: 1, lazy: 1, onOverwrite: 1, callbackScope: 1, stringFilter: 1, id: 1, yoyoEase: 1 },
 		    _overwriteLookup = { none: 0, all: 1, auto: 2, concurrent: 3, allOnStart: 4, preexisting: 5, "true": 1, "false": 0 },
 		    _rootFramesTimeline = Animation._rootFramesTimeline = new SimpleTimeline(),
 		    _rootTimeline = Animation._rootTimeline = new SimpleTimeline(),
@@ -20365,6 +20623,8 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 				startVars.immediateRender = true;
 				startVars.lazy = immediate && v.lazy !== false;
 				startVars.startAt = startVars.delay = null; //no nesting of startAt objects allowed (otherwise it could cause an infinite loop).
+				startVars.onUpdate = v.onUpdate;
+				startVars.onUpdateScope = v.onUpdateScope || v.callbackScope || this;
 				this._startAt = TweenLite.to(this.target, 0, startVars);
 				if (immediate) {
 					if (this._time > 0) {
@@ -20560,8 +20820,8 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 						this._rawPrevTime = rawPrevTime = !suppressEvents || time || prevRawPrevTime === time ? time : _tinyNum; //when the playhead arrives at EXACTLY time 0 (right on top) of a zero-duration tween, we need to discern if events are suppressed so that when the playhead moves again (next time), it'll trigger the callback. If events are NOT suppressed, obviously the callback would be triggered in this render. Basically, the callback should fire either when the playhead ARRIVES or LEAVES this exact spot, not both. Imagine doing a timeline.seek(0) and there's a callback that sits at 0. Since events are suppressed on that seek() by default, nothing will fire, but when the playhead moves off of that position, the callback should fire. This behavior is what people intuitively expect. We set the _rawPrevTime to be a precise tiny number to indicate this scenario rather than using another property/variable which would increase memory usage. This technique is less readable, but more efficient.
 					}
 				}
-				if (!this._initted) {
-					//if we render the very beginning (time == 0) of a fromTo(), we must force the render (normal tweens wouldn't need to render at a time of 0 when the prevTime was also 0). This is also mandatory to make sure overwriting kicks in immediately.
+				if (!this._initted || this._startAt && this._startAt.progress()) {
+					//if we render the very beginning (time == 0) of a fromTo(), we must force the render (normal tweens wouldn't need to render at a time of 0 when the prevTime was also 0). This is also mandatory to make sure overwriting kicks in immediately. Also, we check progress() because if startAt has already rendered at its end, we should force a render at its beginning. Otherwise, if you put the playhead directly on top of where a fromTo({immediateRender:false}) starts, and then move it backwards, the from() won't revert its values.
 					force = true;
 				}
 			} else {
@@ -20871,7 +21131,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 						}
 					}
 				}
-			} else {
+			} else if (target._gsTweenID) {
 				a = _register(target).concat();
 				i = a.length;
 				while (--i > -1) {
@@ -20880,7 +21140,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 					}
 				}
 			}
-			return a;
+			return a || [];
 		};
 
 		TweenLite.killTweensOf = TweenLite.killDelayedCallsTo = function (target, onlyActive, vars) {
@@ -21056,8 +21316,8 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 
 var TimeLineMax = createCommonjsModule(function (module) {
 	/*!
-  * VERSION: 1.19.1
-  * DATE: 2017-01-17
+  * VERSION: 1.20.2
+  * DATE: 2017-06-30
   * UPDATES AND DOCS AT: http://greensock.com
   *
   * @license Copyright (c) 2008-2017, GreenSock. All rights reserved.
@@ -21091,7 +21351,7 @@ var TimeLineMax = createCommonjsModule(function (module) {
 
 			p.constructor = TimelineMax;
 			p.kill()._gc = false;
-			TimelineMax.version = "1.19.1";
+			TimelineMax.version = "1.20.2";
 
 			p.invalidate = function () {
 				this._yoyo = this.vars.yoyo === true;
@@ -21275,7 +21535,7 @@ var TimeLineMax = createCommonjsModule(function (module) {
 						}
 					}
 
-					if (this._hasPause && !this._forcingPlayhead && !suppressEvents && time < dur) {
+					if (this._hasPause && !this._forcingPlayhead && !suppressEvents) {
 						time = this._time;
 						if (time >= prevTime || this._repeat && prevCycle !== this._cycle) {
 							tween = this._first;
@@ -21294,7 +21554,7 @@ var TimeLineMax = createCommonjsModule(function (module) {
 								tween = tween._prev;
 							}
 						}
-						if (pauseTween) {
+						if (pauseTween && pauseTween._startTime < dur) {
 							this._time = time = pauseTween._startTime;
 							this._totalTime = time + this._cycle * (this._totalDuration + this._repeatDelay);
 						}
@@ -21524,11 +21784,11 @@ var TimeLineMax = createCommonjsModule(function (module) {
 			//---- GETTERS / SETTERS -------------------------------------------------------------------------------------------------------
 
 			p.progress = function (value, suppressEvents) {
-				return !arguments.length ? this._time / this.duration() : this.totalTime(this.duration() * (this._yoyo && (this._cycle & 1) !== 0 ? 1 - value : value) + this._cycle * (this._duration + this._repeatDelay), suppressEvents);
+				return !arguments.length ? this._time / this.duration() || 0 : this.totalTime(this.duration() * (this._yoyo && (this._cycle & 1) !== 0 ? 1 - value : value) + this._cycle * (this._duration + this._repeatDelay), suppressEvents);
 			};
 
 			p.totalProgress = function (value, suppressEvents) {
-				return !arguments.length ? this._totalTime / this.totalDuration() : this.totalTime(this.totalDuration() * value, suppressEvents);
+				return !arguments.length ? this._totalTime / this.totalDuration() || 0 : this.totalTime(this.totalDuration() * value, suppressEvents);
 			};
 
 			p.totalDuration = function (value) {
@@ -21660,7 +21920,7 @@ var TimeLineMax = createCommonjsModule(function (module) {
 			},
 			    p = TimelineLite.prototype = new SimpleTimeline();
 
-			TimelineLite.version = "1.19.1";
+			TimelineLite.version = "1.20.2";
 			p.constructor = TimelineLite;
 			p.kill()._gc = p._forcingPlayhead = p._hasPause = false;
 
@@ -21826,6 +22086,11 @@ var TimeLineMax = createCommonjsModule(function (module) {
 
 				SimpleTimeline.prototype.add.call(this, value, position);
 
+				if (value._time) {
+					//in case, for example, the _startTime is moved on a tween that has already rendered. Imagine it's at its end state, then the startTime is moved WAY later (after the end of this timeline), it should render at its beginning.
+					value.render((this.rawTime() - value._startTime) * value._timeScale, false, false);
+				}
+
 				//if the timeline has already ended but the inserted tween/timeline extends the duration, we should enable this timeline again so that it renders properly. We should also align the playhead with the parent timeline's when appropriate.
 				if (this._gc || this._time === this._duration) if (!this._paused) if (this._duration < this.duration()) {
 					//in case any of the ancestors had completed but should now be enabled...
@@ -21909,7 +22174,7 @@ var TimeLineMax = createCommonjsModule(function (module) {
 			};
 
 			p._parseTimeOrLabel = function (timeOrLabel, offsetOrLabel, appendIfAbsent, ignore) {
-				var i;
+				var clippedDuration, i;
 				//if we're about to add a tween/timeline (or an array of them) that's already a child of this timeline, we should remove it first so that it doesn't contaminate the duration().
 				if (ignore instanceof Animation && ignore.timeline === this) {
 					this.remove(ignore);
@@ -21921,8 +22186,9 @@ var TimeLineMax = createCommonjsModule(function (module) {
 						}
 					}
 				}
+				clippedDuration = this.duration() > 99999999999 ? this.recent().endTime(false) : this._duration; //in case there's a child that infinitely repeats, users almost never intend for the insertion point of a new child to be based on a SUPER long value like that so we clip it and assume the most recently-added child's endTime should be used instead.
 				if (typeof offsetOrLabel === "string") {
-					return this._parseTimeOrLabel(offsetOrLabel, appendIfAbsent && typeof timeOrLabel === "number" && this._labels[offsetOrLabel] == null ? timeOrLabel - this.duration() : 0, appendIfAbsent);
+					return this._parseTimeOrLabel(offsetOrLabel, appendIfAbsent && typeof timeOrLabel === "number" && this._labels[offsetOrLabel] == null ? timeOrLabel - clippedDuration : 0, appendIfAbsent);
 				}
 				offsetOrLabel = offsetOrLabel || 0;
 				if (typeof timeOrLabel === "string" && (isNaN(timeOrLabel) || this._labels[timeOrLabel] != null)) {
@@ -21930,14 +22196,14 @@ var TimeLineMax = createCommonjsModule(function (module) {
 					i = timeOrLabel.indexOf("=");
 					if (i === -1) {
 						if (this._labels[timeOrLabel] == null) {
-							return appendIfAbsent ? this._labels[timeOrLabel] = this.duration() + offsetOrLabel : offsetOrLabel;
+							return appendIfAbsent ? this._labels[timeOrLabel] = clippedDuration + offsetOrLabel : offsetOrLabel;
 						}
 						return this._labels[timeOrLabel] + offsetOrLabel;
 					}
 					offsetOrLabel = parseInt(timeOrLabel.charAt(i - 1) + "1", 10) * Number(timeOrLabel.substr(i + 1));
-					timeOrLabel = i > 1 ? this._parseTimeOrLabel(timeOrLabel.substr(0, i - 1), 0, appendIfAbsent) : this.duration();
+					timeOrLabel = i > 1 ? this._parseTimeOrLabel(timeOrLabel.substr(0, i - 1), 0, appendIfAbsent) : clippedDuration;
 				} else if (timeOrLabel == null) {
-					timeOrLabel = this.duration();
+					timeOrLabel = clippedDuration;
 				}
 				return Number(timeOrLabel) + offsetOrLabel;
 			};
@@ -22385,21 +22651,21 @@ var TimeLineMax = createCommonjsModule(function (module) {
 		var getGlobal = function getGlobal() {
 			return (_gsScope.GreenSockGlobals || _gsScope)[name];
 		};
-		if (typeof undefined === "function" && undefined.amd) {
-			//AMD
-			undefined(["./TweenLite"], getGlobal);
-		} else if ('object' !== "undefined" && module.exports) {
+		if ('object' !== "undefined" && module.exports) {
 			//node
 			//dependency
 			module.exports = getGlobal();
+		} else if (typeof undefined === "function" && undefined.amd) {
+			//AMD
+			undefined(["gsap/TweenLite"], getGlobal);
 		}
 	})("TimelineMax");
 });
 
 var easepack = createCommonjsModule(function (module) {
 	/*!
-  * VERSION: 1.15.5
-  * DATE: 2017-01-17
+  * VERSION: 1.15.6
+  * DATE: 2017-06-19
   * UPDATES AND DOCS AT: http://greensock.com
   *
   * @license Copyright (c) 2008-2017, GreenSock. All rights reserved.
@@ -22509,10 +22775,11 @@ var easepack = createCommonjsModule(function (module) {
 			};
 
 			//SteppedEase
-			SteppedEase = _class("easing.SteppedEase", function (steps) {
+			SteppedEase = _class("easing.SteppedEase", function (steps, immediateStart) {
 				steps = steps || 1;
 				this._p1 = 1 / steps;
-				this._p2 = steps + 1;
+				this._p2 = steps + (immediateStart ? 0 : 1);
+				this._p3 = immediateStart ? 1 : 0;
 			}, true);
 			p = SteppedEase.prototype = new Ease();
 			p.constructor = SteppedEase;
@@ -22522,10 +22789,10 @@ var easepack = createCommonjsModule(function (module) {
 				} else if (p >= 1) {
 					p = 0.999999999;
 				}
-				return (this._p2 * p >> 0) * this._p1;
+				return ((this._p2 * p | 0) + this._p3) * this._p1;
 			};
-			p.config = SteppedEase.config = function (steps) {
-				return new SteppedEase(steps);
+			p.config = SteppedEase.config = function (steps, immediateStart) {
+				return new SteppedEase(steps, immediateStart);
 			};
 
 			//RoughEase
@@ -22729,13 +22996,13 @@ var easepack = createCommonjsModule(function (module) {
 		var getGlobal = function getGlobal() {
 			return _gsScope.GreenSockGlobals || _gsScope;
 		};
-		if (typeof undefined === "function" && undefined.amd) {
-			//AMD
-			undefined(["./TweenLite"], getGlobal);
-		} else if ('object' !== "undefined" && module.exports) {
+		if ('object' !== "undefined" && module.exports) {
 			//node
 
 			module.exports = getGlobal();
+		} else if (typeof undefined === "function" && undefined.amd) {
+			//AMD
+			undefined(["gsap/TweenLite"], getGlobal);
 		}
 	})();
 });
@@ -23771,8 +24038,20 @@ var BlockAnimations = function BlockAnimations() {
 		if (!selection) {
 			return;
 		}
+		var viewHeight = document.documentElement.clientHeight;
+
+		var RevealElement = function RevealElement(item, blockRevealItem) {
+			if (item.querySelector('.js-lazyload')) {
+				item.querySelector('img').addEventListener('lazybeforeunveil', function (e) {
+					blockRevealItem.reveal();
+				});
+			} else {
+				blockRevealItem.reveal();
+			}
+		};
 
 		Array.from(selection).forEach(function (item) {
+			var elHeight = item.offsetHeight;
 			var blockRevealItem = new BlockReveal(item, {
 				revealSettings: {
 					delay: item.dataset.revealDelay ? item.dataset.revealDelay : 0,
@@ -23784,14 +24063,15 @@ var BlockAnimations = function BlockAnimations() {
 
 			var waypoint = new Waypoint.Inview({
 				element: item,
-				entered: function entered(direction) {
-					if (item.querySelector('.js-lazyload')) {
-						item.querySelector('img').addEventListener('lazybeforeunveil', function (e) {
-							blockRevealItem.reveal();
-						});
-					} else {
-						blockRevealItem.reveal();
+				enter: function enter(direction) {
+					if (elHeight > viewHeight) {
+						console.log('enter');
+						RevealElement(item, blockRevealItem);
 					}
+				},
+				entered: function entered(direction) {
+					console.log('entered');
+					RevealElement(item, blockRevealItem);
 				},
 				exit: function exit() {
 					waypoint.destroy();
@@ -26021,6 +26301,7 @@ var ScrollMagic = createCommonjsModule(function (module, exports) {
 					},
 					pushFollowers: settings.pushFollowers,
 					inFlow: inFlow
+					// stores if the element takes up space in the document flow
 				};
 
 				if (!_pin.___origStyle) {
@@ -26263,6 +26544,7 @@ var ScrollMagic = createCommonjsModule(function (module, exports) {
 			},
 			// holder for  validation methods. duration validation is handled in 'getters-setters.js'
 			shifts: ["duration", "offset", "triggerHook"]
+			// list of options that trigger a `shift` event
 		};
 		/*
    * method used to add an option to ScrollMagic Scenes.
@@ -26604,8 +26886,8 @@ var ScrollMagic = createCommonjsModule(function (module, exports) {
 
 var TweenMax$2 = createCommonjsModule(function (module) {
 	/*!
-  * VERSION: 1.19.1
-  * DATE: 2017-01-17
+  * VERSION: 1.20.2
+  * DATE: 2017-06-30
   * UPDATES AND DOCS AT: http://greensock.com
   * 
   * Includes all of the following: TweenLite, TweenMax, TimelineLite, TimelineMax, EasePack, CSSPlugin, RoundPropsPlugin, BezierPlugin, AttrPlugin, DirectionalRotationPlugin
@@ -26644,7 +26926,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			    TweenMax = function TweenMax(target, duration, vars) {
 				TweenLite.call(this, target, duration, vars);
 				this._cycle = 0;
-				this._yoyo = this.vars.yoyo === true;
+				this._yoyo = this.vars.yoyo === true || !!this.vars.yoyoEase;
 				this._repeat = this.vars.repeat || 0;
 				this._repeatDelay = this.vars.repeatDelay || 0;
 				this._dirty = true; //ensures that if there is any repeat, the totalDuration will get recalculated to accurately report it.
@@ -26657,7 +26939,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			    p = TweenMax.prototype = TweenLite.to({}, 0.1, {}),
 			    _blankArray = [];
 
-			TweenMax.version = "1.19.1";
+			TweenMax.version = "1.20.2";
 			p.constructor = TweenMax;
 			p.kill()._gc = false;
 			TweenMax.killTweensOf = TweenMax.killDelayedCallsTo = TweenLite.killTweensOf;
@@ -26667,9 +26949,10 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			TweenMax.render = TweenLite.render;
 
 			p.invalidate = function () {
-				this._yoyo = this.vars.yoyo === true;
+				this._yoyo = this.vars.yoyo === true || !!this.vars.yoyoEase;
 				this._repeat = this.vars.repeat || 0;
 				this._repeatDelay = this.vars.repeatDelay || 0;
+				this._yoyoEase = null;
 				this._uncache(true);
 				return TweenLite.prototype.invalidate.call(this);
 			};
@@ -26747,7 +27030,8 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				    r,
 				    type,
 				    pow,
-				    rawPrevTime;
+				    rawPrevTime,
+				    yoyoEase;
 				if (time >= totalDur - 0.0000001 && time >= 0) {
 					//to work around occasional floating point math artifacts.
 					this._totalTime = totalDur;
@@ -26812,6 +27096,19 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						this._time = this._totalTime - this._cycle * cycleDuration;
 						if (this._yoyo) if ((this._cycle & 1) !== 0) {
 							this._time = duration - this._time;
+							yoyoEase = this._yoyoEase || this.vars.yoyoEase; //note: we don't set this._yoyoEase in _init() like we do other properties because it's TweenMax-specific and doing it here allows us to optimize performance (most tweens don't have a yoyoEase). Note that we also must skip the this.ratio calculation further down right after we _init() in this function, because we're doing it here.
+							if (yoyoEase) {
+								if (!this._yoyoEase) {
+									if (yoyoEase === true && !this._initted) {
+										//if it's not initted and yoyoEase is true, this._ease won't have been populated yet so we must discern it here.
+										yoyoEase = this.vars.ease;
+										this._yoyoEase = yoyoEase = !yoyoEase ? TweenLite.defaultEase : yoyoEase instanceof Ease ? yoyoEase : typeof yoyoEase === "function" ? new Ease(yoyoEase, this.vars.easeParams) : Ease.map[yoyoEase] || TweenLite.defaultEase;
+									} else {
+										this._yoyoEase = yoyoEase = yoyoEase === true ? this._ease : yoyoEase instanceof Ease ? yoyoEase : Ease.map[yoyoEase];
+									}
+								}
+								this.ratio = yoyoEase ? 1 - yoyoEase.getRatio((duration - this._time) / duration) : 0;
+							}
 						}
 						if (this._time > duration) {
 							this._time = duration;
@@ -26820,7 +27117,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						}
 					}
 
-					if (this._easeType) {
+					if (this._easeType && !yoyoEase) {
 						r = this._time / duration;
 						type = this._easeType;
 						pow = this._easePower;
@@ -26849,7 +27146,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						} else {
 							this.ratio = 1 - r / 2;
 						}
-					} else {
+					} else if (!yoyoEase) {
 						this.ratio = this._ease.getRatio(this._time / duration);
 					}
 				}
@@ -26876,9 +27173,9 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						return;
 					}
 					//_ease is initially set to defaultEase, so now that init() has run, _ease is set properly and we need to recalculate the ratio. Overall this is faster than using conditional logic earlier in the method to avoid having to set ratio twice because we only init() once but renderTime() gets called VERY frequently.
-					if (this._time && !isComplete) {
+					if (this._time && !isComplete && !yoyoEase) {
 						this.ratio = this._ease.getRatio(this._time / duration);
-					} else if (isComplete && this._ease._calcEnd) {
+					} else if (isComplete && this._ease._calcEnd && !yoyoEase) {
 						this.ratio = this._ease.getRatio(this._time === 0 ? 0 : 1);
 					}
 				}
@@ -27319,7 +27616,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			},
 			    p = TimelineLite.prototype = new SimpleTimeline();
 
-			TimelineLite.version = "1.19.1";
+			TimelineLite.version = "1.20.2";
 			p.constructor = TimelineLite;
 			p.kill()._gc = p._forcingPlayhead = p._hasPause = false;
 
@@ -27485,6 +27782,11 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 
 				SimpleTimeline.prototype.add.call(this, value, position);
 
+				if (value._time) {
+					//in case, for example, the _startTime is moved on a tween that has already rendered. Imagine it's at its end state, then the startTime is moved WAY later (after the end of this timeline), it should render at its beginning.
+					value.render((this.rawTime() - value._startTime) * value._timeScale, false, false);
+				}
+
 				//if the timeline has already ended but the inserted tween/timeline extends the duration, we should enable this timeline again so that it renders properly. We should also align the playhead with the parent timeline's when appropriate.
 				if (this._gc || this._time === this._duration) if (!this._paused) if (this._duration < this.duration()) {
 					//in case any of the ancestors had completed but should now be enabled...
@@ -27568,7 +27870,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			};
 
 			p._parseTimeOrLabel = function (timeOrLabel, offsetOrLabel, appendIfAbsent, ignore) {
-				var i;
+				var clippedDuration, i;
 				//if we're about to add a tween/timeline (or an array of them) that's already a child of this timeline, we should remove it first so that it doesn't contaminate the duration().
 				if (ignore instanceof Animation && ignore.timeline === this) {
 					this.remove(ignore);
@@ -27580,8 +27882,9 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						}
 					}
 				}
+				clippedDuration = this.duration() > 99999999999 ? this.recent().endTime(false) : this._duration; //in case there's a child that infinitely repeats, users almost never intend for the insertion point of a new child to be based on a SUPER long value like that so we clip it and assume the most recently-added child's endTime should be used instead.
 				if (typeof offsetOrLabel === "string") {
-					return this._parseTimeOrLabel(offsetOrLabel, appendIfAbsent && typeof timeOrLabel === "number" && this._labels[offsetOrLabel] == null ? timeOrLabel - this.duration() : 0, appendIfAbsent);
+					return this._parseTimeOrLabel(offsetOrLabel, appendIfAbsent && typeof timeOrLabel === "number" && this._labels[offsetOrLabel] == null ? timeOrLabel - clippedDuration : 0, appendIfAbsent);
 				}
 				offsetOrLabel = offsetOrLabel || 0;
 				if (typeof timeOrLabel === "string" && (isNaN(timeOrLabel) || this._labels[timeOrLabel] != null)) {
@@ -27589,14 +27892,14 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 					i = timeOrLabel.indexOf("=");
 					if (i === -1) {
 						if (this._labels[timeOrLabel] == null) {
-							return appendIfAbsent ? this._labels[timeOrLabel] = this.duration() + offsetOrLabel : offsetOrLabel;
+							return appendIfAbsent ? this._labels[timeOrLabel] = clippedDuration + offsetOrLabel : offsetOrLabel;
 						}
 						return this._labels[timeOrLabel] + offsetOrLabel;
 					}
 					offsetOrLabel = parseInt(timeOrLabel.charAt(i - 1) + "1", 10) * Number(timeOrLabel.substr(i + 1));
-					timeOrLabel = i > 1 ? this._parseTimeOrLabel(timeOrLabel.substr(0, i - 1), 0, appendIfAbsent) : this.duration();
+					timeOrLabel = i > 1 ? this._parseTimeOrLabel(timeOrLabel.substr(0, i - 1), 0, appendIfAbsent) : clippedDuration;
 				} else if (timeOrLabel == null) {
-					timeOrLabel = this.duration();
+					timeOrLabel = clippedDuration;
 				}
 				return Number(timeOrLabel) + offsetOrLabel;
 			};
@@ -28059,7 +28362,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 
 			p.constructor = TimelineMax;
 			p.kill()._gc = false;
-			TimelineMax.version = "1.19.1";
+			TimelineMax.version = "1.20.2";
 
 			p.invalidate = function () {
 				this._yoyo = this.vars.yoyo === true;
@@ -28243,7 +28546,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						}
 					}
 
-					if (this._hasPause && !this._forcingPlayhead && !suppressEvents && time < dur) {
+					if (this._hasPause && !this._forcingPlayhead && !suppressEvents) {
 						time = this._time;
 						if (time >= prevTime || this._repeat && prevCycle !== this._cycle) {
 							tween = this._first;
@@ -28262,7 +28565,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 								tween = tween._prev;
 							}
 						}
-						if (pauseTween) {
+						if (pauseTween && pauseTween._startTime < dur) {
 							this._time = time = pauseTween._startTime;
 							this._totalTime = time + this._cycle * (this._totalDuration + this._repeatDelay);
 						}
@@ -28492,11 +28795,11 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			//---- GETTERS / SETTERS -------------------------------------------------------------------------------------------------------
 
 			p.progress = function (value, suppressEvents) {
-				return !arguments.length ? this._time / this.duration() : this.totalTime(this.duration() * (this._yoyo && (this._cycle & 1) !== 0 ? 1 - value : value) + this._cycle * (this._duration + this._repeatDelay), suppressEvents);
+				return !arguments.length ? this._time / this.duration() || 0 : this.totalTime(this.duration() * (this._yoyo && (this._cycle & 1) !== 0 ? 1 - value : value) + this._cycle * (this._duration + this._repeatDelay), suppressEvents);
 			};
 
 			p.totalProgress = function (value, suppressEvents) {
-				return !arguments.length ? this._totalTime / this.totalDuration() : this.totalTime(this.totalDuration() * value, suppressEvents);
+				return !arguments.length ? this._totalTime / this.totalDuration() || 0 : this.totalTime(this.totalDuration() * value, suppressEvents);
 			};
 
 			p.totalDuration = function (value) {
@@ -28703,7 +29006,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				}
 				l = values.length - 2;
 				if (l < 0) {
-					a[0] = new Segment(values[0][p], 0, 0, values[l < -1 ? 0 : 1][p]);
+					a[0] = new Segment(values[0][p], 0, 0, values[0][p]);
 					return a;
 				}
 				for (i = 0; i < l; i++) {
@@ -28920,7 +29223,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			    BezierPlugin = _gsScope._gsDefine.plugin({
 				propName: "bezier",
 				priority: -1,
-				version: "1.3.7",
+				version: "1.3.8",
 				API: 2,
 				global: true,
 
@@ -29258,7 +29561,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			    p = CSSPlugin.prototype = new TweenPlugin("css");
 
 			p.constructor = CSSPlugin;
-			CSSPlugin.version = "1.19.1";
+			CSSPlugin.version = "1.20.0";
 			CSSPlugin.API = 2;
 			CSSPlugin.defaultTransformPerspective = 0;
 			CSSPlugin.defaultSkewType = "compensated";
@@ -29413,7 +29716,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
     * @return {number} value in pixels
     */
 			_convertToPixels = _internals.convertToPixels = function (t, p, v, sfx, recurse) {
-				if (sfx === "px" || !sfx) {
+				if (sfx === "px" || !sfx && p !== "lineHeight") {
 					return v;
 				}
 				if (sfx === "auto" || !v) {
@@ -29433,12 +29736,22 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				if (precise) {
 					v *= 100;
 				}
-				if (sfx === "%" && p.indexOf("border") !== -1) {
+				if (p === "lineHeight" && !sfx) {
+					//special case of when a simple lineHeight (without a unit) is used. Set it to the value, read back the computed value, and then revert.
+					cache = _getComputedStyle(t).lineHeight;
+					t.style.lineHeight = v;
+					pix = parseFloat(_getComputedStyle(t).lineHeight);
+					t.style.lineHeight = cache;
+				} else if (sfx === "%" && p.indexOf("border") !== -1) {
 					pix = v / 100 * (horiz ? t.clientWidth : t.clientHeight);
 				} else {
 					style.cssText = "border:0 solid red;position:" + _getStyle(t, "position") + ";line-height:0;";
 					if (sfx === "%" || !node.appendChild || sfx.charAt(0) === "v" || sfx === "rem") {
 						node = t.parentNode || _doc.body;
+						if (_getStyle(node, "display").indexOf("flex") !== -1) {
+							//Edge and IE11 have a bug that causes offsetWidth to report as 0 if the container has display:flex and the child is position:relative. Switching to position: absolute solves it.
+							style.position = "absolute";
+						}
 						cache = node._gsCache;
 						time = TweenLite.ticker.frame;
 						if (cache && horiz && cache.time === time) {
@@ -29817,10 +30130,13 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			    _formatColors = function _formatColors(s, toHSL) {
 				var colors = s.match(_colorExp) || [],
 				    charIndex = 0,
-				    parsed = colors.length ? "" : s,
+				    parsed = "",
 				    i,
 				    color,
 				    temp;
+				if (!colors.length) {
+					return s;
+				}
 				for (i = 0; i < colors.length; i++) {
 					color = colors[i];
 					temp = s.substr(charIndex, s.indexOf(color, charIndex) - charIndex);
@@ -29841,7 +30157,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			_colorExp = new RegExp(_colorExp + ")", "gi");
 
 			CSSPlugin.colorStringFilter = function (a) {
-				var combined = a[0] + a[1],
+				var combined = a[0] + " " + a[1],
 				    toHSL;
 				if (_colorExp.test(combined)) {
 					toHSL = combined.indexOf("hsl(") !== -1 || combined.indexOf("hsla(") !== -1;
@@ -30211,6 +30527,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						str = ev.indexOf(")") + 1;
 						str = ")" + (str ? ev.substr(str) : ""); //if there's a comma or ) at the end, retain it.
 						useHSL = ev.indexOf("hsl") !== -1 && _supportsOpacity;
+						temp = ev; //original string value so we can look for any prefix later.
 						bv = _parseColor(bv, useHSL);
 						ev = _parseColor(ev, useHSL);
 						hasAlpha = bv.length + ev.length > 6;
@@ -30224,9 +30541,9 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 								hasAlpha = false;
 							}
 							if (useHSL) {
-								pt.appendXtra(hasAlpha ? "hsla(" : "hsl(", bv[0], _parseChange(ev[0], bv[0]), ",", false, true).appendXtra("", bv[1], _parseChange(ev[1], bv[1]), "%,", false).appendXtra("", bv[2], _parseChange(ev[2], bv[2]), hasAlpha ? "%," : "%" + str, false);
+								pt.appendXtra(temp.substr(0, temp.indexOf("hsl")) + (hasAlpha ? "hsla(" : "hsl("), bv[0], _parseChange(ev[0], bv[0]), ",", false, true).appendXtra("", bv[1], _parseChange(ev[1], bv[1]), "%,", false).appendXtra("", bv[2], _parseChange(ev[2], bv[2]), hasAlpha ? "%," : "%" + str, false);
 							} else {
-								pt.appendXtra(hasAlpha ? "rgba(" : "rgb(", bv[0], ev[0] - bv[0], ",", true, true).appendXtra("", bv[1], ev[1] - bv[1], ",", true).appendXtra("", bv[2], ev[2] - bv[2], hasAlpha ? "," : str, true);
+								pt.appendXtra(temp.substr(0, temp.indexOf("rgb")) + (hasAlpha ? "rgba(" : "rgb("), bv[0], ev[0] - bv[0], ",", true, true).appendXtra("", bv[1], ev[1] - bv[1], ",", true).appendXtra("", bv[2], ev[2] - bv[2], hasAlpha ? "," : str, true);
 							}
 
 							if (hasAlpha) {
@@ -30672,9 +30989,9 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 					s = s && s.length === 4 ? [s[0].substr(4), Number(s[2].substr(4)), Number(s[1].substr(4)), s[3].substr(4), tm.x || 0, tm.y || 0].join(",") : "";
 				}
 				isDefault = !s || s === "none" || s === "matrix(1, 0, 0, 1, 0, 0)";
-				if (isDefault && _transformProp && ((none = _getComputedStyle(e).display === "none") || !e.parentNode)) {
+				if (_transformProp && ((none = _getComputedStyle(e).display === "none") || !e.parentNode)) {
 					if (none) {
-						//browsers don't report transforms accurately unless the element is in the DOM and has a display value that's not "none".
+						//browsers don't report transforms accurately unless the element is in the DOM and has a display value that's not "none". Firefox and Microsoft browsers have a partial bug where they'll report transforms even if display:none BUT not any percentage-based values like translate(-50%, 8px) will be reported as if it's translate(0, 8px).
 						n = style.display;
 						style.display = "block";
 					}
@@ -30783,7 +31100,6 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						    t4,
 						    cos,
 						    sin;
-
 						//we manually compensate for non-zero z component of transformOrigin to work around bugs in Safari
 						if (tm.zOrigin) {
 							a34 = -tm.zOrigin;
@@ -30791,6 +31107,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 							a24 = a23 * a34 - m[13];
 							a34 = a33 * a34 + tm.zOrigin - m[14];
 						}
+						//note for possible future consolidation: rotationX: Math.atan2(a32, a33), rotationY: Math.atan2(-a31, Math.sqrt(a33 * a33 + a32 * a32)), rotation: Math.atan2(a21, a11), skew: Math.atan2(a12, a22). However, it doesn't seem to be quite as reliable as the full-on backwards rotation procedure.
 						tm.rotationX = angle * _RAD2DEG;
 						//rotationX
 						if (angle) {
@@ -30827,13 +31144,17 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						angle = Math.atan2(a21, a11);
 						tm.rotation = angle * _RAD2DEG;
 						if (angle) {
-							cos = Math.cos(-angle);
-							sin = Math.sin(-angle);
-							a11 = a11 * cos + a12 * sin;
-							t2 = a21 * cos + a22 * sin;
-							a22 = a21 * -sin + a22 * cos;
-							a32 = a31 * -sin + a32 * cos;
-							a21 = t2;
+							cos = Math.cos(angle);
+							sin = Math.sin(angle);
+							t1 = a11 * cos + a21 * sin;
+							t2 = a12 * cos + a22 * sin;
+							t3 = a13 * cos + a23 * sin;
+							a21 = a21 * cos - a11 * sin;
+							a22 = a22 * cos - a12 * sin;
+							a23 = a23 * cos - a13 * sin;
+							a11 = t1;
+							a12 = t2;
+							a13 = t3;
 						}
 
 						if (tm.rotationX && Math.abs(tm.rotationX) + Math.abs(tm.rotation) > 359.9) {
@@ -30842,24 +31163,45 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 							tm.rotationY = 180 - tm.rotationY;
 						}
 
-						tm.scaleX = (Math.sqrt(a11 * a11 + a21 * a21) * rnd + 0.5 | 0) / rnd;
-						tm.scaleY = (Math.sqrt(a22 * a22 + a23 * a23) * rnd + 0.5 | 0) / rnd;
-						tm.scaleZ = (Math.sqrt(a32 * a32 + a33 * a33) * rnd + 0.5 | 0) / rnd;
-						if (tm.rotationX || tm.rotationY) {
-							tm.skewX = 0;
-						} else {
-							tm.skewX = a12 || a22 ? Math.atan2(a12, a22) * _RAD2DEG + tm.rotation : tm.skewX || 0;
-							if (Math.abs(tm.skewX) > 90 && Math.abs(tm.skewX) < 270) {
-								if (invX) {
-									tm.scaleX *= -1;
-									tm.skewX += tm.rotation <= 0 ? 180 : -180;
-									tm.rotation += tm.rotation <= 0 ? 180 : -180;
-								} else {
-									tm.scaleY *= -1;
-									tm.skewX += tm.skewX <= 0 ? 180 : -180;
-								}
+						//skewX
+						angle = Math.atan2(a12, a22);
+
+						//scales
+						tm.scaleX = (Math.sqrt(a11 * a11 + a21 * a21 + a31 * a31) * rnd + 0.5 | 0) / rnd;
+						tm.scaleY = (Math.sqrt(a22 * a22 + a32 * a32) * rnd + 0.5 | 0) / rnd;
+						tm.scaleZ = (Math.sqrt(a13 * a13 + a23 * a23 + a33 * a33) * rnd + 0.5 | 0) / rnd;
+						a11 /= tm.scaleX;
+						a12 /= tm.scaleY;
+						a21 /= tm.scaleX;
+						a22 /= tm.scaleY;
+						if (Math.abs(angle) > min) {
+							tm.skewX = angle * _RAD2DEG;
+							a12 = 0; //unskews
+							if (tm.skewType !== "simple") {
+								tm.scaleY *= 1 / Math.cos(angle); //by default, we compensate the scale based on the skew so that the element maintains a similar proportion when skewed, so we have to alter the scaleY here accordingly to match the default (non-adjusted) skewing that CSS does (stretching more and more as it skews).
 							}
+						} else {
+							tm.skewX = 0;
 						}
+
+						/* //for testing purposes
+      var transform = "matrix3d(",
+      	comma = ",",
+      	zero = "0";
+      a13 /= tm.scaleZ;
+      a23 /= tm.scaleZ;
+      a31 /= tm.scaleX;
+      a32 /= tm.scaleY;
+      a33 /= tm.scaleZ;
+      transform += ((a11 < min && a11 > -min) ? zero : a11) + comma + ((a21 < min && a21 > -min) ? zero : a21) + comma + ((a31 < min && a31 > -min) ? zero : a31);
+      transform += comma + ((a41 < min && a41 > -min) ? zero : a41) + comma + ((a12 < min && a12 > -min) ? zero : a12) + comma + ((a22 < min && a22 > -min) ? zero : a22);
+      transform += comma + ((a32 < min && a32 > -min) ? zero : a32) + comma + ((a42 < min && a42 > -min) ? zero : a42) + comma + ((a13 < min && a13 > -min) ? zero : a13);
+      transform += comma + ((a23 < min && a23 > -min) ? zero : a23) + comma + ((a33 < min && a33 > -min) ? zero : a33) + comma + ((a43 < min && a43 > -min) ? zero : a43) + comma;
+      transform += a14 + comma + a24 + comma + a34 + comma + (tm.perspective ? (1 + (-a34 / tm.perspective)) : 1) + ")";
+      console.log(transform);
+      document.querySelector(".test").style[_transformProp] = transform;
+      */
+
 						tm.perspective = a43 ? 1 / (a43 < 0 ? -a43 : a43) : 0;
 						tm.x = a14;
 						tm.y = a24;
@@ -30881,16 +31223,6 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						scaleY = Math.sqrt(d * d + c * c);
 						rotation = a || b ? Math.atan2(b, a) * _RAD2DEG : tm.rotation || 0; //note: if scaleX is 0, we cannot accurately measure rotation. Same for skewX with a scaleY of 0. Therefore, we default to the previously recorded value (or zero if that doesn't exist).
 						skewX = c || d ? Math.atan2(c, d) * _RAD2DEG + rotation : tm.skewX || 0;
-						if (Math.abs(skewX) > 90 && Math.abs(skewX) < 270) {
-							if (invX) {
-								scaleX *= -1;
-								skewX += rotation <= 0 ? 180 : -180;
-								rotation += rotation <= 0 ? 180 : -180;
-							} else {
-								scaleY *= -1;
-								skewX += skewX <= 0 ? 180 : -180;
-							}
-						}
 						tm.scaleX = scaleX;
 						tm.scaleY = scaleY;
 						tm.rotation = rotation;
@@ -30903,6 +31235,16 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						if (tm.svg) {
 							tm.x -= tm.xOrigin - (tm.xOrigin * a + tm.yOrigin * c);
 							tm.y -= tm.yOrigin - (tm.xOrigin * b + tm.yOrigin * d);
+						}
+					}
+					if (Math.abs(tm.skewX) > 90 && Math.abs(tm.skewX) < 270) {
+						if (invX) {
+							tm.scaleX *= -1;
+							tm.skewX += tm.rotation <= 0 ? 180 : -180;
+							tm.rotation += tm.rotation <= 0 ? 180 : -180;
+						} else {
+							tm.scaleY *= -1;
+							tm.skewX += tm.skewX <= 0 ? 180 : -180;
 						}
 					}
 					tm.zOrigin = zOrigin;
@@ -31176,7 +31518,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 					a11 = a22 = 1;
 					a12 = a21 = 0;
 				}
-				// KEY  INDEX   AFFECTS
+				// KEY  INDEX   AFFECTS a[row][column]
 				// a11  0       rotation, rotationY, scaleX
 				// a21  1       rotation, rotationY, scaleX
 				// a31  2       rotationY, scaleX
@@ -31326,6 +31668,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 					    y,
 					    matrix,
 					    p;
+					m1.skewType = v.skewType || m1.skewType || CSSPlugin.defaultSkewType;
 					cssp._transform = m1;
 					if (orig && typeof orig === "string" && _transformProp) {
 						//for values like transform:"rotate(60deg) scale(0.5, 0.8)"
@@ -31335,6 +31678,10 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						copy.position = "absolute";
 						_doc.body.appendChild(_tempDiv);
 						m2 = _getTransform(_tempDiv, null, false);
+						if (m1.skewType === "simple") {
+							//the default _getTransform() reports the skewX/scaleY as if skewType is "compensated", thus we need to adjust that here if skewType is "simple".
+							m2.scaleY *= Math.cos(m2.skewX * _DEG2RAD);
+						}
 						if (m1.svg) {
 							//if it's an SVG element, x/y part of the matrix will be affected by whatever we use as the origin and the offsets, so compensate here...
 							x = m1.xOrigin;
@@ -31408,8 +31755,6 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						m1.force3D = v.force3D;
 						hasChange = true;
 					}
-
-					m1.skewType = v.skewType || m1.skewType || CSSPlugin.defaultSkewType;
 
 					has3D = m1.force3D || m1.z || m1.rotationX || m1.rotationY || m2.z || m2.rotationX || m2.rotationY || m2.perspective;
 					if (!has3D && v.scale != null) {
@@ -31973,6 +32318,10 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 					sp = _specialProps[p]; //SpecialProp lookup.
 					if (sp) {
 						pt = sp.parse(target, es, p, this, pt, plugin, vars);
+					} else if (p.substr(0, 2) === "--") {
+						//for tweening CSS variables (which always start with "--"). To maximize performance and simplicity, we bypass CSSPlugin altogether and just add a normal property tween to the tween instance itself.
+						this._tween._propLookup[p] = this._addTween.call(this._tween, target.style, "setProperty", _getComputedStyle(target).getPropertyValue(p) + "", es + "", p, false, p);
+						continue;
 					} else {
 						bs = _getStyle(target, p, _cs) + "";
 						isStr = typeof es === "string";
@@ -32018,9 +32367,8 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 							}
 
 							es = en || en === 0 ? (rel ? en + bn : en) + esfx : vars[p]; //ensures that any += or -= prefixes are taken care of. Record the end value before normalizing the suffix because we always want to end the tween on exactly what they intended even if it doesn't match the beginning value's suffix.
-
 							//if the beginning/ending suffixes don't match, normalize them...
-							if (bsfx !== esfx) if (esfx !== "") if (en || en === 0) if (bn) {
+							if (bsfx !== esfx) if (esfx !== "" || p === "lineHeight") if (en || en === 0) if (bn) {
 								//note: if the beginning value (bn) is 0, we don't need to convert units!
 								bn = _convertToPixels(target, p, bn, bsfx);
 								if (esfx === "%") {
@@ -32435,7 +32783,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			_gsScope._gsDefine.plugin({
 				propName: "attr",
 				API: 2,
-				version: "0.6.0",
+				version: "0.6.1",
 
 				//called when the tween renders for the first time. This is where initial values should be recorded and any setup routines should run.
 				init: function init(target, value, tween, index) {
@@ -32464,7 +32812,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
    */
 		_gsScope._gsDefine.plugin({
 			propName: "directionalRotation",
-			version: "0.3.0",
+			version: "0.3.1",
 			API: 2,
 
 			//called when the tween renders for the first time. This is where initial values should be recorded and any setup routines should run.
@@ -32636,10 +32984,11 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			};
 
 			//SteppedEase
-			SteppedEase = _class("easing.SteppedEase", function (steps) {
+			SteppedEase = _class("easing.SteppedEase", function (steps, immediateStart) {
 				steps = steps || 1;
 				this._p1 = 1 / steps;
-				this._p2 = steps + 1;
+				this._p2 = steps + (immediateStart ? 0 : 1);
+				this._p3 = immediateStart ? 1 : 0;
 			}, true);
 			p = SteppedEase.prototype = new Ease();
 			p.constructor = SteppedEase;
@@ -32649,10 +32998,10 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				} else if (p >= 1) {
 					p = 0.999999999;
 				}
-				return (this._p2 * p >> 0) * this._p1;
+				return ((this._p2 * p | 0) + this._p3) * this._p1;
 			};
-			p.config = SteppedEase.config = function (steps) {
-				return new SteppedEase(steps);
+			p.config = SteppedEase.config = function (steps, immediateStart) {
+				return new SteppedEase(steps, immediateStart);
 			};
 
 			//RoughEase
@@ -32948,8 +33297,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				    cur,
 				    a,
 				    n,
-				    cl,
-				    hasModule;
+				    cl;
 				while (--i > -1) {
 					if ((cur = _defLookup[dependencies[i]] || new Definition(dependencies[i], [])).gsClass) {
 						_classes[i] = cur.gsClass;
@@ -32966,13 +33314,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 					//exports to multiple environments
 					if (global) {
 						_globals[n] = _exports[n] = cl; //provides a way to avoid global namespace pollution. By default, the main classes like TweenLite, Power1, Strong, etc. are added to window unless a GreenSockGlobals is defined. So if you want to have things added to a custom object instead, just do something like window.GreenSockGlobals = {} before loading any GreenSock files. You can even set up an alias like window.GreenSockGlobals = windows.gs = {} so that you can access everything like gs.TweenLite. Also remember that ALL classes are added to the window.com.greensock object (in their respective packages, like com.greensock.easing.Power1, com.greensock.TweenLite, etc.)
-						hasModule = 'object' !== "undefined" && module.exports;
-						if (!hasModule && typeof undefined === "function" && undefined.amd) {
-							//AMD
-							undefined((window.GreenSockAMDPath ? window.GreenSockAMDPath + "/" : "") + ns.split(".").pop(), [], function () {
-								return cl;
-							});
-						} else if (hasModule) {
+						if ('object' !== "undefined" && module.exports) {
 							//node
 							if (ns === moduleName) {
 								module.exports = _exports[moduleName] = cl;
@@ -32982,6 +33324,11 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 							} else if (_exports[moduleName]) {
 								_exports[moduleName][n] = cl;
 							}
+						} else if (typeof undefined === "function" && undefined.amd) {
+							//AMD
+							undefined((window.GreenSockAMDPath ? window.GreenSockAMDPath + "/" : "") + ns.split(".").pop(), [], function () {
+								return cl;
+							});
 						}
 					}
 					for (i = 0; i < this.sc.length; i++) {
@@ -33016,7 +33363,6 @@ var TweenMax$2 = createCommonjsModule(function (module) {
    * ----------------------------------------------------------------
    */
 		var _baseParams = [0, 0, 1, 1],
-		    _blankArray = [],
 		    Ease = _class("easing.Ease", function (func, extraParams, type, power) {
 			this._func = func;
 			this._type = type || 0;
@@ -33324,10 +33670,14 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 
 		//some browsers (like iOS) occasionally drop the requestAnimationFrame event when the user switches to a different tab and then comes back again, so we use a 2-second setTimeout() to sense if/when that condition occurs and then wake() the ticker.
 		var _checkTimeout = function _checkTimeout() {
-			if (_tickerActive && _getTime() - _lastUpdate > 2000) {
+			if (_tickerActive && _getTime() - _lastUpdate > 2000 && _doc.visibilityState !== "hidden") {
 				_ticker.wake();
 			}
-			setTimeout(_checkTimeout, 2000);
+			var t = setTimeout(_checkTimeout, 2000);
+			if (t.unref) {
+				// allows a node process to exit even if the timeout’s callback hasn't been invoked. Without it, the node process could hang as this function is called every two seconds.
+				t.unref();
+			}
 		};
 		_checkTimeout();
 
@@ -33386,7 +33736,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			    //the 2 root timelines won't have a _timeline; they're always active.
 			startTime = this._startTime,
 			    rawTime;
-			return !tl || !this._gc && !this._paused && tl.isActive() && (rawTime = tl.rawTime(true)) >= startTime && rawTime < startTime + this.totalDuration() / this._timeScale;
+			return !tl || !this._gc && !this._paused && tl.isActive() && (rawTime = tl.rawTime(true)) >= startTime && rawTime < startTime + this.totalDuration() / this._timeScale - 0.0000001;
 		};
 
 		p._enabled = function (enabled, ignoreTimeline) {
@@ -33734,7 +34084,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			this._totalTime = this._time = this._rawPrevTime = time;
 			while (tween) {
 				next = tween._next; //record it here because the value could change after rendering...
-				if (tween._active || time >= tween._startTime && !tween._paused) {
+				if (tween._active || time >= tween._startTime && !tween._paused && !tween._gc) {
 					if (!tween._reversed) {
 						tween.render((time - tween._startTime) * tween._timeScale, suppressEvents, force);
 					} else {
@@ -33839,7 +34189,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 		p._firstPT = p._targets = p._overwrittenProps = p._startAt = null;
 		p._notifyPluginsOfEnabled = p._lazy = false;
 
-		TweenLite.version = "1.19.1";
+		TweenLite.version = "1.20.2";
 		TweenLite.defaultEase = p._ease = new Ease(null, null, 1, 1);
 		TweenLite.defaultOverwrite = "auto";
 		TweenLite.ticker = _ticker;
@@ -33860,6 +34210,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 		var _lazyTweens = [],
 		    _lazyLookup = {},
 		    _numbersExp = /(?:(-|-=|\+=)?\d*\.?\d*(?:e[\-+]?\d+)?)[0-9]/ig,
+		    _relExp = /[\+-]=-?[\.\d]/,
 
 		//_nonNumbersExp = /(?:([\-+](?!(\d|=)))|[^\d\-+=e]|(e(?![\-+][\d])))+/ig,
 		_setRatio = function _setRatio(v) {
@@ -33867,7 +34218,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			    min = 0.000001,
 			    val;
 			while (pt) {
-				val = !pt.blob ? pt.c * v + pt.s : v === 1 ? this.end : v ? this.join("") : this.start;
+				val = !pt.blob ? pt.c * v + pt.s : v === 1 && this.end ? this.end : v ? this.join("") : this.start;
 				if (pt.m) {
 					val = pt.m(val, this._target || pt.t);
 				} else if (val < min) if (val > -min && !pt.blob) {
@@ -33946,6 +34297,10 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				a.push(s);
 			}
 			a.setRatio = _setRatio;
+			if (_relExp.test(end)) {
+				//if the end string contains relative values, delete it so that on the final render (in _setRatio()), we don't actually set it to the string with += or -= characters (forces it to use the calculated value).
+				a.end = 0;
+			}
 			return a;
 		},
 
@@ -33965,7 +34320,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				if (funcParam || isNaN(s) || !isRelative && isNaN(end) || typeof s === "boolean" || typeof end === "boolean") {
 					//a blob (string that has multiple numbers in it)
 					pt.fp = funcParam;
-					blob = _blobDif(s, isRelative ? pt.s + pt.c : end, stringFilter || TweenLite.defaultStringFilter, pt);
+					blob = _blobDif(s, isRelative ? parseFloat(pt.s) + pt.c : end, stringFilter || TweenLite.defaultStringFilter, pt);
 					pt = { t: blob, p: "setRatio", s: 0, c: 1, f: 2, pg: 0, n: overwriteProp || prop, pr: 0, m: 0 }; //"2" indicates it's a Blob property tween. Needed for RoundPropsPlugin for example.
 				} else {
 					pt.s = parseFloat(s);
@@ -33988,7 +34343,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 		_plugins = TweenLite._plugins = {},
 		    _tweenLookup = _internals.tweenLookup = {},
 		    _tweenLookupNum = 0,
-		    _reservedProps = _internals.reservedProps = { ease: 1, delay: 1, overwrite: 1, onComplete: 1, onCompleteParams: 1, onCompleteScope: 1, useFrames: 1, runBackwards: 1, startAt: 1, onUpdate: 1, onUpdateParams: 1, onUpdateScope: 1, onStart: 1, onStartParams: 1, onStartScope: 1, onReverseComplete: 1, onReverseCompleteParams: 1, onReverseCompleteScope: 1, onRepeat: 1, onRepeatParams: 1, onRepeatScope: 1, easeParams: 1, yoyo: 1, immediateRender: 1, repeat: 1, repeatDelay: 1, data: 1, paused: 1, reversed: 1, autoCSS: 1, lazy: 1, onOverwrite: 1, callbackScope: 1, stringFilter: 1, id: 1 },
+		    _reservedProps = _internals.reservedProps = { ease: 1, delay: 1, overwrite: 1, onComplete: 1, onCompleteParams: 1, onCompleteScope: 1, useFrames: 1, runBackwards: 1, startAt: 1, onUpdate: 1, onUpdateParams: 1, onUpdateScope: 1, onStart: 1, onStartParams: 1, onStartScope: 1, onReverseComplete: 1, onReverseCompleteParams: 1, onReverseCompleteScope: 1, onRepeat: 1, onRepeatParams: 1, onRepeatScope: 1, easeParams: 1, yoyo: 1, immediateRender: 1, repeat: 1, repeatDelay: 1, data: 1, paused: 1, reversed: 1, autoCSS: 1, lazy: 1, onOverwrite: 1, callbackScope: 1, stringFilter: 1, id: 1, yoyoEase: 1 },
 		    _overwriteLookup = { none: 0, all: 1, auto: 2, concurrent: 3, allOnStart: 4, preexisting: 5, "true": 1, "false": 0 },
 		    _rootFramesTimeline = Animation._rootFramesTimeline = new SimpleTimeline(),
 		    _rootTimeline = Animation._rootTimeline = new SimpleTimeline(),
@@ -34185,6 +34540,8 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				startVars.immediateRender = true;
 				startVars.lazy = immediate && v.lazy !== false;
 				startVars.startAt = startVars.delay = null; //no nesting of startAt objects allowed (otherwise it could cause an infinite loop).
+				startVars.onUpdate = v.onUpdate;
+				startVars.onUpdateScope = v.onUpdateScope || v.callbackScope || this;
 				this._startAt = TweenLite.to(this.target, 0, startVars);
 				if (immediate) {
 					if (this._time > 0) {
@@ -34380,8 +34737,8 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						this._rawPrevTime = rawPrevTime = !suppressEvents || time || prevRawPrevTime === time ? time : _tinyNum; //when the playhead arrives at EXACTLY time 0 (right on top) of a zero-duration tween, we need to discern if events are suppressed so that when the playhead moves again (next time), it'll trigger the callback. If events are NOT suppressed, obviously the callback would be triggered in this render. Basically, the callback should fire either when the playhead ARRIVES or LEAVES this exact spot, not both. Imagine doing a timeline.seek(0) and there's a callback that sits at 0. Since events are suppressed on that seek() by default, nothing will fire, but when the playhead moves off of that position, the callback should fire. This behavior is what people intuitively expect. We set the _rawPrevTime to be a precise tiny number to indicate this scenario rather than using another property/variable which would increase memory usage. This technique is less readable, but more efficient.
 					}
 				}
-				if (!this._initted) {
-					//if we render the very beginning (time == 0) of a fromTo(), we must force the render (normal tweens wouldn't need to render at a time of 0 when the prevTime was also 0). This is also mandatory to make sure overwriting kicks in immediately.
+				if (!this._initted || this._startAt && this._startAt.progress()) {
+					//if we render the very beginning (time == 0) of a fromTo(), we must force the render (normal tweens wouldn't need to render at a time of 0 when the prevTime was also 0). This is also mandatory to make sure overwriting kicks in immediately. Also, we check progress() because if startAt has already rendered at its end, we should force a render at its beginning. Otherwise, if you put the playhead directly on top of where a fromTo({immediateRender:false}) starts, and then move it backwards, the from() won't revert its values.
 					force = true;
 				}
 			} else {
@@ -34691,7 +35048,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						}
 					}
 				}
-			} else {
+			} else if (target._gsTweenID) {
 				a = _register(target).concat();
 				i = a.length;
 				while (--i > -1) {
@@ -34700,7 +35057,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 					}
 				}
 			}
-			return a;
+			return a || [];
 		};
 
 		TweenLite.killTweensOf = TweenLite.killDelayedCallsTo = function (target, onlyActive, vars) {
