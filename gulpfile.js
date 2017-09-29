@@ -289,12 +289,12 @@ gulp.task('refAssets', ['css','js'], function() {
 // gulp dev
 gulp.task('dev', ['clean'], function() {
     isProduction = false;
-    gulp.start('refAssets', 'images', 'watch', 'copyfonts', 'modernizr');
+    gulp.start('refAssets', 'images', 'watch', 'copyfonts', 'modernizr', 'icons');
 });
 
 // gulp build
 gulp.task('build', ['clean'], function() {
     isProduction = true;
-    gulp.start('refAssets', 'images', 'copyfonts', 'modernizr');
+    gulp.start('refAssets', 'images', 'copyfonts', 'modernizr', 'icons');
 });
 /* eslint-enable */
