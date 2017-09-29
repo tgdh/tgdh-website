@@ -1,0 +1,22 @@
+/* ===========================================================
+
+	# Char limit
+
+=========================================================== */
+
+.c-char-limit {
+
+	&.is-error {
+
+		.c-char-limit__message {
+			color: $error;
+		}
+
+	}
+
+}
+
+.c-char-limit__message {
+	font-size: 1.2rem;
+	text-align: right;
+}
