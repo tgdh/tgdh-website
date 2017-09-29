@@ -1,0 +1,58 @@
+/* ===========================================================
+
+	# Thubmnail card
+
+=========================================================== */
+
+.c-thumbnail-card__link {
+	background-color: $white;
+	display: block;
+	box-shadow: 0 0 10px rgba(0,0,0,.1);
+	transition: box-shadow $speed $ease;
+
+	&:hover,
+	&:focus {
+		box-shadow: 0 10px 40px rgba(0,0,0,.2);
+	}
+}
+
+.c-thumbnail-card__image {
+	background-size: cover;
+}
+
+.c-thumbnail-card__content,
+.c-thumbnail-card__image {
+	@include span(1/2);
+}
+
+.c-thumbnail-card__content {
+	padding: 1.6rem;
+}
+
+.c-thumbnail-card__headline {
+	font-weight: $bolder;
+	padding-bottom: 0;
+	text-decoration: underline;
+}
+
+.c-thumbnail-card__label {
+	font-style: italic;
+	opacity: .65;
+
+	&:after {
+		content: "";
+		width: 2.7rem;
+		height: .1rem;
+		display: block;
+		background-color: $pri;
+		margin: 1rem 0;
+	}
+}
+
+.flexbox {
+
+	.c-thumbnail-card__link {
+		display: flex;
+	}
+
+}
