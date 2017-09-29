@@ -52,8 +52,8 @@ var createClass = function () {
 
 var headroom = createCommonjsModule(function (module, exports) {
   /*!
-   * headroom.js v0.9.3 - Give your page some headroom. Hide your header until you need it
-   * Copyright (c) 2016 Nick Williams - http://wicky.nillia.ms/headroom.js
+   * headroom.js v0.9.4 - Give your page some headroom. Hide your header until you need it
+   * Copyright (c) 2017 Nick Williams - http://wicky.nillia.ms/headroom.js
    * License: MIT
    */
 
@@ -201,7 +201,7 @@ var headroom = createCommonjsModule(function (module, exports) {
         this.debouncer = new Debouncer(this.update.bind(this));
         this.elem.classList.add(this.classes.initial);
 
-        // defer event registration to handle browser 
+        // defer event registration to handle browser
         // potentially restoring previous scroll position
         setTimeout(this.attachEvent.bind(this), 100);
 
@@ -215,7 +215,13 @@ var headroom = createCommonjsModule(function (module, exports) {
         var classes = this.classes;
 
         this.initialised = false;
-        this.elem.classList.remove(classes.unpinned, classes.pinned, classes.top, classes.notTop, classes.initial);
+
+        for (var key in classes) {
+          if (classes.hasOwnProperty(key)) {
+            this.elem.classList.remove(classes[key]);
+          }
+        }
+
         this.scroller.removeEventListener('scroll', this.debouncer, false);
       },
 
@@ -489,7 +495,7 @@ var headroom = createCommonjsModule(function (module, exports) {
 var whatInput = createCommonjsModule(function (module, exports) {
 	/**
   * what-input - A global utility for tracking the current input method (mouse, keyboard or touch).
-  * @version v4.3.0
+  * @version v4.3.1
   * @link https://github.com/ten1seven/what-input
   * @license MIT
   */
@@ -645,6 +651,7 @@ var whatInput = createCommonjsModule(function (module, exports) {
 						// `pointermove`, `MSPointerMove`, `mousemove` and mouse wheel event binding
 						// can only demonstrate potential, but not actual, interaction
 						// and are treated separately
+						var options = supportsPassive ? { passive: true } : false;
 
 						// pointer events (mouse, pen, touch)
 						if (window.PointerEvent) {
@@ -660,13 +667,13 @@ var whatInput = createCommonjsModule(function (module, exports) {
 
 							// touch events
 							if ('ontouchstart' in window) {
-								doc.addEventListener('touchstart', touchBuffer);
+								doc.addEventListener('touchstart', touchBuffer, options);
 								doc.addEventListener('touchend', touchBuffer);
 							}
 						}
 
 						// mouse wheel
-						doc.addEventListener(detectWheel(), setIntent, supportsPassive ? { passive: true } : false);
+						doc.addEventListener(detectWheel(), setIntent, options);
 
 						// keyboard events
 						doc.addEventListener('keydown', updateInput);
@@ -858,8 +865,8 @@ var whatInput = createCommonjsModule(function (module, exports) {
 				}();
 
 				/***/
-			}]
-			/******/)
+			}
+			/******/])
 		);
 	});
 	
@@ -875,7 +882,7 @@ var svg4everybody = createCommonjsModule(function (module) {
         // like Node.
         module.exports = factory() : root.svg4everybody = factory();
     }(commonjsGlobal, function () {
-        /*! svg4everybody v2.1.8 | github.com/jonathantneal/svg4everybody */
+        /*! svg4everybody v2.1.9 | github.com/jonathantneal/svg4everybody */
         function embed(parent, svg, target) {
             // if the target exists
             if (target) {
@@ -922,10 +929,9 @@ var svg4everybody = createCommonjsModule(function (module) {
                     // get the current <use>
                     var use = uses[index],
                         parent = use.parentNode,
-                        svg = getSVGAncestor(parent);
-                    if (svg) {
-                        var src = use.getAttribute("xlink:href") || use.getAttribute("href");
-                        !src && opts.attributeName && (src = use.getAttribute(opts.attributeName));
+                        svg = getSVGAncestor(parent),
+                        src = use.getAttribute("xlink:href") || use.getAttribute("href");
+                    if (!src && opts.attributeName && (src = use.getAttribute(opts.attributeName)), svg && src) {
                         if (polyfill) {
                             if (!opts.validate || opts.validate(src, svg, use)) {
                                 // remove the <use> element
@@ -8893,7 +8899,7 @@ var VanillaTilt$1 = function () {
    * Created by Șandor Sergiu (micku7zu) on 1/27/2017.
    * Original idea: https://github.com/gijsroge/tilt.js
    * MIT License.
-   * Version 1.4.0
+   * Version 1.4.1
    */
 
   var VanillaTilt = function () {
@@ -8913,6 +8919,7 @@ var VanillaTilt$1 = function () {
       this.updateCall = null;
 
       this.updateBind = this.update.bind(this);
+      this.resetBind = this.reset.bind(this);
 
       this.element = element;
       this.settings = this.extendSettings(settings);
@@ -8957,6 +8964,13 @@ var VanillaTilt$1 = function () {
     };
 
     VanillaTilt.prototype.destroy = function destroy() {
+      clearTimeout(this.transitionTimeout);
+      if (this.updateCall !== null) {
+        cancelAnimationFrame(this.updateCall);
+      }
+
+      this.reset();
+
       this.removeEventListeners();
       this.element.vanillaTilt = null;
       delete this.element.vanillaTilt;
@@ -8983,21 +8997,17 @@ var VanillaTilt$1 = function () {
       this.setTransition();
 
       if (this.settings.reset) {
-        this.reset();
+        requestAnimationFrame(this.resetBind);
       }
     };
 
     VanillaTilt.prototype.reset = function reset() {
-      var _this = this;
+      this.event = {
+        pageX: this.left + this.width / 2,
+        pageY: this.top + this.height / 2
+      };
 
-      requestAnimationFrame(function () {
-        _this.event = {
-          pageX: _this.left + _this.width / 2,
-          pageY: _this.top + _this.height / 2
-        };
-
-        _this.element.style.transform = "perspective(" + _this.settings.perspective + "px) " + "rotateX(0deg) " + "rotateY(0deg) " + "scale3d(1, 1, 1)";
-      });
+      this.element.style.transform = "perspective(" + this.settings.perspective + "px) " + "rotateX(0deg) " + "rotateY(0deg) " + "scale3d(1, 1, 1)";
 
       if (this.glare) {
         this.glareElement.style.transform = 'rotate(180deg) translate(-50%, -50%)';
@@ -9112,16 +9122,16 @@ var VanillaTilt$1 = function () {
     };
 
     VanillaTilt.prototype.setTransition = function setTransition() {
-      var _this2 = this;
+      var _this = this;
 
       clearTimeout(this.transitionTimeout);
       this.element.style.transition = this.settings.speed + "ms " + this.settings.easing;
       if (this.glare) this.glareElement.style.transition = "opacity " + this.settings.speed + "ms " + this.settings.easing;
 
       this.transitionTimeout = setTimeout(function () {
-        _this2.element.style.transition = "";
-        if (_this2.glare) {
-          _this2.glareElement.style.transition = "";
+        _this.element.style.transition = "";
+        if (_this.glare) {
+          _this.glareElement.style.transition = "";
         }
       }, this.settings.speed);
     };
@@ -10920,6 +10930,79 @@ var StickyHeader = function () {
 	return StickyHeader;
 }();
 
+var CreateDomEl = function CreateDomEl(type, className, content) {
+	classCallCheck(this, CreateDomEl);
+
+	var el = document.createElement(type);
+	el.className = className || '';
+	el.innerHTML = content || '';
+	return el;
+};
+
+var CharLimit = function () {
+	function CharLimit(el) {
+		classCallCheck(this, CharLimit);
+
+		if (!el) {
+			return;
+		}
+		this.el = el;
+		this.input = el.querySelector('textarea');
+		this.countEl = null;
+
+		this.maxLength = el.dataset.maxLength;
+		this.charsLeft = this.calcCharsLeft;
+
+		this.init();
+	}
+
+	createClass(CharLimit, [{
+		key: 'createMessage',
+		value: function createMessage() {
+			var elMarkup = '\n\t\t<span class="c-char-limit__count js-char-limit-count">' + this.maxLength + '</span> / ' + this.maxLength;
+			var messageHtml = new CreateDomEl('div', 'c-char-limit__message', elMarkup);
+			this.el.appendChild(messageHtml);
+
+			this.countEl = this.el.querySelector('.js-char-limit-count');
+		}
+	}, {
+		key: 'calcCharsLeft',
+		value: function calcCharsLeft() {
+			this.charsLeft = this.maxLength - this.input.value.length;
+		}
+	}, {
+		key: 'updateUI',
+		value: function updateUI() {
+			this.calcCharsLeft();
+
+			if (this.charsLeft <= 0) {
+				this.el.classList.add('is-error');
+			} else {
+				this.el.classList.remove('is-error');
+			}
+			this.countEl.innerHTML = this.charsLeft;
+		}
+	}, {
+		key: 'init',
+		value: function init() {
+			this.el.classList.add('c-char-limit');
+			this.createMessage();
+			this.bindEvents();
+			this.updateUI();
+		}
+	}, {
+		key: 'bindEvents',
+		value: function bindEvents() {
+			var _this = this;
+
+			this.input.addEventListener('keyup', function () {
+				return _this.updateUI();
+			});
+		}
+	}]);
+	return CharLimit;
+}();
+
 (function () {
 	var enhance = 'querySelector' in document && 'localStorage' in window && 'addEventListener' in window && 'classList' in document.documentElement;
 
@@ -10936,7 +11019,10 @@ var StickyHeader = function () {
 		}
 		initSmoothScroll();
 
-		new StickyHeader($('.js-header-logo'));
+		var charLimitEls = $$('.js-char-limit');
+		Array.from(charLimitEls).forEach(function (item) {
+			var charLimitEl = new CharLimit(item);
+		});
 	}
 	svg4everybody();
 
