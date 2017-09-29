@@ -84,6 +84,8 @@ $line-height-half: $line-height / 2;
 
 		.o-form__field {
 			@include column( 1/2 );
+			margin-top: 0;
+
 		}
 
 	}
