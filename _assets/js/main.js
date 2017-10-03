@@ -1,6 +1,7 @@
 import Headroom from 'headroom.js';
 import whatInput from 'what-input';
 import svg4everybody from 'svg4everybody';
+import SmoothScroll from 'smooth-scroll';
 import LoadFonts from './modules/LoadFonts';
 import { $, $$ } from './modules/Bling';
 import ToggleNav from './modules/ToggleNav';
@@ -9,7 +10,6 @@ import InitImageComparison from './modules/ImageCompare';
 import carousel from './modules/Carousel';
 import tilt from './modules/Tilt';
 import GMap from './modules/GMaps';
-import initSmoothScroll from './modules/SmoothScroll';
 import StickyHeader from './modules/StickyHeader';
 import CharAllowance from './modules/CharAllowance';
 
@@ -30,7 +30,7 @@ import CharAllowance from './modules/CharAllowance';
 		if ($toggleButton) {
 			const toggleNavInstance = new ToggleNav($toggleButton);
 		}
-		initSmoothScroll();
+		const smoothScroll = new SmoothScroll('a[href^="#"]:not(.js-no-scroll)');
 		new StickyHeader($('.js-header-logo'));
 
 		const charLimitEls = $$('.js-char-limit');
