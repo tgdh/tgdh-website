@@ -213,6 +213,10 @@ $line-height-half: $line-height / 2;
 	list-style: none;
 }
 
+.o-fieldset__list--max {
+	max-width: 30rem;
+}
+
 .o-fieldset__item {
 	margin: 0 0 1rem;
 }

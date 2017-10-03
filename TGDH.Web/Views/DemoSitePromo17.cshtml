@@ -1,4 +1,6 @@
-﻿@using TGDH.Core.Data
+﻿@using System.Text
+@using TGDH.Core.Models
+@using TGDH.Core.Data
 @inherits UmbracoViewPage<IPublishedContent>
 @{
     Layout = "Master.cshtml";
@@ -28,29 +30,44 @@
 				</div>
 			</div>
 
-			<div class="o-grid--three-small-gutter u-clearfix">
-				@for (var i = 0; i < 6; i++) {
-					@Html.Partial("~/Views/Partials/Components/ThumbnailCard.cshtml", new ThumbnailCardViewModel {
-						Url = "#",
-						CoverImage = Umbraco.TypedMedia(1310),
-						Headline = "BEARD KING The Official Beard Bib - Hair Clippings Catcher",
-						Label = "£16.99",
-						ModifierClass = "o-grid__item"
-					})
-				}
-			</div>
+
+			@{
+				var products = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("products");
+			}
+			@if (products != null && products.Any()) {
+				var productsHeadline = Model.GetPropertyValue<string>("productsHeadline");
+				<div class="u-space-top--large">
+					@if (!String.IsNullOrWhiteSpace(productsHeadline)) {
+						<h2 class="u-zeta">@productsHeadline</h2>
+					}
+					<div class="o-grid--three-small-gutter o-flex-grid u-clearfix u-space-top">
+						@foreach (var item in products) {
+							var button = new LinkPickerModel(item.GetPropertyValue<string>("link"));
+							@Html.Partial("~/Views/Partials/Components/ThumbnailCard.cshtml", new ThumbnailCardViewModel {
+								Url = !String.IsNullOrWhiteSpace(button.Url) ? button.Url : "",
+								CoverImage = Umbraco.TypedMedia(item.GetPropertyValue<int>("image")),
+								Label = item.GetPropertyValue<string>("label"),
+								Headline = item.GetPropertyValue<string>("headline"),
+								Copy = item.GetPropertyValue<IHtmlString>("copy"),
+								Target = "_blank",
+								ModifierClass = "o-grid__item"
+							})
+						}
+					</div>
+				</div>
+			}
 
 		</div>
 	</section>
 
-	<section class="o-section">
+	<section id="formSection" class="o-section">
 		<div class="o-section__inner o-wrap o-wrap--x-large u-clearfix">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 				Headline = Model.GetPropertyValue<string>("formHeadline"),
 				Subtitle = Model.GetPropertyValue<string>("formSubtitle")
 			})
 
-			<div class="o-wrap o-wrap--x-large">
+			<div class="o-wrap o-wrap--x-large u-space-top--large">
 				<div class="o-wrap--small">
 					@Html.Partial("~/Views/Partials/Campaigns/Demo17/DemoForm.cshtml")
 				</div>
@@ -73,3 +90,38 @@
 	</section>
 	@Html.Partial("~/Views/Partials/CaseStudies/FeaturedCaseStudies.cshtml")
 </main>
+
+@section Scripts {
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+		var $formSection = $('#formSection');
+		var $form = $('#subForm');
+
+		formSectionOffset = $formSection.offset().top;
+        $form.submit(function (e) {
+            e.preventDefault();
+            $.getJSON(
+            this.action + "?callback=?",
+            $(this).serialize(),
+            function (data) {
+				var $message;
+
+                if (data.Status === 400) {
+                    //console.log("Error: ", data.Message);
+					$('.js-error').remove();
+					var $message = '<div class="c-notify c-notify--error u-space-bottom js-error">' + data.Message + '</div>'
+					$form.before($message);
+					$(window).scrollTop(formSectionOffset);
+                } else { // 200
+                    //console.log("Success: ", data.Message);
+					var $message = '<div class="c-notify c-notify--success c-notify--fixed o-wrap--small">@Model.GetPropertyValue("successMessage")</div>'
+					$(window).scrollTop(0);
+					$form.replaceWith($message);
+					$('.js-error').remove();
+                }
+            });
+        });
+    });
+</script>
+}
