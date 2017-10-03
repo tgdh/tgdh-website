@@ -1,0 +1,256 @@
+﻿@inherits UmbracoViewPage<IPublishedContent>
+@{
+    Layout = "Master.cshtml";
+
+	var Quote1Model = new QuoteViewModel {
+		Quote = Model.GetPropertyValue<IHtmlString>("quote"),
+		Source = Model.GetPropertyValue<string>("quoteSource")
+	};
+	var Quote2Model = new QuoteViewModel {
+		Quote = Model.GetPropertyValue<IHtmlString>("quote2"),
+		Source = Model.GetPropertyValue<string>("quoteSource2")
+	};
+}
+
+<main id="main" class="o-page__content" role="main">
+	@{
+        var cover = new CoverViewModel {
+			ImageIds = Model.GetPropertyValue<string>("coverImage"),
+			Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
+			Subtitle = Model.GetPropertyValue<IHtmlString>("coverSubtitle"),
+			SubtitleLabel = Model.GetPropertyValue<string>("coverSubtitleLabel"),
+			Copy = Model.GetPropertyValue<IHtmlString>("coverCopy"),
+			Cta = Model.GetPropertyValue<string>("coverCta")
+    	};
+
+	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
+	}
+	@Html.Partial("~/Views/Partials/CaseStudies/Intro.cshtml")
+	@Html.Partial("~/Views/Partials/Components/ImageColumns.cshtml", new ImageColumnsViewModel {
+		FirstImageId = Model.GetPropertyValue<int>("imageCol1"),
+		LastImageId = Model.GetPropertyValue<int>("imageCol2"),
+		ModifierClass = "s-caseStudyEvodia__image-cols"
+	})
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote1Model)
+
+	@RenderBranding()
+	@RenderSeasonGuide()
+
+	@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", new GalleryViewModel
+	{
+		MediaIds = Model.GetPropertyValue<string>("galleryImages"),
+		AspectRatio = "16:9",
+		Alignment = "full width"
+	})
+
+	@RenderWebsite()
+
+
+	@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", new GalleryViewModel
+	{
+		MediaIds = Model.GetPropertyValue<string>("galleryImages2"),
+		AspectRatio = "16:9",
+		Alignment = "full width"
+	})
+	@Html.Partial("~/Views/Partials/CaseStudies/Result.cshtml")
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote2Model)
+	@Html.Partial("~/Views/Partials/CaseStudies/CaseStudyPager.cshtml")
+</main>
+
+@**@
+@helper RenderBranding() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("brandHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("brandSubtitle")
+    };
+
+	var logo = Umbraco.TypedMedia(Model.GetPropertyValue<int>("brandImage"));
+	var logoUrl = logo != null ? logo.Url + "?width=310" : "";
+
+	<section class="o-section s-caseStudyWatford__branding">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix u-space-bottom--large">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("brandCopy")
+					@if(!String.IsNullOrWhiteSpace(logoUrl)) {
+						<img src="@logoUrl" alt="logo.GetPropertyValue("altText")" class="u-space-top--large u-space-bottom">
+					}
+				</div>
+			</div>
+
+			<h3 class="u-breakline u-gamma">Typography</h3>
+			<div class="o-col--two u-clearfix u-space-bottom--large s-caseStudyWatford__branding__fonts">
+				<div class="o-col o-col--first">
+					<div class="u-space-bottom">
+						<h4 style="padding-bottom: 0;">Headings</h4>
+						<div class="u-font-sec u-small">Nexa XBold</div>
+					</div>
+					@{
+						var font1 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("brandFontImage1"));
+						var fontUrl1 = font1 != null ? font1.Url : "";
+						if(!String.IsNullOrWhiteSpace(fontUrl1)) {
+							<img src="@fontUrl1" alt="Font characters" class="s-caseStudyWatford__branding__font">
+						}
+					}
+				</div>
+				<div class="o-col o-col--last">
+					<div class="u-space-bottom">
+						<h4 style="padding-bottom: 0;">Body copy</h4>
+						<div class="u-font-sec u-small">Nexa Book</div>
+					</div>
+					@{
+						var font2 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("brandFontImage2"));
+						var fontUrl2 = font2 != null ? font2.Url : "";
+						if(!String.IsNullOrWhiteSpace(fontUrl2)) {
+							<img src="@fontUrl2" alt="Font characters" class="s-caseStudyWatford__branding__font">
+						}
+					}
+				</div>
+			</div>
+
+			@{
+				var swatch1 = new ColourSwatchViewModel {
+		            Name = "Black",
+					Subtitle = "#171412",
+		            Hex = "#171412"
+		        };
+				var swatch2 = new ColourSwatchViewModel {
+		            Name = "Grey",
+		            Subtitle = "#998680",
+					Hex = "#998680"
+		        };
+				var swatch3 = new ColourSwatchViewModel {
+		            Name = "Pink",
+		            Subtitle = "#d14862",
+					Hex = "#d14862"
+		        };
+				var swatch4 = new ColourSwatchViewModel {
+		            Name = "Blue",
+		            Subtitle = "#00adc7",
+					Hex = "#00adc7"
+		        };
+
+				<h3 class="u-breakline u-gamma">Colours</h3>
+				<div class="c-colour-swatch-wrap u-clearfix u-space-top">
+			        @Html.Partial("~/Views/Partials/Components/ColourSwatch.cshtml", swatch1)
+					@Html.Partial("~/Views/Partials/Components/ColourSwatch.cshtml", swatch2)
+					@Html.Partial("~/Views/Partials/Components/ColourSwatch.cshtml", swatch3)
+					@Html.Partial("~/Views/Partials/Components/ColourSwatch.cshtml", swatch4)
+				</div>
+		    }
+		</div>
+	</section>
+}
+
+@helper RenderSeasonGuide() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("seasonGuideHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("seasonGuideSubtitle")
+    };
+	var image = Umbraco.TypedMedia(Model.GetPropertyValue<int>("seasonGuideImage"));
+	var imageUrl = image != null ? image.Url + "?width=620" : "";
+
+	<section class="o-section u-background--light s-caseStudyWatford__season-guide js-caseStudyWatford__season-guide">
+		@if(!String.IsNullOrWhiteSpace(imageUrl)) {
+			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-caseStudyWatford__season-guide__image js-caseStudyWatford__season-guide__image">
+		}
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("seasonGuideCopy")
+				</div>
+			</div>
+		</div>
+	</section>
+}
+@**@
+
+@helper RenderWebsite() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("websiteHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("websiteSubtitle")
+    };
+
+	var heading2  = new HeadingViewModel {
+		Headline = Model.GetPropertyValue<string>("desktopHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("desktopSubtitle")
+	};
+
+	var heading3  = new HeadingViewModel {
+		Headline = Model.GetPropertyValue<string>("desktopHeadline2"),
+        Subtitle = Model.GetPropertyValue<string>("desktopSubtitle2")
+	};
+
+	var heading4  = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("desktopHeadline3"),
+        Subtitle = Model.GetPropertyValue<string>("desktopSubtitle3")
+	};
+
+	<section>
+		<div class="o-section o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("websiteCopy")
+                    @{
+						var buttonJson = Model.GetPropertyValue<string>("coverCta");
+						if(!String.IsNullOrWhiteSpace(buttonJson)) {
+							var button = Json.Decode(buttonJson);
+							if( button != null ) {
+								<a href="@button.Url" target="@button.Target" class="c-button c-button--primary u-space-top--large">@button.Name</a>
+							}
+						}
+					}
+				</div>
+			</div>
+		</div>
+
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix js-caseStudyWatford__web__desktop">
+            <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+    			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
+    			@Model.GetPropertyValue("desktopCopy")
+            </div>
+            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image js-caseStudyWatford__web__desktop__image">
+				@{
+					var desktopImage = new DeviceFrameViewModel
+					{
+						ImageId = Model.GetPropertyValue<int>("desktopImage"),
+						Type = "desktop"
+					};
+				}
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", desktopImage)
+            </div>
+		</div>
+
+		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix js-caseStudyWatford__web__desktop-2">
+			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading3)
+				@Model.GetPropertyValue("desktopCopy2")
+			</div>
+				<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image js-caseStudyWatford__web__desktop-2__image">
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", new DeviceFrameViewModel
+				{
+					ImageId = Model.GetPropertyValue<int>("desktopImage2"),
+					Type = "desktop"
+				})
+			</div>
+		</div>
+
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix js-caseStudyWatford__web__desktop-3">
+            <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+    			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading4)
+    			@Model.GetPropertyValue("desktopCopy3")
+            </div>
+            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image js-caseStudyWatford__web__desktop-3__image">
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", new DeviceFrameViewModel
+				{
+					ImageId = Model.GetPropertyValue<int>("desktopImage3"),
+					Type = "desktop"
+				})
+            </div>
+		</div>
+
+	</section>
+}
