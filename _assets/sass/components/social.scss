@@ -1,0 +1,155 @@
+/* ===========================================================
+
+	# Social links
+
+=========================================================== */
+
+.c-social__link {
+	display: inline-block;
+	padding: .7rem 1rem;
+	float: left;
+
+	.u-icon {
+		transition: fill $speed $ease;
+	}
+
+}
+.c-social__link--facebook {
+
+	&:hover,
+	&:focus {
+
+		.u-icon {
+			fill: $facebook;
+		}
+
+	}
+}
+
+.c-social__link--twitter {
+
+	&:hover,
+	&:focus {
+		.u-icon {
+			fill: $twitter;
+		}
+	}
+}
+
+.c-social__link--google {
+
+	&:hover,
+	&:focus {
+		.u-icon {
+			fill: $google;
+		}
+	}
+}
+
+.c-social__link--instagram {
+
+	&:hover,
+	&:focus {
+		.u-icon {
+			fill: $instagram;
+		}
+	}
+}
+
+.c-social__link--linkedIn {
+
+	&:hover,
+	&:focus {
+		.u-icon {
+			fill: $linkedin;
+		}
+	}
+}
+
+.c-social__link--pinterest {
+	&:hover,
+	&:focus {
+		.u-icon {
+			fill: $pinterest;
+		}
+	}
+}
+
+.c-social__link--youtube {
+
+	&:hover,
+	&:focus {
+		.u-icon {
+			fill: $youtube;
+		}
+	}
+}
+
+.c-social__link--vimeo {
+
+	&:hover,
+	&:focus {
+		.u-icon {
+			fill: $vimeo;
+		}
+	}
+}
+
+.c-social__link--flcikr {
+	&:hover,
+	&:focus {
+		.u-icon {
+			fill: $flcikr;
+		}
+	}
+}
+
+.c-social__link--dribbble {
+	&:hover,
+	&:focus {
+		.u-icon {
+			fill: $dribbble;
+		}
+	}
+}
+
+.c-social__link--behance {
+	&:hover,
+	&:focus {
+		.u-icon {
+			fill: $behance;
+		}
+	}
+}
+
+
+@include respond-max( $mq-large ) {
+
+	.flexbox {
+
+		.c-social {
+			display: flex;
+		}
+
+		.c-social__link {
+			flex-grow: 1;
+			text-align: center;
+			padding: 2rem;
+		}
+
+	}
+
+}
+
+@include respond-min( $mq-medium ) {
+
+	.flexbox {
+
+		.c-social--center {
+			display: flex;
+			justify-content: center;
+		}
+
+	}
+
+}

@@ -1,0 +1,45 @@
+@using Umbraco.Web
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+    var site = Model.Site();
+}
+
+<div id="sitemap" class="c-sitemap">
+    @Traverse(site)
+</div>
+
+@helper Traverse(IPublishedContent node)
+{
+    const int maxLevelForSitemap = 4;
+    var selection = node.Children
+        .Where(DocumentTypeIsNotIgnored)
+        .Where(x => x.IsVisible() && x.Level <= maxLevelForSitemap && x.TemplateId > 0).ToList();
+
+    if (selection.Any())
+    {
+        var listClass = selection.First().Level > 2 ? "c-sitemap__list--sub" : "c-nav__item--parent";
+
+        <ul class="c-sitemap__list @listClass">
+            @foreach (var item in selection)
+            {
+                var levelClass = "c-sitemap__item--level-" + item.Level;
+
+                <li class="c-sitemap__item @levelClass">
+                    <a href="@item.Url" class="c-sitemap__link">@item.Name</a>
+                    @Traverse(item)
+                </li>
+            }
+        </ul>
+    }
+}
+
+@functions {
+
+    private static bool DocumentTypeIsNotIgnored(IPublishedContent arg)
+    {
+        const string ignoredDocTypes = "errorPage,notFound";
+
+        return ignoredDocTypes.Split(',').All(docType => docType != arg.DocumentTypeAlias);
+    }
+
+}

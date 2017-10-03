@@ -1,0 +1,186 @@
+/* ===========================================================
+
+	# Tile
+
+=========================================================== */
+
+.c-tile__link {
+	color: $white;
+	display: block;
+	background-size: cover;
+	background-position: center;
+	background-color: $pri;
+	position: relative;
+
+	&:before {
+		content: "";
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		opacity: .3;
+		background-color: $pri;
+		transition: opacity $speed $ease;
+	}
+
+	&:hover,
+	&:focus {
+		z-index: 2;
+
+		&:before {
+			opacity: .9;
+		}
+
+		.c-tile__overlay {
+			opacity: .9;
+			border-width: 1rem;
+		}
+
+		.c-tile__quote {
+			opacity: 1;
+			transform: translate(0, 0);
+		}
+
+	}
+
+}
+
+.c-tile__content {
+	min-height: 30rem;
+	position: relative;
+	z-index: 1;
+	padding: 4rem;
+}
+
+.c-tile__headline {
+	color: inherit;
+	padding-right: 4rem;
+	position: relative;
+}
+
+.c-tile__icon {
+	position: absolute;
+	right: 0;
+}
+
+.c-tile__quote {
+	opacity: 0;
+	transform: translate(-2rem, 0rem);
+	transition: opacity .6s $ease,
+				transform .6s $ease;
+}
+
+.c-tile__subtitle {
+	color: $white;
+
+	ul {
+		list-style: none;
+	}
+
+	li {
+		display: inline-block;
+		margin: 0;
+
+		&:after {
+			content: "/";
+			margin: 0 .5rem;
+		}
+
+		&:last-child:after {
+			content: "";
+			display: none;
+		}
+	}
+
+	&:after {
+		content: "";
+		width: 2.7rem;
+		height: .1rem;
+		display: block;
+		margin-top: 1.4rem;
+		background-color: $white;
+
+	}
+}
+
+.c-tile__quote {
+	margin-top: $line-height;
+	font-weight: $bold;
+	font-style: italic;
+	font-size: 2.2rem;
+	line-height: 1.6;
+	position: relative;
+	padding-left: 2rem;
+
+	&:before {
+		content: "\201C";
+		color: $white;
+		display: inline-block;
+		position: absolute;
+		left: 0;
+	}
+}
+
+
+.c-tile__overlay {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: block;
+	border: 0 solid $white;
+	transition: border $speed $ease;
+}
+
+.c-tile-wrap {
+	overflow: hidden;
+}
+
+
+@include respond-min( $mq-medium ) {
+
+	.c-tile__content {
+		min-height: 40rem;
+		padding: 6rem;
+	}
+
+	.c-tile {
+		@include span( 1/2, $cycle: 2 );
+	}
+
+	.flexwrap {
+
+		.c-tile-wrap {
+			background-color: $pri;
+			display: flex;
+			flex-wrap: wrap;
+
+			.c-tile:nth-child(even) {
+				margin-left: -1px;
+				transform: translateX(1px);
+			}
+		}
+
+		.c-tile,
+		.c-tile__link {
+			display: flex;
+		}
+
+		.c-tile__link,
+		.c-tile__content {
+			width: 100%;
+		}
+
+	}
+}
+
+
+@include respond-min( $mq-large ) {
+
+	.c-tile__content {
+		padding: 8rem;
+	}
+
+}

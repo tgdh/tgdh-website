@@ -1,0 +1,53 @@
+/* ===========================================================
+
+	# Fade in animations
+
+=========================================================== */
+
+@keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+	}
+}
+
+.fadeOut {
+	animation-name: fadeOut;
+}
+
+@keyframes fadeOutDown {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+		transform: translate3d(0, 2rem, 0);
+	}
+}
+
+.fadeOutDown {
+//	animation-name: fadeOutDown;
+//	animation-duration: .3s !important;
+	opacity: 0;
+	transform: translate3d(0, 2rem, 0);
+	transition-duration: .3s !important;
+}
+
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.fadeOut {
+  animation-name: fadeOut;
+}

@@ -1,0 +1,28 @@
+/* ===========================================================
+
+  # Case study - Mayer brown
+
+=========================================================== */
+
+.s-caseStudyMayerbrown__content-social {
+	position: relative;
+
+	.o-section__inner {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+.s-caseStudyMayerbrown__content-social__image {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+
+@include respond-max( $mq-large ) {
+
+	.s-caseStudyMayerbrown__content-social__image {
+		opacity: .3;
+	}
+
+}

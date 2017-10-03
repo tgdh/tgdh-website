@@ -1,0 +1,43 @@
+/* ===========================================================
+
+  # Case study - Pole Star
+
+=========================================================== */
+
+.s-caseStudyPoleStar__journey {
+	overflow: hidden;
+	position: relative;
+	background-size: cover;
+
+	.o-section__inner {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+.s-caseStudyPoleStar__journey__image {
+	max-width: 50%;
+	position: absolute;
+	top: -30%;
+	right: -10%;
+}
+
+@include respond-max( $mq-large ) {
+
+	.s-caseStudyPoleStar__journey__image {
+		opacity: .15;
+	}
+
+}
+
+@include respond-min( $mq-large ) {
+
+	.s-caseStudyPoleStar__journey__image {
+		top: -40%;
+	}
+
+	.s-caseStudyPoleStar__journey {
+		padding-bottom: 28rem;
+	}
+
+}

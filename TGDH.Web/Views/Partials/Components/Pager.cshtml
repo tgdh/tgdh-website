@@ -1,0 +1,45 @@
+@inherits UmbracoViewPage<PagerViewModel>
+@{
+	var hasPreviousUrl = String.IsNullOrWhiteSpace(Model.UrlPrevious);
+	var hasGatewayUrl = String.IsNullOrWhiteSpace(Model.UrlGateway);
+	var hasNextUrl = String.IsNullOrWhiteSpace(Model.UrlNext);
+
+	var previousImage = Umbraco.TypedMedia(Model.ImageIdPrevious);
+	var nextImage = Umbraco.TypedMedia(Model.ImageIdNext);
+
+	var previousImageUrl = previousImage != null ? previousImage.Url + "?width=600" : "";
+	var nextImageUrl = nextImage != null ? nextImage.Url + "?width=600" : "";
+}
+
+<nav class="c-pager u-clearfix">
+	@if( Model.UrlPrevious != Model.UrlNext ) {
+		<a href="@Model.UrlPrevious" class="c-pager__page c-pager__page--prev">
+			<svg class="u-icon u-icon--32 u-icon--invert c-pager__page__icon">
+				<use xlink:href="/assets/icons/icons.svg#arrow-left"></use>
+			</svg>
+			<strong class="c-pager__page__headline">@Model.HeadlinePrevious</strong>
+			<div class="c-pager__subtitle u-font-sec">
+				@Html.Raw(Model.SubtitlePrevious)
+			</div>
+			<div class="c-pager__page__image" style="background-image:url(@previousImageUrl);"></div>
+		</a>
+	}
+
+	<a href="@Model.UrlGateway" class="c-pager__cta">
+		<strong class="c-pager__cta__headline">@Model.HeadlineGateway</strong>
+		<svg class="u-icon c-pager__cta__icon">
+			<use xlink:href="/assets/icons/icons.svg#grid"></use>
+		</svg>
+	</a>
+
+	<a href="@Model.UrlNext" class="c-pager__page c-pager__page--next">
+		<svg class="u-icon u-icon--32 u-icon--invert c-pager__page__icon">
+			<use xlink:href="/assets/icons/icons.svg#arrow-right"></use>
+		</svg>
+		<strong class="c-pager__page__headline">@Model.HeadlineNext</strong>
+		<div class="c-pager__subtitle u-font-sec">
+			@Html.Raw(Model.SubtitleNext)
+		</div>
+		<div class="c-pager__page__image" style="background-image:url(@nextImageUrl);"></div>
+	</a>
+</nav>

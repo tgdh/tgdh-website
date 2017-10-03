@@ -1,0 +1,115 @@
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+    Layout = "Master.cshtml";
+}
+
+<main id="main" class="o-page__content" role="main">
+	@{
+	    var cover = new CoverViewModel {
+			ImageIds = Model.GetPropertyValue<string>("coverImage"),
+			Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
+			Subtitle = Model.GetPropertyValue<IHtmlString>("coverSubtitle"),
+			SubtitleLabel = Model.GetPropertyValue<string>("coverSubtitleLabel"),
+			Copy = Model.GetPropertyValue<IHtmlString>("coverCopy"),
+			Cta = Model.GetPropertyValue<string>("coverCta")
+	    };
+
+	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover);
+	}
+
+
+	@RenderIntro()
+	@RenderTeam()
+	@RenderCareers()
+
+	@{
+		var creativeImage = new ImageViewModel
+        {
+            ImageId = 1221,
+            Alignment = "Full width",
+            AspectRatio = "16:9",
+            ImageWidth = 1600
+        };
+
+        @Html.Partial("~/Views/Partials/Components/Image.cshtml", creativeImage)
+	}
+
+</main>
+
+@helper RenderIntro() {
+	var heading = new HeadingViewModel {
+		Headline = Model.GetPropertyValue<string>("introHeadline"),
+		Subtitle = Model.GetPropertyValue<string>("introSubtitle")
+	};
+
+	var services = Model.GetPropertyValue<string[]>("services");
+
+	<section class="o-section u-background--light">
+		<div class="o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("intro")
+				</div>
+				<div class="o-col o-col--last">
+					@if( services.Length > 0 ) {
+						<h3 class="u-zeta">Services</h3>
+						<ul class="o-list--col-two u-font-sec u-font--small">
+							@foreach( var item in services ) {
+								<li>@item</li>
+							}
+						</ul>
+					}
+				</div>
+			</div>
+			@{
+				var logos = new LogoListingViewModel {
+					LogoListing = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("introLogos"),
+					ModifierClass = "c-logo-grid u-clearfix u-space-top--large"
+				};
+				@Html.Partial("~/Views/Partials/Components/LogoListing.cshtml", logos);
+			}
+		</div>
+	</section>
+}
+
+@helper RenderTeam() {
+	var heading = new HeadingViewModel {
+		Headline = Model.GetPropertyValue<string>("teamHeadline"),
+		Subtitle = Model.GetPropertyValue<string>("teamSubtitle")
+	};
+	<section id="team" class="o-section s-about__team">
+		<div class="o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="u-space-bottom--large">
+				@Model.GetPropertyValue("teamCopy")
+			</div>
+			@Html.Partial("~/Views/Partials/Team/TeamListing.cshtml")
+		</div>
+	</section>
+}
+
+@helper RenderCareers() {
+	var image = Umbraco.TypedMedia(1325);
+	var imageUrl = image != null ? image.Url +"?height=1200" : "";
+
+	var heading = new HeadingViewModel {
+		Headline = Model.GetPropertyValue<string>("careersHeadline"),
+		Subtitle = Model.GetPropertyValue<string>("careersSubtitle")
+	};
+
+	<section id="careers" class="o-section u-background--light s-about__careers">
+		@if(!String.IsNullOrWhiteSpace(imageUrl)) {
+			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-about__careers__plant">
+		}
+		<div class="o-wrap o-wrap--x-large s-about__careers__content">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-wrap--small">
+				@Model.GetPropertyValue("careersCopy")
+			</div>
+			<div class="o-wrap--small">
+				@Html.Partial("~/Views/Partials/Careers/VacancyListing.cshtml")
+			</div>
+		</div>
+	</section>
+}

@@ -1,0 +1,26 @@
+@using System.Web.Mvc.Html
+@using TGDH.Core.Data
+@using TGDH.Core.Utility
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+    var allProfiles = TeamRepository.AllProfiles(Umbraco).OrderBy("name").ToList();
+    var paging = Paging.GetPages(allProfiles.Count,20);
+    var selection = allProfiles.OrderBy("firstName").Skip(paging.Skip).Take(paging.Take).ToList();
+}
+
+@if( selection.Any() ) {
+	<div class="c-profile-card-listing u-clearfix">
+		@foreach( var item in allProfiles ) {
+			var profileName = item.GetPropertyValue<string>("firstName");
+		    var profile = new ProfileCardViewModel {
+				ImageId = item.GetPropertyValue<int>("profilePicture"),
+				FirstName = !String.IsNullOrWhiteSpace(profileName) ? profileName : item.Name,
+				LastName = item.GetPropertyValue<string>("lastName"),
+				JobTitle = item.GetPropertyValue<string>("jobTitle"),
+				SocialChannels = item.GetPropertyValue<IEnumerable<IPublishedContent>>("socialChannels")
+		    };
+			@Html.Partial("~/Views/Partials/Team/ProfileCard.cshtml", profile);
+		}
+	</div>
+
+}

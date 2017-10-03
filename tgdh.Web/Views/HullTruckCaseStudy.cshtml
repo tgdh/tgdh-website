@@ -1,0 +1,351 @@
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+    Layout = "Master.cshtml";
+}
+
+<main id="main" class="o-page__content" role="main">
+	@{
+        var cover = new CoverViewModel {
+            ImageIds = Model.GetPropertyValue<string>("coverImage"),
+			Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
+			Subtitle = Model.GetPropertyValue<IHtmlString>("coverSubtitle"),
+			SubtitleLabel = Model.GetPropertyValue<string>("coverSubtitleLabel"),
+			Copy = Model.GetPropertyValue<IHtmlString>("coverCopy"),
+			Cta = Model.GetPropertyValue<string>("coverCta")
+    	};
+
+        @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
+	}
+
+	@Html.Partial("~/Views/Partials/CaseStudies/Intro.cshtml")
+
+    @{
+        var introImageColModel = new ImageColumnsViewModel {
+            FirstImageId = Model.GetPropertyValue<int>("imageCol1"),
+            LastImageId = Model.GetPropertyValue<int>("imageCol2"),
+            ModifierClass = "s-hullTruckCaseStudy__image-cols--intro"
+        };
+        @Html.Partial("~/Views/Partials/Components/ImageColumns.cshtml", introImageColModel)
+    }
+
+	@{
+		var Quote1Model = new QuoteViewModel {
+			Quote = Model.GetPropertyValue<IHtmlString>("quote"),
+			Source = Model.GetPropertyValue<string>("quoteSource")
+		};
+	}
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote1Model)
+	@RenderCityCulture()
+    @RenderCreative()
+
+
+    @RenderPhotography()
+	@{
+		var gallery1 = new GalleryViewModel
+		{
+			MediaIds = Model.GetPropertyValue<string>("galleryImages"),
+			AspectRatio = "16:9"
+		};
+	}
+	@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", gallery1)
+
+	@RenderWebsite()
+	@{
+		var gallery2 = new GalleryViewModel
+		{
+			MediaIds = Model.GetPropertyValue<string>("galleryImages2"),
+			AspectRatio = "16:9"
+		};
+	}
+
+	@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", gallery2)
+
+	@RenderAdvertising()
+
+	@Html.Partial("~/Views/Partials/CaseStudies/Result.cshtml")
+	@{
+		var Quote2Model = new QuoteViewModel {
+			Quote = Model.GetPropertyValue<IHtmlString>("quote2"),
+			Source = Model.GetPropertyValue<string>("quoteSource2")
+		};
+	}
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote2Model)
+	@Html.Partial("~/Views/Partials/CaseStudies/CaseStudyPager.cshtml")
+</main>
+
+@helper RenderCityCulture() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("cityCultureHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("cityCultureSubtitle")
+    };
+
+    var image = Umbraco.TypedMedia(Model.GetPropertyValue<int>("cityCultureImage"));
+	  var imageUrl = image != null ? image.Url + "?width=560" : "";
+
+    var logo = Umbraco.TypedMedia(Model.GetPropertyValue<int>("cityCultureLogo"));
+    var logoUrl = logo != null ? logo.Url + "?width=150" : "";
+
+    <section class="o-section u-background--light s-hullTruckCaseStudy__city-culture">
+        @if( !String.IsNullOrWhiteSpace(imageUrl) ) {
+    		<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-hullTruckCaseStudy__city-culture__image">
+        }
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+            @if( !String.IsNullOrWhiteSpace(logoUrl) ) {
+              <a href="https://www.hull2017.co.uk" class="u-space-bottom" style="display: block;">
+                <img src="@logoUrl" alt="@logo.GetPropertyValue("altText")" class="s-hullTruckCaseStudy__city-culture__logo">
+              </a>
+            }
+            @Model.GetPropertyValue("cityCultureCopy")
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+@helper RenderCreative() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("creativeHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("creativeSubtitle")
+    };
+
+	var image1 = new ImageViewModel
+	{
+		ImageId = Model.GetPropertyValue<int>("creativeImage"),
+		ImageWidth = 1000,
+		AdditionalClass = "s-hullTruckCaseStudy__creative__image-main"
+	};
+
+	var bgImage = Umbraco.TypedMedia(Model.GetPropertyValue<int>("creativeBackgroundImage"));
+	var bgImageUrl = bgImage != null ? bgImage.Url + "?width=500&upscale=false" : "";
+
+    <section class="o-section s-hullTruckCaseStudy__creative" style="background-image: url(@bgImageUrl)">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+                    @Model.GetPropertyValue("creativeCopy")
+				</div>
+			</div>
+		</div>
+		@Html.Partial("~/Views/Partials/Components/Image.cshtml", image1)
+	</section>
+}
+
+@helper RenderPhotography() {
+    var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("photographyHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("photographySubtitle"),
+		IsCenter = true
+    };
+
+	var comparisonImages = new ImageComparisonViewModel {
+        BeforeImageId = Model.GetPropertyValue<int>("photographyBeforeImage"),
+		AfterImageId = Model.GetPropertyValue<int>("photographyAfterImage")
+    };
+
+    <section class="o-section u-background--light s-hullTruckCaseStudy__photography">
+		<div class="o-section__inner o-wrap o-wrap--medium">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+            @Model.GetPropertyValue("photographyCopy")
+		</div>
+
+		<div class="o-wrap o-wrap--large u-space-top--large s-hullTruckCaseStudy__photography__image-comparison">
+			@Html.Partial("~/Views/Partials/Components/ImageComparison.cshtml", comparisonImages)
+		</div>
+	</section>
+}
+
+@helper RenderWebsite() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("websiteHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("websiteSubtitle")
+    };
+
+	var heading2  = new HeadingViewModel {
+		Headline = Model.GetPropertyValue<string>("personalityHeadline"),
+	};
+
+	var heading3  = new HeadingViewModel {
+		Headline = Model.GetPropertyValue<string>("mobileHeadline"),
+	};
+
+	var heading4  = new HeadingViewModel {
+		Headline = Model.GetPropertyValue<string>("bookingHeadline"),
+	};
+
+
+	<section>
+		<div class="o-section o-wrap o-wrap--x-large">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("websiteCopy")
+					@{
+						var buttonJson = Model.GetPropertyValue<string>("coverCta");
+						if(!String.IsNullOrWhiteSpace(buttonJson)) {
+							var button = Json.Decode(buttonJson);
+							if( button != null ) {
+								<a href="@button.Url" target="@button.Target" class="c-button c-button--primary u-space-top--large">@button.Name</a>
+							}
+						}
+					}
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+            <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+    			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
+    			@Model.GetPropertyValue("personalityCopy")
+            </div>
+            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
+				@{
+					var desktopImage1 = new DeviceFrameViewModel
+					{
+						ImageId = Model.GetPropertyValue<int>("personalityImage"),
+						Type = "desktop"
+					};
+				}
+				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", desktopImage1)
+            </div>
+		</div>
+
+
+
+		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix">
+			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading3)
+				@Model.GetPropertyValue("mobileCopy")
+			</div>
+			<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image c-mobile-frame--wrap-two u-clearfix">
+			@{
+				var mobileImage1 = new DeviceFrameViewModel
+				{
+					ImageId = Model.GetPropertyValue<int>("mobileImage1"),
+					Type = "mobile"
+				};
+				var mobileImage2 = new DeviceFrameViewModel
+				{
+					ImageId = Model.GetPropertyValue<int>("mobileImage2"),
+					Type = "mobile"
+				};
+			}
+			@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage1)
+			@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage2)
+			</div>
+		</div>
+
+
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading4)
+				@Model.GetPropertyValue("bookingCopy")
+			</div>
+			<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image">
+			@{
+				var desktopImage2 = new DeviceFrameViewModel
+				{
+					ImageId = Model.GetPropertyValue<int>("bookingImage"),
+					Type = "desktop"
+				};
+			}
+			@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", desktopImage2)
+			</div>
+		</div>
+	</section>
+}
+
+
+@helper RenderAdvertising() {
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("advertisingHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("advertisingSubtitle")
+    };
+
+	<section class="o-section s-hullTruckCaseStudy__advertisting">
+		@{
+			var image1 = new ImageViewModel
+			{
+				ImageId = Model.GetPropertyValue<int>("advertisingImage1"),
+				ImageWidth = 400,
+				AdditionalClass = "s-hullTruckCaseStudy__advertisting__image-col s-hullTruckCaseStudy__advertisting__image-col--first"
+			};
+			var image2 = new ImageViewModel
+			{
+				ImageId = Model.GetPropertyValue<int>("advertisingImage2"),
+				ImageWidth = 400,
+				AdditionalClass = "s-hullTruckCaseStudy__advertisting__image-col s-hullTruckCaseStudy__advertisting__image-col--last"
+			};
+
+			var image3 = new ImageViewModel
+			{
+				ImageId = Model.GetPropertyValue<int>("advertisingImage3"),
+				ImageWidth = 800,
+				AdditionalClass = "s-hullTruckCaseStudy__advertisting__image-main"
+			};
+		}
+
+		<div class="o-section__inner o-wrap o-wrap--x-large s-hullTruckCaseStudy__advertisting__content">
+			@Html.Partial("~/Views/Partials/Components/Image.cshtml", image3)
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Model.GetPropertyValue("advertisingCopy")
+
+					<div class="s-hullTruckCaseStudy__advertisting__image-cols u-clearfix u-space-top--large">
+						@Html.Partial("~/Views/Partials/Components/Image.cshtml", image1)
+						@Html.Partial("~/Views/Partials/Components/Image.cshtml", image2)
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+@helper RenderIntegration() {
+	var heading = new HeadingViewModel {
+        Headline = "Third party integration",
+        Subtitle = "Maecenas sed diam eget risus."
+    };
+
+	var cardModel = new CardViewModel {
+        Id = 0,
+        Headline = "Taking the pain out of integrating third party software into your website.",
+        CoverImage = Umbraco.TypedMedia(1086),
+		Thumbnail = Umbraco.TypedMedia(1088),
+        Url = "#"
+    };
+
+	var spektrixLogo = new ImageViewModel
+	{
+		ImageId = 1126,
+		ImageWidth = 195
+	};
+
+	<section class="o-section u-background--light">
+		<div class="o-section__inner o-wrap o-wrap--x-large">
+			<div class="o-col--two-one u-clearfix">
+				<div class="o-col o-col--first">
+					@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+					<a href="https://www.spektrix.com" class="u-space-top u-space-bottom" style="width: 19.5rem; display: block;" target="_blank">
+						@Html.Partial("~/Views/Partials/Components/Image.cshtml", spektrixLogo)
+					</a>
+
+					<p>The website uses a modern fully integrateded, cloud based, seamless ticketing solution, which truely understands the needs of arts organisations. Shows are synced between the website and Spektix saving time and eliminating errors when uploading new shows.</p>
+				</div>
+				<div class="o-col o-col--last">
+					<h3 class="u-zeta">Further reading</h3>
+					<div class="u-anim" data-scroll="toggle(fadeInUp, fadeOutDown)">
+						@Html.Partial("~/Views/Partials/Components/Card.cshtml", cardModel)
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+}

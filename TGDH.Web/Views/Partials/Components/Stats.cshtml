@@ -1,0 +1,56 @@
+@inherits UmbracoViewPage<StatsViewModel>
+@{
+	if( Model.Stats == null ) {
+		return;
+	}
+
+	var hasDescription = false;
+	var descriptionCount = 0;
+}
+
+<div class="c-stats @Model.ModifierClass">
+	<div class="u-clearfix">
+		@foreach( var item in Model.Stats ) {
+			if( !String.IsNullOrWhiteSpace(item.GetPropertyValue<string>("description")) ) {
+				hasDescription = true;
+				descriptionCount = descriptionCount + 1;
+			}
+			<div class="c-stats__item">
+				<span class="c-stats__label">@item.GetPropertyValue("label")</span>
+				<span class="c-stats__fig u-font-sec u-giga">
+					@if( hasDescription ) {
+						var asterisk = "";
+						<span class="c-stats__fig__super">
+							@for( int i = 0; i < descriptionCount; i++ ) {
+								asterisk = asterisk + "*";
+							}
+							@asterisk
+						</span>
+					}
+					@item.GetPropertyValue("value")
+				</span>
+			</div>
+		}
+	</div>
+
+	@if( hasDescription ) {
+		descriptionCount = 0;
+		<div class="c-stats__description u-space-top u-clearfix">
+			@foreach( var item in Model.Stats ) {
+				var description = item.GetPropertyValue<string>("description");
+				if( !String.IsNullOrWhiteSpace(description) ) {
+					descriptionCount = descriptionCount + 1;
+					var asterisk = "";
+					<div class="c-stats__description__item">
+						<p>
+							@for( int i = 0; i < descriptionCount; i++ ) {
+								asterisk = asterisk + "*";
+							}
+							@asterisk @item.GetPropertyValue("description")
+						</p>
+					</div>
+				}
+			}
+		</div>
+	}
+</div>

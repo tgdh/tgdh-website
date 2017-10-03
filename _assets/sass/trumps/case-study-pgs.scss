@@ -1,0 +1,71 @@
+/* ===========================================================
+
+  # Case study - PGS
+
+=========================================================== */
+
+// campaign
+
+.s-caseStudyPGS__campaign {
+	position: relative;
+
+	.o-section__inner {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+.s-caseStudyPGS__campaign__image--bg {
+	position: absolute;
+	right: 0;
+}
+
+@include respond-max( $mq-large ) {
+
+	.s-caseStudyPGS__campaign__image--bg {
+		opacity: .15;
+	}
+
+}
+
+.s-caseStudyPGS__campaign__images {
+	margin-top: 6rem;
+}
+
+.s-caseStudyPGS__campaign__image--1 {
+	@include span(4/13);
+}
+
+.s-caseStudyPGS__campaign__image--2 {
+	@include span(2/13, $offset: 1/13);
+}
+
+.s-caseStudyPGS__campaign__image--3 {
+	@include span(5/13, $offset: 1/13);
+}
+
+// sixth form
+.s-caseStudyPGS__sixth-form {
+	position: relative;
+	overflow: hidden;
+
+	.o-section__inner {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+.s-caseStudyPGS__sixth-form__image {
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+@include respond-max( $mq-large ) {
+
+	.s-caseStudyPGS__sixth-form__image {
+		opacity: .1;
+	}
+
+}

@@ -1,0 +1,39 @@
+@using TGDH.Core
+@using TGDH.Core.ExtensionMethods
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var categoryPage = Umbraco.TypedContent(TGDH.Core.Constants.CategoriesId);
+	if( categoryPage == null ) {
+		return;
+	}
+
+	var categories = categoryPage.Children().OrderBy("name");
+	if( !categories.Any() ) {
+		return;
+	}
+	var pageUrl = Model.Url;
+	var qCat = Request.QueryString["category"].ConvertToId() ?? "";
+	var allActiveClass = String.IsNullOrWhiteSpace(qCat) ? "is-active" : "";
+}
+
+<div class="o-pod s-journal__categories">
+	<h3 class="o-pod__headline u-visually-hidden">Categories</h3>
+	<ul class="c-link-list">
+		<li class="c-link-list__item">
+			<a href="@pageUrl#featuredPost" class="c-link-list__link @allActiveClass">
+				<span class="c-link-list__link__value">All</span>
+			</a>
+		</li>
+		@foreach( var item in categories ) {
+			var catId = item.Name.ConvertToId();
+			var catUrl = pageUrl + "?category=" + catId;
+			var activeClass = qCat.Equals(catId, StringComparison.OrdinalIgnoreCase) ? "is-active" : "";
+
+			<li class="c-link-list__item">
+				<a href="@catUrl#featuredPost" class="c-link-list__link @activeClass">
+					<span class="c-link-list__link__value">@item.Name</span>
+				</a>
+			</li>
+		}
+	</ul>
+</div>

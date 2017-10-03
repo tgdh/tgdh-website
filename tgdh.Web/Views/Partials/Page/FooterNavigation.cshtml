@@ -1,0 +1,45 @@
+@using Umbraco.Web
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+    var settings = Umbraco.TypedContent(1062);
+
+    if (settings == null)
+    {
+        return;
+    }
+
+    var idList = settings.GetPropertyValue<string>("footerNavigation");
+    var splitIds = !string.IsNullOrWhiteSpace(idList) ? idList.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries) : new string[] {};
+    var navigationLinks = Umbraco.TypedContent(splitIds)
+        .Where(DocumentTypeIsNotIgnored)
+        .Where(x => x.TemplateId > 0)
+        .ToList();
+}
+
+@if (navigationLinks.Any())
+{
+    <nav class="c-footer__nav">
+        <ul class="o-list--inline">
+            @foreach (var link in navigationLinks)
+            {
+                <li class="o-list__item">
+                    <a href="@link.Url">
+                        @link.Name
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+
+
+@functions {
+
+    private static bool DocumentTypeIsNotIgnored(IPublishedContent arg)
+    {
+        const string ignoredDocTypes = "errorPage,notFound";
+
+        return ignoredDocTypes.Split(',').All(docType => docType != arg.DocumentTypeAlias);
+    }
+
+}

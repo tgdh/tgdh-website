@@ -1,0 +1,44 @@
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+    Layout = "Master.cshtml";
+	var headline = Model.HasValue("headline") ? Model.GetPropertyValue<string>("headline") : Model.Name;
+
+	var coverImageId = Model.GetPropertyValue<int>("coverImage");
+	var cover = new CoverViewModel {
+		ImageIds = Model.GetPropertyValue<string>("coverImage"),
+		Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
+		Subtitle = Model.GetPropertyValue<IHtmlString>("coverSubtitle"),
+		SubtitleLabel = Model.GetPropertyValue<string>("coverSubtitleLabel"),
+		Copy = Model.GetPropertyValue<IHtmlString>("coverCopy"),
+		Cta = Model.GetPropertyValue<string>("coverCta")
+    };
+}
+
+<main id="main" class="o-page__content" role="main">
+	@Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
+	<div class="o-page__content__wrap u-clearfix s-free-content">
+		@if( Umbraco.TypedMedia(coverImageId) == null ) {
+			<h1 class="o-wrap o-wrap--small u-beta">@headline</h1>
+		}
+		@RenderAuthor()
+	    @Html.Partial("~/Views/Partials/Page/PageComponents.cshtml")
+		<div class="o-wrap o-wrap--small u-space-top--large">
+			@Html.Partial("~/Views/Partials/Page/SocialShare.cshtml")
+		</div>
+    </div>
+	@Html.Partial("~/Views/Partials/Journal/RelatedJournalPosts.cshtml")
+</main>
+
+@helper RenderAuthor() {
+	var author = Umbraco.TypedContent(Model.GetPropertyValue<int>("author"));
+	if( author == null ) {
+		return;
+	}
+	var authorModel = new AuthorViewModel {
+		ImageId = author.GetPropertyValue<int>("profilePicture"),
+		AuthorName = author.Name,
+		JobTitle = author.GetPropertyValue<string>("jobTitle"),
+		ModifierClass = "o-wrap o-wrap--small"
+	};
+	@Html.Partial("~/Views/Partials/Components/Author.cshtml", authorModel)
+}

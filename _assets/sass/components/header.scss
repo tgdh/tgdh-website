@@ -1,0 +1,103 @@
+/* ===========================================================
+
+	# Header
+
+=========================================================== */
+
+.c-header {
+	z-index: 11;
+	position: relative;
+	background-color: $white;
+}
+
+.c-header__logo {
+	width: 13.5rem;
+	height: 3.8rem;
+	display: inline-block;
+	float: left;
+
+	svg {
+		fill: $pri;
+		transition: fill $speed $ease,
+					opacity $speed $ease;
+	}
+
+}
+
+.c-header__logo-text {
+	display: none;
+	transition: opacity $speed $ease;
+}
+
+@include respond-max( $mq-large )  {
+
+	.c-header__logo {
+		margin-top: 1.1rem;
+		margin-left: 1.4rem;
+	}
+
+}
+
+@include respond-min( $mq-large )  {
+
+	.s-logo-invert {
+
+		.c-header__logo svg {
+			fill: $white;
+		}
+
+	}
+
+	.no-enhance {
+
+		.c-header__logo {
+			margin-left: 2rem;
+		}
+
+	}
+
+	.c-header__logo {
+		width: 20rem;
+		height: 5.7rem;
+	}
+
+	.c-header__logo-text {
+		display: inherit;
+	}
+
+	.s-logo-fixed {
+
+		.c-header__logo-text {
+			opacity: 0;
+		}
+
+	}
+
+	.enhance {
+
+		.c-header__logo {
+			position: fixed;
+			top: 2.5rem;
+			left: 2.5rem;
+		}
+
+		.c-header {
+			width: 9.4rem;
+			height: 100%;
+			position: fixed;
+			top: 0;
+			right: 0;
+		}
+
+		.c-header__inner {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			right: 0;
+			top: 0;
+			background-color: $white;
+		}
+
+	}
+
+}

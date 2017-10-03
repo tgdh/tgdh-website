@@ -1,0 +1,24 @@
+/* ===========================================================
+
+	# List
+
+=========================================================== */
+
+.o-list--inline {
+	list-style: none;
+
+	.o-list__item {
+		display: inline-block;
+		margin: 0 2rem 0 0;
+	}
+}
+
+.o-list--col-two {
+	columns: 2;
+	list-style: none;
+	opacity: .65;
+
+	li {
+		margin-left: 0;
+	}
+}

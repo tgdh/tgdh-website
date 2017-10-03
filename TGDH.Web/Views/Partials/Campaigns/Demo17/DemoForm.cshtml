@@ -1,0 +1,81 @@
+@inherits UmbracoViewPage<IPublishedContent>
+
+<form action="https://thegraphicdesignhouse.createsend.com/t/t/s/aikbl/" method="post" id="subForm">
+    <div class="o-form__row o-form__row--two u-clearfix">
+		<div class="o-form__field is-required">
+			<label for="fieldName" class="o-form__label">Name</label>
+			<input id="fieldName" name="cm-name" type="text" class="o-form__input" required placeholder="Enter your text..." />
+		</div>
+		<div class="o-form__field is-required">
+			<label for="fieldEmail" class="o-form__label">Email</label>
+			<input id="fieldEmail" name="cm-aikbl-aikbl" type="email" required class="o-form__input" placeholder="Enter your text..." />
+		</div>
+    </div>
+
+	<div class="o-form__row o-form__row--two u-clearfix">
+		<div class="o-form__field is-required">
+			<label for="fieldztrkhr" class="o-form__label">Company name</label>
+        	<input id="fieldztrkhr" name="cm-f-ztrkhr" type="text" class="o-form__input" required placeholder="Enter your text..." />
+		</div>
+		<div class="o-form__field is-required">
+			<label for="fieldztrkhy" class="o-form__label">Phone number</label>
+        	<input id="fieldztrkhy" name="cm-f-ztrkhy" type="text" class="o-form__input" required placeholder="Enter your text..." />
+		</div>
+	</div>
+
+    <div class="o-form__row">
+		<fieldset class="o-fieldset">
+			<legend class="o-fieldset__legend">Can we get in touch with you to arrange a free remote demo of the Umbraco CMS?</legend>
+			<ul class="o-fieldset__list o-fieldset__list--max o-fieldset__list--half u-clearfix">
+				@RenderRadioButton("1852009", "Yes", "cm-fo-ztrkhj")
+				@RenderRadioButton("1852010", "No", "cm-fo-ztrkhj")
+			</ul>
+		</fieldset>
+    </div>
+    <div class="o-form__row">
+		<fieldset class="o-fieldset">
+			<legend class="o-fieldset__legend">Are you planning on upgrading your website in the next 12-18 months?</legend>
+			<ul class="o-fieldset__list o-fieldset__list--max o-fieldset__list--half u-clearfix">
+				@RenderRadioButton("1852011", "Yes", "cm-fo-ztrkht")
+				@RenderRadioButton("1852012", "No", "cm-fo-ztrkht")
+			</ul>
+		</fieldset>
+    </div>
+    <div class="o-form__row">
+		<fieldset class="o-fieldset">
+			<legend class="o-fieldset__legend">If so have you already selected an agency?</legend>
+			<ul class="o-fieldset__list o-fieldset__list--max o-fieldset__list--half u-clearfix">
+				@RenderRadioButton("1852013", "Yes", "cm-fo-ztrkhi")
+				@RenderRadioButton("1852014", "No", "cm-fo-ztrkhi")
+			</ul>
+		</fieldset>
+    </div>
+    <div class="o-form__row">
+		<fieldset class="o-fieldset">
+			<legend class="o-fieldset__legend">Would you consider TGDH?</legend>
+			<ul class="o-fieldset__list o-fieldset__list--max o-fieldset__list--half u-clearfix">
+				@RenderRadioButton("1852015", "Yes", "cm-fo-ztrkhd")
+				@RenderRadioButton("1852016", "No", "cm-fo-ztrkhd")
+			</ul>
+		</fieldset>
+    </div>
+    <div class="o-form__row">
+		<div class="o-form__field js-char-limit" data-max-length="250">
+			<label for="fieldztrkhh" class="o-form__label">If no, please specify why.</label>
+        	<textarea id="fieldztrkhh" name="cm-f-ztrkhh" class="o-form__input" maxlength="250" placeholder="Enter your text..."></textarea>
+		</div>
+    </div>
+    <div class="o-form__row o-form__row--submit">
+        <button type="submit" class="c-button c-button--secondary">Go</button>
+    </div>
+</form>
+
+@helper RenderRadioButton(string value, string label, string name) {
+	<li class="o-fieldset__item">
+		<input class="o-form__radio" id="@value" name="@name" type="radio" value="@value">
+		<label for="@value" class="o-form__label o-form__label--alt">
+			<span class="o-form__radio-button"></span>
+			<span class="o-form__radio-label-text">@label</span>
+		</label>
+	</li>
+}

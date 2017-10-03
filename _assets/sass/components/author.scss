@@ -1,0 +1,105 @@
+/* ===========================================================
+
+	# Author
+
+=========================================================== */
+
+.c-author {
+	margin-top: $line-height;
+	margin-bottom: $line-height;
+}
+
+.c-author__content {
+	opacity: .65;
+	list-style: none;
+	font-style: italic;
+	float: left;
+	padding-left: 3.2rem;
+
+	&:after {
+		@include breakline();
+	}
+}
+
+.c-author__list {
+	padding-bottom: 0;
+	list-style: none;
+}
+
+.c-author__item {
+	margin: 0;
+}
+
+.c-author__image-wrap,
+.c-author__image {
+	border-radius: 50%;
+}
+
+.c-author__image-wrap {
+	width: 9.4rem;
+	float: left;
+	position: relative;
+
+	&:before {
+		content: "";
+		border-radius: 50%;
+		background-color: $placeholder-colour;
+		padding-top: 100%;
+		display: block;
+	}
+}
+
+.c-author__image {
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.no-flexbox {
+
+	.c-author__content {
+		margin-top: 2rem;
+	}
+
+}
+
+.flexbox {
+
+	.c-author {
+		display: flex;
+	}
+
+	.c-author__content {
+		display: flex;
+	    flex-direction: column;
+	    justify-content: center;
+	}
+
+}
+
+@include respond-min( $mq-small ) {
+
+	.c-author__item {
+		display: inline-block;
+
+		&:after {
+			content: "|";
+			margin: 0 1rem;
+			display: inline-block;
+		}
+
+		&:last-child:after {
+			content: "";
+		}
+	}
+
+}
+
+@include respond-min( $mq-medium ) {
+
+	.c-author {
+		margin-bottom: 5rem;
+	}
+
+}

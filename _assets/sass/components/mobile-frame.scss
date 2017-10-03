@@ -1,0 +1,46 @@
+/* ===========================================================
+
+	# mobile frame
+
+=========================================================== */
+
+.c-mobile-frame {
+	position: relative;
+	overflow: hidden;
+	padding: 5rem .5rem;
+	border-radius: 3rem;
+	background-color: $pri;
+	position: relative;
+
+	&:before {
+		content: "";
+		display: block;
+		@include pad-top(274,488);
+	}
+
+	&:after {
+		content: "";
+		width: 3rem;
+		height: 3rem;
+		border-radius: 50%;
+		background-color: $white;
+		position: absolute;
+		bottom: 1rem;
+		left: 50%;
+		margin-left: -1.5rem;
+	}
+}
+
+.c-mobile-frame__image {
+	width: calc(100% - 1rem);
+	position: absolute;
+	top: 5rem;
+}
+
+.c-mobile-frame--wrap-two {
+
+	.c-mobile-frame {
+		@include column( 1/2, $gutter: 10 );
+	}
+
+}

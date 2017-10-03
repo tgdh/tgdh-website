@@ -1,0 +1,79 @@
+/* ===========================================================
+
+	# Stat
+
+=========================================================== */
+
+.c-stats__item {
+	width: 50%;
+	float: left;
+}
+
+.c-stats__label {
+	font-size: 1.4rem;
+}
+
+@include respond-max( $mq-small ) {
+
+	.c-stats__label {
+		font-size: 1.3rem;
+	}
+
+}
+
+.c-stats__label,
+.c-stats__fig {
+	display: block;
+	font-weight: $bolder;
+}
+
+.c-stats__fig {
+	line-height: 1;
+	padding: 0;
+}
+
+.c-stats__fig__super {
+	font-size: 2.4rem;
+	vertical-align: super;
+}
+
+.c-stats__description {
+	font-size: 1.2rem;
+	line-height: 1.4;
+}
+
+.c-stats__description__item + .c-stats__description__item {
+	margin-top: $line-height / 2;
+}
+
+@include respond-min-max( $mq-medium, $mq-large ) {
+
+	.c-stats__fig {
+		font-size: 4rem !important;
+	}
+
+	.c-stats__fig__super {
+		font-size: 1.4rem !important;
+	}
+
+	.c-stats__description {
+		margin-top: $line-height !important;
+	}
+
+}
+
+@include respond-min-max( $mq-large, $mq-x-large ) {
+
+	.c-stats__fig {
+		font-size: 5.4rem !important;
+	}
+
+	.c-stats__fig__super {
+		font-size: 1.8rem !important;
+	}
+
+	.c-stats__description {
+		margin-top: $line-height !important;
+	}
+
+}

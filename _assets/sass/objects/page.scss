@@ -1,0 +1,110 @@
+/* ===========================================================
+
+	# Page
+
+=========================================================== */
+
+html {
+	height: 100%;
+}
+
+.o-page {
+	background: $background-colour;
+	min-height: 100%;
+}
+
+.o-page__inner {
+	width: 100%;
+}
+
+.o-page__content {
+	overflow-x: hidden;
+}
+
+.flexbox {
+
+	.o-page {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.o-page__inner {
+		flex: 1 1 auto;
+	}
+
+}
+
+.o-page__scroll-top {
+	display: none;
+}
+
+
+.o-page__content__wrap {
+	padding-bottom: $padding-small;
+	padding-top: $padding-small;
+}
+
+@include respond-min-max( $mq-small, $mq-medium ) {
+
+	.o-page__content__wrap {
+		padding-bottom: $padding-medium;
+		padding-top: 4rem;
+	}
+
+}
+
+@include respond-min( $mq-medium ) {
+
+	.o-page__content__wrap {
+		padding-bottom: $padding-large;
+		padding-top: 4rem;
+	}
+
+}
+
+
+@include respond-min( $mq-large ) {
+
+	.enhance {
+
+		.o-page {
+			padding-right: 9.4rem;
+		}
+
+	}
+
+	.o-page__content {
+		padding-top: 12rem;
+	}
+
+	.o-page__scroll-top {
+		color: $white;
+		background-color: $pri;
+		display: block;
+		position: fixed;
+		z-index: 11;
+		bottom: 0;
+		right: 0;
+		padding: 3.1rem;
+		transition: background $speed $ease;
+
+		&:hover {
+			background-color: $sec;
+		}
+
+		svg {
+			display: block;
+		}
+	}
+
+	[data-whatinput="keyboard"] .o-page__scroll-top:focus {
+		background-color: $white;
+		outline: .2rem solid $pri;
+		outline-offset: .2rem;
+
+		svg {
+			fill: $pri;
+		}
+	}
+
+}

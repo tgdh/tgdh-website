@@ -1,0 +1,26 @@
+@using TGDH.Core.Data
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("introHeadline"),
+        Subtitle = Model.GetPropertyValue<string>("introSubtitle")
+    };
+}
+<section class="o-section u-background--light u-clearfix">
+	<div class="o-section__inner o-wrap o-wrap--x-large">
+		@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+		<div class="o-col--two-one u-clearfix">
+			<div class="o-col o-col--first">
+				@Model.GetPropertyValue("intro")
+			</div>
+			<div class="o-col o-col--last js-ht-stats-1">
+				@{
+					var statsModel = new StatsViewModel {
+						Stats = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("stats")
+					};
+					@Html.Partial("~/Views/Partials/Components/Stats.cshtml", statsModel)
+				}
+			</div>
+		</div>
+	</div>
+</section>

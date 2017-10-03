@@ -1,0 +1,38 @@
+@using TGDH.Core.Data
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var pickedCaseStudyIds = Model.GetPropertyValue<string>("featuredCaseStudies");
+	var selection = !string.IsNullOrWhiteSpace(pickedCaseStudyIds) ? pickedCaseStudyIds.Split(',').Select(contentId => Umbraco.TypedContent(contentId)).ToList() : null;
+
+    if (selection == null)
+    {
+		var allCaseStudies = CaseStudyRepository.AllCaseStudies(Umbraco).ToList();
+		selection = allCaseStudies.RandomOrder().Take(2).ToList();
+
+		if( !selection.Any() ) {
+			return;
+		}
+    }
+
+}
+
+<section>
+	<h2 class="u-visually-hidden">Featured work</h2>
+	<div class="c-tile-wrap u-clearfix">
+		@foreach( var item in selection ) {
+			var imageId = item.GetPropertyValue<int>("coverImage");
+			if( imageId == 0 ) {
+				imageId = item.GetPropertyValue<int>("pageImage");
+			}
+			var quote = Umbraco.StripHtml(item.GetPropertyValue<IHtmlString>("quote"));
+			var tileData = new TileViewModel {
+				Url = item.Url,
+				Headline = item.Name,
+				Subtitle = item.GetPropertyValue<IHtmlString>("coverSubtitle"),
+				ImageId = imageId,
+				Quote = quote.ToString()
+			};
+			@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
+		}
+	</div>
+</section>

@@ -1,0 +1,32 @@
+@inherits UmbracoViewPage<ThumbnailCardViewModel>
+@{
+	if(string.IsNullOrWhiteSpace(Model.Url)) {
+		return;
+	}
+}
+<article class="c-thumbnail-card @Model.ModifierClass">
+    <a href="@Model.Url" class="c-thumbnail-card__link u-clearfix" target="@Model.Target">
+		@if (Model.CoverImage != null)
+        {
+            var imageUrl = Url.GetCropUrl(Model.CoverImage, cropAlias:  "1:1", width: 400, quality: 95, htmlEncode: false).ToString();
+
+            <div class="c-thumbnail-card__image o-aspect--1-1" style="background-image: url(@imageUrl);"></div>
+        }
+
+        <div class="c-thumbnail-card__content">
+			@if(!String.IsNullOrWhiteSpace(Model.Headline))
+			{
+				if(!String.IsNullOrWhiteSpace(Model.Label))
+				{
+					<div class="c-thumbnail-card__label u-font-sec">@Model.Label</div>
+				}
+	            <h2 class="c-thumbnail-card__headline u-epsilon">@Model.Headline</h2>
+				if(!String.IsNullOrWhiteSpace(Model.Copy.ToString())) {
+					<div class="c-thumbnail-card__copy u-epsilon">
+						@Model.Copy
+					</div>
+				}
+			}
+        </div>
+    </a>
+</article>

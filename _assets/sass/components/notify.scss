@@ -1,0 +1,74 @@
+/* ===========================================================
+
+	# notify
+
+=========================================================== */
+
+.c-notify {
+	color: $white;
+	padding: 1rem 2rem;
+	margin-bottom: 1rem;
+	transition: opacity $speed $ease,
+				color $speed $ease,
+				background $speed $ease,
+				visibility $speed $ease;
+
+	&.is-hidden {
+		visibility: hidden;
+		opacity: 0;
+	}
+
+	&.is-visible {
+		visibility: visible;
+		opacity: 1;
+	}
+
+	a {
+		color: inherit;
+		@include inline-link(true, 1px);
+	}
+}
+
+.c-notify--success {
+	background-color: $success;
+}
+
+.c-notify--error {
+	background-color: $error;
+}
+
+.c-notify--info {
+	background-color: $pri;
+}
+
+.c-notify--fixed {
+	position: fixed;
+	top: $line-height;
+	top: 10rem;
+	left: 2rem;
+	right: 2rem;
+	z-index: 20;
+	margin-left: auto;
+	margin-right: auto;
+	animation-duration: .3s;
+	animation-fill-mode: both;
+	animation-name: fadeOut;
+	animation-delay: 10s;
+}
+
+.enhance {
+
+	.c-notify--browser {
+		display: none;
+	}
+
+}
+
+@include respond-max( $mq-medium ) {
+
+	.c-notify {
+		margin-right: 2rem;
+		margin-left: 2rem;
+	}
+
+}

@@ -1,0 +1,56 @@
+@using System.Globalization
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var ci = new CultureInfo("en-GB");
+    System.Threading.Thread.CurrentThread.CurrentCulture = ci;
+    System.Threading.Thread.CurrentThread.CurrentUICulture = ci;
+
+	var dateToday = DateTime.Today;
+
+	var settings = Umbraco.TypedContent(1062);
+	var socialChannels = new SocialChannelsViewModel {
+		SocialChannels = settings.GetPropertyValue<IEnumerable<IPublishedContent>>("socialChannels")
+	};
+}
+
+<a href="#main" class="o-page__scroll-top js-scroll-top">
+	<svg class="u-icon u-icon--32 u-icon--invert">
+		<use xlink:href="/assets/icons/icons.svg#arrow-up"></use>
+	</svg>
+	<span class="u-visually-hidden">Back to top</span>
+</a>
+
+<footer class="c-footer u-clearfix">
+	<div class="c-footer__cta o-wrap">
+		<h2 class="c-footer__headline u-alpha u-font-sec">Want more?</h2>
+		<div>Get in touch</div>
+		<ul class="o-list--inline u-space-top">
+			<li class="o-list__item">023 9233 4971</li>
+			<li class="o-list__item"><a href="mailto:studio@tgdh.co.uk">studio@tgdh.co.uk</a></li>
+		</ul>
+	</div>
+	<div class="c-footer__sub">
+		@{
+
+			@Html.Partial("~/Views/Partials/Components/SocialChannels.cshtml", socialChannels);
+		}
+
+		@if( settings.HasValue("address") ) {
+			<div class="c-footer__adr">@settings.GetPropertyValue("address")</div>
+		}
+		<div class="c-footer__meta u-clearfix">
+			<p class="c-footer__copyright">&copy; @dateToday.ToString("yyyy") all rights reserved</p>
+			@Html.Partial("~/Views/Partials/Page/FooterNavigation.cshtml")
+			@*
+			<ul class="c-footer__nav o-list--inline">
+				<li class="o-list__item">
+					<a href="">T &amp; C</a>
+				</li>
+				<li class="o-list__item">
+					<a href="">Sitemap</a>
+				</li>
+			</ul>
+			*@
+		</div>
+	</div>
+</footer>

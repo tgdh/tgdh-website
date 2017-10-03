@@ -1,0 +1,68 @@
+@using TGDH.Core.Utility
+
+@helper RenderPaging(Paging paging, int currentId, string hashLink = "")
+{
+    var umbracoHelper = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
+    var queryString = string.Empty;
+
+	if(!String.IsNullOrWhiteSpace(hashLink)){
+		hashLink = "#" + hashLink;
+	}
+
+    foreach (var key in Request.QueryString)
+    {
+        if (key != null && (string)key != "page")
+        {
+            queryString = queryString + "&" + key + "=" + Request.QueryString[(string)key];
+        }
+    }
+
+    if (paging.CurrentPage > 1)
+    {
+		@*
+        <a href="@umbracoHelper.TypedContent(currentId).Url">First</a>
+		*@
+        <a href="@umbracoHelper.TypedContent(currentId).Url?page=@(paging.CurrentPage - 1)@queryString@hashLink" class="c-pagination__link c-pagination__link--prev" rel="prev">
+			<svg class="u-icon u-icon--24">
+				<use xlink:href="/assets/icons/icons.svg#arrow-left"></use>
+			</svg>
+			<span class="u-visually-hidden">Previous</span>
+        </a>
+    } else {
+		<span class="c-pagination__link c-pagination__link--prev is-disabled" rel="prev">
+			<svg class="u-icon u-icon--24">
+				<use xlink:href="/assets/icons/icons.svg#arrow-left"></use>
+			</svg>
+			<span class="u-visually-hidden">Previous</span>
+        </span>
+	}
+
+    for (var page = paging.StartPage; page <= paging.EndPage; page++)
+    {
+        var activeClass = paging.CurrentPage == page ? "is-active" : "";
+
+        <a href="@umbracoHelper.TypedContent(currentId).Url?page=@page@queryString@hashLink" class="c-pagination__link c-pagination__link--index @activeClass">
+            @page
+        </a>
+    }
+
+    if (paging.CurrentPage < paging.TotalPages)
+    {
+        <a href="@umbracoHelper.TypedContent(currentId).Url?page=@(paging.CurrentPage + 1)@queryString" class="c-pagination__link c-pagination__link--next" rel="next">
+            <span class="u-visually-hidden">Next</span>
+			<svg class="u-icon u-icon--24">
+				<use xlink:href="/assets/icons/icons.svg#arrow-right"></use>
+			</svg>
+        </a>
+		@*
+        <a href="@umbracoHelper.TypedContent(currentId).Url?page=@(paging.TotalPages)@hashLink">Last</a>
+		*@
+    } else {
+		<span href="@umbracoHelper.TypedContent(currentId).Url?page=@(paging.CurrentPage + 1)@queryString" class="c-pagination__link c-pagination__link--next is-disabled" rel="next">
+            <span class="u-visually-hidden">Next</span>
+			<svg class="u-icon u-icon--24">
+				<use xlink:href="/assets/icons/icons.svg#arrow-right"></use>
+			</svg>
+        </span>
+	}
+}

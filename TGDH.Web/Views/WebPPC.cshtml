@@ -1,0 +1,148 @@
+@using Umbraco.Web
+@using Umbraco.Web.Mvc
+@using System.Text.RegularExpressions
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+    Layout = null;
+
+    Regex rgx = new Regex( "[^0-9a-zA-Z]+" );
+    string pageScope = "s-" + rgx.Replace( Model.DocumentTypeAlias , "");
+}
+<!doctype html>
+<html lang="en" class="no-enhance no-js @pageScope">
+	<head itemscope itemtype="http://schema.org/WebSite">
+		<meta content="The Graphic Design House" itemprop="name">
+        <meta charset="utf-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui" />
+		<!-- Google Tag Manager -->
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-MDZGW36');</script>
+		<!-- End Google Tag Manager -->
+		<!-- <meta name="google-site-verification" content=""> -->
+        @Html.Partial("~/Views/Partials/Page/SEO.cshtml")
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="stylesheet" href="/assets/css/PPCWeb.f7170a0c.css" />
+        <!--[if lt IE 9]>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+        <![endif]-->
+		<script src="/assets/js/modernizr.js" async></script>
+		<script>
+			var $html = document.documentElement;
+			var enhance = 'querySelector' in document
+				&& 'localStorage' in window
+				&& 'addEventListener' in window
+				&& 'classList' in document.documentElement;
+			$html.classList.remove('no-js');
+			$html.classList.add('js');
+			if( enhance ) {
+			  	$html.classList.remove( 'no-enhance' );
+			  	$html.classList.add( 'enhance' );
+				if( localStorage.getItem( 'fonts-loaded' ) ) {
+		        	$html.classList.add( 'fonts-loaded' );
+			    }
+			}
+		</script>
+		<script type="text/javascript" src="http://www.1-creative-1.com/js/21196.js" async></script>
+		<noscript><img src="http://www.1-creative-1.com/21196.png" style="display:none;" /></noscript>
+    </head>
+    <body class="o-page">
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MDZGW36"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+		<div class="o-page__inner">
+			@Html.Partial("~/Views/Partials/Page/Notifications.cshtml")
+			@Html.Partial("~/Views/Partials/Campaigns/PPCWeb/Header.cshtml")
+			@Html.Partial("~/Views/Partials/Campaigns/PPCWeb/Content.cshtml")
+		</div>
+		@Html.Partial("~/Views/Partials/Campaigns/PPCWeb/Footer.cshtml")
+
+		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+        <!--[if gte IE 9]><!-->
+            <script src="/assets/js/main.js"></script>
+        <!--<![endif]-->
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js"></script>
+		<script>
+			var ValidateForms = (function($) {
+			    'use strict';
+
+				var _hasVal = function( $el, className ) {
+		var $parent = $el.parent();
+
+		if( $el.val() ) {
+			if( !$parent.hasClass( className) ) {
+				$parent.addClass( className );
+			}
+		} else {
+			if( $parent.hasClass( className ) ) {
+				$parent.removeClass( className );
+			}
+		}
+
+	};
+
+	var _init = function( $forms ) {
+
+		$forms.each(function() {
+			var $this = $(this);
+
+			$this.find('textarea,input').each( function() {
+				_hasVal( $(this), 'has-value' );
+			});
+
+	        $this.validate({
+	            validClass: 'is-valid',
+	            errorClass: 'is-invalid',
+	            errorElement: "span",
+	            errorPlacement: function(error, element) {
+	                if (element.is('select')) {
+	                    error.appendTo(element.closest('.o-form__field')).addClass('o-form__validation u-small');
+	                } else {
+	                    error.appendTo(element.closest('.o-form__field')).addClass('o-form__validation u-small');
+	                }
+	            },
+	            onfocusout: function(element) {
+					var $el = $(element);
+					_hasVal( $el, 'has-value' );
+					$el.valid();
+	            },
+	            onclick: function(element) {
+	                $(element).valid();
+	            },
+	            focusInvalid: true,
+	            highlight: function(element, errorClass, validClass) {
+	                $(element).closest('.o-form__field').addClass(errorClass).removeClass(validClass);
+	            },
+	            unhighlight: function(element, errorClass, validClass) {
+	                $(element).closest('.o-form__field').removeClass(errorClass).addClass(validClass);
+	            }
+	        });
+	    });
+
+	};
+
+	return {
+		init: _init
+	};
+			})(jQuery);
+			ValidateForms.init($('.js-form'));
+		</script>
+
+        <!--[if (gte IE 6)&(lte IE 8)]>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/selectivizr/1.0.2/selectivizr-min.js"></script>
+        <![endif]-->
+
+		<div itemscope itemtype="http://schema.org/Organization">
+		    <link href="http://tgdh.co.uk" itemprop="url">
+		    <meta content="http://tgdh.co.uk/assets/img/home-icon.png" itemprop="logo">
+		</div>
+    </body>
+</html>

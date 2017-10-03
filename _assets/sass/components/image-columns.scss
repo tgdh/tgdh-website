@@ -1,0 +1,53 @@
+/* ===========================================================
+
+	# Image columns
+
+=========================================================== */
+
+.c-image-col__col {
+	overflow: hidden;
+	position: relative;
+
+	&:before {
+		content: "";
+		display: block;
+		background-color: $placeholder-colour;
+		@include pad-top(753,600);
+	}
+}
+
+.c-image-col__image {
+	width: 100%;
+	position: absolute;
+	top: 0;
+}
+
+.enhance {
+
+	.c-image-col__image {
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+}
+
+@include respond-max( $mq-medium ) {
+
+	.c-image-col__col--first {
+
+		.c-image-col__image {
+			top: calc(50% + 1px);
+		}
+
+	}
+
+}
+
+@include respond-min( $mq-medium ) {
+
+	.c-image-col__col {
+		width: 50%;
+		float: left;
+	}
+
+}

@@ -1,0 +1,122 @@
+/* ===========================================================
+
+	# Footer
+
+=========================================================== */
+
+.c-footer {
+	color: $white;
+	font-size: 1.4rem;
+	background-color: $pri;
+
+	h1,
+	h2,
+	h3 {
+		color: inherit;
+	}
+
+	a {
+		color: inherit;
+
+		&:not([class]) {
+			@include inline-link(true, 1px);
+		}
+	}
+
+	.u-icon {
+		fill: $white;
+	}
+
+	.c-footer__adr {
+
+		a {
+			font-weight: 500;
+			box-shadow: none;
+		}
+
+	}
+}
+
+.c-footer__cta {
+	padding-top: 10rem;
+	padding-bottom: 4rem;
+	text-align: center;
+
+}
+
+.c-footer__headline {
+	font-weight: $bold;
+}
+
+.c-footer__copyright {
+	margin-right: 2rem;
+}
+
+.c-footer__nav {
+	margin: 0;
+}
+
+.c-footer__adr,
+.c-footer__nav,
+.c-footer__copyright {
+	text-align: center;
+}
+
+.c-footer__nav,
+.c-footer__copyright {
+	display: inline-block;
+}
+
+.c-footer__meta {
+	clear: both;
+}
+
+@include respond-max( $mq-large ) {
+
+	.c-footer__meta {
+		text-align: center;
+		margin-bottom: 4rem;
+	}
+
+	.c-footer__adr {
+		margin-top: 4rem;
+	}
+
+	.c-footer__headline {
+		font-size: 4.8rem;
+	}
+
+}
+
+@include respond-min( $mq-large ) {
+
+	.c-footer__sub {
+		padding-left: 10rem;
+		padding-right: 10rem;
+		margin-bottom: 6rem;
+	}
+
+	.c-footer__cta {
+		padding-bottom: 10rem;
+	}
+
+	.c-footer {
+
+		.c-social {
+			float: right;
+			vertical-align: bottom;
+		}
+
+		.u-icon {
+			vertical-align: bottom;
+		}
+
+	}
+
+	.c-footer__adr {
+		float: left;
+	}
+
+
+
+}

@@ -1,0 +1,18 @@
+/* ===========================================================
+
+	# Desktop frame
+
+=========================================================== */
+
+.c-desktop-frame {
+	position: relative;
+	padding-top: 4rem;
+	padding-bottom: 1rem;
+	border-radius: 1rem 1rem 0 0;
+	background-color: $pri;
+	overflow: hidden;
+}
+
+.c-desktop-frame__image {
+	width: 100%;
+}

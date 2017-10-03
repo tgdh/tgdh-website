@@ -1,0 +1,94 @@
+/* ===========================================================
+
+	# Breadcrumb
+
+=========================================================== */
+
+.c-breadcrumb {
+	display: none;
+}
+
+@include respond-min($mq-large) {
+
+	.no-enhance {
+
+		.c-breadcrumb {
+			color: $white;
+			background-color: $pri;
+		}
+
+		.c-breadcrumb__link {
+			color: $white;
+		}
+
+	}
+
+	.c-breadcrumb {
+		display: block;
+	}
+
+	.c-breadcrumb__label {
+		@include hide-text;
+	}
+
+	.c-breadcrumb__list {
+		margin: inherit;
+		list-style: none;
+		@include clearfix();
+	}
+
+	.c-breadcrumb__item {
+		float: left;
+	}
+
+	.c-breadcrumb__item {
+		margin: 0;
+
+		&:before {
+			content: "/";
+		}
+
+		&:first-of-type {
+
+			&:before {
+				content: none;
+			}
+
+		}
+	}
+
+	.c-breadcrumb__link {
+		padding: 1rem;
+		display: inline-block;
+		opacity: .5;
+
+		&.is-active {
+			opacity: 1;
+			cursor: default;
+		}
+	}
+
+	.no-enhance {
+
+		.c-breacrumb {
+			background-color: $light-1;
+		}
+
+	}
+
+
+	.enhance {
+
+		.c-breadcrumb {
+			position: fixed;
+			top: 50%;
+			top: calc( 50% - 4.6rem );
+			right: 4.7rem;
+			z-index: 11;
+			transform: translate(50%, 50%) rotate(90deg);
+			-webkit-transform-origin: 50%  51%;
+		}
+
+	}
+
+}

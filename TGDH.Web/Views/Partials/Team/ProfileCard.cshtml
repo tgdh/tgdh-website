@@ -1,0 +1,23 @@
+@inherits UmbracoViewPage<ProfileCardViewModel>
+@{
+	var image = Umbraco.TypedMedia(Model.ImageId);
+	if( image == null ) {
+		return;
+	}
+
+	var imageUrl = Url.GetCropUrl(image, cropAlias:  "1:1", width: 600, htmlEncode: false).ToString();
+}
+<article class="c-profile-card @Model.ModifierClass">
+	<div class="c-profile-card__image-wrap o-aspect--1-1">
+	    <img src="@imageUrl" class="c-profile-card__image" alt="@Model.FirstName @Model.LastName">
+	</div>
+    <h2 class="c-profile-card__headline u-zeta">@Model.FirstName @Model.LastName</h2>
+    <div class="c-profile-card__subtitle u-font-sec">@Model.JobTitle</div>
+	@{
+		var socialChannels = new SocialChannelsViewModel {
+			SocialChannels = Model.SocialChannels,
+			SocialChannelIconSize = 24
+		};
+		@Html.Partial("~/Views/Partials/Components/SocialChannels.cshtml", socialChannels);
+	}
+</article>

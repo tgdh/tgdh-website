@@ -1,0 +1,14 @@
+@inherits UmbracoViewPage<EmbedViewModel>
+@{
+    if (string.IsNullOrWhiteSpace(Model.EmbedCode))
+    {
+        return;
+    }
+
+    var alignment = !string.IsNullOrWhiteSpace(Model.Alignment) ? Model.Alignment.ToLower() : "default";
+    var alignmentClass = "o-align--" + alignment;
+}
+
+<div class="o-media o-media--video @alignmentClass @Model.AdditionalClass">
+    @Html.Raw(Model.EmbedCode)
+</div>

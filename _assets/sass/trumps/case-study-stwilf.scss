@@ -1,0 +1,201 @@
+/* ===========================================================
+
+  # Case study - St wilfs
+
+=========================================================== */
+
+.s-caseStudyStWilf__messaging,
+.s-caseStudyStWilf__brief,
+.s-caseStudyStWilf__brand-guide {
+	position: relative;
+
+	.o-section__inner {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+.s-caseStudyStWilf__messaging__image {
+	max-width: 30%;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+@include respond-max( $mq-medium ) {
+
+	.s-caseStudyStWilf__messaging__image {
+		opacity: .15;
+	}
+
+}
+
+.s-caseStudyStWilf__brief__image {
+	max-height: 100%;
+	position: absolute;
+	right: 0;
+}
+
+@include respond-max( $mq-x-large ) {
+
+	.s-caseStudyStWilf__brief__image {
+		display: none;
+	}
+
+}
+
+
+// brand guide
+
+.s-caseStudyStWilf__brand-guide {
+	overflow: hidden;
+}
+
+@include respond-max( $mq-medium ) {
+
+	.s-caseStudyStWilf__brand-guide__image-main {
+		max-width: 70%;
+		margin: auto;
+		margin-top: -8rem;
+		margin-bottom: 4rem;
+	}
+
+}
+
+@include respond-max( $mq-medium ) {
+
+	.s-caseStudyStWilf__branding__fonts {
+
+		img {
+			max-width: 90%;
+		}
+
+	}
+
+}
+
+
+@include respond-min( $mq-medium ) {
+
+	.s-caseStudyStWilf__brand-guide {
+		min-height: 66.6rem;
+	}
+
+	.s-caseStudyStWilf__branding__fonts {
+
+		img {
+			max-width: 75%;
+		}
+
+	}
+
+	.s-caseStudyStWilf__brand-guide__image-main {
+		width: 50%;
+		max-width: 40rem;
+		position: absolute;
+		left: 64.1666666667%;
+		top: -18rem;
+	}
+
+}
+
+// livery
+
+.s-caseStudyStWilf__livery {
+	position: relative;
+
+	.o-section__inner {
+		z-index: 1;
+		position: relative;
+	}
+}
+
+
+@include respond-max( $mq-medium ) {
+
+	.s-caseStudyStWilf__livery__image-main {
+		max-width: 60%;
+		margin-left: auto;
+		display: block;
+	}
+
+}
+
+@include respond-min( $mq-medium ) {
+
+	.s-caseStudyStWilf__livery__image-main {
+		position: absolute;
+	}
+
+}
+
+@include respond-min-max( $mq-medium, $mq-large ) {
+
+	.s-caseStudyStWilf__livery__image-main {
+		right: -45%;
+	}
+
+}
+
+@include respond-min-max( $mq-large, $mq-x-large ) {
+
+	.s-caseStudyStWilf__livery__image-main {
+		right: -25%;
+	}
+
+}
+
+@include respond-min-max( $mq-x-large, $mq-xx-large ) {
+
+	.s-caseStudyStWilf__livery__image-main {
+		right: -8%;
+	}
+
+}
+
+@include respond-min( $mq-xx-large ) {
+
+	.s-caseStudyStWilf__livery__image-main {
+		right: 0;
+	}
+
+}
+
+.s-caseStudyStWilf__livery__image2 {
+	margin-left: auto;
+	display: block;
+}
+
+.s-caseStudyStWilf__livery__image-col__item {
+	@include column( 1/2, $gutter: 5 );
+}
+
+
+// content & social
+
+@include respond-max( $mq-medium ) {
+
+	.s-caseStudyStWilf__content-social {
+
+		.c-mobile-frame {
+			max-width: 20rem;
+			margin: $line-height auto 0;
+		}
+
+	}
+
+}
+
+@include respond-min( $mq-medium ) {
+
+	.s-caseStudyStWilf__content-social {
+		position: relative;
+		z-index: 1;
+
+		.c-mobile-frame {
+			max-width: 28rem;
+			margin: auto;
+		}
+	}
+
+}

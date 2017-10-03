@@ -1,0 +1,50 @@
+/* ===========================================================
+
+	# Pagination
+
+=========================================================== */
+
+.c-pagination {
+	margin-top: $line-height;
+	text-align: center;
+}
+
+.c-pagination__link {
+	padding: 1.7rem 2rem;
+	color: $text-colour;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 1;
+	transition: color $speed $ease,
+				background $speed $ease;
+
+	svg {
+		transition: fill $speed $ease;
+	}
+
+	&.is-active {
+		font-weight: $bolder;
+	}
+
+	&.is-disabled {
+		opacity: .35;
+	}
+}
+
+.c-pagination__link--next,
+.c-pagination__link--prev {
+	padding: 1rem 1.1rem;
+}
+
+a.c-pagination__link {
+
+	&:hover,
+	&:focus {
+		color: $white;
+		background-color: $pri;
+
+		svg {
+			fill: $white;
+		}
+	}
+}

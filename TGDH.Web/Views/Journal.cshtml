@@ -1,0 +1,60 @@
+@using System.Web.Mvc.Html
+@using TGDH.Core.Data
+@using TGDH.Core.Utility
+@using TGDH.Core.ExtensionMethods
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+    Layout = "Master.cshtml";
+	var allposts = JournalRepository.AllPosts(Umbraco).ToList().Where( x => x.Id != Model.GetPropertyValue<int>("featuredPost")).OrderBy("releaseDate desc");
+	var filteredPosts = JournalRepository.FilterSelection(allposts, Request.QueryString["author"], Request.QueryString["category"], Request.QueryString["year"], Request.QueryString["month"]).ToList();
+
+	var paging = Paging.GetPages(filteredPosts.Count);
+	var selection = filteredPosts.Skip(paging.Skip).Take(paging.Take).ToList();
+
+	var coverModel = new CoverViewModel {
+		ImageIds = Model.GetPropertyValue<string>("coverImage"),
+		Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
+		Subtitle = Model.GetPropertyValue<IHtmlString>("coverSubtitle"),
+		SubtitleLabel = Model.GetPropertyValue<string>("coverSubtitleLabel"),
+		Copy = Model.GetPropertyValue<IHtmlString>("coverCopy"),
+		Cta = Model.GetPropertyValue<string>("coverCta")
+	};
+}
+
+<main id="main" class="o-page__content" role="main">
+	@Html.Partial("~/Views/Partials/Components/Cover.cshtml", coverModel)
+	@Html.Partial("~/Views/Partials/Journal/FeaturedPost.cshtml")
+
+	<div id="posts" class="o-wrap o-wrap--x-large o-section o-col--two-one u-clearfix">
+		<h2 class="u-font-sec u-zeta u-em-style u-beta">All articles</h2>
+		<div class="o-col o-col--first">
+			@if( selection.Any() ) {
+				foreach( var item in selection ) {
+					var author = Umbraco.TypedContent(item.GetPropertyValue<int>("author"));
+					var articleDate = item.GetPropertyValue<DateTime>("releaseDate");
+
+				    var articleSnippet = new ArticleSummaryViewModel {
+				        Url = item.Url,
+						Headline = item.Name,
+						ThumbnailLabel = articleDate.ToString("%d") + IntExtensionMethods.GetDaySuffix(articleDate.Day) + " " + articleDate.ToString("MMM yyyy"),
+						Copy = item.GetPropertyValue<string>("pageDescription")
+				    };
+
+					if( author != null ) {
+						articleSnippet.Thumbnail = Umbraco.TypedMedia(author.GetPropertyValue<int>("profilePicture"));
+					}
+					@Html.Partial("~/Views/Partials/Components/ArticleSummary.cshtml", articleSnippet);
+				}
+				<nav class="c-pagination">
+	                @PagingTemplate.RenderPaging(paging, Model.Id, "posts")
+	            </nav>
+			} else {
+				<p>Sorry, we don't have any posts that match your filter</p>
+			}
+		</div>
+		<div class="o-col o-col--last">
+			@Html.Partial("~/Views/Partials/Journal/Categories.cshtml")
+		</div>
+
+	</div>
+</main>

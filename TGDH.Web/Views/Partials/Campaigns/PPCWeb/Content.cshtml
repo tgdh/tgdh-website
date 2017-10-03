@@ -1,0 +1,15 @@
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var QuoteModel = new QuoteViewModel {
+		Quote = Model.GetPropertyValue<IHtmlString>("quote"),
+		Source = Model.GetPropertyValue<string>("quoteSource")
+	};
+}
+
+<main id="main" role="main">
+	@Html.Partial("~/Views/Partials/Campaigns/PPCWeb/Cover.cshtml")
+	@Html.Partial("~/Views/Partials/Campaigns/PPCWeb/Intro.cshtml")
+	@Html.Partial("~/Views/Partials/Campaigns/PPCWeb/Clients.cshtml")
+	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", QuoteModel)
+	@Html.Partial("~/Views/Partials/Campaigns/PPCWeb/FeaturedPages.cshtml")
+</main>

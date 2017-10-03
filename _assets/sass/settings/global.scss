@@ -1,0 +1,117 @@
+/* ===========================================================
+
+	# Variables
+
+=========================================================== */
+
+$old-ie: 					false!default;
+$base-dir: 					'/assets';
+$fonts: 					'#{$base-dir}/fonts';
+$images: 					'#{$base-dir}/img';
+
+
+/* ===========================================================
+
+	# COLOURS
+
+=========================================================== */
+
+$white: 					#FFFFFF;
+$black: 					#000000;
+$red:						#d20202;
+$green:						#4caf50;
+
+$dark-1:					#1d1d1d;
+
+$light-1:					#f9f9f9;
+
+$pri: 						$black;
+$sec:                       $dark-1;
+
+$facebook: 					#3b5998;
+$twitter: 					#55acee;
+$google: 					#dc4e41;
+$instagram: 				#db2c74;
+$linkedin:	 				#0077b5;
+$pinterest: 				#bd081c;
+$youtube: 					#cd201f;
+$vimeo: 					#1ab7ea;
+$flcikr: 					#0063dc;
+$dribbble: 					#ea4c89;
+$behance: 					#1769ff;
+
+/* ===========================================================
+
+	# Base values
+
+=========================================================== */
+
+$ff-pri-fallback:			Arial, Geneva, sans-serif;
+$ff-pri-webfont:			'Open Sans';
+
+$ff-sec-fallback:			Georgia, serif;
+$ff-sec-webfont:			'Playfair Display';
+
+$font-size-small:			1.6rem;
+$font-size-large:			1.6rem;
+$line-height:				1.6em;
+$type-scale-small:			1.175;
+$type-scale-medium:			1.200;
+$type-scale-large:			1.250;
+
+$heading-colour:			$black;
+$text-colour:				$black;
+$background-colour:			$white;
+$border-colour:				#b2b2b2;
+$link-colour:				$pri;
+$form-placeholder-colour:	rgba($text-colour,0.5);
+$placeholder-colour:		rgba(0,0,0,.05);
+$highlight-colour:			lighten( $pri, 80 );
+
+$error:						$red;
+$success:					$green;
+$disabled:					#ccc;
+
+// section padding
+$padding-small:				4rem;
+$padding-medium:			8rem;
+$padding-large:				10rem;
+
+$border-width: 				.2rem;
+$border-radius: 			.3rem;
+$speed: 					.3s;
+$ease:						ease;
+
+$light:						300;
+$regular:					500;
+$bold:						700;
+$bolder:					900;
+
+$wrap-small:				64rem;
+$wrap-medium:				84rem;
+$wrap-large:				108rem;
+$wrap-x-large:				130rem;
+
+
+/* ===========================================================
+
+	# Media queries
+
+=========================================================== */
+
+$mq-small:	 				600px;
+$mq-medium: 				800px;
+$mq-large: 					1000px;
+$mq-x-large: 				1280px;
+$mq-xx-large: 				1500px;
+
+/* ===========================================================
+
+	# Grid settings
+
+=========================================================== */
+
+$jeet-gutter:				3      !default;
+$jeet-parent-first:     	false  !default;
+$jeet-layout-direction: 	"LTR"  !default;
+$jeet-max-width:			1410px !default;

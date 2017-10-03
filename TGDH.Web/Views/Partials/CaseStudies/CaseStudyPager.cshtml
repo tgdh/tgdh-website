@@ -1,0 +1,33 @@
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var parent = Model.Ancestor();
+	if( parent == null ) {
+		return;
+	}
+	var allCaseStudies = parent.Children();
+
+	var previousCase = Model.Previous();
+	var nextCase = Model.Next();
+
+	if( nextCase == null ) {
+		nextCase = allCaseStudies.FirstOrDefault();
+	}
+	if( previousCase == null ) {
+		previousCase = allCaseStudies.LastOrDefault();
+	}
+
+	var PagerModel = new PagerViewModel {
+		HeadlinePrevious = previousCase.Name,
+	    SubtitlePrevious = previousCase.GetPropertyValue<string>("coverSubtitle"),
+	    UrlPrevious = previousCase.Url,
+	    ImageIdPrevious = previousCase.GetPropertyValue<int>("coverImage"),
+	    HeadlineNext = nextCase.Name,
+	    SubtitleNext = nextCase.GetPropertyValue<string>("coverSubtitle"),
+	    UrlNext = nextCase.Url,
+	    ImageIdNext = nextCase.GetPropertyValue<int>("coverImage"),
+	    HeadlineGateway = "All projects",
+	    UrlGateway = parent.Url
+	};
+
+	@Html.Partial("~/Views/Partials/Components/Pager.cshtml", PagerModel)
+}

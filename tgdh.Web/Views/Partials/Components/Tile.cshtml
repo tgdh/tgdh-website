@@ -1,0 +1,44 @@
+@using TGDH.Core.ExtensionMethods
+@inherits UmbracoViewPage<TileViewModel>
+@{
+	if(string.IsNullOrWhiteSpace(Model.Url)) {
+		return;
+	}
+
+	var image = Umbraco.TypedMedia(Model.ImageId);
+	var imageUrl = "";
+	if (image != null)
+	{
+		imageUrl = Url.GetCropUrl(image, cropAlias:  "21:9", width: 800, quality: 95, htmlEncode: false).ToString();
+	}
+}
+<article class="c-tile @Model.ModifierClass">
+    <a id="@Model.Headline.ConvertToId()" href="@Model.Url" class="c-tile__link" style="background-image: url(@imageUrl);">
+        <div class="c-tile__content js-tilt">
+			<div class="c-tile__copy">
+				@if(!String.IsNullOrWhiteSpace(Model.Headline))
+				{
+		            <h2 class="c-tile__headline">
+						@Model.Headline
+						<svg class="u-icon u-icon--32 u-icon--invert c-tile__icon">
+							<use xlink:href="/assets/icons/icons.svg#arrow-right"></use>
+						</svg>
+					</h2>
+				}
+
+                <div class="c-tile__subtitle u-font-sec">
+					@if(Model.Subtitle != null && !String.IsNullOrWhiteSpace(Model.Subtitle.ToString())) {
+                    	@Model.Subtitle
+					}
+                </div>
+
+				@if( !String.IsNullOrWhiteSpace(Model.Quote) ) {
+					<div class="c-tile__quote u-font-sec">
+						<p>@StringExtensionMethods.TruncateAtWord(Model.Quote, 65)</p>
+					</div>
+				}
+			</div>
+			<span class="c-tile__overlay" aria-role="decoration"></span>
+        </div>
+    </a>
+</article>

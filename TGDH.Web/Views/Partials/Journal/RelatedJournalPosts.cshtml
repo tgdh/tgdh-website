@@ -1,0 +1,47 @@
+@using TGDH.Core.Data
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var modelId = Model.Id.ToString();
+	var pickedPostIds = Model.GetPropertyValue<string>("relatedPosts");
+	var selection = !string.IsNullOrWhiteSpace(pickedPostIds) ? pickedPostIds.Split(',').Where( contentId => contentId != modelId).Select(contentId => Umbraco.TypedContent(contentId)).ToList() : null;
+
+    if (selection == null)
+    {
+		var allPosts = JournalRepository.AllPosts(Umbraco).ToList();
+		selection = allPosts.Where( x => x.Id != Model.Id ).RandomOrder().Take(3).ToList();
+
+		if( !selection.Any() ) {
+			return;
+		}
+    }
+
+	var heading = new HeadingViewModel {
+        Headline = "Further reading"
+    };
+
+}
+
+<section class="o-section u-background--light">
+	<div class="o-wrap o-wrap--large">
+		@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+		<div class="o-col--three u-clearfix">
+			@foreach( var item in selection ) {
+				var author = Umbraco.TypedContent(item.GetPropertyValue<int>("author"));
+				var profilePictureId = 0;
+				if( author != null ) {
+					profilePictureId = author.GetPropertyValue<int>("profilePicture");
+				}
+				var cardData = new CardViewModel {
+			        Id = item.Id,
+					Category = "Journal",
+			        Headline = item.HasValue("headline") ? item.GetPropertyValue<string>("headline") : item.Name,
+			        CoverImage = Umbraco.TypedMedia(item.GetPropertyValue<int>("pageImage")),
+					Thumbnail = Umbraco.TypedMedia(profilePictureId),
+			        Url = item.Url,
+					ModifierClass = "o-col"
+			    };
+				@Html.Partial("~/Views/Partials/Components/Card.cshtml", cardData)
+			}
+		</div>
+	</div>
+</section>

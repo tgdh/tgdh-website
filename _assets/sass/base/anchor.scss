@@ -1,0 +1,20 @@
+/* ===========================================================
+
+	# Anchor
+
+=========================================================== */
+
+a {
+	color: $link-colour;
+	transition: color $speed $ease;
+
+	&:hover,
+	&:focus {
+
+	}
+
+
+	&:not([class]) {
+		@include inline-link();
+	}
+}

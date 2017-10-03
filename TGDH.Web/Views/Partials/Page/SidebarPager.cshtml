@@ -1,0 +1,46 @@
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	if( !Model.DocumentTypeAlias.ToLower().Contains("casestudy") ) {
+		return;
+	}
+	var parent = Model.Ancestor();
+	if( parent == null ) {
+		return;
+	}
+	var allCaseStudies = parent.Children();
+
+	var previousCase = Model.Previous();
+	var nextCase = Model.Next();
+
+	if( nextCase == null ) {
+		nextCase = allCaseStudies.FirstOrDefault();
+	}
+	if( previousCase == null ) {
+		previousCase = allCaseStudies.LastOrDefault();
+	}
+}
+
+<nav class="c-sidebar-pager u-clearfix">
+	@if( previousCase != nextCase ) {
+		<a href="@previousCase.Url" class="c-sidebar-pager__page c-sidebar-pager__page--prev">
+			<svg class="u-icon u-icon--32 c-sidebar-pager__page__icon">
+				<use xlink:href="/assets/icons/icons.svg#arrow-left"></use>
+			</svg>
+			<span class="u-visually-hidden">@previousCase.Name</span>
+		</a>
+	}
+
+	<a href="@parent.Url" class="c-sidebar-pager__gateway">
+		<svg class="u-icon c-sidebar-pager__gateway__icon">
+			<use xlink:href="/assets/icons/icons.svg#grid-small"></use>
+		</svg>
+		<span class="u-visually-hidden">@parent.Name</span>
+	</a>
+
+	<a href="@nextCase.Url" class="c-sidebar-pager__page c-sidebar-pager__page--next">
+		<svg class="u-icon u-icon--32 c-sidebar-pager__page__icon">
+			<use xlink:href="/assets/icons/icons.svg#arrow-right"></use>
+		</svg>
+		<span class="u-visually-hidden">@nextCase.Name</span>
+	</a>
+</nav>

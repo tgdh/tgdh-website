@@ -1,0 +1,39 @@
+/* ===========================================================
+
+  # Utility - text
+
+=========================================================== */
+
+.u-font-pri {
+	font-family: $ff-pri-fallback;
+}
+
+.u-font-sec {
+	font-family: $ff-sec-fallback;
+}
+
+.fonts-loaded {
+
+	.u-font-pri {
+		font-family: $ff-pri-webfont;
+	}
+
+	.u-font-sec {
+		font-family: $ff-sec-webfont;
+		letter-spacing: .5px;
+	}
+
+}
+
+.u-font--small {
+	font-size: 1.4rem;
+}
+
+.u-em-style {
+	font-style: italic;
+	opacity: .65;
+}
+
+.u-breakline:after {
+	@include breakline();
+}

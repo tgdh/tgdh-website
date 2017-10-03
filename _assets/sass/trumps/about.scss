@@ -1,0 +1,50 @@
+/* ===========================================================
+
+	# About
+
+=========================================================== */
+
+.s-about__team,
+.s-about__careers {
+	position: relative;
+}
+
+.s-about__team {
+	z-index: 1;
+}
+
+.s-about__careers__plant {
+	height: 100%;
+	max-width: inherit;
+	position: absolute;
+	z-index: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.s-about__careers__content {
+	position: relative;
+}
+
+@include respond-max( $mq-large ) {
+	.s-about__careers__plant {
+		opacity: .15;
+	}
+}
+
+@include respond-min-max( $mq-small, $mq-x-large ) {
+
+	.s-about__careers__plant {
+		height: calc(100% + 8rem);
+	}
+
+}
+
+
+@include respond-min( $mq-x-large ) {
+
+	.s-about__careers__plant {
+		height: calc(100% + 14rem);
+	}
+
+}

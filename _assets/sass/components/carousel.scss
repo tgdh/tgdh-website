@@ -1,0 +1,112 @@
+/* ===========================================================
+
+	# Carousel
+
+=========================================================== */
+
+.c-carousel__image {
+	width: 100%;
+}
+
+.c-carousel.o-aspect--16-9 {
+
+	img {
+		position: relative;
+	}
+
+}
+
+.no-enhance {
+
+	.c-carousel__wrapper {
+		display: block;
+		background-color: $placeholder-colour;
+
+		@include clearfix();
+	}
+
+	.c-carousel__item {
+		width: 25%;
+		float: left;
+	}
+
+	.c-carousel__image {
+		position: relative;
+	}
+
+	.c-carousel:before {
+		display: none;
+	}
+
+}
+
+.enhance {
+
+	.o-aspect--16-9 {
+
+		.c-carousel__inner {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+	}
+
+	.c-carousel__nav--prev,
+	.c-carousel__nav--next {
+		width: 50%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		z-index: 3;
+	}
+
+	.c-carousel__nav--prev {
+		cursor: url('#{$images}/cursor-left.png'), auto;
+		left: 0;
+	}
+
+	.c-carousel__nav--next {
+		cursor: url('#{$images}/cursor-right.png'), auto;
+		right: 0;
+	}
+
+	.c-carousel__pagination {
+		width: auto;
+		position: absolute;
+		bottom: 0rem;
+		left: 50%;
+		z-index: 4;
+		transform: translateX(-50%);
+	}
+
+	.c-carousel__pagination__item {
+		cursor: pointer;
+		width: 1.2rem;
+		height: 1.2rem;
+		display: inline-block;
+		margin: 1rem;
+		border-radius: 50%;
+		border: .2rem solid $white;
+		transition: background-color $speed $ease;
+
+		&.is-active {
+			background-color: $white;
+		}
+	}
+
+}
+
+@include respond-min( $mq-large ) {
+
+	.enhance {
+
+		.c-carousel__pagination {
+			bottom: 6rem;
+		}
+
+	}
+
+}

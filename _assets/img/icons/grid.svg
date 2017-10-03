@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" fill-rule="nonzero" fill="#000000">
+            <path d="M1,9 L9,9 L9,1 L1,1 L1,9 Z M0,0 L10,0 L10,10 L0,10 L0,0 Z" id="Rectangle"></path>
+            <path d="M18,9 L26,9 L26,1 L18,1 L18,9 Z M17,0 L27,0 L27,10 L17,10 L17,0 Z" id="Rectangle"></path>
+            <path d="M35,1 L35,9 L43,9 L43,1 L35,1 Z M34,0 L44,0 L44,10 L34,10 L34,0 Z" id="Rectangle"></path>
+            <path d="M1,26 L9,26 L9,18 L1,18 L1,26 Z M0,17 L10,17 L10,27 L0,27 L0,17 Z" id="Rectangle"></path>
+            <path d="M18,26 L26,26 L26,18 L18,18 L18,26 Z M17,17 L27,17 L27,27 L17,27 L17,17 Z" id="Rectangle"></path>
+            <path d="M35,26 L43,26 L43,18 L35,18 L35,26 Z M34,17 L44,17 L44,27 L34,27 L34,17 Z" id="Rectangle"></path>
+            <path d="M1,43 L9,43 L9,35 L1,35 L1,43 Z M0,34 L10,34 L10,44 L0,44 L0,34 Z" id="Rectangle"></path>
+            <path d="M18,43 L26,43 L26,35 L18,35 L18,43 Z M17,34 L27,34 L27,44 L17,44 L17,34 Z" id="Rectangle"></path>
+            <path d="M35,43 L43,43 L43,35 L35,35 L35,43 Z M34,34 L44,34 L44,44 L34,44 L34,34 Z" id="Rectangle"></path>
+        </g>
+    </g>
+</svg>

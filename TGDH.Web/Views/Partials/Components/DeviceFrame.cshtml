@@ -1,0 +1,37 @@
+@using TGDH.Core.Models
+@inherits UmbracoViewPage<DeviceFrameViewModel>
+@{
+    var image = Umbraco.TypedMedia(Model.ImageId);
+
+    if (image == null)
+    {
+        return;
+    }
+
+	switch (Model.Type)
+	{
+		case "mobile":
+			@RenderMobile(image)
+			break;
+		case "desktop":
+			@RenderDesktop(image)
+			break;
+		default:
+			break;
+	}
+}
+
+@helper RenderMobile( IPublishedContent image ) {
+	var imageUrl = image.Url + "?width=375&height=667&mode=crop&anchor=top";
+
+	<div class="c-mobile-frame">
+		<img src="@imageUrl" alt="" class="c-mobile-frame__image">
+	</div>
+}
+
+@helper RenderDesktop( IPublishedContent image ) {
+	var imageUrl = image.Url + "?width=860&height=640&mode=crop&anchor=top";
+	<div class="c-desktop-frame">
+		<img src="@imageUrl" alt="" class="c-desktop-frame__image">
+	</div>
+}

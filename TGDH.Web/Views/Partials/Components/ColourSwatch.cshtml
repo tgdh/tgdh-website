@@ -1,0 +1,24 @@
+@inherits UmbracoViewPage<ColourSwatchViewModel>
+@{
+    if(String.IsNullOrWhiteSpace(Model.Hex)){
+		return;
+	}
+}
+
+<div class="c-colour-swatch u-clearfix">
+	<div class="c-colour-swatch__heading">
+		<h4 class="c-colour-swatch__heading__headline">@Model.Name</h4>
+		<div class="c-colour-swatch__heading__subtitle u-font-sec">@Model.Subtitle</div>
+	</div>
+	<div class="c-colour-swatch__colours">
+		@RenderSwatch(Model.Hex, "100")
+		@RenderSwatch(Model.Hex, "50")
+		@RenderSwatch(Model.Hex, "20")
+	</div>
+</div>
+
+@helper RenderSwatch(string hex, string opacity) {
+	<span class="c-colour-swatch__colours__item c-colour-swatch__colours__item--@opacity" style="background-color: @Model.Hex;">
+		<span class="u-visually-hidden">@opacity%</span>
+	</span>
+}

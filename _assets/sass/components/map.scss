@@ -1,0 +1,48 @@
+/* ===========================================================
+	# Map
+=========================================================== */
+
+.c-map {
+
+	& > div {
+		top: 0;
+	}
+
+	a {
+		box-shadow: none;
+
+		&:hover,
+		&:focus {
+			background-color: transparent;
+		}
+	}
+
+}
+
+.enhance {
+
+	.c-map {
+		position: relative;
+		background-color: $placeholder-colour;
+
+		&:after {
+			content: "";
+			display: block;
+			@include pad-top( 210, 90 );
+		}
+
+	}
+
+}
+
+@include respond-min( $mq-medium ) {
+
+	.enhance {
+
+		.c-map:after {
+			padding-top: 62rem;
+		}
+
+	}
+
+}

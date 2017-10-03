@@ -1,0 +1,91 @@
+@inherits UmbracoViewPage<GalleryViewModel>
+@{
+    var typedMedia = !string.IsNullOrWhiteSpace(Model.MediaIds) ? Model.MediaIds.Split(',').Select(mediaId => Umbraco.TypedMedia(mediaId)).ToList() : null;
+
+    if (typedMedia == null)
+    {
+        return;
+    }
+
+	@* aspect ratio *@
+    var hasRatio = !string.IsNullOrWhiteSpace(Model.AspectRatio);
+    var aspectRatioClass = hasRatio ? "o-aspect--" + Model.AspectRatio.Replace(":", "-") : "";
+
+	@* alignment *@
+    var alignment = !string.IsNullOrWhiteSpace(Model.Alignment) ? Model.Alignment.ToLower() : "default";
+    if (alignment == "full width")
+    {
+        alignment = "full";
+    }
+    var alignmentClass = "o-align--" + alignment;
+
+	@* image *@
+    var imageWidth = alignment != "default" ? Model.ImageWidth/2 : Model.ImageWidth;
+
+	if( typedMedia.Count() == 1 ) {
+		var singleImageModel = new ImageViewModel
+		{
+			ImageId = typedMedia.First().Id,
+			Alignment = alignment,
+			AspectRatio = Model.AspectRatio,
+			ImageWidth = imageWidth
+		};
+		@Html.Partial("~/Views/Partials/Components/Image.cshtml", singleImageModel)
+		return;
+	}
+
+}
+
+<figure class="c-carousel @aspectRatioClass @alignmentClass @Model.AdditionalClass">
+    <div class="c-carousel__inner js-carousel swiper-container" data-loop="false" data-autoplay-speed="4000" data-count="1" data-modal-type="gallery">
+		<div class="swiper-wrapper c-carousel__wrapper">
+	        @foreach (var media in typedMedia)
+	        {
+	            if (media != null)
+	            {
+	                if (media.DocumentTypeAlias == "Image")
+	                {
+	                    @RenderImage(media, Model.AspectRatio, imageWidth)
+	                }
+
+	                if (media.Descendants("Image").Any())
+	                {
+	                    foreach (var image in media.Descendants("Image"))
+	                    {
+	                        @RenderImage(image, Model.AspectRatio, imageWidth)
+	                    }
+	                }
+	            }
+	        }
+		</div>
+        <div class="c-carousel__pagination js-carousel-pagination"></div>
+		<button class="c-carousel__nav--prev js-carousel-prev"><span class="u-visually-hidden">Previous</span></button>
+		<button class="c-carousel__nav--next js-carousel-next"><span class="u-visually-hidden">Next</span></button>
+    </div>
+</figure>
+
+@*
+    Need to see if we can render the gallery without default height restrictions.
+    Basically render autoheight gallery.
+*@
+
+@helper RenderImage(IPublishedContent image, string ratio, int imageWidth)
+{
+    var aspectRatio = string.IsNullOrEmpty(ratio) ? "4:3" : ratio;
+    var imageUrl = image.Url + "?width=1200&upscale=false";
+    var imageCropUrl = Url.GetCropUrl(image, cropAlias: aspectRatio, width: imageWidth, quality: 85, htmlEncode: false).ToString();
+
+    var caption = image.GetPropertyValue<string>("caption");
+    var altText = image.GetPropertyValue<string>("altText");
+
+    <a href="@imageUrl" target="_blank" class="c-carousel__item">
+        <img src="@imageCropUrl" class="c-carousel__image" alt="@altText"/>
+
+        @if (!string.IsNullOrEmpty(caption))
+        {
+            <figcaption class="c-caption clearfix">
+                @caption
+            </figcaption>
+        }
+    </a>
+}

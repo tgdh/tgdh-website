@@ -1,0 +1,65 @@
+/* ===========================================================
+
+	# Card
+
+=========================================================== */
+
+.c-card__link {
+	background-color: $white;
+	box-shadow: 0 0 10px rgba(0,0,0,.1);
+	display: block;
+	transition: box-shadow $speed $ease;
+
+	&:hover,
+	&:focus {
+		box-shadow: 0 10px 40px rgba(0,0,0,.2);
+	}
+}
+
+.c-card__image-wrap {
+	overflow: hidden;
+}
+
+.c-card__content {
+	padding: 3rem 2.5rem;
+	position: relative;
+}
+
+.c-card__category {
+	font-style: italic;
+	opacity: .65;
+
+	&:after {
+		content: "";
+		width: 2.7rem;
+		height: .1rem;
+		display: block;
+		background-color: $pri;
+		margin: 1rem 0;
+	}
+}
+
+.c-card__headline {
+	font-weight: $bolder;
+	padding-bottom: 0;
+	text-decoration: underline;
+}
+
+.c-card__thumb,
+.c-card__thumb-wrap {
+	border-radius: 50%;
+}
+
+.c-card__thumb-wrap {
+	width: 6.8rem;
+	position: absolute;
+	top: 0;
+	right: 1.4rem;
+	transform: translateY(-50%);
+	border: .4rem solid $white;
+	background-color: $white;
+
+	&:before {
+		border-radius: 50%;
+	}
+}

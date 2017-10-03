@@ -1,0 +1,52 @@
+/* ===========================================================
+
+	# Meta data
+
+=========================================================== */
+
+.c-meta {
+	list-style: none;
+
+	&:after {
+		content: "";
+		width: 2.7rem;
+		height: .1rem;
+		background-color: $pri;
+		display: block;
+		margin-top: $line-height / 2;
+	}
+}
+
+.c-meta--invert {
+
+	&:after {
+		background-color: $white;
+	}
+
+}
+
+.c-meta__item {
+	display: inline-block;
+	font-style: italic;
+	margin: 0;
+	opacity: .65;
+
+	&:after {
+		content: "/";
+		margin: 0 .5rem;
+	}
+
+	&:last-child:after {
+		content: "";
+		display: none;
+	}
+}
+
+@include respond-min( $mq-medium ) {
+
+	.c-meta__item + .c-meta__item:before {
+		margin-left: 1rem;
+		margin-right: 1rem;
+	}
+
+}

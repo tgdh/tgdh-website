@@ -1,0 +1,43 @@
+@inherits UmbracoViewPage<ImageViewModel>
+@{
+    var image = Umbraco.TypedMedia(Model.ImageId);
+
+    if (image == null)
+    {
+        return;
+    }
+
+    @* alignment *@
+    var alignment = !string.IsNullOrEmpty(Model.Alignment) ? Model.Alignment : "default";
+    if (alignment == "Full width")
+    {
+        alignment = "full";
+    }
+    var alignmentClass = "o-align--" + alignment.ToLower();
+
+    @* aspect ratio *@
+    var hasRatio = !string.IsNullOrEmpty(Model.AspectRatio);
+    var aspectRatio = hasRatio ? Model.AspectRatio : null;
+    var aspectRatioClass = hasRatio ? "o-aspect--" + aspectRatio.Replace(":", "-") : "";
+
+	@* images *@
+    var imageUrlSmall = Url.GetCropUrl(image, cropAlias: aspectRatio, width: 500, quality: 85, upScale: false, htmlEncode: false).ToString();
+    var imageUrlMedium = Url.GetCropUrl(image, cropAlias: aspectRatio, width: 1000, quality: 85, upScale: false, htmlEncode: false).ToString();
+    var imageUrlLarge = Url.GetCropUrl(image, cropAlias: aspectRatio, width: Model.ImageWidth, quality: 85, upScale: false, htmlEncode: false).ToString();
+
+    var caption = image.GetPropertyValue<string>("caption");
+    var altText = image.GetPropertyValue<string>("altText");
+}
+
+<figure class="o-media @alignmentClass @aspectRatioClass @Model.AdditionalClass">
+    <img class="o-media__image js-lazyload"
+         src="@imageUrlSmall"
+		 data-sizes="auto"
+         data-srcset="@imageUrlSmall 500w, @imageUrlMedium 1000w, @imageUrlLarge @(Model.ImageWidth)w"
+         alt="@altText"/>
+
+    @if (!string.IsNullOrEmpty(caption))
+    {
+        <figcaption class="c-caption">@caption</figcaption>
+    }
+</figure>

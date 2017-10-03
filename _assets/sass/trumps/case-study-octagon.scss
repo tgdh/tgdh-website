@@ -1,0 +1,30 @@
+/* ===========================================================
+
+  # Case study - Octagon
+
+=========================================================== */
+
+@include respond-max( $mq-medium ) {
+
+	.s-caseStudyOctagon__branding__fonts {
+
+		img {
+			max-width: 90%;
+		}
+
+	}
+
+}
+
+
+@include respond-min( $mq-medium ) {
+
+	.s-caseStudyOctagon__branding__fonts {
+
+		img {
+			max-width: 75%;
+		}
+
+	}
+
+}

@@ -1,0 +1,19 @@
+@using TGDH.Core.Models
+@inherits UmbracoViewPage<QuoteViewModel>
+@{
+    if (string.IsNullOrEmpty(Model.Quote.ToString()))
+    {
+        return;
+    }
+}
+
+<section class="o-section u-background--pri u-center-content @Model.AdditionalClass">
+	<blockquote class="c-quote c-quote--feature o-section__inner o-wrap o-wrap--medium">
+		<div class="c-quote__copy u-font-sec">
+			@Model.Quote
+		</div>
+		<footer class="c-quote__src">
+			@Model.Source
+		</footer>
+	</blockquote>
+</section>
