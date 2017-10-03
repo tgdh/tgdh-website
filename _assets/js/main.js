@@ -31,6 +31,7 @@ import CharAllowance from './modules/CharAllowance';
 			const toggleNavInstance = new ToggleNav($toggleButton);
 		}
 		initSmoothScroll();
+		new StickyHeader($('.js-header-logo'));
 
 		const charLimitEls = $$('.js-char-limit');
 		Array.from(charLimitEls).forEach((item) => {

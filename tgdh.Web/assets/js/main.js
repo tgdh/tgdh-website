@@ -11018,6 +11018,7 @@ var CharLimit = function () {
 			var toggleNavInstance = new ToggleNav($toggleButton);
 		}
 		initSmoothScroll();
+		new StickyHeader($('.js-header-logo'));
 
 		var charLimitEls = $$('.js-char-limit');
 		Array.from(charLimitEls).forEach(function (item) {
