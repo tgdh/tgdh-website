@@ -11205,7 +11205,7 @@ var ActiveTab = function () {
 
 		this.createActiveBar();
 		this.bindEvents();
-		this.updateActive(this.tabList.querySelector('[tabindex="0"]'));
+		this.updateActive();
 	}
 
 	createClass(ActiveTab, [{
@@ -11216,10 +11216,10 @@ var ActiveTab = function () {
 		}
 	}, {
 		key: 'updateActive',
-		value: function updateActive(tab) {
+		value: function updateActive() {
+			var tab = this.tabList.querySelector('[tabindex="0"]');
 			var tabWidth = tab.clientWidth;
 			this.offset = tab.offsetLeft;
-
 			this.activeBar.style.width = this.offset + tabWidth + 'px';
 		}
 	}, {
@@ -11227,9 +11227,15 @@ var ActiveTab = function () {
 		value: function bindEvents() {
 			var _this = this;
 
+			var observer = new MutationObserver(function (mutations) {
+				// console.log('tabindex changed', mutations);
+				_this.updateActive();
+			});
+
 			Array.from(this.tabs).forEach(function (tab) {
-				tab.addEventListener('click', function () {
-					return _this.updateActive(tab);
+				observer.observe(tab, {
+					attributes: true,
+					attributeFilter: ['tabindex']
 				});
 			});
 		}

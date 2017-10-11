@@ -14,7 +14,7 @@ class ActiveTab {
 
 		this.createActiveBar();
 		this.bindEvents();
-		this.updateActive(this.tabList.querySelector('[tabindex="0"]'));
+		this.updateActive();
 	}
 
 	createActiveBar() {
@@ -22,20 +22,29 @@ class ActiveTab {
 		this.tabList.appendChild(this.activeBar);
 	}
 
-	updateActive(tab) {
+	updateActive() {
+		const tab = this.tabList.querySelector('[tabindex="0"]');
 		const tabWidth = tab.clientWidth;
 		this.offset = tab.offsetLeft;
-
 		this.activeBar.style.width = `${this.offset + tabWidth}px`;
 	}
 
 	bindEvents() {
+		const observer = new MutationObserver((mutations) => {
+			// console.log('tabindex changed', mutations);
+			this.updateActive();
+		});
+
 		Array.from(this.tabs).forEach((tab) => {
-			tab.addEventListener('click', () => this.updateActive(tab));
+			observer.observe(tab, {
+				attributes: true,
+				attributeFilter: ['tabindex']
+			});
 		});
 	}
 
 }
+
 
 const initTabs = () => {
 	const tabs = Frtabs({
