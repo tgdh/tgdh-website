@@ -233,54 +233,31 @@
 			</ul>
 		</fieldset>
 
-		@* upload *
-		<div class="">
-			@Html.TextBoxFor(x => x.Attachment, new {
-				data_storage="false",
-				type = "file",
-				tabindex="0",
-				@required = "",
-				@class = "",
-				@name = "brief-file",
-				@id = "file-upload",
-				@accepts = "application/pdf, application/msword"
-			})
-			<div style="display: none;">
-				<svg class="u-icon u-icon--32">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#arrow-up"></use>
-				</svg>
-				<span>Drag & Drop<br> to upload</span>
-				<p><span>Click here</span> to change upload</p>
-				<p>*Max 2MB size</p>
+		@{
+			var fileUploadId = "file-upload";
+		}
+		<div class="c-upload js-upload">
+			<div class="c-upload__inner">
+				@Html.TextBoxFor(x => x.Attachment, new {
+					data_storage="false",
+					type = "file",
+					tabindex="0",
+					@required = "",
+					@class = "c-upload__input",
+					@name = "brief-file",
+					@id = fileUploadId,
+					@accepts = "application/pdf, application/msword"
+				})
+				<label class="c-upload__label" for="@fileUploadId">
+					<svg class="c-upload__icon u-icon u-icon--24">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#arrow-up"></use>
+					</svg>
+					<span class="c-upload__text js-upload-text">Choose a file&hellip;</span>
+				</label>
 			</div>
+			<div class="c-upload__note">*Max 2MB size</div>
+			@Html.ValidationMessageFor(x => x.Attachment)
 		</div>
-@**@
-
-@{
-	var fileUploadId = "file-upload";
-}
-<div class="c-upload js-upload">
-	<div class="c-upload__inner">
-		@Html.TextBoxFor(x => x.Attachment, new {
-			data_storage="false",
-			type = "file",
-			tabindex="0",
-			@required = "",
-			@class = "c-upload__input",
-			@name = "brief-file",
-			@id = fileUploadId,
-			@accepts = "application/pdf, application/msword"
-		})
-		<label class="c-upload__label" for="@fileUploadId">
-			<svg class="c-upload__icon u-icon u-icon--24">
-				<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#arrow-up"></use>
-			</svg>
-			<span class="c-upload__text js-upload-text">Choose a file&hellip;</span>
-		</label>
-	</div>
-	<div class="c-upload__note">*Max 2MB size</div>
-	@Html.ValidationMessageFor(x => x.Attachment)
-</div>
 
 	</section>
 	@* End  brief *@
@@ -551,7 +528,74 @@
 			Headline = "Build your proposal",
 			Subtitle = "Make choices to tell us what content you would like included in your proposal."
 		})
+
+		@if( Model.Profiles != null ) {
+			<h3 class="u-zeta">The profiles</h3>
+
+			<div class="o-grid--three u-clearfix u-space-top--large">
+				@for ( var i = 0; i < Model.Profiles.Count(); i++ ) {
+					var inputId = "Profiles_" + i + "__Checked";
+					var imageName = Model.Profiles[i].Name.ToUrlSegment();
+					var imageUrl = "/assets/img/briefing-form/profiles/" + imageName + ".jpg?width=200";
+
+					<div class="c-image-checkbox o-grid__item">
+						@Html.CheckBoxFor(x => Model.Profiles[i].Checked, new {
+							@class = "o-form__checkbox"
+						})
+						<label for="@inputId" class="o-form__label o-form__label--alt">
+							<div class="c-image-checkbox__image-wrap o-aspect--1-1">
+								<img src="@imageUrl" alt="@Html.DisplayFor(x => Model.Profiles[i].Name)" class="c-image-checkbox__image">
+							</div>
+							<div class="c-image-checkbox__content">
+								<span class="o-form__checkbox-button">
+									<div class="o-form__checkbox-icon"></div>
+								</span>
+								<span class="o-form__checkbox-label-text">@Html.DisplayFor(x => Model.Profiles[i].Name)</span>
+								<div class="o-image-checkbox__subtitle u-font-sec">@Model.Profiles[i].Subtitle</div>
+							</div>
+							@Html.HiddenFor(x => Model.Profiles[i].Name)
+						</label>
+					</div>
+				}
+			</div>
+		}
+
+		<hr>
+
+		@if( Model.CaseStudies != null ) {
+			<h3 class="u-zeta">Case studies</h3>
+
+			<div class="o-grid--three u-clearfix u-space-top--large">
+				@for ( var i = 0; i < Model.CaseStudies.Count(); i++ ) {
+					var inputId = "CaseStudies_" + i + "__Checked";
+					var imageName = Model.CaseStudies[i].Name.ToUrlSegment();
+					var imageUrl = "/assets/img/briefing-form/case-studies/" + imageName + ".jpg";
+
+					<div class="c-image-checkbox o-grid__item">
+						@Html.CheckBoxFor(x => Model.CaseStudies[i].Checked, new {
+							@class = "o-form__checkbox"
+						})
+						<label for="@inputId" class="o-form__label o-form__label--alt">
+							<div class="c-image-checkbox__image-wrap o-aspect--1-1">
+								<img src="@imageUrl" alt="@Html.DisplayFor(x => Model.CaseStudies[i].Name)" class="c-image-checkbox__image">
+							</div>
+							<div class="c-image-checkbox__content">
+								<span class="o-form__checkbox-button">
+									<div class="o-form__checkbox-icon"></div>
+								</span>
+								<span class="o-form__checkbox-label-text">@Html.DisplayFor(x => Model.CaseStudies[i].Name)</span>
+								<div class="o-image-checkbox__subtitle u-font-sec">@Model.CaseStudies[i].Subtitle</div>
+							</div>
+							@Html.HiddenFor(x => Model.CaseStudies[i].Name)
+						</label>
+					</div>
+				}
+			</div>
+		}
+
 	</section>
+
+
 
 
 							<button class="c-button c-button--primary">Submit</button>

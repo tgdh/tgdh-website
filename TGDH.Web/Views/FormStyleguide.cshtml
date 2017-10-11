@@ -10,110 +10,110 @@
 		<h1 class="o-wrap o-wrap--small u-beta">Form stylguide</h1>
 
 		<div class="o-wrap o-wrap--small">
-			<h2># Checkbox & radio</h2>
-			<div class="o-form__checkbox-wrap">
+			<section class="o-section">
+				<h2># Input field</h2>
+				<div class="o-form__field o-form__field--compact">
+					<input class="o-form__input" id="Name" name="Name" required="required" type="text" value="" aria-required="true" aria-describedby="Name-error" aria-invalid="true">
+					<label class="o-form__label" for="Name">Your name</label>
+				</div>
+				<div class="o-form__field is-required">
+					<label for="fieldName" class="o-form__label">Name</label>
+					<input id="fieldName" name="cm-name" type="text" class="o-form__input" required placeholder="Enter your text..." />
+				</div>
+			</section>
+			<section class="o-section">
+				<h2># Textarea</h2>
 
-				<input class="o-form__checkbox" value="{{ .label }}" id="radio" type="checkbox" name="{{ .name }}">
-				<label for="radio" class="o-form__label o-form__label--alt">
-
-					<img src="/assets/img/briefing-form/profiles/debbie-lawrenson.jpg" alt="Debbie Lawrenson">
-
-					<span class="o-form__checkbox-button">
-						<div class="o-form__checkbox-icon"></div>
-					</span>
-					<span class="o-form__checkbox-label-text">Label</span>
-				</label>
-			</div>
-
-			<div class="o-form__radio-wrap">
-				<input class="o-form__radio" value="{{ .label }}" id="{{ .id }}" type="radio" name="{{ .name }}">
-				<label for="{{ .id }}" class="o-form__label o-form__label--alt">
-					<span class="o-form__radio-button"></span>
-					<span class="o-form__radio-label-text">Label</span>
-				</label>
-			</div>
-
-
-
-			<h2 class="u-space-top"># Input field</h2>
-
-			<div class="o-form__field o-form__field--compact">
-				<input class="o-form__input" id="Name" name="Name" required="required" type="text" value="" aria-required="true" aria-describedby="Name-error" aria-invalid="true">
-				<label class="o-form__label" for="Name">Your name</label>
-            </div>
-
-			<h2 class="u-space-top"># Textarea</h2>
-
-			<div class="o-form__field">
-				<label for="textarea" class="o-form__label">Briefly what are the purposes of the new site? *</label>
-				<textarea name="" id="textarea" class="o-form__textarea" placeholder="Enter your text..."></textarea>
-			</div>
-
-			<h2 class="u-space-top"># Select</h2>
-
-			<h2 class="u-space-top"># Checkbox</h2>
-			<div class="o-form__field">
+				<div class="o-form__field">
+					<label for="textarea" class="o-form__label">Briefly what are the purposes of the new site? *</label>
+					<textarea name="" id="textarea" class="o-form__textarea" placeholder="Enter your text..."></textarea>
+				</div>
+			</section>
+			<section class="o-section">
+				<h2># Select</h2>
+			</section>
+			<section class="o-section">
+				<h2># Checkbox</h2>
+				<div class="o-form__field">
+					<fieldset class="o-fieldset">
+						<legend class="o-fieldset__legend">The workflow</legend>
+						<ul class="o-fieldset__list o-fieldset__list--halfs u-clearfix">
+							@for ( var i = 0; i < 3; i++ ) {
+								var inputId = "checkbox" + i;
+								<li class="o-fieldset__item">
+									<input class="o-form__checkbox" value="{{ .label }}" id="@inputId" type="checkbox" name="{{ .name }}">
+									<label for="@inputId" class="o-form__label o-form__label--alt">
+										<span class="o-form__checkbox-button">
+											<div class="o-form__checkbox-icon"></div>
+										</span>
+										<span class="o-form__checkbox-label-text">Label</span>
+									</label>
+								</li>
+							}
+						</ul>
+					</fieldset>
+				</div>
+			</section>
+			<section class="o-section">
+				<h2># Radio button</h2>
 				<fieldset class="o-fieldset">
 					<legend class="o-fieldset__legend">The workflow</legend>
 					<ul class="o-fieldset__list o-fieldset__list--halfs u-clearfix">
 						@for ( var i = 0; i < 3; i++ ) {
-							var inputId = "checkbox" + i;
+							var radioId = "radio" + i;
+
 							<li class="o-fieldset__item">
-								<input class="o-form__checkbox" value="{{ .label }}" id="@inputId" type="checkbox" name="{{ .name }}">
-								<label for="@inputId" class="o-form__label o-form__label--alt">
-									<span class="o-form__checkbox-button">
-										<div class="o-form__checkbox-icon"></div>
-									</span>
-									<span class="o-form__checkbox-label-text">Label</span>
+								<input class="o-form__radio" value="{{ .label }}" id="@radioId" type="radio" name="{{ .name }}">
+								<label for="@radioId" class="o-form__label o-form__label--alt">
+									<span class="o-form__radio-button"></span>
+									<span class="o-form__radio-label-text">Label</span>
 								</label>
 							</li>
 						}
 					</ul>
 				</fieldset>
-			</div>
+			</section>
+			<section class="o-section">
+				<h2># Buttons</h2>
+				<button class="c-button c-button--primary">Primary</button>
+				<button class="c-button c-button--secondary">Secondary</button>
+				<button class="c-button c-button--secondary is-disabled">Disabled</button>
+			</section>
+			<section class="o-section">
+				<h2># File upload</h2>
 
-			<h2 class="u-space-top"># Radio button</h2>
-			<fieldset class="o-fieldset">
-				<legend class="o-fieldset__legend">The workflow</legend>
-				<ul class="o-fieldset__list o-fieldset__list--halfs u-clearfix">
-					@for ( var i = 0; i < 3; i++ ) {
-						var radioId = "radio" + i;
-
-						<li class="o-fieldset__item">
-							<input class="o-form__radio" value="{{ .label }}" id="@radioId" type="radio" name="{{ .name }}">
-							<label for="@radioId" class="o-form__label o-form__label--alt">
-								<span class="o-form__radio-button"></span>
-								<span class="o-form__radio-label-text">Label</span>
-							</label>
-						</li>
-					}
-				</ul>
-			</fieldset>
-
-
-
-			<h2 class="u-space-top"># Buttons</h2>
-			<button class="c-button c-button--primary">Primary</button>
-			<button class="c-button c-button--secondary">Secondary</button>
-			<button class="c-button c-button--secondary is-disabled">Disabled</button>
-
-
-			<h2 class="u-space-top"># File upload</h2>
-
-			<div class="c-upload js-upload">
-				<div class="c-upload__inner">
-					<input type="file" name="inputId[]" id="inputId" class="inputfile c-upload__input" />
-					<label class="c-upload__label" for="inputId">
-						<svg class="c-upload__icon u-icon u-icon--24">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#arrow-up"></use>
-						</svg>
-						<span class="c-upload__text js-upload-text">Choose a file&hellip;</span>
+				<div class="c-upload js-upload">
+					<div class="c-upload__inner">
+						<input type="file" name="inputId[]" id="inputId" class="inputfile c-upload__input" />
+						<label class="c-upload__label" for="inputId">
+							<svg class="c-upload__icon u-icon u-icon--24">
+								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#arrow-up"></use>
+							</svg>
+							<span class="c-upload__text js-upload-text">Choose a file&hellip;</span>
+						</label>
+					</div>
+					<div class="c-upload__note">*Max 2MB size</div>
+				</div>
+			</section>
+			<section class="o-section">
+				<h2>Image checkbox</h2>
+				<div class="c-image-checkbox">
+					<input class="o-form__checkbox" value="{{ .label }}" id="checkboxProfile" type="checkbox" name="{{ .name }}">
+					<label for="checkboxProfile" class="o-form__label o-form__label--alt">
+						<div class="c-image-checkbox__image-wrap o-aspect--1-1">
+							<img src="/assets/img/briefing-form/profiles/debbie-lawrenson.jpg" alt="Debbie Lawrenson" class="c-image-checkbox__image">
+						</div>
+						<div class="c-image-checkbox__content">
+							<span class="o-form__checkbox-button">
+								<div class="o-form__checkbox-icon"></div>
+							</span>
+							<span class="o-form__checkbox-label-text">Debbie Lawrenson</span>
+							<div class="o-image-checkbox__subtitle u-font-sec">Head of Digital</div>
+						</div>
 					</label>
 				</div>
-				<div class="c-upload__note">*Max 2MB size</div>
-			</div>
+			</section>
 
-	</div>
 
     </div>
 </main>

@@ -219,6 +219,7 @@ $line-height-half: $line-height / 2;
 
 .o-fieldset__item {
 	margin: 0 0 1rem;
+	position: relative;
 }
 
 .o-fieldset__list--half {
@@ -252,15 +253,22 @@ $line-height-half: $line-height / 2;
 	width: 2.2rem;
 	height: 2.2rem;
 	border: .2rem solid $pri;
-	display: inline-block;
+	display: block;
 	margin-right: 1rem;
 	position: relative;
 	vertical-align: middle;
 	transition: background-color $speed $ease;
+	position: absolute;
 
 	.no-enhance & {
 		display: none;
 	}
+}
+
+.o-form__checkbox-label-text,
+.o-form__radio-label-text {
+	padding-left: 3.2rem;
+	display: block;
 }
 
 .o-form__checkbox-icon {
@@ -290,7 +298,8 @@ $line-height-half: $line-height / 2;
 
 }
 
-.o-form__checkbox:checked + .o-form__label {
+.o-form__checkbox:checked + .o-form__label,
+.o-form__checkbox:checked + input[type="hidden"] + .o-form__label {
 
 	.o-form__checkbox-button {
 		background-color: $pri;
