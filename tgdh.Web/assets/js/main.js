@@ -10978,6 +10978,278 @@ var Upload = function () {
 	return Upload;
 }();
 
+// Polyfill matches as per https://github.com/jonathantneal/closest
+
+Element.prototype.matches = Element.prototype.matches || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector || Element.prototype.oMatchesSelector || Element.prototype.webkitMatchesSelector;
+
+/**
+ * @param {object} options Object containing configuration overrides
+ */
+var Frtabs = function Frtabs() {
+	var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+	    _ref$selector = _ref.selector,
+	    selector = _ref$selector === undefined ? '.js-fr-tabs' : _ref$selector,
+	    _ref$tablistSelector = _ref.tablistSelector,
+	    tablistSelector = _ref$tablistSelector === undefined ? '.js-fr-tabs__tablist' : _ref$tablistSelector,
+	    _ref$tabpanelSelector = _ref.tabpanelSelector,
+	    tabpanelSelector = _ref$tabpanelSelector === undefined ? '.js-fr-tabs__panel' : _ref$tabpanelSelector,
+	    _ref$tabsReadyClass = _ref.tabsReadyClass,
+	    tabsReadyClass = _ref$tabsReadyClass === undefined ? 'fr-tabs--is-ready' : _ref$tabsReadyClass;
+
+	// CONSTANTS
+	var doc = document;
+	var docEl = doc.documentElement;
+	var _q = function _q(el) {
+		var ctx = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : doc;
+		return [].slice.call(ctx.querySelectorAll(el));
+	};
+
+	// SUPPORTS
+	if (!('querySelector' in doc) || !('addEventListener' in window) || !docEl.classList) return;
+
+	// SETUP
+	// set tab element NodeList
+	var tabContainers = _q(selector);
+
+	//	UTILS
+	function _closest(el, selector) {
+		while (el) {
+			if (el.matches(selector)) break;
+			el = el.parentElement;
+		}
+		return el;
+	}
+
+	// A11Y
+	function _addA11y(tabContainer) {
+		// get tab elements
+		var tabLists = _q(tablistSelector, tabContainer);
+		var tabListItems = _q(tablistSelector + ' li', tabContainer);
+		var tabs = _q(tablistSelector + ' a', tabContainer);
+		var tabpanels = _q(tabpanelSelector, tabContainer);
+
+		// add roles, properties, states
+		tabLists.forEach(function (tabList) {
+			tabList.setAttribute('role', 'tablist');
+		});
+
+		tabListItems.forEach(function (tabItem) {
+			tabItem.setAttribute('role', 'presentation');
+		});
+
+		tabs.forEach(function (tab) {
+			tab.setAttribute('role', 'tab');
+			tab.setAttribute('aria-controls', tab.hash.substring(1));
+		});
+
+		tabpanels.forEach(function (tabpanel, i) {
+			tabpanel.setAttribute('role', 'tabpanel');
+			tabpanel.setAttribute('aria-labelledby', tabs[i].id);
+			// make first child of tabpanel focusable if available
+			tabpanel.setAttribute('tabindex', 0);
+		});
+	}
+	function _removeA11y(tabContainer) {
+		// get tab elements
+		var tabLists = _q(tablistSelector, tabContainer);
+		var tabListItems = _q(tablistSelector + ' li', tabContainer);
+		var tabs = _q(tablistSelector + ' a', tabContainer);
+		var tabpanels = _q(tabpanelSelector, tabContainer);
+
+		// remove roles, properties, states
+		tabLists.forEach(function (tabList) {
+			tabList.removeAttribute('role');
+		});
+
+		tabListItems.forEach(function (tabItem) {
+			tabItem.removeAttribute('role');
+		});
+
+		tabs.forEach(function (tab) {
+			tab.removeAttribute('role');
+			tab.removeAttribute('aria-controls');
+			tab.removeAttribute('aria-selected');
+			tab.removeAttribute('tabindex');
+		});
+
+		tabpanels.forEach(function (tabpanel) {
+			tabpanel.removeAttribute('role');
+			tabpanel.removeAttribute('aria-hidden');
+			tabpanel.removeAttribute('aria-labelledby');
+			// remove first child focusability if present
+			tabpanel.removeAttribute('tabindex');
+		});
+	}
+
+	// ACTIONS
+	function _showTab(target) {
+		var giveFocus = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+		// get context of tab container
+		var thisContainer = _closest(target, selector);
+		var siblingTabs = _q(tablistSelector + ' a', thisContainer);
+		var siblingTabpanels = _q(tabpanelSelector, thisContainer);
+
+		// set inactives
+		siblingTabs.forEach(function (tab) {
+			tab.setAttribute('tabindex', -1);
+			tab.removeAttribute('aria-selected');
+		});
+		siblingTabpanels.forEach(function (tabpanel) {
+			tabpanel.setAttribute('aria-hidden', 'true');
+		});
+
+		// set actives and focus
+		target.setAttribute('tabindex', 0);
+		target.setAttribute('aria-selected', 'true');
+		if (giveFocus) target.focus();
+		doc.getElementById(target.getAttribute('aria-controls')).removeAttribute('aria-hidden');
+	}
+
+	// EVENTS
+	function _eventTabClick(e) {
+		_showTab(e.currentTarget);
+		e.preventDefault(); // look into remove id/settimeout/reinstate id as an alternative to preventDefault
+	}
+
+	function _eventTabKeydown(e) {
+		// collect tab targets, and their parents' prev/next (or first/last)
+		var currentTab = e.currentTarget;
+		var tablist = _closest(currentTab, tablistSelector);
+		var previousTabItem = currentTab.parentNode.previousElementSibling || tablist.lastElementChild;
+		var nextTabItem = currentTab.parentNode.nextElementSibling || tablist.firstElementChild;
+
+		// don't catch key events when ⌘ or Alt modifier is present
+		if (e.metaKey || e.altKey) return;
+
+		// catch left/right and up/down arrow key events
+		// if new next/prev tab available, show it by passing tab anchor to _showTab method
+		switch (e.keyCode) {
+			case 37:
+			case 38:
+				_showTab(_q('[role="tab"]', previousTabItem)[0]);
+				e.preventDefault();
+				break;
+			case 39:
+			case 40:
+				_showTab(_q('[role="tab"]', nextTabItem)[0]);
+				e.preventDefault();
+				break;
+			default:
+				break;
+		}
+	}
+
+	// BINDINGS
+	function _bindTabsEvents(tabContainer) {
+		var tabs = _q(tablistSelector + ' a', tabContainer);
+		// bind all tab click and keydown events
+		tabs.forEach(function (tab) {
+			tab.addEventListener('click', _eventTabClick);
+			tab.addEventListener('keydown', _eventTabKeydown);
+		});
+	}
+
+	function _unbindTabsEvents(tabContainer) {
+		var tabs = _q(tablistSelector + ' a', tabContainer);
+		// unbind all tab click and keydown events
+		tabs.forEach(function (tab) {
+			tab.removeEventListener('click', _eventTabClick);
+			tab.removeEventListener('keydown', _eventTabKeydown);
+		});
+	}
+
+	// DESTROY
+	function destroy() {
+		tabContainers.forEach(function (tabContainer) {
+			_removeA11y(tabContainer);
+			_unbindTabsEvents(tabContainer);
+			tabContainer.classList.remove(tabsReadyClass);
+		});
+	}
+
+	// INIT
+	function init() {
+		if (tabContainers.length) {
+			tabContainers.forEach(function (tabContainer) {
+				_addA11y(tabContainer);
+				_bindTabsEvents(tabContainer);
+				// set all first tabs active on init
+				_showTab(_q(tablistSelector + ' a', tabContainer)[0], false);
+				// set ready style hook
+				tabContainer.classList.add(tabsReadyClass);
+			});
+		}
+	}
+	init();
+
+	// REVEAL API
+	return {
+		init: init,
+		destroy: destroy
+	};
+};
+
+var ActiveTab = function () {
+	function ActiveTab(el) {
+		classCallCheck(this, ActiveTab);
+
+		if (!el) {
+			return;
+		}
+		this.el = el;
+		this.tabList = this.el.querySelector('.js-tabs__tablist');
+		this.tabs = this.tabList.querySelectorAll('a');
+		this.activeBar = null;
+		this.offset = 0;
+
+		this.createActiveBar();
+		this.bindEvents();
+		this.updateActive(this.tabList.querySelector('[tabindex="0"]'));
+	}
+
+	createClass(ActiveTab, [{
+		key: 'createActiveBar',
+		value: function createActiveBar() {
+			this.activeBar = new CreateDomEl('div', 'c-tabs__active-bar');
+			this.tabList.appendChild(this.activeBar);
+		}
+	}, {
+		key: 'updateActive',
+		value: function updateActive(tab) {
+			var tabWidth = tab.clientWidth;
+			this.offset = tab.offsetLeft;
+
+			this.activeBar.style.width = this.offset + tabWidth + 'px';
+		}
+	}, {
+		key: 'bindEvents',
+		value: function bindEvents() {
+			var _this = this;
+
+			Array.from(this.tabs).forEach(function (tab) {
+				tab.addEventListener('click', function () {
+					return _this.updateActive(tab);
+				});
+			});
+		}
+	}]);
+	return ActiveTab;
+}();
+
+var initTabs = function initTabs() {
+	var tabs = Frtabs({
+		selector: '.js-tabs',
+		tablistSelector: '.js-tabs__tablist',
+		tabpanelSelector: '.js-tabs__panel',
+		tabsReadyClass: 'c-tabs--is-ready'
+	});
+
+	Array.from(document.querySelectorAll('.js-tabs')).forEach(function (item) {
+		var activeTab = new ActiveTab(item);
+	});
+};
+
 (function () {
 	var enhance = 'querySelector' in document && 'localStorage' in window && 'addEventListener' in window && 'classList' in document.documentElement;
 
@@ -11003,6 +11275,8 @@ var Upload = function () {
 		Array.from($$('.js-upload')).forEach(function (item) {
 			var fileUpload = new Upload(item);
 		});
+
+		initTabs();
 	}
 	svg4everybody();
 

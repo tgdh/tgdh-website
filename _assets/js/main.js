@@ -13,6 +13,7 @@ import GMap from './modules/GMaps';
 import StickyHeader from './modules/StickyHeader';
 import CharAllowance from './modules/CharAllowance';
 import Upload from './modules/Upload';
+import initTabs from './modules/Tabs';
 
 (() => {
 	const enhance = 'querySelector' in document
@@ -42,6 +43,8 @@ import Upload from './modules/Upload';
 		Array.from($$('.js-upload')).forEach((item) => {
 			const fileUpload = new Upload(item);
 		});
+
+		initTabs();
 	}
 	svg4everybody();
 

@@ -96,9 +96,8 @@ namespace TGDH.Core.Models
                 new CheckboxListItem {Id = 0, Name = "Dan Jubb", Subtitle = "Head of Brand and Strategy", Checked = false},
                 new CheckboxListItem {Id = 1, Name = "Debbie Lawrenson", Subtitle = "Head of Digital", Checked = false},
                 new CheckboxListItem {Id = 2, Name = "Kev Simpson", Subtitle = "Head of Development", Checked = false},
-                new CheckboxListItem {Id = 3, Name = "Luke Gibson", Subtitle = "Developer", Checked = false},
                 new CheckboxListItem {Id = 4, Name = "Maureen Doolan", Subtitle = "Social and Content Manager", Checked = false},
-                new CheckboxListItem {Id = 5, Name = "Sam McGuire", Subtitle = "Web Designer", Checked = false}
+                new CheckboxListItem {Id = 5, Name = "Sam McGuire", Subtitle = "Senior Web Designer", Checked = false}
             };
 
             Workflow = new List<CheckboxListItem>() {
@@ -109,8 +108,8 @@ namespace TGDH.Core.Models
 
             ProjectSpecifics = new List<CheckboxListItem>() {
                 new CheckboxListItem {Id = 0, Name = "Our understanding of your requirements", Checked = false},
-                new CheckboxListItem {Id = 1, Name = "Main project deliverables", Checked = false},
-                new CheckboxListItem {Id = 2, Name = "Copywriting addition", Checked = false},
+                new CheckboxListItem {Id = 1, Name = "Main project deliverables", Note = "No cost", Checked = false},
+                new CheckboxListItem {Id = 2, Name = "Copywriting addition", Note = "No cost", Checked = false},
                 new CheckboxListItem {Id = 3, Name = "Content & social strategy addition", Checked = false},
                 new CheckboxListItem {Id = 4, Name = "Hosting addition", Checked = false},
                 new CheckboxListItem {Id = 5, Name = "Pricing schedule", Checked = false},

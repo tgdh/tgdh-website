@@ -14,6 +14,8 @@ namespace TGDH.Core.Models
 
         public string Subtitle { get; set; }
 
+        public string Note { get; set; }
+
         public bool Checked { get; set; }
     }
 }
