@@ -10922,6 +10922,62 @@ var CharLimit = function () {
 	return CharLimit;
 }();
 
+// inspired by https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
+
+var Upload = function () {
+	function Upload(el) {
+		classCallCheck(this, Upload);
+
+		if (!el) {
+			return;
+		}
+		this.el = el;
+		this.input = this.el.querySelector('input');
+		this.label = this.el.querySelector('label');
+		this.labelText = this.label.querySelector('.js-upload-text');
+		this.labelVal = this.label.innerHTML;
+
+		this.bindEvents();
+	}
+
+	createClass(Upload, [{
+		key: 'updateLabel',
+		value: function updateLabel(e) {
+			var fileName = '';
+
+			if (this.input.files && this.input.files.length > 1) {
+				fileName = (this.input.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);
+			} else {
+				fileName = this.input.value.split('\\').pop();
+			}
+
+			if (fileName) {
+				this.label.querySelector('.js-upload-text').innerHTML = fileName;
+			} else {
+				this.label.innerHTML = this.labelVal;
+			}
+		}
+	}, {
+		key: 'bindEvents',
+		value: function bindEvents() {
+			var _this = this;
+
+			this.input.addEventListener('change', function () {
+				return _this.updateLabel();
+			});
+
+			// Firefox bug fix
+			this.input.addEventListener('focus', function () {
+				_this.input.classList.add('has-focus');
+			});
+			this.input.addEventListener('blur', function () {
+				_this.input.classList.remove('has-focus');
+			});
+		}
+	}]);
+	return Upload;
+}();
+
 (function () {
 	var enhance = 'querySelector' in document && 'localStorage' in window && 'addEventListener' in window && 'classList' in document.documentElement;
 
@@ -10942,6 +10998,10 @@ var CharLimit = function () {
 		var charLimitEls = $$('.js-char-limit');
 		Array.from(charLimitEls).forEach(function (item) {
 			var charLimitEl = new CharLimit(item);
+		});
+
+		Array.from($$('.js-upload')).forEach(function (item) {
+			var fileUpload = new Upload(item);
 		});
 	}
 	svg4everybody();

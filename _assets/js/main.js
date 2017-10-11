@@ -12,6 +12,7 @@ import tilt from './modules/Tilt';
 import GMap from './modules/GMaps';
 import StickyHeader from './modules/StickyHeader';
 import CharAllowance from './modules/CharAllowance';
+import Upload from './modules/Upload';
 
 (() => {
 	const enhance = 'querySelector' in document
@@ -36,6 +37,10 @@ import CharAllowance from './modules/CharAllowance';
 		const charLimitEls = $$('.js-char-limit');
 		Array.from(charLimitEls).forEach((item) => {
 			const charLimitEl = new CharAllowance(item);
+		});
+
+		Array.from($$('.js-upload')).forEach((item) => {
+			const fileUpload = new Upload(item);
 		});
 	}
 	svg4everybody();

@@ -21,7 +21,7 @@
 					</div>
 				</header>
 				<div class="u-space-top u-epsilon c-proposal__copy">
-					<p>We're having a few issues at the moment, why not call us on <a href="tel:02392334971">023 9233 4971</a>.</p>
+					<p>We&#39;re having a few issues at the moment, why not call us on <a href="tel:02392334971">023 9233 4971</a>.</p>
 				</div>
 			</div>
 		}
@@ -224,6 +224,7 @@
 						id = briefChoiceId2,
 						@class = "o-form__radio"
 					})
+
 					<label for="@briefChoiceId2" class="o-form__label o-form__label--alt">
 						<span class="o-form__radio-button"></span>
 						<span class="o-form__radio-label-text">Create your own brief</span>
@@ -232,7 +233,7 @@
 			</ul>
 		</fieldset>
 
-		@* upload *@
+		@* upload *
 		<div class="">
 			@Html.TextBoxFor(x => x.Attachment, new {
 				data_storage="false",
@@ -253,6 +254,33 @@
 				<p>*Max 2MB size</p>
 			</div>
 		</div>
+@**@
+
+@{
+	var fileUploadId = "file-upload";
+}
+<div class="c-upload js-upload">
+	<div class="c-upload__inner">
+		@Html.TextBoxFor(x => x.Attachment, new {
+			data_storage="false",
+			type = "file",
+			tabindex="0",
+			@required = "",
+			@class = "c-upload__input",
+			@name = "brief-file",
+			@id = fileUploadId,
+			@accepts = "application/pdf, application/msword"
+		})
+		<label class="c-upload__label" for="@fileUploadId">
+			<svg class="c-upload__icon u-icon u-icon--24">
+				<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#arrow-up"></use>
+			</svg>
+			<span class="c-upload__text js-upload-text">Choose a file&hellip;</span>
+		</label>
+	</div>
+	<div class="c-upload__note">*Max 2MB size</div>
+	@Html.ValidationMessageFor(x => x.Attachment)
+</div>
 
 	</section>
 	@* End  brief *@

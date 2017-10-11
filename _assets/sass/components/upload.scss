@@ -1,0 +1,118 @@
+/* ===========================================================
+	# Upload
+=========================================================== */
+
+.enhance {
+
+	.c-upload__input {
+		width: 0.1px;
+		height: 0.1px;
+		opacity: 0;
+		overflow: hidden;
+		position: absolute;
+		z-index: -1;
+	}
+
+}
+
+.no-enhance {
+
+	.c-upload__input {
+		padding: 2rem;
+	}
+
+	.c-upload__input + .c-upload__label {
+		display: none;
+	}
+}
+
+.c-upload__input {
+
+	&:focus + .c-upload__label,
+	&.has-focus + .c-upload__label {
+		outline: 0.2rem solid $pri;
+		outline: -webkit-focus-ring-color auto 5px;
+	}
+
+}
+
+.c-upload__label {
+	padding: 6rem 4rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: pointer;
+	overflow: hidden;
+	margin: 0;
+
+	&:after {
+		content: "";
+		display: block;
+		position: absolute;
+		top: 2.5rem;
+		right: 2.5rem;
+		bottom: 2.5rem;
+		left: 2.5rem;
+		border: .2rem dashed rgba($pri, 0.3);
+		transition: border $speed $ease;
+	}
+
+	&:hover {
+
+		&:after {
+			border-color: $pri;
+		}
+
+	}
+}
+
+//
+
+.c-upload {
+
+	&.is-invalid {
+
+		.c-upload__label:after {
+			border-color: $error !important;
+		}
+
+	}
+
+
+	&.is-valid {
+
+		.c-upload__label:after {
+			border-color: $success !important;
+		}
+
+	}
+
+}
+
+.c-upload__inner {
+	position: relative;
+	border: 1px solid $pri;
+	text-align: center;
+	cursor: pointer;
+}
+
+.c-upload__icon,
+.c-upload__text {
+	opacity: 0.65;
+}
+
+.c-upload__icon {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.c-upload__text {
+	font-size: 1.4rem;
+}
+
+.c-upload__note {
+	opacity: 0.65;
+	font-size: 1.4rem;
+	font-weight: $bold;
+	margin-top: $line-height / 4;
+}
