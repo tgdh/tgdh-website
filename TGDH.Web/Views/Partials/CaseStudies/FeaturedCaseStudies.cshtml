@@ -7,7 +7,7 @@
     if (selection == null)
     {
 		var allCaseStudies = CaseStudyRepository.AllCaseStudies(Umbraco).ToList();
-		selection = allCaseStudies.RandomOrder().Take(2).ToList();
+		selection = allCaseStudies.Where(x => x.IsVisible()).RandomOrder().Take(2).ToList();
 
 		if( !selection.Any() ) {
 			return;
