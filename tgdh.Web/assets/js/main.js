@@ -11220,7 +11220,13 @@ var ActiveTab = function () {
 			var tab = this.tabList.querySelector('[tabindex="0"]');
 			var tabWidth = tab.clientWidth;
 			this.offset = tab.offsetLeft;
-			this.activeBar.style.width = this.offset + tabWidth + 'px';
+
+			this.setActiveBarWidth(this.offset + tabWidth);
+		}
+	}, {
+		key: 'setActiveBarWidth',
+		value: function setActiveBarWidth(activeWidth) {
+			this.activeBar.style.width = activeWidth + 'px';
 		}
 	}, {
 		key: 'bindEvents',
@@ -11235,7 +11241,8 @@ var ActiveTab = function () {
 			Array.from(this.tabs).forEach(function (tab) {
 				observer.observe(tab, {
 					attributes: true,
-					attributeFilter: ['tabindex']
+					attributeFilter: ['tabindex'],
+					subtree: false
 				});
 			});
 		}

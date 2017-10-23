@@ -254,13 +254,13 @@ gulp.task( 'ie', function() {
 
 // Optimize images
 gulp.task('images', function() {
-    return gulp.src( paths.assetsFolder + '/img/**/*')
-        .pipe( $.cache( $.imagemin({
-            progressive: true,
-            interlaced: true
-        })))
+	return gulp.src( paths.assetsFolder + '/img/**/*')
+        .pipe( $.cache( $.imagemin([
+			$.imagemin.gifsicle({interlaced: true}),
+			$.imagemin.jpegtran({progressive: true}),
+		])))
         .pipe( gulp.dest( paths.assetsBuildFolder + '/img') )
-        .pipe( $.size({title: 'images'}) );
+        .pipe( $.size({title: 'images'}) )
 //        .pipe( $.notify({ message: 'images task complete' }) );
 });
 
