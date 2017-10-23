@@ -26,7 +26,12 @@ class ActiveTab {
 		const tab = this.tabList.querySelector('[tabindex="0"]');
 		const tabWidth = tab.clientWidth;
 		this.offset = tab.offsetLeft;
-		this.activeBar.style.width = `${this.offset + tabWidth}px`;
+
+		this.setActiveBarWidth(this.offset + tabWidth);
+	}
+
+	setActiveBarWidth(activeWidth) {
+		this.activeBar.style.width = `${activeWidth}px`;
 	}
 
 	bindEvents() {
@@ -38,7 +43,8 @@ class ActiveTab {
 		Array.from(this.tabs).forEach((tab) => {
 			observer.observe(tab, {
 				attributes: true,
-				attributeFilter: ['tabindex']
+				attributeFilter: ['tabindex'],
+				subtree: false
 			});
 		});
 	}
