@@ -14,6 +14,7 @@ import StickyHeader from './modules/StickyHeader';
 import CharAllowance from './modules/CharAllowance';
 import Upload from './modules/Upload';
 import initTabs from './modules/Tabs';
+import Brief from './modules/Brief';
 
 (() => {
 	const enhance = 'querySelector' in document
@@ -56,3 +57,6 @@ import initTabs from './modules/Tabs';
 		headroom.init();
 	}
 })();
+		if (window.matchMedia('(min-width: 1000px)').matches) {
+			const brief = new Brief($('.js-brief'));
+		}

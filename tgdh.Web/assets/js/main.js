@@ -11263,6 +11263,61 @@ var initTabs = function initTabs() {
 	});
 };
 
+var Brief = function () {
+	function Brief(el) {
+		classCallCheck(this, Brief);
+
+		if (!el) {
+			return;
+		}
+		this.el = el;
+		this.sections = Array.from(el.querySelectorAll('.js-brief-section'));
+		this.activeSection = null;
+
+		this.init();
+	}
+
+	createClass(Brief, [{
+		key: 'setFormHeight',
+		value: function setFormHeight(height) {
+			this.el.style.height = height + 'px';
+		}
+	}, {
+		key: 'setActiveSection',
+		value: function setActiveSection(section) {
+			this.activeSection = section;
+			this.sections.forEach(function (item) {
+				if (item === section) {
+					item.classList.add('c-brief__section--is-active');
+				} else {
+					item.classList.remove('c-brief__section--is-active');
+				}
+			});
+
+			this.setFormHeight(section.offsetHeight);
+		}
+	}, {
+		key: 'init',
+		value: function init() {
+			console.log('brief-ready');
+			this.el.classList.add('c-brief--is-ready');
+
+			if (this.sections.length === 0) return;
+			this.setActiveSection(this.sections[0]);
+		}
+	}, {
+		key: 'bindEvents',
+		value: function bindEvents() {
+			var _this = this;
+
+			this.input.addEventListener('keyup', function () {
+				return _this.updateUI();
+			});
+		}
+	}]);
+	return Brief;
+}();
+
 (function () {
 	var enhance = 'querySelector' in document && 'localStorage' in window && 'addEventListener' in window && 'classList' in document.documentElement;
 
@@ -11301,4 +11356,7 @@ var initTabs = function initTabs() {
 		headroom$$1.init();
 	}
 })();
+if (window.matchMedia('(min-width: 1000px)').matches) {
+	var brief = new Brief($('.js-brief'));
+}
 //# sourceMappingURL=main.js.map
