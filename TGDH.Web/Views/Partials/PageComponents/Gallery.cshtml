@@ -74,7 +74,7 @@
 {
     var aspectRatio = string.IsNullOrEmpty(ratio) ? "4:3" : ratio;
     var imageUrl = image.Url + "?width=1200&upscale=false";
-    var imageCropUrl = Url.GetCropUrl(image, cropAlias: aspectRatio, width: imageWidth, quality: 85, htmlEncode: false).ToString();
+    var imageCropUrl = Url.GetCropUrl(image, cropAlias: aspectRatio, width: imageWidth, htmlEncode: false).ToString();
 
     var caption = image.GetPropertyValue<string>("caption");
     var altText = image.GetPropertyValue<string>("altText");

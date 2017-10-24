@@ -66,6 +66,10 @@
     width: 1px;
 }
 
+@mixin visually-hidden {
+	@include hide-text;
+}
+
 //
 //  Function to create an optimized svg url
 // https://codepen.io/tigt/post/optimizing-svgs-in-data-uris

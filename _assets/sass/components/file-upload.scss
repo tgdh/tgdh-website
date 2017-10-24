@@ -1,0 +1,99 @@
+.c-proposal__input-wrapper.c-proposal__file-wrapper{
+  height: 300px;
+  padding-bottom: 0;
+  cursor: pointer;
+}
+.c-proposal__input-upload{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 3;
+  &.error{
+    ~ .c-proposal__file-upload-text{
+      border-color: $red;
+    }
+    ~ .c-proposal__file-upload-text{
+      *{
+        color: $red;
+      }
+      svg{
+        fill: $red;
+      }
+    }
+  }
+}
+.c-proposal__file-upload-text{
+  width: calc(100% - 5rem);
+  height: 250px;
+  text-align: center;
+  border: 1px dashed black;
+  margin: 2.5rem;
+  opacity: 0;
+  height: 0;
+  cursor: pointer;
+  transition: $ease $speed opacity,
+              $ease $speed height;
+  svg{
+    display: block;
+    margin: 0 auto;
+    opacity: .5;
+    margin-bottom: 1rem;
+  }
+  span{
+    font-weight: 600;
+    font-size: 1.9rem;
+    opacity: .3;
+  }
+}
+.flexbox{
+  .c-proposal__file-upload-text{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+  }
+}
+.c-proposal__input-wrapper.c-proposal__error-file-upload{
+  label.error{
+    bottom: -5rem;
+  }
+}
+.c-proposal__input-wrapper.c-proposal__file-wrapper.js-brief-upload-input{
+  height: 0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  visibility: hidden;
+  transition: $ease $speed height,
+              $ease $speed opacity,
+              $ease $speed border-color,
+              $ease $speed visibility;
+  &.js--showing{
+    height: 300px;
+    border-color: black;
+    visibility: visible;
+    .c-proposal__file-upload-text{
+      opacity: 1;
+      height: calc(100% - 5rem);
+    }
+  }
+}
+.c-proposal__max-file-size{
+  margin-top: 1.5rem;
+  font-size: 1.4rem;
+  opacity: 0;
+  transition: $ease $speed opacity;
+  float: right;
+  &.is--showing{
+    opacity: .7;
+  }
+}
+.no-flexbox{
+  .c-proposal__file-upload-text svg{
+    margin-top: 7.5rem;
+  }
+}

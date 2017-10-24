@@ -43,6 +43,18 @@ $line-height-half: $line-height / 2;
 
 .o-form__field {
 	position: relative;
+
+	& + & {
+		margin-top: $line-height * 2;
+	}
+}
+
+.s-webPPC {
+
+	.o-form__field + .o-form__field {
+		margin-top: 0;
+	}
+
 }
 
 
@@ -72,6 +84,8 @@ $line-height-half: $line-height / 2;
 
 		.o-form__field {
 			@include column( 1/2 );
+			margin-top: 0;
+
 		}
 
 	}
@@ -83,22 +97,28 @@ $line-height-half: $line-height / 2;
 
 .o-form__label {
 	display: block;
-	margin-bottom: .35em;
+	font-weight: $bold;
+	margin-bottom: $line-height / 2;
 
 	&[for] {
 		cursor: pointer;
 	}
 }
 
+.o-form__label--alt {
+	font-weight: 500;
+}
+
 .enhance {
 
 	.o-form__field--compact {
+		margin-top: $line-height;
 
 		.o-form__label {
-			opacity: .65;
+			opacity: 0.5;
 			font-size: 1.6rem;
 			position: absolute;
-			top: 0;
+			top: -0.3rem;
 			padding: 0;
 			transform: translate( 1rem, 50% );
 			transition: color $speed $ease,
@@ -184,79 +204,131 @@ $line-height-half: $line-height / 2;
 
 //= FIELDSET =================================================
 
-.enhance {
+.o-fieldset__legend {
+	font-weight: $bold;
+	margin-bottom: $line-height;
+}
 
-	.o-checkbox,
-	.o-radio {
-		font-weight: normal;
-		padding: $line-height-half $line-height-half $line-height-half 3rem;
-		position: relative;
+.o-fieldset__list {
+	list-style: none;
+}
 
-		.o-checkbox__label:before,
-		.o-radio__label:before {
-			content: "";
-			width: 2rem;
-			height: 2rem;
-			background: transparent;
-			border: $border-width solid $border-colour;
-			box-sizing: border-box;
-			content: '';
-			position: absolute;
-			top: $line-height-half;
-			left: 0;
-			transition: background-color $speed $ease,
-						border-color $speed $ease;
-		}
+.o-fieldset__list--max {
+	max-width: 30rem;
+}
 
-		.o-checkbox__input,
-		.o-radio__input {
-			display: none;
+.o-fieldset__item {
+	margin: 0 0 1rem;
+}
 
-			&:checked {
+.o-fieldset__list--half {
 
-				+ .o-checkbox__label:before,
-				+ .o-radio__label:before {
-					background-color: $pri;
-					border-color: darken( $pri, 10 );
-				}
+	.o-fieldset__item {
 
-			}
-
-		}
-
-		.o-checkbox__label:before {
-			border-radius: $border-radius;
-		}
-
-		.o-radio__label:before {
-			border-radius: 50%;
+		@include respond-min ($mq-medium) {
+			@include column(1/2, $gutter: 3, $cycle: 2);
 		}
 
 	}
+}
 
+/* ===========================================================
+	Checkbox & Radio
+    1.
+=========================================================== */
 
-	.o-label--checkbox {
-		&:after {
-			border-radius: $border-radius;
-		}
+.o-form__checkbox,
+.o-form__radio {
+	float: left;
+	width: auto;
+
+	.enhance & {
+		@include visually-hidden;
+	}
+}
+
+.o-form__checkbox-button,
+.o-form__radio-button {
+	width: 2.2rem;
+	height: 2.2rem;
+	border: .2rem solid $pri;
+	display: inline-block;
+	margin-right: 1rem;
+	position: relative;
+	vertical-align: middle;
+	transition: background-color $speed $ease;
+
+	.no-enhance & {
+		display: none;
+	}
+}
+
+.o-form__checkbox-icon {
+	width: 14px;
+	height: 12px;
+	color: $white;
+	display: block;
+	opacity: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -1px;
+	transform: translate(-50%, -50%) rotate(45deg);
+	transition: opacity $speed $ease;
+	line-height: 1;
+
+	&::before {
+		content: "";
+		width: 50%;
+		height: 100%;
+		display: block;
+		margin: auto;
+		border-right: 3px solid $white;
+		border-bottom: 3px solid $white;
+		box-sizing: border-box;
 	}
 
-	.o-label--radio {
-		&:after {
-			border-radius: 100%;
-		}
+}
+
+.o-form__checkbox:checked + .o-form__label {
+
+	.o-form__checkbox-button {
+		background-color: $pri;
 	}
 
-	.is-disabled {
+	.o-form__checkbox-icon {
+		opacity: 1;
+	}
 
-		.o-checkbox__label,
-		.o-radio__label {
+}
 
-			&:before {
-				background-color: $disabled;
-			}
+.o-form__radio-button {
+	border-radius: 100%;
 
-		}
+	&::before {
+		content: '';
+		width: 8px;
+		height: 8px;
+		background-color: $white;
+		border-radius: 100%;
+		display: block;
+		opacity: 0;
+		transition: opacity $speed $ease;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+}
+
+.o-form__radio:checked + .o-form__label {
+
+	.o-form__radio-button {
+		background-color: $pri;
+	}
+
+	.o-form__radio-button:before {
+		opacity: 1;
 	}
 
 }

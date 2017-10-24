@@ -511,6 +511,107 @@ var svg4everybody = createCommonjsModule(function (module) {
     });
 });
 
+var smoothScroll_min = createCommonjsModule(function (module, exports) {
+  /*! smooth-scroll v12.1.5 | (c) 2017 Chris Ferdinandi | MIT License | http://github.com/cferdinandi/smooth-scroll */
+  !function (e, t) {
+    "function" == typeof undefined && undefined.amd ? undefined([], function () {
+      return t(e);
+    }) : module.exports = t(e);
+  }("undefined" != typeof commonjsGlobal ? commonjsGlobal : "undefined" != typeof window ? window : commonjsGlobal, function (e) {
+    "use strict";
+    var t = "querySelector" in document && "addEventListener" in e && "requestAnimationFrame" in e && "closest" in e.Element.prototype,
+        n = { ignore: "[data-scroll-ignore]", header: null, speed: 500, offset: 0, easing: "easeInOutCubic", customEasing: null, before: function before() {}, after: function after() {} },
+        o = function o() {
+      for (var e = {}, t = 0, n = arguments.length; t < n; t++) {
+        var o = arguments[t];!function (t) {
+          for (var n in t) {
+            t.hasOwnProperty(n) && (e[n] = t[n]);
+          }
+        }(o);
+      }return e;
+    },
+        a = function a(t) {
+      return parseInt(e.getComputedStyle(t).height, 10);
+    },
+        r = function r(e) {
+      "#" === e.charAt(0) && (e = e.substr(1));for (var t, n = String(e), o = n.length, a = -1, r = "", i = n.charCodeAt(0); ++a < o;) {
+        if (0 === (t = n.charCodeAt(a))) throw new InvalidCharacterError("Invalid character: the input contains U+0000.");t >= 1 && t <= 31 || 127 == t || 0 === a && t >= 48 && t <= 57 || 1 === a && t >= 48 && t <= 57 && 45 === i ? r += "\\" + t.toString(16) + " " : r += t >= 128 || 45 === t || 95 === t || t >= 48 && t <= 57 || t >= 65 && t <= 90 || t >= 97 && t <= 122 ? n.charAt(a) : "\\" + n.charAt(a);
+      }return "#" + r;
+    },
+        i = function i(e, t) {
+      var n;return "easeInQuad" === e.easing && (n = t * t), "easeOutQuad" === e.easing && (n = t * (2 - t)), "easeInOutQuad" === e.easing && (n = t < .5 ? 2 * t * t : (4 - 2 * t) * t - 1), "easeInCubic" === e.easing && (n = t * t * t), "easeOutCubic" === e.easing && (n = --t * t * t + 1), "easeInOutCubic" === e.easing && (n = t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1), "easeInQuart" === e.easing && (n = t * t * t * t), "easeOutQuart" === e.easing && (n = 1 - --t * t * t * t), "easeInOutQuart" === e.easing && (n = t < .5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t), "easeInQuint" === e.easing && (n = t * t * t * t * t), "easeOutQuint" === e.easing && (n = 1 + --t * t * t * t * t), "easeInOutQuint" === e.easing && (n = t < .5 ? 16 * t * t * t * t * t : 1 + 16 * --t * t * t * t * t), e.customEasing && (n = e.customEasing(t)), n || t;
+    },
+        u = function u() {
+      return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.body.offsetHeight, document.documentElement.offsetHeight, document.body.clientHeight, document.documentElement.clientHeight);
+    },
+        c = function c(e, t, n) {
+      var o = 0;if (e.offsetParent) do {
+        o += e.offsetTop, e = e.offsetParent;
+      } while (e);return o = Math.max(o - t - n, 0);
+    },
+        s = function s(e) {
+      return e ? a(e) + e.offsetTop : 0;
+    },
+        l = function l(t, n, o) {
+      o || (t.focus(), document.activeElement.id !== t.id && (t.setAttribute("tabindex", "-1"), t.focus(), t.style.outline = "none"), e.scrollTo(0, n));
+    },
+        f = function f(t) {
+      return !!("matchMedia" in e && e.matchMedia("(prefers-reduced-motion)").matches);
+    };return function (a, d) {
+      var m,
+          h,
+          g,
+          p,
+          v,
+          b,
+          y,
+          S = {};S.cancelScroll = function () {
+        cancelAnimationFrame(y);
+      }, S.animateScroll = function (t, a, r) {
+        var f = o(m || n, r || {}),
+            d = "[object Number]" === Object.prototype.toString.call(t),
+            h = d || !t.tagName ? null : t;if (d || h) {
+          var g = e.pageYOffset;f.header && !p && (p = document.querySelector(f.header)), v || (v = s(p));var b,
+              y,
+              E,
+              I = d ? t : c(h, v, parseInt("function" == typeof f.offset ? f.offset() : f.offset, 10)),
+              O = I - g,
+              A = u(),
+              C = 0,
+              w = function w(n, o) {
+            var r = e.pageYOffset;if (n == o || r == o || (g < o && e.innerHeight + r) >= A) return S.cancelScroll(), l(t, o, d), f.after(t, a), b = null, !0;
+          },
+              Q = function Q(t) {
+            b || (b = t), C += t - b, y = C / parseInt(f.speed, 10), y = y > 1 ? 1 : y, E = g + O * i(f, y), e.scrollTo(0, Math.floor(E)), w(E, I) || (e.requestAnimationFrame(Q), b = t);
+          };0 === e.pageYOffset && e.scrollTo(0, 0), f.before(t, a), S.cancelScroll(), e.requestAnimationFrame(Q);
+        }
+      };var E = function E(e) {
+        h && (h.id = h.getAttribute("data-scroll-id"), S.animateScroll(h, g), h = null, g = null);
+      },
+          I = function I(t) {
+        if (!f() && 0 === t.button && !t.metaKey && !t.ctrlKey && (g = t.target.closest(a)) && "a" === g.tagName.toLowerCase() && !t.target.closest(m.ignore) && g.hostname === e.location.hostname && g.pathname === e.location.pathname && /#/.test(g.href)) {
+          var n;try {
+            n = r(decodeURIComponent(g.hash));
+          } catch (e) {
+            n = r(g.hash);
+          }if ("#" === n) {
+            t.preventDefault(), h = document.body;var o = h.id ? h.id : "smooth-scroll-top";return h.setAttribute("data-scroll-id", o), h.id = "", void (e.location.hash.substring(1) === o ? E() : e.location.hash = o);
+          }h = document.querySelector(n), h && (h.setAttribute("data-scroll-id", h.id), h.id = "", g.hash === e.location.hash && (t.preventDefault(), E()));
+        }
+      },
+          O = function O(e) {
+        b || (b = setTimeout(function () {
+          b = null, v = s(p);
+        }, 66));
+      };return S.destroy = function () {
+        m && (document.removeEventListener("click", I, !1), e.removeEventListener("resize", O, !1), S.cancelScroll(), m = null, h = null, g = null, p = null, v = null, b = null, y = null);
+      }, S.init = function (a) {
+        t && (S.destroy(), m = o(n, a || {}), p = m.header ? document.querySelector(m.header) : null, v = s(p), document.addEventListener("click", I, !1), e.addEventListener("hashchange", E, !1), p && e.addEventListener("resize", O, !1));
+      }, S.init(d), S;
+    };
+  });
+});
+
 var fontfaceobserver_standalone = createCommonjsModule(function (module) {
   /* Font Face Observer v2.0.13 - © Bram Stein. License: BSD-3-Clause */(function () {
     function l(a, b) {
@@ -10238,188 +10339,6 @@ var GMap = function () {
 	return GMap;
 }();
 
-/* eslint-disable */
-// Robert Penner's easeInOutQuad
-
-// find the rest of his easing functions here: http://robertpenner.com/easing/
-// find them exported for ES6 consumption here: https://github.com/jaxgeller/ez.js
-
-var easeInOutQuad = function easeInOutQuad(t, b, c, d) {
-  t /= d / 2;
-  if (t < 1) return c / 2 * t * t + b;
-  t--;
-  return -c / 2 * (t * (t - 2) - 1) + b;
-};
-
-
-/* eslint-enable */
-
-/* eslint-disable */
-var jumper = function jumper() {
-  // private variable cache
-  // no variables are created during a jump, preventing memory leaks
-
-  var element = void 0; // element to scroll to                   (node)
-
-  var start = void 0; // where scroll starts                    (px)
-  var stop = void 0; // where scroll stops                     (px)
-
-  var offset = void 0; // adjustment from the stop position      (px)
-  var easing = void 0; // easing function                        (function)
-  var a11y = void 0; // accessibility support flag             (boolean)
-
-  var distance = void 0; // distance of scroll                     (px)
-  var duration = void 0; // scroll duration                        (ms)
-
-  var timeStart = void 0; // time scroll started                    (ms)
-  var timeElapsed = void 0; // time spent scrolling thus far          (ms)
-
-  var next = void 0; // next scroll position                   (px)
-
-  var callback = void 0; // to call when done scrolling            (function)
-
-  // scroll position helper
-
-  function location() {
-    return window.scrollY || window.pageYOffset;
-  }
-
-  // element offset helper
-
-  function top(element) {
-    return element.getBoundingClientRect().top + start;
-  }
-
-  // rAF loop helper
-
-  function loop(timeCurrent) {
-    // store time scroll started, if not started already
-    if (!timeStart) {
-      timeStart = timeCurrent;
-    }
-
-    // determine time spent scrolling so far
-    timeElapsed = timeCurrent - timeStart;
-
-    // calculate next scroll position
-    next = easing(timeElapsed, start, distance, duration);
-
-    // scroll to it
-    window.scrollTo(0, next);
-
-    // check progress
-    timeElapsed < duration ? window.requestAnimationFrame(loop) // continue scroll loop
-    : done(); // scrolling is done
-  }
-
-  // scroll finished helper
-
-  function done() {
-    // account for rAF time rounding inaccuracies
-    window.scrollTo(0, start + distance);
-
-    // if scrolling to an element, and accessibility is enabled
-    if (element && a11y) {
-      // add tabindex indicating programmatic focus
-      element.setAttribute('tabindex', '-1');
-
-      // focus the element
-      element.focus();
-    }
-
-    // if it exists, fire the callback
-    if (typeof callback === 'function') {
-      callback();
-    }
-
-    // reset time for next jump
-    timeStart = false;
-  }
-
-  // API
-
-  function jump(target) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    // resolve options, or use defaults
-    duration = options.duration || 1000;
-    offset = options.offset || 0;
-    callback = options.callback; // "undefined" is a suitable default, and won't be called
-    easing = options.easing || easeInOutQuad;
-    a11y = options.a11y || false;
-
-    // cache starting position
-    start = location();
-
-    // resolve target
-    switch (typeof target === 'undefined' ? 'undefined' : _typeof(target)) {
-      // scroll from current position
-      case 'number':
-        element = undefined; // no element to scroll to
-        a11y = false; // make sure accessibility is off
-        stop = start + target;
-        break;
-
-      // scroll to element (node)
-      // bounding rect is relative to the viewport
-      case 'object':
-        element = target;
-        stop = top(element);
-        break;
-
-      // scroll to element (selector)
-      // bounding rect is relative to the viewport
-      case 'string':
-        element = document.querySelector(target);
-        stop = top(element);
-        break;
-    }
-
-    // resolve scroll distance, accounting for offset
-    distance = stop - start + offset;
-
-    // resolve duration
-    switch (_typeof(options.duration)) {
-      // number in ms
-      case 'number':
-        duration = options.duration;
-        break;
-
-      // function passed the distance of the scroll
-      case 'function':
-        duration = options.duration(distance);
-        break;
-    }
-
-    // start the loop
-    window.requestAnimationFrame(loop);
-  }
-
-  // expose only the jump method
-  return jump;
-};
-
-// export singleton
-
-var singleton = jumper();
-
-/* eslint-enable */
-
-var hashAnchors = $$('a[href^="#"]:not(.js-no-scroll)');
-
-var initSmoothScroll = function initSmoothScroll() {
-	Array.from(hashAnchors).forEach(function (item) {
-		item.on('click', function (e) {
-			var target = $(item.hash);
-			singleton(target, {
-				duration: 500,
-				a11y: false
-			});
-			e.preventDefault();
-		});
-	});
-};
-
 // modified version of https://github.com/tuxsudo/es6y-throttle/blob/master/index.js
 
 var throttle = function throttle(fn) {
@@ -10490,8 +10409,8 @@ var StickyHeader = function () {
 
 var tweenmax = createCommonjsModule(function (module) {
 	/*!
-  * VERSION: 1.20.2
-  * DATE: 2017-06-30
+  * VERSION: 1.20.3
+  * DATE: 2017-10-02
   * UPDATES AND DOCS AT: http://greensock.com
   * 
   * Includes all of the following: TweenLite, TweenMax, TimelineLite, TimelineMax, EasePack, CSSPlugin, RoundPropsPlugin, BezierPlugin, AttrPlugin, DirectionalRotationPlugin
@@ -10533,7 +10452,9 @@ var tweenmax = createCommonjsModule(function (module) {
 				this._yoyo = this.vars.yoyo === true || !!this.vars.yoyoEase;
 				this._repeat = this.vars.repeat || 0;
 				this._repeatDelay = this.vars.repeatDelay || 0;
-				this._dirty = true; //ensures that if there is any repeat, the totalDuration will get recalculated to accurately report it.
+				if (this._repeat) {
+					this._uncache(true); //ensures that if there is any repeat, the totalDuration will get recalculated to accurately report it.
+				}
 				this.render = TweenMax.prototype.render; //speed optimization (avoid prototype lookup on this "hot" method)
 			},
 			    _tinyNum = 0.0000000001,
@@ -10543,7 +10464,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			    p = TweenMax.prototype = TweenLite.to({}, 0.1, {}),
 			    _blankArray = [];
 
-			TweenMax.version = "1.20.2";
+			TweenMax.version = "1.20.3";
 			p.constructor = TweenMax;
 			p.kill()._gc = false;
 			TweenMax.killTweensOf = TweenMax.killDelayedCallsTo = TweenLite.killTweensOf;
@@ -10797,7 +10718,7 @@ var tweenmax = createCommonjsModule(function (module) {
 					}
 					if (this._startAt) {
 						if (time >= 0) {
-							this._startAt.render(time, suppressEvents, force);
+							this._startAt.render(time, true, force);
 						} else if (!callback) {
 							callback = "_dummyGS"; //if no callback is defined, use a dummy value just so that the condition at the end evaluates as true because _startAt should render AFTER the normal render loop when the time is negative. We could handle this in a more intuitive way, of course, but the render loop is the MOST important thing to optimize, so this technique allows us to avoid adding extra conditional logic in a high-frequency area.
 						}
@@ -10820,7 +10741,7 @@ var tweenmax = createCommonjsModule(function (module) {
 				if (this._onUpdate) {
 					if (time < 0) if (this._startAt && this._startTime) {
 						//if the tween is positioned at the VERY beginning (_startTime 0) of its parent timeline, it's illegal for the playhead to go back further, so we should not render the recorded startAt values.
-						this._startAt.render(time, suppressEvents, force); //note: for performance reasons, we tuck this conditional logic inside less traveled areas (most tweens don't have an onUpdate). We'd just have it at the end before the onComplete, but the values should be updated before any onUpdate is called, so we ALSO put it here and then if it's not called, we do so later near the onComplete.
+						this._startAt.render(time, true, force); //note: for performance reasons, we tuck this conditional logic inside less traveled areas (most tweens don't have an onUpdate). We'd just have it at the end before the onComplete, but the values should be updated before any onUpdate is called, so we ALSO put it here and then if it's not called, we do so later near the onComplete.
 					}
 					if (!suppressEvents) if (this._totalTime !== prevTotalTime || callback) {
 						this._callback("onUpdate");
@@ -10833,7 +10754,7 @@ var tweenmax = createCommonjsModule(function (module) {
 					//check gc because there's a chance that kill() could be called in an onUpdate
 					if (time < 0 && this._startAt && !this._onUpdate && this._startTime) {
 						//if the tween is positioned at the VERY beginning (_startTime 0) of its parent timeline, it's illegal for the playhead to go back further, so we should not render the recorded startAt values.
-						this._startAt.render(time, suppressEvents, force);
+						this._startAt.render(time, true, force);
 					}
 					if (isComplete) {
 						if (this._timeline.autoRemoveChildren) {
@@ -11220,7 +11141,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			},
 			    p = TimelineLite.prototype = new SimpleTimeline();
 
-			TimelineLite.version = "1.20.2";
+			TimelineLite.version = "1.20.3";
 			p.constructor = TimelineLite;
 			p.kill()._gc = p._forcingPlayhead = p._hasPause = false;
 
@@ -11329,6 +11250,8 @@ var tweenmax = createCommonjsModule(function (module) {
 				}
 				var tl = new TimelineLite(vars),
 				    root = tl._timeline,
+				    hasNegativeStart,
+				    time,
 				    tween,
 				    next;
 				if (ignoreDelayedCalls == null) {
@@ -11341,11 +11264,19 @@ var tweenmax = createCommonjsModule(function (module) {
 				while (tween) {
 					next = tween._next;
 					if (!ignoreDelayedCalls || !(tween instanceof TweenLite && tween.target === tween.vars.onComplete)) {
-						tl.add(tween, tween._startTime - tween._delay);
+						time = tween._startTime - tween._delay;
+						if (time < 0) {
+							hasNegativeStart = 1;
+						}
+						tl.add(tween, time);
 					}
 					tween = next;
 				}
 				root.add(tl, 0);
+				if (hasNegativeStart) {
+					//calling totalDuration() will force the adjustment necessary to shift the children forward so none of them start before zero, and moves the timeline backwards the same amount, so the playhead is still aligned where it should be globally, but the timeline doesn't have illegal children that start before zero.
+					tl.totalDuration();
+				}
 				return tl;
 			};
 
@@ -11486,7 +11417,7 @@ var tweenmax = createCommonjsModule(function (module) {
 						}
 					}
 				}
-				clippedDuration = this.duration() > 99999999999 ? this.recent().endTime(false) : this._duration; //in case there's a child that infinitely repeats, users almost never intend for the insertion point of a new child to be based on a SUPER long value like that so we clip it and assume the most recently-added child's endTime should be used instead.
+				clippedDuration = typeof timeOrLabel === "number" && !offsetOrLabel ? 0 : this.duration() > 99999999999 ? this.recent().endTime(false) : this._duration; //in case there's a child that infinitely repeats, users almost never intend for the insertion point of a new child to be based on a SUPER long value like that so we clip it and assume the most recently-added child's endTime should be used instead.
 				if (typeof offsetOrLabel === "string") {
 					return this._parseTimeOrLabel(offsetOrLabel, appendIfAbsent && typeof timeOrLabel === "number" && this._labels[offsetOrLabel] == null ? timeOrLabel - clippedDuration : 0, appendIfAbsent);
 				}
@@ -11528,8 +11459,8 @@ var tweenmax = createCommonjsModule(function (module) {
 				if (this._gc) {
 					this._enabled(true, false);
 				}
-				var totalDur = !this._dirty ? this._totalDuration : this.totalDuration(),
-				    prevTime = this._time,
+				var prevTime = this._time,
+				    totalDur = !this._dirty ? this._totalDuration : this.totalDuration(),
 				    prevStart = this._startTime,
 				    prevTimeScale = this._timeScale,
 				    prevPaused = this._paused,
@@ -11540,6 +11471,10 @@ var tweenmax = createCommonjsModule(function (module) {
 				    internalForce,
 				    pauseTween,
 				    curTime;
+				if (prevTime !== this._time) {
+					//if totalDuration() finds a child with a negative startTime and smoothChildTiming is true, things get shifted around internally so we need to adjust the time accordingly. For example, if a tween starts at -30 we must shift EVERYTHING forward 30 seconds and move this timeline's startTime backward by 30 seconds so that things align with the playhead (no jump).
+					time += this._time - prevTime;
+				}
 				if (time >= totalDur - 0.0000001 && time >= 0) {
 					//to work around occasional floating point math artifacts.
 					this._totalTime = this._time = totalDur;
@@ -11882,9 +11817,11 @@ var tweenmax = createCommonjsModule(function (module) {
 							if (tween._dirty) {
 								tween.totalDuration(); //could change the tween._startTime, so make sure the tween's cache is clean before analyzing it.
 							}
-							if (tween._startTime > prevStart && this._sortChildren && !tween._paused) {
+							if (tween._startTime > prevStart && this._sortChildren && !tween._paused && !this._calculatingDuration) {
 								//in case one of the tweens shifted out of order, it needs to be re-inserted into the correct position in the sequence
+								this._calculatingDuration = 1; //prevent endless recursive calls - there are methods that get triggered that check duration/totalDuration when we add(), like _parseTimeOrLabel().
 								this.add(tween, tween._startTime - tween._delay);
+								this._calculatingDuration = 0;
 							} else {
 								prevStart = tween._startTime;
 							}
@@ -11893,6 +11830,9 @@ var tweenmax = createCommonjsModule(function (module) {
 								max -= tween._startTime;
 								if (this._timeline.smoothChildTiming) {
 									this._startTime += tween._startTime / this._timeScale;
+									this._time -= tween._startTime;
+									this._totalTime -= tween._startTime;
+									this._rawPrevTime -= tween._startTime;
 								}
 								this.shiftChildren(-tween._startTime, false, -9999999999);
 								prevStart = 0;
@@ -11966,7 +11906,7 @@ var tweenmax = createCommonjsModule(function (module) {
 
 			p.constructor = TimelineMax;
 			p.kill()._gc = false;
-			TimelineMax.version = "1.20.2";
+			TimelineMax.version = "1.20.3";
 
 			p.invalidate = function () {
 				this._yoyo = this.vars.yoyo === true;
@@ -12042,9 +11982,9 @@ var tweenmax = createCommonjsModule(function (module) {
 				if (this._gc) {
 					this._enabled(true, false);
 				}
-				var totalDur = !this._dirty ? this._totalDuration : this.totalDuration(),
+				var prevTime = this._time,
+				    totalDur = !this._dirty ? this._totalDuration : this.totalDuration(),
 				    dur = this._duration,
-				    prevTime = this._time,
 				    prevTotalTime = this._totalTime,
 				    prevStart = this._startTime,
 				    prevTimeScale = this._timeScale,
@@ -12059,6 +11999,10 @@ var tweenmax = createCommonjsModule(function (module) {
 				    cycleDuration,
 				    pauseTween,
 				    curTime;
+				if (prevTime !== this._time) {
+					//if totalDuration() finds a child with a negative startTime and smoothChildTiming is true, things get shifted around internally so we need to adjust the time accordingly. For example, if a tween starts at -30 we must shift EVERYTHING forward 30 seconds and move this timeline's startTime backward by 30 seconds so that things align with the playhead (no jump).
+					time += this._time - prevTime;
+				}
 				if (time >= totalDur - 0.0000001 && time >= 0) {
 					//to work around occasional floating point math artifacts.
 					if (!this._locked) {
@@ -13165,7 +13109,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			    p = CSSPlugin.prototype = new TweenPlugin("css");
 
 			p.constructor = CSSPlugin;
-			CSSPlugin.version = "1.20.0";
+			CSSPlugin.version = "1.20.3";
 			CSSPlugin.API = 2;
 			CSSPlugin.defaultTransformPerspective = 0;
 			CSSPlugin.defaultSkewType = "compensated";
@@ -13691,7 +13635,7 @@ var tweenmax = createCommonjsModule(function (module) {
 							g = l <= 0.5 ? l * (s + 1) : l + s - l * s;
 							r = l * 2 - g;
 							if (a.length > 3) {
-								a[3] = Number(v[3]);
+								a[3] = Number(a[3]);
 							}
 							a[0] = _hue(h + 1 / 3, r, g);
 							a[1] = _hue(h, r, g);
@@ -14106,8 +14050,14 @@ var tweenmax = createCommonjsModule(function (module) {
 				    str,
 				    useHSL;
 				if (e.indexOf(",") !== -1 || b.indexOf(",") !== -1) {
-					ba = ba.join(" ").replace(_commasOutsideParenExp, ", ").split(" ");
-					ea = ea.join(" ").replace(_commasOutsideParenExp, ", ").split(" ");
+					if ((e + b).indexOf("rgb") !== -1 || (e + b).indexOf("hsl") !== -1) {
+						//keep rgb(), rgba(), hsl(), and hsla() values together! (remember, we're splitting on spaces)
+						ba = ba.join(" ").replace(_commasOutsideParenExp, ", ").split(" ");
+						ea = ea.join(" ").replace(_commasOutsideParenExp, ", ").split(" ");
+					} else {
+						ba = ba.join(" ").split(",").join(", ").split(" ");
+						ea = ea.join(" ").split(",").join(", ").split(" ");
+					}
 					l = ba.length;
 				}
 				if (l !== ea.length) {
@@ -14537,7 +14487,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			},
 			    _getBBoxHack = function _getBBoxHack(swapIfPossible) {
 				//works around issues in some browsers (like Firefox) that don't correctly report getBBox() on SVG elements inside a <defs> element and/or <mask>. We try creating an SVG, adding it to the documentElement and toss the element in there so that it's definitely part of the rendering tree, then grab the bbox and if it works, we actually swap out the original getBBox() method for our own that does these extra steps whenever getBBox is needed. This helps ensure that performance is optimal (only do all these extra steps when absolutely necessary...most elements don't need it).
-				var svg = _createElement("svg", this.ownerSVGElement.getAttribute("xmlns") || "http://www.w3.org/2000/svg"),
+				var svg = _createElement("svg", this.ownerSVGElement && this.ownerSVGElement.getAttribute("xmlns") || "http://www.w3.org/2000/svg"),
 				    oldParent = this.parentNode,
 				    oldSibling = this.nextSibling,
 				    oldCSS = this.style.cssText,
@@ -14572,7 +14522,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			},
 			    _isSVG = function _isSVG(e) {
 				//reports if the element is an SVG on which getBBox() actually works
-				return !!(_SVGElement && e.getCTM && _getBBox(e) && (!e.parentNode || e.ownerSVGElement));
+				return !!(_SVGElement && e.getCTM && (!e.parentNode || e.ownerSVGElement) && _getBBox(e));
 			},
 			    _identity2DMatrix = [1, 0, 0, 1, 0, 0],
 			    _getMatrix = function _getMatrix(e, force2D) {
@@ -14593,7 +14543,8 @@ var tweenmax = createCommonjsModule(function (module) {
 					s = s && s.length === 4 ? [s[0].substr(4), Number(s[2].substr(4)), Number(s[1].substr(4)), s[3].substr(4), tm.x || 0, tm.y || 0].join(",") : "";
 				}
 				isDefault = !s || s === "none" || s === "matrix(1, 0, 0, 1, 0, 0)";
-				if (_transformProp && ((none = _getComputedStyle(e).display === "none") || !e.parentNode)) {
+				if (_transformProp && ((none = !_getComputedStyle(e) || _getComputedStyle(e).display === "none") || !e.parentNode)) {
+					//note: Firefox returns null for getComputedStyle() if the element is in an iframe that has display:none. https://bugzilla.mozilla.org/show_bug.cgi?id=548397
 					if (none) {
 						//browsers don't report transforms accurately unless the element is in the DOM and has a display value that's not "none". Firefox and Microsoft browsers have a partial bug where they'll report transforms even if display:none BUT not any percentage-based values like translate(-50%, 8px) will be reported as if it's translate(0, 8px).
 						n = style.display;
@@ -16577,7 +16528,7 @@ var tweenmax = createCommonjsModule(function (module) {
 				if (p < this._p1) {
 					return this._calcEnd ? 1 - (p = 1 - p / this._p1) * p : r - (p = 1 - p / this._p1) * p * p * p * r;
 				} else if (p > this._p3) {
-					return this._calcEnd ? 1 - (p = (p - this._p3) / this._p1) * p : r + (p - r) * (p = (p - this._p3) / this._p1) * p * p * p;
+					return this._calcEnd ? p === 1 ? 0 : 1 - (p = (p - this._p3) / this._p1) * p : r + (p - r) * (p = (p - this._p3) / this._p1) * p * p * p; //added p === 1 ? 0 to avoid floating point rounding errors from affecting the final value, like 1 - 0.7 = 0.30000000000000004 instead of 0.3
 				}
 				return this._calcEnd ? 1 : r;
 			};
@@ -17165,6 +17116,10 @@ var tweenmax = createCommonjsModule(function (module) {
 			};
 
 			_self.lagSmoothing = function (threshold, adjustedLag) {
+				if (!arguments.length) {
+					//if lagSmoothing() is called with no arguments, treat it like a getter that returns a boolean indicating if it's enabled or not. This is purposely undocumented and is for internal use.
+					return _lagThreshold < 1 / _tinyNum;
+				}
 				_lagThreshold = threshold || 1 / _tinyNum; //zero should be interpreted as basically unlimited
 				_adjustedLag = Math.min(adjustedLag, _lagThreshold, 0);
 			};
@@ -17274,7 +17229,8 @@ var tweenmax = createCommonjsModule(function (module) {
 
 		//some browsers (like iOS) occasionally drop the requestAnimationFrame event when the user switches to a different tab and then comes back again, so we use a 2-second setTimeout() to sense if/when that condition occurs and then wake() the ticker.
 		var _checkTimeout = function _checkTimeout() {
-			if (_tickerActive && _getTime() - _lastUpdate > 2000 && _doc.visibilityState !== "hidden") {
+			if (_tickerActive && _getTime() - _lastUpdate > 2000 && (_doc.visibilityState !== "hidden" || !_ticker.lagSmoothing())) {
+				//note: if the tab is hidden, we should still wake if lagSmoothing has been disabled.
 				_ticker.wake();
 			}
 			var t = setTimeout(_checkTimeout, 2000);
@@ -17545,14 +17501,22 @@ var tweenmax = createCommonjsModule(function (module) {
 			if (!arguments.length) {
 				return this._timeScale;
 			}
+			var pauseTime, t;
 			value = value || _tinyNum; //can't allow zero because it'll throw the math off
 			if (this._timeline && this._timeline.smoothChildTiming) {
-				var pauseTime = this._pauseTime,
-				    t = pauseTime || pauseTime === 0 ? pauseTime : this._timeline.totalTime();
+				pauseTime = this._pauseTime;
+				t = pauseTime || pauseTime === 0 ? pauseTime : this._timeline.totalTime();
 				this._startTime = t - (t - this._startTime) * this._timeScale / value;
 			}
 			this._timeScale = value;
-			return this._uncache(false);
+			t = this.timeline;
+			while (t && t.timeline) {
+				//must update the duration/totalDuration of all ancestor timelines immediately in case in the middle of a render loop, one tween alters another tween's timeScale which shoves its startTime before 0, forcing the parent timeline to shift around and shiftChildren() which could affect that next tween's render (startTime). Doesn't matter for the root timeline though.
+				t._dirty = true;
+				t.totalDuration();
+				t = t.timeline;
+			}
+			return this;
 		};
 
 		p.reversed = function (value) {
@@ -17793,7 +17757,7 @@ var tweenmax = createCommonjsModule(function (module) {
 		p._firstPT = p._targets = p._overwrittenProps = p._startAt = null;
 		p._notifyPluginsOfEnabled = p._lazy = false;
 
-		TweenLite.version = "1.20.2";
+		TweenLite.version = "1.20.3";
 		TweenLite.defaultEase = p._ease = new Ease(null, null, 1, 1);
 		TweenLite.defaultOverwrite = "auto";
 		TweenLite.ticker = _ticker;
@@ -17822,7 +17786,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			    min = 0.000001,
 			    val;
 			while (pt) {
-				val = !pt.blob ? pt.c * v + pt.s : v === 1 && this.end ? this.end : v ? this.join("") : this.start;
+				val = !pt.blob ? pt.c * v + pt.s : v === 1 && this.end != null ? this.end : v ? this.join("") : this.start;
 				if (pt.m) {
 					val = pt.m(val, this._target || pt.t);
 				} else if (val < min) if (val > -min && !pt.blob) {
@@ -17903,7 +17867,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			a.setRatio = _setRatio;
 			if (_relExp.test(end)) {
 				//if the end string contains relative values, delete it so that on the final render (in _setRatio()), we don't actually set it to the string with += or -= characters (forces it to use the calculated value).
-				a.end = 0;
+				a.end = null;
 			}
 			return a;
 		},
@@ -18140,11 +18104,13 @@ var tweenmax = createCommonjsModule(function (module) {
 					//copy the properties/values into a new object to avoid collisions, like var to = {x:0}, from = {x:500}; timeline.fromTo(e, 1, from, to).fromTo(e, 1, to, from);
 					startVars[p] = v.startAt[p];
 				}
+				startVars.data = "isStart";
 				startVars.overwrite = false;
 				startVars.immediateRender = true;
 				startVars.lazy = immediate && v.lazy !== false;
 				startVars.startAt = startVars.delay = null; //no nesting of startAt objects allowed (otherwise it could cause an infinite loop).
 				startVars.onUpdate = v.onUpdate;
+				startVars.onUpdateParams = v.onUpdateParams;
 				startVars.onUpdateScope = v.onUpdateScope || v.callbackScope || this;
 				this._startAt = TweenLite.to(this.target, 0, startVars);
 				if (immediate) {
@@ -18413,7 +18379,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			if (prevTime === 0) {
 				if (this._startAt) {
 					if (time >= 0) {
-						this._startAt.render(time, suppressEvents, force);
+						this._startAt.render(time, true, force);
 					} else if (!callback) {
 						callback = "_dummyGS"; //if no callback is defined, use a dummy value just so that the condition at the end evaluates as true because _startAt should render AFTER the normal render loop when the time is negative. We could handle this in a more intuitive way, of course, but the render loop is the MOST important thing to optimize, so this technique allows us to avoid adding extra conditional logic in a high-frequency area.
 					}
@@ -18435,7 +18401,7 @@ var tweenmax = createCommonjsModule(function (module) {
 			if (this._onUpdate) {
 				if (time < 0) if (this._startAt && time !== -0.0001) {
 					//if the tween is positioned at the VERY beginning (_startTime 0) of its parent timeline, it's illegal for the playhead to go back further, so we should not render the recorded startAt values.
-					this._startAt.render(time, suppressEvents, force); //note: for performance reasons, we tuck this conditional logic inside less traveled areas (most tweens don't have an onUpdate). We'd just have it at the end before the onComplete, but the values should be updated before any onUpdate is called, so we ALSO put it here and then if it's not called, we do so later near the onComplete.
+					this._startAt.render(time, true, force); //note: for performance reasons, we tuck this conditional logic inside less traveled areas (most tweens don't have an onUpdate). We'd just have it at the end before the onComplete, but the values should be updated before any onUpdate is called, so we ALSO put it here and then if it's not called, we do so later near the onComplete.
 				}
 				if (!suppressEvents) if (this._time !== prevTime || isComplete || force) {
 					this._callback("onUpdate");
@@ -18445,7 +18411,7 @@ var tweenmax = createCommonjsModule(function (module) {
 				//check _gc because there's a chance that kill() could be called in an onUpdate
 				if (time < 0 && this._startAt && !this._onUpdate && time !== -0.0001) {
 					//-0.0001 is a special value that we use when looping back to the beginning of a repeated TimelineMax, in which case we shouldn't render the _startAt values.
-					this._startAt.render(time, suppressEvents, force);
+					this._startAt.render(time, true, force);
 				}
 				if (isComplete) {
 					if (this._timeline.autoRemoveChildren) {
@@ -18837,8 +18803,8 @@ var tweenmax = createCommonjsModule(function (module) {
 
 var TweenLite$1 = createCommonjsModule(function (module) {
 	/*!
-  * VERSION: 1.20.2
-  * DATE: 2017-06-30
+  * VERSION: 1.20.3
+  * DATE: 2017-10-02
   * UPDATES AND DOCS AT: http://greensock.com
   *
   * @license Copyright (c) 2008-2017, GreenSock. All rights reserved.
@@ -19202,6 +19168,10 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 			};
 
 			_self.lagSmoothing = function (threshold, adjustedLag) {
+				if (!arguments.length) {
+					//if lagSmoothing() is called with no arguments, treat it like a getter that returns a boolean indicating if it's enabled or not. This is purposely undocumented and is for internal use.
+					return _lagThreshold < 1 / _tinyNum;
+				}
 				_lagThreshold = threshold || 1 / _tinyNum; //zero should be interpreted as basically unlimited
 				_adjustedLag = Math.min(adjustedLag, _lagThreshold, 0);
 			};
@@ -19311,7 +19281,8 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 
 		//some browsers (like iOS) occasionally drop the requestAnimationFrame event when the user switches to a different tab and then comes back again, so we use a 2-second setTimeout() to sense if/when that condition occurs and then wake() the ticker.
 		var _checkTimeout = function _checkTimeout() {
-			if (_tickerActive && _getTime() - _lastUpdate > 2000 && _doc.visibilityState !== "hidden") {
+			if (_tickerActive && _getTime() - _lastUpdate > 2000 && (_doc.visibilityState !== "hidden" || !_ticker.lagSmoothing())) {
+				//note: if the tab is hidden, we should still wake if lagSmoothing has been disabled.
 				_ticker.wake();
 			}
 			var t = setTimeout(_checkTimeout, 2000);
@@ -19582,14 +19553,22 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 			if (!arguments.length) {
 				return this._timeScale;
 			}
+			var pauseTime, t;
 			value = value || _tinyNum; //can't allow zero because it'll throw the math off
 			if (this._timeline && this._timeline.smoothChildTiming) {
-				var pauseTime = this._pauseTime,
-				    t = pauseTime || pauseTime === 0 ? pauseTime : this._timeline.totalTime();
+				pauseTime = this._pauseTime;
+				t = pauseTime || pauseTime === 0 ? pauseTime : this._timeline.totalTime();
 				this._startTime = t - (t - this._startTime) * this._timeScale / value;
 			}
 			this._timeScale = value;
-			return this._uncache(false);
+			t = this.timeline;
+			while (t && t.timeline) {
+				//must update the duration/totalDuration of all ancestor timelines immediately in case in the middle of a render loop, one tween alters another tween's timeScale which shoves its startTime before 0, forcing the parent timeline to shift around and shiftChildren() which could affect that next tween's render (startTime). Doesn't matter for the root timeline though.
+				t._dirty = true;
+				t.totalDuration();
+				t = t.timeline;
+			}
+			return this;
 		};
 
 		p.reversed = function (value) {
@@ -19830,7 +19809,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 		p._firstPT = p._targets = p._overwrittenProps = p._startAt = null;
 		p._notifyPluginsOfEnabled = p._lazy = false;
 
-		TweenLite.version = "1.20.2";
+		TweenLite.version = "1.20.3";
 		TweenLite.defaultEase = p._ease = new Ease(null, null, 1, 1);
 		TweenLite.defaultOverwrite = "auto";
 		TweenLite.ticker = _ticker;
@@ -19859,7 +19838,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 			    min = 0.000001,
 			    val;
 			while (pt) {
-				val = !pt.blob ? pt.c * v + pt.s : v === 1 && this.end ? this.end : v ? this.join("") : this.start;
+				val = !pt.blob ? pt.c * v + pt.s : v === 1 && this.end != null ? this.end : v ? this.join("") : this.start;
 				if (pt.m) {
 					val = pt.m(val, this._target || pt.t);
 				} else if (val < min) if (val > -min && !pt.blob) {
@@ -19940,7 +19919,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 			a.setRatio = _setRatio;
 			if (_relExp.test(end)) {
 				//if the end string contains relative values, delete it so that on the final render (in _setRatio()), we don't actually set it to the string with += or -= characters (forces it to use the calculated value).
-				a.end = 0;
+				a.end = null;
 			}
 			return a;
 		},
@@ -20177,11 +20156,13 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 					//copy the properties/values into a new object to avoid collisions, like var to = {x:0}, from = {x:500}; timeline.fromTo(e, 1, from, to).fromTo(e, 1, to, from);
 					startVars[p] = v.startAt[p];
 				}
+				startVars.data = "isStart";
 				startVars.overwrite = false;
 				startVars.immediateRender = true;
 				startVars.lazy = immediate && v.lazy !== false;
 				startVars.startAt = startVars.delay = null; //no nesting of startAt objects allowed (otherwise it could cause an infinite loop).
 				startVars.onUpdate = v.onUpdate;
+				startVars.onUpdateParams = v.onUpdateParams;
 				startVars.onUpdateScope = v.onUpdateScope || v.callbackScope || this;
 				this._startAt = TweenLite.to(this.target, 0, startVars);
 				if (immediate) {
@@ -20450,7 +20431,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 			if (prevTime === 0) {
 				if (this._startAt) {
 					if (time >= 0) {
-						this._startAt.render(time, suppressEvents, force);
+						this._startAt.render(time, true, force);
 					} else if (!callback) {
 						callback = "_dummyGS"; //if no callback is defined, use a dummy value just so that the condition at the end evaluates as true because _startAt should render AFTER the normal render loop when the time is negative. We could handle this in a more intuitive way, of course, but the render loop is the MOST important thing to optimize, so this technique allows us to avoid adding extra conditional logic in a high-frequency area.
 					}
@@ -20472,7 +20453,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 			if (this._onUpdate) {
 				if (time < 0) if (this._startAt && time !== -0.0001) {
 					//if the tween is positioned at the VERY beginning (_startTime 0) of its parent timeline, it's illegal for the playhead to go back further, so we should not render the recorded startAt values.
-					this._startAt.render(time, suppressEvents, force); //note: for performance reasons, we tuck this conditional logic inside less traveled areas (most tweens don't have an onUpdate). We'd just have it at the end before the onComplete, but the values should be updated before any onUpdate is called, so we ALSO put it here and then if it's not called, we do so later near the onComplete.
+					this._startAt.render(time, true, force); //note: for performance reasons, we tuck this conditional logic inside less traveled areas (most tweens don't have an onUpdate). We'd just have it at the end before the onComplete, but the values should be updated before any onUpdate is called, so we ALSO put it here and then if it's not called, we do so later near the onComplete.
 				}
 				if (!suppressEvents) if (this._time !== prevTime || isComplete || force) {
 					this._callback("onUpdate");
@@ -20482,7 +20463,7 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 				//check _gc because there's a chance that kill() could be called in an onUpdate
 				if (time < 0 && this._startAt && !this._onUpdate && time !== -0.0001) {
 					//-0.0001 is a special value that we use when looping back to the beginning of a repeated TimelineMax, in which case we shouldn't render the _startAt values.
-					this._startAt.render(time, suppressEvents, force);
+					this._startAt.render(time, true, force);
 				}
 				if (isComplete) {
 					if (this._timeline.autoRemoveChildren) {
@@ -20874,8 +20855,8 @@ var TweenLite$1 = createCommonjsModule(function (module) {
 
 var TimeLineMax = createCommonjsModule(function (module) {
 	/*!
-  * VERSION: 1.20.2
-  * DATE: 2017-06-30
+  * VERSION: 1.20.3
+  * DATE: 2017-10-02
   * UPDATES AND DOCS AT: http://greensock.com
   *
   * @license Copyright (c) 2008-2017, GreenSock. All rights reserved.
@@ -20909,7 +20890,7 @@ var TimeLineMax = createCommonjsModule(function (module) {
 
 			p.constructor = TimelineMax;
 			p.kill()._gc = false;
-			TimelineMax.version = "1.20.2";
+			TimelineMax.version = "1.20.3";
 
 			p.invalidate = function () {
 				this._yoyo = this.vars.yoyo === true;
@@ -20985,9 +20966,9 @@ var TimeLineMax = createCommonjsModule(function (module) {
 				if (this._gc) {
 					this._enabled(true, false);
 				}
-				var totalDur = !this._dirty ? this._totalDuration : this.totalDuration(),
+				var prevTime = this._time,
+				    totalDur = !this._dirty ? this._totalDuration : this.totalDuration(),
 				    dur = this._duration,
-				    prevTime = this._time,
 				    prevTotalTime = this._totalTime,
 				    prevStart = this._startTime,
 				    prevTimeScale = this._timeScale,
@@ -21002,6 +20983,10 @@ var TimeLineMax = createCommonjsModule(function (module) {
 				    cycleDuration,
 				    pauseTween,
 				    curTime;
+				if (prevTime !== this._time) {
+					//if totalDuration() finds a child with a negative startTime and smoothChildTiming is true, things get shifted around internally so we need to adjust the time accordingly. For example, if a tween starts at -30 we must shift EVERYTHING forward 30 seconds and move this timeline's startTime backward by 30 seconds so that things align with the playhead (no jump).
+					time += this._time - prevTime;
+				}
 				if (time >= totalDur - 0.0000001 && time >= 0) {
 					//to work around occasional floating point math artifacts.
 					if (!this._locked) {
@@ -21478,7 +21463,7 @@ var TimeLineMax = createCommonjsModule(function (module) {
 			},
 			    p = TimelineLite.prototype = new SimpleTimeline();
 
-			TimelineLite.version = "1.20.2";
+			TimelineLite.version = "1.20.3";
 			p.constructor = TimelineLite;
 			p.kill()._gc = p._forcingPlayhead = p._hasPause = false;
 
@@ -21587,6 +21572,8 @@ var TimeLineMax = createCommonjsModule(function (module) {
 				}
 				var tl = new TimelineLite(vars),
 				    root = tl._timeline,
+				    hasNegativeStart,
+				    time,
 				    tween,
 				    next;
 				if (ignoreDelayedCalls == null) {
@@ -21599,11 +21586,19 @@ var TimeLineMax = createCommonjsModule(function (module) {
 				while (tween) {
 					next = tween._next;
 					if (!ignoreDelayedCalls || !(tween instanceof TweenLite && tween.target === tween.vars.onComplete)) {
-						tl.add(tween, tween._startTime - tween._delay);
+						time = tween._startTime - tween._delay;
+						if (time < 0) {
+							hasNegativeStart = 1;
+						}
+						tl.add(tween, time);
 					}
 					tween = next;
 				}
 				root.add(tl, 0);
+				if (hasNegativeStart) {
+					//calling totalDuration() will force the adjustment necessary to shift the children forward so none of them start before zero, and moves the timeline backwards the same amount, so the playhead is still aligned where it should be globally, but the timeline doesn't have illegal children that start before zero.
+					tl.totalDuration();
+				}
 				return tl;
 			};
 
@@ -21744,7 +21739,7 @@ var TimeLineMax = createCommonjsModule(function (module) {
 						}
 					}
 				}
-				clippedDuration = this.duration() > 99999999999 ? this.recent().endTime(false) : this._duration; //in case there's a child that infinitely repeats, users almost never intend for the insertion point of a new child to be based on a SUPER long value like that so we clip it and assume the most recently-added child's endTime should be used instead.
+				clippedDuration = typeof timeOrLabel === "number" && !offsetOrLabel ? 0 : this.duration() > 99999999999 ? this.recent().endTime(false) : this._duration; //in case there's a child that infinitely repeats, users almost never intend for the insertion point of a new child to be based on a SUPER long value like that so we clip it and assume the most recently-added child's endTime should be used instead.
 				if (typeof offsetOrLabel === "string") {
 					return this._parseTimeOrLabel(offsetOrLabel, appendIfAbsent && typeof timeOrLabel === "number" && this._labels[offsetOrLabel] == null ? timeOrLabel - clippedDuration : 0, appendIfAbsent);
 				}
@@ -22140,9 +22135,11 @@ var TimeLineMax = createCommonjsModule(function (module) {
 							if (tween._dirty) {
 								tween.totalDuration(); //could change the tween._startTime, so make sure the tween's cache is clean before analyzing it.
 							}
-							if (tween._startTime > prevStart && this._sortChildren && !tween._paused) {
+							if (tween._startTime > prevStart && this._sortChildren && !tween._paused && !this._calculatingDuration) {
 								//in case one of the tweens shifted out of order, it needs to be re-inserted into the correct position in the sequence
+								this._calculatingDuration = 1; //prevent endless recursive calls - there are methods that get triggered that check duration/totalDuration when we add(), like _parseTimeOrLabel().
 								this.add(tween, tween._startTime - tween._delay);
+								this._calculatingDuration = 0;
 							} else {
 								prevStart = tween._startTime;
 							}
@@ -22151,6 +22148,9 @@ var TimeLineMax = createCommonjsModule(function (module) {
 								max -= tween._startTime;
 								if (this._timeline.smoothChildTiming) {
 									this._startTime += tween._startTime / this._timeScale;
+									this._time -= tween._startTime;
+									this._totalTime -= tween._startTime;
+									this._rawPrevTime -= tween._startTime;
 								}
 								this.shiftChildren(-tween._startTime, false, -9999999999);
 								prevStart = 0;
@@ -22322,7 +22322,7 @@ var easepack = createCommonjsModule(function (module) {
 				if (p < this._p1) {
 					return this._calcEnd ? 1 - (p = 1 - p / this._p1) * p : r - (p = 1 - p / this._p1) * p * p * p * r;
 				} else if (p > this._p3) {
-					return this._calcEnd ? 1 - (p = (p - this._p3) / this._p1) * p : r + (p - r) * (p = (p - this._p3) / this._p1) * p * p * p;
+					return this._calcEnd ? p === 1 ? 0 : 1 - (p = (p - this._p3) / this._p1) * p : r + (p - r) * (p = (p - this._p3) / this._p1) * p * p * p; //added p === 1 ? 0 to avoid floating point rounding errors from affecting the final value, like 1 - 0.7 = 0.30000000000000004 instead of 0.3
 				}
 				return this._calcEnd ? 1 : r;
 			};
@@ -26444,8 +26444,8 @@ var ScrollMagic = createCommonjsModule(function (module, exports) {
 
 var TweenMax$2 = createCommonjsModule(function (module) {
 	/*!
-  * VERSION: 1.20.2
-  * DATE: 2017-06-30
+  * VERSION: 1.20.3
+  * DATE: 2017-10-02
   * UPDATES AND DOCS AT: http://greensock.com
   * 
   * Includes all of the following: TweenLite, TweenMax, TimelineLite, TimelineMax, EasePack, CSSPlugin, RoundPropsPlugin, BezierPlugin, AttrPlugin, DirectionalRotationPlugin
@@ -26487,7 +26487,9 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				this._yoyo = this.vars.yoyo === true || !!this.vars.yoyoEase;
 				this._repeat = this.vars.repeat || 0;
 				this._repeatDelay = this.vars.repeatDelay || 0;
-				this._dirty = true; //ensures that if there is any repeat, the totalDuration will get recalculated to accurately report it.
+				if (this._repeat) {
+					this._uncache(true); //ensures that if there is any repeat, the totalDuration will get recalculated to accurately report it.
+				}
 				this.render = TweenMax.prototype.render; //speed optimization (avoid prototype lookup on this "hot" method)
 			},
 			    _tinyNum = 0.0000000001,
@@ -26497,7 +26499,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			    p = TweenMax.prototype = TweenLite.to({}, 0.1, {}),
 			    _blankArray = [];
 
-			TweenMax.version = "1.20.2";
+			TweenMax.version = "1.20.3";
 			p.constructor = TweenMax;
 			p.kill()._gc = false;
 			TweenMax.killTweensOf = TweenMax.killDelayedCallsTo = TweenLite.killTweensOf;
@@ -26751,7 +26753,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 					}
 					if (this._startAt) {
 						if (time >= 0) {
-							this._startAt.render(time, suppressEvents, force);
+							this._startAt.render(time, true, force);
 						} else if (!callback) {
 							callback = "_dummyGS"; //if no callback is defined, use a dummy value just so that the condition at the end evaluates as true because _startAt should render AFTER the normal render loop when the time is negative. We could handle this in a more intuitive way, of course, but the render loop is the MOST important thing to optimize, so this technique allows us to avoid adding extra conditional logic in a high-frequency area.
 						}
@@ -26774,7 +26776,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				if (this._onUpdate) {
 					if (time < 0) if (this._startAt && this._startTime) {
 						//if the tween is positioned at the VERY beginning (_startTime 0) of its parent timeline, it's illegal for the playhead to go back further, so we should not render the recorded startAt values.
-						this._startAt.render(time, suppressEvents, force); //note: for performance reasons, we tuck this conditional logic inside less traveled areas (most tweens don't have an onUpdate). We'd just have it at the end before the onComplete, but the values should be updated before any onUpdate is called, so we ALSO put it here and then if it's not called, we do so later near the onComplete.
+						this._startAt.render(time, true, force); //note: for performance reasons, we tuck this conditional logic inside less traveled areas (most tweens don't have an onUpdate). We'd just have it at the end before the onComplete, but the values should be updated before any onUpdate is called, so we ALSO put it here and then if it's not called, we do so later near the onComplete.
 					}
 					if (!suppressEvents) if (this._totalTime !== prevTotalTime || callback) {
 						this._callback("onUpdate");
@@ -26787,7 +26789,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 					//check gc because there's a chance that kill() could be called in an onUpdate
 					if (time < 0 && this._startAt && !this._onUpdate && this._startTime) {
 						//if the tween is positioned at the VERY beginning (_startTime 0) of its parent timeline, it's illegal for the playhead to go back further, so we should not render the recorded startAt values.
-						this._startAt.render(time, suppressEvents, force);
+						this._startAt.render(time, true, force);
 					}
 					if (isComplete) {
 						if (this._timeline.autoRemoveChildren) {
@@ -27174,7 +27176,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			},
 			    p = TimelineLite.prototype = new SimpleTimeline();
 
-			TimelineLite.version = "1.20.2";
+			TimelineLite.version = "1.20.3";
 			p.constructor = TimelineLite;
 			p.kill()._gc = p._forcingPlayhead = p._hasPause = false;
 
@@ -27283,6 +27285,8 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				}
 				var tl = new TimelineLite(vars),
 				    root = tl._timeline,
+				    hasNegativeStart,
+				    time,
 				    tween,
 				    next;
 				if (ignoreDelayedCalls == null) {
@@ -27295,11 +27299,19 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				while (tween) {
 					next = tween._next;
 					if (!ignoreDelayedCalls || !(tween instanceof TweenLite && tween.target === tween.vars.onComplete)) {
-						tl.add(tween, tween._startTime - tween._delay);
+						time = tween._startTime - tween._delay;
+						if (time < 0) {
+							hasNegativeStart = 1;
+						}
+						tl.add(tween, time);
 					}
 					tween = next;
 				}
 				root.add(tl, 0);
+				if (hasNegativeStart) {
+					//calling totalDuration() will force the adjustment necessary to shift the children forward so none of them start before zero, and moves the timeline backwards the same amount, so the playhead is still aligned where it should be globally, but the timeline doesn't have illegal children that start before zero.
+					tl.totalDuration();
+				}
 				return tl;
 			};
 
@@ -27440,7 +27452,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 						}
 					}
 				}
-				clippedDuration = this.duration() > 99999999999 ? this.recent().endTime(false) : this._duration; //in case there's a child that infinitely repeats, users almost never intend for the insertion point of a new child to be based on a SUPER long value like that so we clip it and assume the most recently-added child's endTime should be used instead.
+				clippedDuration = typeof timeOrLabel === "number" && !offsetOrLabel ? 0 : this.duration() > 99999999999 ? this.recent().endTime(false) : this._duration; //in case there's a child that infinitely repeats, users almost never intend for the insertion point of a new child to be based on a SUPER long value like that so we clip it and assume the most recently-added child's endTime should be used instead.
 				if (typeof offsetOrLabel === "string") {
 					return this._parseTimeOrLabel(offsetOrLabel, appendIfAbsent && typeof timeOrLabel === "number" && this._labels[offsetOrLabel] == null ? timeOrLabel - clippedDuration : 0, appendIfAbsent);
 				}
@@ -27482,8 +27494,8 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				if (this._gc) {
 					this._enabled(true, false);
 				}
-				var totalDur = !this._dirty ? this._totalDuration : this.totalDuration(),
-				    prevTime = this._time,
+				var prevTime = this._time,
+				    totalDur = !this._dirty ? this._totalDuration : this.totalDuration(),
 				    prevStart = this._startTime,
 				    prevTimeScale = this._timeScale,
 				    prevPaused = this._paused,
@@ -27494,6 +27506,10 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				    internalForce,
 				    pauseTween,
 				    curTime;
+				if (prevTime !== this._time) {
+					//if totalDuration() finds a child with a negative startTime and smoothChildTiming is true, things get shifted around internally so we need to adjust the time accordingly. For example, if a tween starts at -30 we must shift EVERYTHING forward 30 seconds and move this timeline's startTime backward by 30 seconds so that things align with the playhead (no jump).
+					time += this._time - prevTime;
+				}
 				if (time >= totalDur - 0.0000001 && time >= 0) {
 					//to work around occasional floating point math artifacts.
 					this._totalTime = this._time = totalDur;
@@ -27836,9 +27852,11 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 							if (tween._dirty) {
 								tween.totalDuration(); //could change the tween._startTime, so make sure the tween's cache is clean before analyzing it.
 							}
-							if (tween._startTime > prevStart && this._sortChildren && !tween._paused) {
+							if (tween._startTime > prevStart && this._sortChildren && !tween._paused && !this._calculatingDuration) {
 								//in case one of the tweens shifted out of order, it needs to be re-inserted into the correct position in the sequence
+								this._calculatingDuration = 1; //prevent endless recursive calls - there are methods that get triggered that check duration/totalDuration when we add(), like _parseTimeOrLabel().
 								this.add(tween, tween._startTime - tween._delay);
+								this._calculatingDuration = 0;
 							} else {
 								prevStart = tween._startTime;
 							}
@@ -27847,6 +27865,9 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 								max -= tween._startTime;
 								if (this._timeline.smoothChildTiming) {
 									this._startTime += tween._startTime / this._timeScale;
+									this._time -= tween._startTime;
+									this._totalTime -= tween._startTime;
+									this._rawPrevTime -= tween._startTime;
 								}
 								this.shiftChildren(-tween._startTime, false, -9999999999);
 								prevStart = 0;
@@ -27920,7 +27941,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 
 			p.constructor = TimelineMax;
 			p.kill()._gc = false;
-			TimelineMax.version = "1.20.2";
+			TimelineMax.version = "1.20.3";
 
 			p.invalidate = function () {
 				this._yoyo = this.vars.yoyo === true;
@@ -27996,9 +28017,9 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				if (this._gc) {
 					this._enabled(true, false);
 				}
-				var totalDur = !this._dirty ? this._totalDuration : this.totalDuration(),
+				var prevTime = this._time,
+				    totalDur = !this._dirty ? this._totalDuration : this.totalDuration(),
 				    dur = this._duration,
-				    prevTime = this._time,
 				    prevTotalTime = this._totalTime,
 				    prevStart = this._startTime,
 				    prevTimeScale = this._timeScale,
@@ -28013,6 +28034,10 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				    cycleDuration,
 				    pauseTween,
 				    curTime;
+				if (prevTime !== this._time) {
+					//if totalDuration() finds a child with a negative startTime and smoothChildTiming is true, things get shifted around internally so we need to adjust the time accordingly. For example, if a tween starts at -30 we must shift EVERYTHING forward 30 seconds and move this timeline's startTime backward by 30 seconds so that things align with the playhead (no jump).
+					time += this._time - prevTime;
+				}
 				if (time >= totalDur - 0.0000001 && time >= 0) {
 					//to work around occasional floating point math artifacts.
 					if (!this._locked) {
@@ -29119,7 +29144,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			    p = CSSPlugin.prototype = new TweenPlugin("css");
 
 			p.constructor = CSSPlugin;
-			CSSPlugin.version = "1.20.0";
+			CSSPlugin.version = "1.20.3";
 			CSSPlugin.API = 2;
 			CSSPlugin.defaultTransformPerspective = 0;
 			CSSPlugin.defaultSkewType = "compensated";
@@ -29645,7 +29670,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 							g = l <= 0.5 ? l * (s + 1) : l + s - l * s;
 							r = l * 2 - g;
 							if (a.length > 3) {
-								a[3] = Number(v[3]);
+								a[3] = Number(a[3]);
 							}
 							a[0] = _hue(h + 1 / 3, r, g);
 							a[1] = _hue(h, r, g);
@@ -30060,8 +30085,14 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				    str,
 				    useHSL;
 				if (e.indexOf(",") !== -1 || b.indexOf(",") !== -1) {
-					ba = ba.join(" ").replace(_commasOutsideParenExp, ", ").split(" ");
-					ea = ea.join(" ").replace(_commasOutsideParenExp, ", ").split(" ");
+					if ((e + b).indexOf("rgb") !== -1 || (e + b).indexOf("hsl") !== -1) {
+						//keep rgb(), rgba(), hsl(), and hsla() values together! (remember, we're splitting on spaces)
+						ba = ba.join(" ").replace(_commasOutsideParenExp, ", ").split(" ");
+						ea = ea.join(" ").replace(_commasOutsideParenExp, ", ").split(" ");
+					} else {
+						ba = ba.join(" ").split(",").join(", ").split(" ");
+						ea = ea.join(" ").split(",").join(", ").split(" ");
+					}
 					l = ba.length;
 				}
 				if (l !== ea.length) {
@@ -30491,7 +30522,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			},
 			    _getBBoxHack = function _getBBoxHack(swapIfPossible) {
 				//works around issues in some browsers (like Firefox) that don't correctly report getBBox() on SVG elements inside a <defs> element and/or <mask>. We try creating an SVG, adding it to the documentElement and toss the element in there so that it's definitely part of the rendering tree, then grab the bbox and if it works, we actually swap out the original getBBox() method for our own that does these extra steps whenever getBBox is needed. This helps ensure that performance is optimal (only do all these extra steps when absolutely necessary...most elements don't need it).
-				var svg = _createElement("svg", this.ownerSVGElement.getAttribute("xmlns") || "http://www.w3.org/2000/svg"),
+				var svg = _createElement("svg", this.ownerSVGElement && this.ownerSVGElement.getAttribute("xmlns") || "http://www.w3.org/2000/svg"),
 				    oldParent = this.parentNode,
 				    oldSibling = this.nextSibling,
 				    oldCSS = this.style.cssText,
@@ -30526,7 +30557,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			},
 			    _isSVG = function _isSVG(e) {
 				//reports if the element is an SVG on which getBBox() actually works
-				return !!(_SVGElement && e.getCTM && _getBBox(e) && (!e.parentNode || e.ownerSVGElement));
+				return !!(_SVGElement && e.getCTM && (!e.parentNode || e.ownerSVGElement) && _getBBox(e));
 			},
 			    _identity2DMatrix = [1, 0, 0, 1, 0, 0],
 			    _getMatrix = function _getMatrix(e, force2D) {
@@ -30547,7 +30578,8 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 					s = s && s.length === 4 ? [s[0].substr(4), Number(s[2].substr(4)), Number(s[1].substr(4)), s[3].substr(4), tm.x || 0, tm.y || 0].join(",") : "";
 				}
 				isDefault = !s || s === "none" || s === "matrix(1, 0, 0, 1, 0, 0)";
-				if (_transformProp && ((none = _getComputedStyle(e).display === "none") || !e.parentNode)) {
+				if (_transformProp && ((none = !_getComputedStyle(e) || _getComputedStyle(e).display === "none") || !e.parentNode)) {
+					//note: Firefox returns null for getComputedStyle() if the element is in an iframe that has display:none. https://bugzilla.mozilla.org/show_bug.cgi?id=548397
 					if (none) {
 						//browsers don't report transforms accurately unless the element is in the DOM and has a display value that's not "none". Firefox and Microsoft browsers have a partial bug where they'll report transforms even if display:none BUT not any percentage-based values like translate(-50%, 8px) will be reported as if it's translate(0, 8px).
 						n = style.display;
@@ -32531,7 +32563,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				if (p < this._p1) {
 					return this._calcEnd ? 1 - (p = 1 - p / this._p1) * p : r - (p = 1 - p / this._p1) * p * p * p * r;
 				} else if (p > this._p3) {
-					return this._calcEnd ? 1 - (p = (p - this._p3) / this._p1) * p : r + (p - r) * (p = (p - this._p3) / this._p1) * p * p * p;
+					return this._calcEnd ? p === 1 ? 0 : 1 - (p = (p - this._p3) / this._p1) * p : r + (p - r) * (p = (p - this._p3) / this._p1) * p * p * p; //added p === 1 ? 0 to avoid floating point rounding errors from affecting the final value, like 1 - 0.7 = 0.30000000000000004 instead of 0.3
 				}
 				return this._calcEnd ? 1 : r;
 			};
@@ -33119,6 +33151,10 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			};
 
 			_self.lagSmoothing = function (threshold, adjustedLag) {
+				if (!arguments.length) {
+					//if lagSmoothing() is called with no arguments, treat it like a getter that returns a boolean indicating if it's enabled or not. This is purposely undocumented and is for internal use.
+					return _lagThreshold < 1 / _tinyNum;
+				}
 				_lagThreshold = threshold || 1 / _tinyNum; //zero should be interpreted as basically unlimited
 				_adjustedLag = Math.min(adjustedLag, _lagThreshold, 0);
 			};
@@ -33228,7 +33264,8 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 
 		//some browsers (like iOS) occasionally drop the requestAnimationFrame event when the user switches to a different tab and then comes back again, so we use a 2-second setTimeout() to sense if/when that condition occurs and then wake() the ticker.
 		var _checkTimeout = function _checkTimeout() {
-			if (_tickerActive && _getTime() - _lastUpdate > 2000 && _doc.visibilityState !== "hidden") {
+			if (_tickerActive && _getTime() - _lastUpdate > 2000 && (_doc.visibilityState !== "hidden" || !_ticker.lagSmoothing())) {
+				//note: if the tab is hidden, we should still wake if lagSmoothing has been disabled.
 				_ticker.wake();
 			}
 			var t = setTimeout(_checkTimeout, 2000);
@@ -33499,14 +33536,22 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			if (!arguments.length) {
 				return this._timeScale;
 			}
+			var pauseTime, t;
 			value = value || _tinyNum; //can't allow zero because it'll throw the math off
 			if (this._timeline && this._timeline.smoothChildTiming) {
-				var pauseTime = this._pauseTime,
-				    t = pauseTime || pauseTime === 0 ? pauseTime : this._timeline.totalTime();
+				pauseTime = this._pauseTime;
+				t = pauseTime || pauseTime === 0 ? pauseTime : this._timeline.totalTime();
 				this._startTime = t - (t - this._startTime) * this._timeScale / value;
 			}
 			this._timeScale = value;
-			return this._uncache(false);
+			t = this.timeline;
+			while (t && t.timeline) {
+				//must update the duration/totalDuration of all ancestor timelines immediately in case in the middle of a render loop, one tween alters another tween's timeScale which shoves its startTime before 0, forcing the parent timeline to shift around and shiftChildren() which could affect that next tween's render (startTime). Doesn't matter for the root timeline though.
+				t._dirty = true;
+				t.totalDuration();
+				t = t.timeline;
+			}
+			return this;
 		};
 
 		p.reversed = function (value) {
@@ -33747,7 +33792,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 		p._firstPT = p._targets = p._overwrittenProps = p._startAt = null;
 		p._notifyPluginsOfEnabled = p._lazy = false;
 
-		TweenLite.version = "1.20.2";
+		TweenLite.version = "1.20.3";
 		TweenLite.defaultEase = p._ease = new Ease(null, null, 1, 1);
 		TweenLite.defaultOverwrite = "auto";
 		TweenLite.ticker = _ticker;
@@ -33776,7 +33821,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			    min = 0.000001,
 			    val;
 			while (pt) {
-				val = !pt.blob ? pt.c * v + pt.s : v === 1 && this.end ? this.end : v ? this.join("") : this.start;
+				val = !pt.blob ? pt.c * v + pt.s : v === 1 && this.end != null ? this.end : v ? this.join("") : this.start;
 				if (pt.m) {
 					val = pt.m(val, this._target || pt.t);
 				} else if (val < min) if (val > -min && !pt.blob) {
@@ -33857,7 +33902,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			a.setRatio = _setRatio;
 			if (_relExp.test(end)) {
 				//if the end string contains relative values, delete it so that on the final render (in _setRatio()), we don't actually set it to the string with += or -= characters (forces it to use the calculated value).
-				a.end = 0;
+				a.end = null;
 			}
 			return a;
 		},
@@ -34094,11 +34139,13 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 					//copy the properties/values into a new object to avoid collisions, like var to = {x:0}, from = {x:500}; timeline.fromTo(e, 1, from, to).fromTo(e, 1, to, from);
 					startVars[p] = v.startAt[p];
 				}
+				startVars.data = "isStart";
 				startVars.overwrite = false;
 				startVars.immediateRender = true;
 				startVars.lazy = immediate && v.lazy !== false;
 				startVars.startAt = startVars.delay = null; //no nesting of startAt objects allowed (otherwise it could cause an infinite loop).
 				startVars.onUpdate = v.onUpdate;
+				startVars.onUpdateParams = v.onUpdateParams;
 				startVars.onUpdateScope = v.onUpdateScope || v.callbackScope || this;
 				this._startAt = TweenLite.to(this.target, 0, startVars);
 				if (immediate) {
@@ -34367,7 +34414,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			if (prevTime === 0) {
 				if (this._startAt) {
 					if (time >= 0) {
-						this._startAt.render(time, suppressEvents, force);
+						this._startAt.render(time, true, force);
 					} else if (!callback) {
 						callback = "_dummyGS"; //if no callback is defined, use a dummy value just so that the condition at the end evaluates as true because _startAt should render AFTER the normal render loop when the time is negative. We could handle this in a more intuitive way, of course, but the render loop is the MOST important thing to optimize, so this technique allows us to avoid adding extra conditional logic in a high-frequency area.
 					}
@@ -34389,7 +34436,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 			if (this._onUpdate) {
 				if (time < 0) if (this._startAt && time !== -0.0001) {
 					//if the tween is positioned at the VERY beginning (_startTime 0) of its parent timeline, it's illegal for the playhead to go back further, so we should not render the recorded startAt values.
-					this._startAt.render(time, suppressEvents, force); //note: for performance reasons, we tuck this conditional logic inside less traveled areas (most tweens don't have an onUpdate). We'd just have it at the end before the onComplete, but the values should be updated before any onUpdate is called, so we ALSO put it here and then if it's not called, we do so later near the onComplete.
+					this._startAt.render(time, true, force); //note: for performance reasons, we tuck this conditional logic inside less traveled areas (most tweens don't have an onUpdate). We'd just have it at the end before the onComplete, but the values should be updated before any onUpdate is called, so we ALSO put it here and then if it's not called, we do so later near the onComplete.
 				}
 				if (!suppressEvents) if (this._time !== prevTime || isComplete || force) {
 					this._callback("onUpdate");
@@ -34399,7 +34446,7 @@ var TweenMax$2 = createCommonjsModule(function (module) {
 				//check _gc because there's a chance that kill() could be called in an onUpdate
 				if (time < 0 && this._startAt && !this._onUpdate && time !== -0.0001) {
 					//-0.0001 is a special value that we use when looping back to the beginning of a repeated TimelineMax, in which case we shouldn't render the _startAt values.
-					this._startAt.render(time, suppressEvents, force);
+					this._startAt.render(time, true, force);
 				}
 				if (isComplete) {
 					if (this._timeline.autoRemoveChildren) {
@@ -36434,6 +36481,70 @@ var InitHeadroom = function () {
 	return InitHeadroom;
 }();
 
+var CharLimit = function () {
+	function CharLimit(el) {
+		classCallCheck(this, CharLimit);
+
+		if (!el) {
+			return;
+		}
+		this.el = el;
+		this.input = el.querySelector('textarea');
+		this.countEl = null;
+
+		this.maxLength = el.dataset.maxLength;
+		this.charsLeft = this.calcCharsLeft;
+
+		this.init();
+	}
+
+	createClass(CharLimit, [{
+		key: 'createMessage',
+		value: function createMessage() {
+			var elMarkup = '\n\t\t<span class="c-char-limit__count js-char-limit-count">' + this.maxLength + '</span> / ' + this.maxLength;
+			var messageHtml = new CreateDomEl('div', 'c-char-limit__message', elMarkup);
+			this.el.appendChild(messageHtml);
+
+			this.countEl = this.el.querySelector('.js-char-limit-count');
+		}
+	}, {
+		key: 'calcCharsLeft',
+		value: function calcCharsLeft() {
+			this.charsLeft = this.maxLength - this.input.value.length;
+		}
+	}, {
+		key: 'updateUI',
+		value: function updateUI() {
+			this.calcCharsLeft();
+
+			if (this.charsLeft <= 0) {
+				this.el.classList.add('is-error');
+			} else {
+				this.el.classList.remove('is-error');
+			}
+			this.countEl.innerHTML = this.charsLeft;
+		}
+	}, {
+		key: 'init',
+		value: function init() {
+			this.el.classList.add('c-char-limit');
+			this.createMessage();
+			this.bindEvents();
+			this.updateUI();
+		}
+	}, {
+		key: 'bindEvents',
+		value: function bindEvents() {
+			var _this = this;
+
+			this.input.addEventListener('keyup', function () {
+				return _this.updateUI();
+			});
+		}
+	}]);
+	return CharLimit;
+}();
+
 (function () {
 	var enhance = 'querySelector' in document && 'localStorage' in window && 'addEventListener' in window && 'classList' in document.documentElement;
 
@@ -36448,11 +36559,15 @@ var InitHeadroom = function () {
 		if ($toggleButton) {
 			var toggleNavInstance = new ToggleNav($toggleButton);
 		}
-		initSmoothScroll();
 
+		var smoothScroll = new smoothScroll_min('a[href^="#"]:not(.js-no-scroll)');
 		new InitHeadroom();
 		new StickyHeader($('.js-header-logo'));
 
+		var charLimitEls = $$('.js-char-limit');
+		Array.from(charLimitEls).forEach(function (item) {
+			var charLimitEl = new CharLimit(item);
+		});
 		TriggerAnimations();
 	}
 	svg4everybody();

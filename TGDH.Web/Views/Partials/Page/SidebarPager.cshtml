@@ -7,10 +7,10 @@
 	if( parent == null ) {
 		return;
 	}
-	var allCaseStudies = parent.Children();
+	var allCaseStudies = parent.Children().Where(x => x.IsVisible());
 
-	var previousCase = Model.Previous();
-	var nextCase = Model.Next();
+	var previousCase = Model.Previous(x => x.IsVisible());
+	var nextCase = Model.Next(x => x.IsVisible());
 
 	if( nextCase == null ) {
 		nextCase = allCaseStudies.FirstOrDefault();

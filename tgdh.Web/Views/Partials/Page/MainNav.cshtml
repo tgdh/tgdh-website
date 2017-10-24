@@ -1,6 +1,9 @@
 @inherits UmbracoViewPage<IPublishedContent>
 @{
-    var homePage = Model.Site();
+    var homePage = Umbraco.TypedContent(1061);
+	if (homePage == null) {
+		return;
+	}
     var primaryMenuItems = homePage.Children.Where(x => x.IsVisible() && x.TemplateId > 0 && !x.GetPropertyValue<bool>("isSecondaryNav"));
 
 	var secondaryMenuItems = homePage.Children.Where(x => x.IsVisible() && x.TemplateId > 0 && x.GetPropertyValue<bool>("isSecondaryNav"));

@@ -21,9 +21,9 @@
     var aspectRatioClass = hasRatio ? "o-aspect--" + aspectRatio.Replace(":", "-") : "";
 
 	@* images *@
-    var imageUrlSmall = Url.GetCropUrl(image, cropAlias: aspectRatio, width: 500, quality: 85, upScale: false, htmlEncode: false).ToString();
-    var imageUrlMedium = Url.GetCropUrl(image, cropAlias: aspectRatio, width: 1000, quality: 85, upScale: false, htmlEncode: false).ToString();
-    var imageUrlLarge = Url.GetCropUrl(image, cropAlias: aspectRatio, width: Model.ImageWidth, quality: 85, upScale: false, htmlEncode: false).ToString();
+    var imageUrlSmall = Url.GetCropUrl(image, cropAlias: aspectRatio, width: 500, upScale: false, htmlEncode: false).ToString();
+    var imageUrlMedium = Url.GetCropUrl(image, cropAlias: aspectRatio, width: 1000, upScale: false, htmlEncode: false).ToString();
+    var imageUrlLarge = Url.GetCropUrl(image, cropAlias: aspectRatio, width: Model.ImageWidth, upScale: false, htmlEncode: false).ToString();
 
     var caption = image.GetPropertyValue<string>("caption");
     var altText = image.GetPropertyValue<string>("altText");

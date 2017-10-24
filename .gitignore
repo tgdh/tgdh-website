@@ -301,3 +301,6 @@ __pycache__/
 **/App_Data/cache/
 
 _assets/js/modules/Config.js
+_assets/_components
+
+TGDH.Web/assets
