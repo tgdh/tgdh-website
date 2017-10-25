@@ -1,7 +1,7 @@
 import * as Waypoints from "waypoints/lib/noframework.waypoints";
 import * as inviews from "waypoints/lib/shortcuts/inview";
 import BlockReveal from "./BlockReveal";
-//import RevealFx from "./Reveal";
+// import RevealFx from "./Reveal";
 
 const BlockAnimations = () => {
 	document.addEventListener('DOMContentLoaded', () => {
@@ -10,6 +10,7 @@ const BlockAnimations = () => {
 			return;
 		}
 		const viewHeight = document.documentElement.clientHeight;
+		const offsetViewHeight = viewHeight - 200;
 
 		const RevealElement = function (item, blockRevealItem) {
 			if (item.querySelector('.js-lazyload')) {
@@ -35,13 +36,13 @@ const BlockAnimations = () => {
 			const waypoint = new Waypoint.Inview({
 				element: item,
 				enter: (direction) => {
-					if (elHeight > viewHeight) {
-						// console.log('enter');
+					if (elHeight > offsetViewHeight) {
+						// console.log('enter', item);
 						RevealElement(item, blockRevealItem);
 					}
 				},
 				entered: (direction) => {
-					// console.log('entered');
+					// console.log('entered', item);
 					RevealElement(item, blockRevealItem);
 				},
 				exit: () => {

@@ -16,6 +16,7 @@ import AnimateWatford from './AnimateWatford';
 
 import AnimateAbout from './AnimateAbout';
 
+/* eslint-disable no-new */
 const TriggerAnimations = () => {
 	const $html = document.querySelector('html');
 

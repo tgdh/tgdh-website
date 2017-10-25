@@ -23588,7 +23588,7 @@ var BlockReveal = function () {
 	return BlockReveal;
 }();
 
-//import RevealFx from "./Reveal";
+// import RevealFx from "./Reveal";
 
 var BlockAnimations = function BlockAnimations() {
 	document.addEventListener('DOMContentLoaded', function () {
@@ -23597,6 +23597,7 @@ var BlockAnimations = function BlockAnimations() {
 			return;
 		}
 		var viewHeight = document.documentElement.clientHeight;
+		var offsetViewHeight = viewHeight - 200;
 
 		var RevealElement = function RevealElement(item, blockRevealItem) {
 			if (item.querySelector('.js-lazyload')) {
@@ -23622,13 +23623,13 @@ var BlockAnimations = function BlockAnimations() {
 			var waypoint = new Waypoint.Inview({
 				element: item,
 				enter: function enter(direction) {
-					if (elHeight > viewHeight) {
-						// console.log('enter');
+					if (elHeight > offsetViewHeight) {
+						// console.log('enter', item);
 						RevealElement(item, blockRevealItem);
 					}
 				},
 				entered: function entered(direction) {
-					// console.log('entered');
+					// console.log('entered', item);
 					RevealElement(item, blockRevealItem);
 				},
 				exit: function exit() {
@@ -35921,6 +35922,7 @@ var AnimateAbout = function () {
 	return AnimateAbout;
 }();
 
+/* eslint-disable no-new */
 var TriggerAnimations = function TriggerAnimations() {
 	var $html = document.querySelector('html');
 

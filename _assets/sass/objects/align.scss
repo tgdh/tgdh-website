@@ -9,7 +9,7 @@
 	clear: both;
 }
 
-
+/*
 @include respond-min( $mq-medium ) {
 
 	.o-align--left,
@@ -29,6 +29,7 @@
 	}
 
 }
+*/
 
 @include respond-min-max( $mq-medium, $mq-xx-large ) {
 
