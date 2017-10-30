@@ -29,7 +29,7 @@
 			Alignment = alignment,
 			AspectRatio = Model.AspectRatio,
 			ImageWidth = imageWidth,
-			AdditionalClass = alignment == "full" ? "js-block-reveal" : ""
+			AdditionalClass = alignment == "full" ? "" : ""
 		};
 		@Html.Partial("~/Views/Partials/Components/Image.cshtml", singleImageModel)
 		return;
@@ -37,7 +37,7 @@
 
 }
 
-<figure class="c-carousel @aspectRatioClass @alignmentClass @Model.AdditionalClass js-block-reveal">
+<figure class="c-carousel @aspectRatioClass @alignmentClass @Model.AdditionalClass">
     <div class="c-carousel__inner js-carousel swiper-container" data-loop="false" data-autoplay-speed="4000" data-count="1" data-modal-type="gallery">
 		<div class="swiper-wrapper c-carousel__wrapper">
 	        @foreach (var media in typedMedia)

@@ -2,7 +2,6 @@ import TweenMax from "gsap/tweenmax";
 import TimeLineMax from "gsap/TimeLineMax";
 import Power4 from "gsap/easepack";
 
-import InitAnimations from './Animations';
 import AnimateHullTruck from './AnimateHullTruck';
 import AnimateAIM from './AnimateAIM';
 import AnimateEvodia from './AnimateEvodia';
@@ -19,8 +18,6 @@ import AnimateAbout from './AnimateAbout';
 /* eslint-disable no-new */
 const TriggerAnimations = () => {
 	const $html = document.querySelector('html');
-
-	InitAnimations();
 
 	if ($html.classList.contains('s-hullTruckCaseStudy')) {
 		new AnimateHullTruck();
