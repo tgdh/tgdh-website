@@ -9,29 +9,20 @@
 
 	.c-brief__section {
 		width: 100%;
+		position: absolute;
+		top: 0;
+	}
+
+	.c-brief__slide {
+		width: 100%;
 		opacity: 0;
 		pointer-events: none;
 		position: absolute;
 		top: 0;
 
-		&.c-brief__section--is-active {
+		&.is-active {
 			opacity: 1;
 			pointer-events: inherit;
-		}
-	}
-
-	.c-brief__section-page-wrap {
-		position: relative;
-
-		.c-brief__section-page {
-			width: 100%;
-			position: absolute;
-			top: 0;
-			opacity: 0;
-
-			&.is-active {
-				opacity: 1;
-			}
 		}
 	}
 

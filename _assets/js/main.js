@@ -57,6 +57,7 @@ import Brief from './modules/Brief';
 		headroom.init();
 	}
 })();
-		if (window.matchMedia('(min-width: 1000px)').matches) {
-			const brief = new Brief($('.js-brief'));
-		}
+
+if (window.matchMedia('(min-width: 1000px)').matches) {
+	const brief = new Brief($('.js-brief'));
+}

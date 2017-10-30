@@ -142,7 +142,10 @@ gulp.task('js', function () {
 //                }
 			}),
 			babel({
-                exclude: 'node_modules/**/!(image-comparison/ImageComparison.js)'
+                exclude: [
+					'node_modules/**/!(image-comparison/ImageComparison.js)',
+					'node_modules/**/!(bunnyjs)',
+				]
             })
 		],
 	})

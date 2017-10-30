@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "aos": "^2.1.1",
+    "bunnyjs": "^0.14.37",
     "fontfaceobserver": "^2.0.8",
     "fr-tabs": "^1.0.6",
     "google-maps-api-loader": "^0.3.0",

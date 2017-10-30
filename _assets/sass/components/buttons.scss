@@ -24,15 +24,16 @@
 		box-shadow: 0 .3rem 0 0 rgba( $black, .1 );
 	}
 
+	&:disabled,
 	&.is-disabled.is-disabled {
 		background: $border-colour;
 		border-color: $border-colour;
 		color: $white;
 		cursor: not-allowed;
 
-
 		&:hover,
 		&:focus {
+			color: $white;
 			background: $border-colour;
 			border-color: $border-colour;
 		}
