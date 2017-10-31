@@ -15,6 +15,10 @@
 	}
 }
 
+.s-caseStudyStWilf__messaging {
+	overflow: hidden;
+}
+
 .s-caseStudyStWilf__messaging__image {
 	max-width: 30%;
 	position: absolute;
@@ -172,6 +176,10 @@
 
 
 // content & social
+
+.s-caseStudyStWilf__content-social {
+	overflow: hidden;
+}
 
 @include respond-max( $mq-medium ) {
 

@@ -24,14 +24,14 @@
 @helper RenderMobile( IPublishedContent image ) {
 	var imageUrl = image.Url + "?width=375&height=667&mode=crop&anchor=top";
 
-	<div class="c-mobile-frame">
+	<div class="c-mobile-frame @Model.ModifierClass">
 		<img src="@imageUrl" alt="" class="c-mobile-frame__image">
 	</div>
 }
 
 @helper RenderDesktop( IPublishedContent image ) {
 	var imageUrl = image.Url + "?width=860&height=640&mode=crop&anchor=top";
-	<div class="c-desktop-frame">
+	<div class="c-desktop-frame @Model.ModifierClass">
 		<img src="@imageUrl" alt="" class="c-desktop-frame__image">
 	</div>
 }

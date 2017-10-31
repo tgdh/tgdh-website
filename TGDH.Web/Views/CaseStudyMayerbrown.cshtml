@@ -44,7 +44,8 @@
 		var gallery1 = new GalleryViewModel
 		{
 			MediaIds = Model.GetPropertyValue<string>("galleryImages"),
-			AspectRatio = "16:9"
+			AspectRatio = "16:9",
+			Alignment = "full width"
 		};
 	}
 	@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", gallery1)
@@ -54,7 +55,8 @@
 		var gallery2 = new GalleryViewModel
 		{
 			MediaIds = Model.GetPropertyValue<string>("galleryImages2"),
-			AspectRatio = "16:9"
+			AspectRatio = "16:9",
+			Alignment = "full width"
 		};
 	}
 	@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", gallery2)
@@ -102,12 +104,12 @@
 
 
 
-		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix js-caseStudyMayerbrown__web__desktop">
             <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
     			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
     			@Model.GetPropertyValue("desktopCopy")
             </div>
-            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
+            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image js-caseStudyMayerbrown__web__desktop__image">
 				@{
 					var desktopImage = new DeviceFrameViewModel
 					{
@@ -121,7 +123,7 @@
 
 
 
-		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix">
+		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix js-caseStudyMayerbrown__web__mobile">
 			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading3)
 				@Model.GetPropertyValue("mobileCopy")
@@ -131,12 +133,14 @@
 					var mobileImage1 = new DeviceFrameViewModel
 					{
 						ImageId = Model.GetPropertyValue<int>("mobileImage1"),
-						Type = "mobile"
+						Type = "mobile",
+						ModifierClass = "js-caseStudyMayerbrown__web__mobile__image-first"
 					};
 					var mobileImage2 = new DeviceFrameViewModel
 					{
 						ImageId = Model.GetPropertyValue<int>("mobileImage2"),
-						Type = "mobile"
+						Type = "mobile",
+						ModifierClass = "js-caseStudyMayerbrown__web__mobile__image-second"
 					};
 				}
 				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage1)
@@ -156,10 +160,10 @@
 	var image = Umbraco.TypedMedia(Model.GetPropertyValue<int>("contentSocialImage"));
 	var imageUrl = image != null ? image.Url + "?width=380" : "";
 
-	<section class="o-section s-caseStudyMayerbrown__content-social">
+	<section class="o-section s-caseStudyMayerbrown__content-social js-caseStudyMayerbrown__content-social">
 
 		@if(!String.IsNullOrWhiteSpace(imageUrl)) {
-			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-caseStudyMayerbrown__content-social__image">
+			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-caseStudyMayerbrown__content-social__image js-caseStudyMayerbrown__content-social__image">
 		}
 
 		<div class="o-section__inner o-wrap o-wrap--x-large">

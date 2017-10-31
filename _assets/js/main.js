@@ -1,6 +1,6 @@
-import Headroom from 'headroom.js';
 import whatInput from 'what-input';
 import svg4everybody from 'svg4everybody';
+import SmoothScroll from 'smooth-scroll';
 import LoadFonts from './modules/LoadFonts';
 import { $, $$ } from './modules/Bling';
 import ToggleNav from './modules/ToggleNav';
@@ -9,8 +9,9 @@ import InitImageComparison from './modules/ImageCompare';
 import carousel from './modules/Carousel';
 import tilt from './modules/Tilt';
 import GMap from './modules/GMaps';
-import initSmoothScroll from './modules/SmoothScroll';
 import StickyHeader from './modules/StickyHeader';
+import TriggerAnimations from './modules/TriggerAnimations';
+import InitHeadroom from './modules/InitHeadroom';
 import CharAllowance from './modules/CharAllowance';
 
 (() => {
@@ -30,21 +31,17 @@ import CharAllowance from './modules/CharAllowance';
 		if ($toggleButton) {
 			const toggleNavInstance = new ToggleNav($toggleButton);
 		}
-		initSmoothScroll();
+
+		const smoothScroll = new SmoothScroll('a[href^="#"]:not(.js-no-scroll)');
+		new InitHeadroom();
 		new StickyHeader($('.js-header-logo'));
 
 		const charLimitEls = $$('.js-char-limit');
 		Array.from(charLimitEls).forEach((item) => {
 			const charLimitEl = new CharAllowance(item);
 		});
+		TriggerAnimations();
 	}
 	svg4everybody();
 
-	if (window.matchMedia('(max-width: 999px)').matches) {
-		const header = $('.js-header');
-		const headroom = new Headroom(header);
-		const headerHeight = window.getComputedStyle(header).height;
-		$('body').style.paddingTop = headerHeight;
-		headroom.init();
-	}
 })();

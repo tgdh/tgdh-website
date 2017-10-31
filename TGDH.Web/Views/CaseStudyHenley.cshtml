@@ -45,7 +45,12 @@
 	@Html.Partial("~/Views/Partials/Components/QuoteFeature.cshtml", Quote1Model)
 	@RenderPlanning()
 
-	@RenderImageCols()
+	@Html.Partial("~/Views/Partials/Components/ImageColumns.cshtml", new ImageColumnsViewModel {
+		FirstImageId = Model.GetPropertyValue<int>("imageCol1"),
+		LastImageId = Model.GetPropertyValue<int>("imageCol2"),
+		ModifierClass = "s-caseStudyHenley__image-cols"
+	})
+
 	@RenderWebsite()
 
 	@Html.Partial("~/Views/Partials/Components/Image.cshtml", fullWidthImage)
@@ -82,9 +87,9 @@
   var image = Umbraco.TypedMedia(Model.GetPropertyValue<int>("planningImage"));
   var imageUrl = image != null ? image.Url + "?width=540" : "";
 
-	<section class="o-section u-clearfix s-caseStudyHenley__planning">
+	<section class="o-section u-clearfix s-caseStudyHenley__planning js-caseStudyHenley__planning">
     @if( !String.IsNullOrWhiteSpace(imageUrl) ) {
-      <img src="@imageUrl" alt="image.GetPropertyValue("altText")" class="s-caseStudyHenley__planning__image">
+      <img src="@imageUrl" alt="image.GetPropertyValue("altText")" class="s-caseStudyHenley__planning__image js-caseStudyHenley__planning__image">
     }
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
@@ -93,26 +98,6 @@
 					@Model.GetPropertyValue("planningCopy")
 				</div>
 			</div>
-		</div>
-	</section>
-}
-
-@helper RenderImageCols() {
-	var image1 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol1"));
-	var image1Url = image1 != null ? image1.Url + "?width=753&height=600&mode=crop" : "";
-
-	var image2 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("imageCol2"));
-	var image2Url = image2 != null ? image2.Url + "?width=753&height=600&mode=crop" : "";
-
-    if( image1 == null || image2 == null ) {
-        return;
-    }
-	<section class="c-image-col s-caseStudyAIM__image-cols u-clearfix">
-		<div class="c-image-col__col c-image-col__col--first s-caseStudyAIM__image-cols__col">
-			<img src="@image1Url" alt="" class="c-image-col__image">
-		</div>
-		<div class="c-image-col__col s-caseStudyAIM__image-cols__col">
-			<img src="@image2Url" alt="" class="c-image-col__image">
 		</div>
 	</section>
 }
@@ -159,12 +144,12 @@
 
 
 
-		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix js-caseStudyHenley__web__desktop">
             <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
     			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
     			@Model.GetPropertyValue("desktopCopy")
             </div>
-            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
+            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image js-caseStudyHenley__web__desktop__image">
 				@{
 					var desktopImage = new DeviceFrameViewModel
 					{
@@ -178,7 +163,7 @@
 
 
 
-		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix">
+		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix js-caseStudyHenley__web__mobile">
 			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading3)
 				@Model.GetPropertyValue("mobileCopy")
@@ -188,12 +173,14 @@
 					var mobileImage1 = new DeviceFrameViewModel
 					{
 						ImageId = Model.GetPropertyValue<int>("mobileImage1"),
-						Type = "mobile"
+						Type = "mobile",
+						ModifierClass = "js-caseStudyHenley__web__mobile__image-first"
 					};
 					var mobileImage2 = new DeviceFrameViewModel
 					{
 						ImageId = Model.GetPropertyValue<int>("mobileImage2"),
-						Type = "mobile"
+						Type = "mobile",
+						ModifierClass = "js-caseStudyHenley__web__mobile__image-second"
 					};
 				}
 				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage1)
@@ -201,12 +188,12 @@
 			</div>
 		</div>
 
-		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix js-caseStudyHenley__web__desktop-2">
 			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading4)
 				@Model.GetPropertyValue("desktopCopy2")
 			</div>
-			<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image">
+			<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image js-caseStudyHenley__web__desktop-2__image">
 				@{
 					var desktopImage2 = new DeviceFrameViewModel
 					{

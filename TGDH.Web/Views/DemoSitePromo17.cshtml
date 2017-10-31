@@ -24,6 +24,9 @@
 				Headline = Model.GetPropertyValue<string>("introHeadline"),
 				Subtitle = Model.GetPropertyValue<string>("introSubtitle")
 			})
+
+			<a href="#questionnaire" class="c-button c-button--primary u-space-bottom">Skip to questionnaire</a>
+
 			<div class="o-col--two-one u-clearfix">
 				<div class="o-col o-col--first">
 					@Model.GetPropertyValue("introCopy")
@@ -60,7 +63,7 @@
 		</div>
 	</section>
 
-	<section id="formSection" class="o-section">
+	<section id="questionnaire" class="o-section">
 		<div class="o-section__inner o-wrap o-wrap--x-large u-clearfix">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 				Headline = Model.GetPropertyValue<string>("formHeadline"),
@@ -95,7 +98,7 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script type="text/javascript">
     $(function () {
-		var $formSection = $('#formSection');
+		var $formSection = $('#questionnaire');
 		var $form = $('#subForm');
 
 		formSectionOffset = $formSection.offset().top;

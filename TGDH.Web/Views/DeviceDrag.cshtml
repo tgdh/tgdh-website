@@ -1,0 +1,49 @@
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+    Layout = "Master.cshtml";
+}
+<style media="screen">
+	.test {
+		height:800px;
+		padding: 100px;
+
+		width:100%;
+		border:1px solid white;
+		overflow-y: scroll;
+		overflow-x: hidden;
+		white-space: nowrap;
+		user-select: none;
+		cursor: pointer;
+		transition: all 0.2s;
+		transform: scale(0.98);
+		will-change: transform;
+		position: relative;
+		background: rgba(255,255,255,0.1);
+		font-size: 0;
+		perspective: 500px;
+	}
+
+	.test.active {
+		background: rgba(255,255,255,0.3);
+		cursor: grabbing;
+		cursor: -webkit-grabbing;
+		transform: scale(1);
+	}
+</style>
+
+<main id="main" class="o-page__content" role="main">
+	<h1>test</h1>
+
+	<div class="o-wrap o-wrap--small">
+		@{
+			var image = Umbraco.TypedMedia(1360);
+			var imageUrl = image.Url + "?width=600mode=crop&anchor=top";
+		}
+		<div class="c-mobile-frame">
+			<div class="c-mobile-frame__image .test">
+				<img src="@imageUrl" alt="" class="c-mobile-frame__images">
+			</div>
+		</div>
+	</div>
+
+</main>

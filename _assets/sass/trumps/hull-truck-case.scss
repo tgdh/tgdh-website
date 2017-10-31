@@ -21,6 +21,7 @@
 // city of culture {
 .s-hullTruckCaseStudy__city-culture {
 	position: relative;
+	overflow: hidden;
 }
 
 .s-hullTruckCaseStudy__city-culture__image {
@@ -33,6 +34,10 @@
 }
 
 // advertisting
+
+.s-hullTruckCaseStudy__advertisting {
+	overflow: hidden;
+}
 
 .s-hullTruckCaseStudy__advertisting__image-col--first {
 	@include column(2.5/7);

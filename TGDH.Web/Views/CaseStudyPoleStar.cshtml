@@ -58,9 +58,9 @@
     var image = Umbraco.TypedMedia(Model.GetPropertyValue<int>("journeyImage"));
 	var imageUrl = image != null ? image.Url + "?width=500" : "";
 
-	<section class="o-section s-caseStudyPoleStar__journey" style="background-image: url(@bgImageUrl);">
+	<section class="o-section s-caseStudyPoleStar__journey js-caseStudyPoleStar__journey" style="background-image: url(@bgImageUrl);">
         @if(!String.IsNullOrWhiteSpace(imageUrl)) {
-            <img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-caseStudyPoleStar__journey__image">
+            <img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-caseStudyPoleStar__journey__image js-caseStudyPoleStar__journey__image">
         }
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
@@ -140,12 +140,12 @@
 
 
 
-		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix js-caseStudyPoleStar__web__desktop">
             <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
     			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
     			@Model.GetPropertyValue("desktopCopy")
             </div>
-            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
+            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image js-caseStudyPoleStar__web__desktop__image">
 				@{
 					var desktopImage = new DeviceFrameViewModel
 					{
@@ -159,7 +159,7 @@
 
 
 
-		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix">
+		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix js-caseStudyPoleStar__web__mobile">
 			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading3)
 				@Model.GetPropertyValue("mobileCopy")
@@ -169,12 +169,14 @@
 					var mobileImage1 = new DeviceFrameViewModel
 					{
 						ImageId = Model.GetPropertyValue<int>("mobileImage1"),
-						Type = "mobile"
+						Type = "mobile",
+						ModifierClass = "js-caseStudyPoleStar__web__mobile__image-first"
 					};
 					var mobileImage2 = new DeviceFrameViewModel
 					{
 						ImageId = Model.GetPropertyValue<int>("mobileImage2"),
-						Type = "mobile"
+						Type = "mobile",
+						ModifierClass = "js-caseStudyPoleStar__web__mobile__image-second"
 					};
 				}
 				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage1)
@@ -182,17 +184,18 @@
 			</div>
 		</div>
 
-		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix js-caseStudyPoleStar__web__desktop-2">
             <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
     			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading4)
     			@Model.GetPropertyValue("desktopCopy2")
             </div>
-            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
+            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image">
 				@{
 					var desktopImage2 = new DeviceFrameViewModel
 					{
 						ImageId = Model.GetPropertyValue<int>("desktopImage2"),
-						Type = "desktop"
+						Type = "desktop",
+						ModifierClass = "js-caseStudyPoleStar__web__desktop-2__image"
 					};
 				}
 				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", desktopImage2)

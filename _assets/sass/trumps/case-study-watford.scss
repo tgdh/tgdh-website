@@ -1,0 +1,60 @@
+/* ===========================================================
+
+  # Case study - Watford
+
+=========================================================== */
+
+.s-caseStudyWatford__season-guide {
+	position: relative;
+	overflow: hidden;
+
+	.o-section__inner {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+// season guide
+
+.s-caseStudyWatford__season-guide__image {
+	max-height: 100%;
+	position: absolute;
+	right: -8%;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+@include respond-max( $mq-x-large ) {
+
+	.s-caseStudyWatford__season-guide__image {
+		display: none;
+	}
+
+}
+
+// fonts
+
+@include respond-max( $mq-medium ) {
+
+	.s-caseStudyWatford__branding__fonts {
+
+		img {
+			max-width: 90%;
+		}
+
+	}
+
+}
+
+
+@include respond-min( $mq-medium ) {
+
+	.s-caseStudyWatford__branding__fonts {
+
+		img {
+			max-width: 75%;
+		}
+
+	}
+
+}

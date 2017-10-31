@@ -46,7 +46,8 @@
 		var galleryModel = new GalleryViewModel
 		{
 			MediaIds = Model.GetPropertyValue<string>("galleryImages"),
-			AspectRatio = "16:9"
+			AspectRatio = "16:9",
+			Alignment = "full width"
 		};
 	}
 	@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", galleryModel)
@@ -66,9 +67,9 @@
 	var image = Umbraco.TypedMedia(Model.GetPropertyValue<int>("messagingImage"));
 	var imageUrl = image != null ? image.Url + "?width=500" : "";
 
-    <section class="o-section s-caseStudyStWilf__messaging">
+    <section class="o-section s-caseStudyStWilf__messaging js-caseStudyStWilf__messaging">
 		@if(!String.IsNullOrWhiteSpace(imageUrl)) {
-			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-caseStudyStWilf__messaging__image">
+			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-caseStudyStWilf__messaging__image js-caseStudyStWilf__messaging__image">
 		}
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
@@ -90,9 +91,9 @@
 	var image = Umbraco.TypedMedia(Model.GetPropertyValue<int>("briefImage"));
 	var imageUrl = image != null ? image.Url + "?width=500" : "";
 
-    <section class="o-section s-caseStudyStWilf__brief u-background--light">
+    <section class="o-section s-caseStudyStWilf__brief u-background--light js-caseStudyStWilf__brief">
 		@if(!String.IsNullOrWhiteSpace(imageUrl)) {
-			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-caseStudyStWilf__brief__image">
+			<img src="@imageUrl" alt="@image.GetPropertyValue("altText")" class="s-caseStudyStWilf__brief__image js-caseStudyStWilf__brief__image">
 		}
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
@@ -213,10 +214,10 @@
 	{
 		ImageId = Model.GetPropertyValue<int>("brandGuideImage"),
 		ImageWidth = 800,
-		AdditionalClass = "s-caseStudyStWilf__brand-guide__image-main"
+		AdditionalClass = "s-caseStudyStWilf__brand-guide__image-main js-caseStudyStWilf__brand-guide__image"
 	};
 
-    <section class="o-section s-caseStudyStWilf__brand-guide u-background--light">
+    <section class="o-section s-caseStudyStWilf__brand-guide u-background--light js-caseStudyStWilf__brand-guide">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Image.cshtml", imageModel)
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
@@ -244,9 +245,9 @@
 	var image3 = Umbraco.TypedMedia(Model.GetPropertyValue<int>("liveryImage3"));
 	var imageUrl3 = image1 != null ? image3.Url + "?width=650" : "";
 
-    <section class="o-section s-caseStudyStWilf__livery">
+    <section class="o-section s-caseStudyStWilf__livery js-caseStudyStWilf__livery">
 		@if(!String.IsNullOrWhiteSpace(imageUrl3)) {
-			<img src="@imageUrl3" alt="@image3.GetPropertyValue("altText")" class="s-caseStudyStWilf__livery__image-main">
+			<img src="@imageUrl3" alt="@image3.GetPropertyValue("altText")" class="s-caseStudyStWilf__livery__image-main js-caseStudyStWilf__livery__image">
 		}
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
@@ -313,12 +314,12 @@
 
 
 
-		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix js-caseStudyStWilf__web__desktop">
             <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
     			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading2)
     			@Model.GetPropertyValue("desktopCopy")
             </div>
-            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
+            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image js-caseStudyStWilf__web__desktop__image">
 				@{
 					var desktopImage = new DeviceFrameViewModel
 					{
@@ -332,7 +333,7 @@
 
 
 
-		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix">
+		<div class="o-section o-wrap o-wrap--x-large c-image-offset-column c-image-offset-column--reverse u-clearfix js-caseStudyStWilf__web__mobile">
 			<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading3)
 				@Model.GetPropertyValue("mobileCopy")
@@ -342,12 +343,14 @@
 					var mobileImage1 = new DeviceFrameViewModel
 					{
 						ImageId = Model.GetPropertyValue<int>("mobileImage1"),
-						Type = "mobile"
+						Type = "mobile",
+						ModifierClass = "js-caseStudyStWilf__web__mobile__image-first"
 					};
 					var mobileImage2 = new DeviceFrameViewModel
 					{
 						ImageId = Model.GetPropertyValue<int>("mobileImage2"),
-						Type = "mobile"
+						Type = "mobile",
+						ModifierClass = "js-caseStudyStWilf__web__mobile__image-second"
 					};
 				}
 				@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", mobileImage1)
@@ -355,12 +358,12 @@
 			</div>
 		</div>
 
-		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix">
+		<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix js-caseStudyStWilf__web__desktop-2">
             <div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
     			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading4)
     			@Model.GetPropertyValue("desktopCopy2")
             </div>
-            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image u-anim u-anim-duration-20"  data-scroll="toggle(slideInRight, slideOutRight) addHeight(false)">
+            <div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image js-caseStudyStWilf__web__desktop-2__image">
 				@{
 					var desktopImage2 = new DeviceFrameViewModel
 					{
@@ -383,10 +386,11 @@
 	var mobileImage = new DeviceFrameViewModel
 	{
 		ImageId = Model.GetPropertyValue<int>("contentSocialImage"),
-		Type = "mobile"
+		Type = "mobile",
+		ModifierClass = "js-caseStudyStWilf__content-social__image"
 	};
 
-	<section class="o-section s-caseStudyStWilf__content-social">
+	<section class="o-section s-caseStudyStWilf__content-social js-caseStudyStWilf__content-social">
 		<div class="o-section__inner o-wrap o-wrap--x-large">
 
 			<div class="o-col--two-one u-clearfix">
