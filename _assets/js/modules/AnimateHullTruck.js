@@ -9,7 +9,7 @@ class AnimateHullTruck {
 		this.windowHeight = window.innerHeight;
 		this.controller = new ScrollMagic.Controller();
 		this.cityCulture();
-		this.advertising();
+		setTimeout(this.advertising(), 100);
 		this.websiteDesktop();
 		this.websiteMobile();
 		this.websiteDesktop2();
