@@ -4,6 +4,25 @@
 
 =========================================================== */
 
+.enhance {
+
+	.c-brief {
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity $speed $ease;
+	}
+
+}
+
+.enhance {
+
+	.c-brief--is-ready {
+		opacity: 1;
+		pointer-events: inherit;
+	}
+
+}
+
 .c-brief--is-ready {
 	position: relative;
 
@@ -24,6 +43,10 @@
 			opacity: 1;
 			pointer-events: inherit;
 		}
+	}
+
+	.c-brief__section-actions {
+		margin-top: $line-height;
 	}
 
 }

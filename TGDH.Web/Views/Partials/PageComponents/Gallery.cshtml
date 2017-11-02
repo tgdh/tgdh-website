@@ -28,7 +28,8 @@
 			ImageId = typedMedia.First().Id,
 			Alignment = alignment,
 			AspectRatio = Model.AspectRatio,
-			ImageWidth = imageWidth
+			ImageWidth = imageWidth,
+			AdditionalClass = alignment == "full" ? "" : ""
 		};
 		@Html.Partial("~/Views/Partials/Components/Image.cshtml", singleImageModel)
 		return;

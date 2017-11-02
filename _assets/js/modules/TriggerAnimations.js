@@ -1,46 +1,90 @@
-import Velocity from 'velocity-animate';
-import * as velocityui from 'velocity-animate/velocity.ui';
-import { $ } from './Bling';
+import TweenMax from "gsap/tweenmax";
+import TimeLineMax from "gsap/TimeLineMax";
+import Power4 from "gsap/easepack";
 
-const animateHullTruck = () => {
-	const stats1 = $('.js-ht-stats-1').querySelectorAll('.js-stat');
-	Velocity(stats1, 'transition.slideUpIn', { stagger: 300 });
+import AnimateHullTruck from './AnimateHullTruck';
+import AnimateAIM from './AnimateAIM';
+import AnimateEvodia from './AnimateEvodia';
+import AnimateHenley from './AnimateHenley';
+import AnimateMayerBrown from './AnimateMayerBrown';
+import AnimateOctagon from './AnimateOctagon';
+import AnimatePGS from './AnimatePGS';
+import AnimatePoleStar from './AnimatePoleStar';
+import AnimateStWilfs from './AnimateStWilfs';
+import AnimateWatford from './AnimateWatford';
 
-	console.log(stats1);
-};
+import AnimateAbout from './AnimateAbout';
 
-const triggerAnimations = () => {
-	animateHullTruck();
-};
+/* eslint-disable no-new */
+const TriggerAnimations = () => {
+	const $html = document.querySelector('html');
+
+	if ($html.classList.contains('s-hullTruckCaseStudy')) {
+		new AnimateHullTruck();
+	}
+
+	if ($html.classList.contains('s-caseStudyAIM')) {
+		new AnimateAIM();
+	}
+
+	if ($html.classList.contains('s-caseStudyEvodia')) {
+		new AnimateEvodia();
+	}
+
+	if ($html.classList.contains('s-caseStudyHenley')) {
+		new AnimateHenley();
+	}
+
+	if ($html.classList.contains('s-caseStudyMayerbrown')) {
+		new AnimateMayerBrown();
+	}
+
+	if ($html.classList.contains('s-caseStudyOctagon')) {
+		new AnimateOctagon();
+	}
+
+	if ($html.classList.contains('s-caseStudyPGS')) {
+		new AnimatePGS();
+	}
+
+	if ($html.classList.contains('s-caseStudyPoleStar')) {
+		new AnimatePoleStar();
+	}
+
+	if ($html.classList.contains('s-caseStudyStWilf')) {
+		new AnimateStWilfs();
+	}
+
+	if ($html.classList.contains('s-caseStudyWatford')) {
+		new AnimateWatford();
+	}
+
+	if ($html.classList.contains('s-about')) {
+		new AnimateAbout();
+	}
+
 
 /*
-// https://github.com/terwanerik/ScrollTrigger
-import AOS from 'aos';
+	function gridScale() {
+		const $element = document.querySelector('.js-test');
+		const delayMultiplier = 0.0005;
+		const duration = 0.4;
+		const $elements = $element.children;
+		const tl = new TimelineMax({
+			yoyo: true
+		});
 
-const triggerAnimations = () => {
-	AOS.init();
-};
+		Array.from($elements).forEach((el) => {
+			console.log(el);
+			const elementOffset = el.getBoundingClientRect();
+			const offset = elementOffset.left + elementOffset.top;
+			const delay = parseFloat(offset * delayMultiplier).toFixed(2);
+			tl.from(el, duration, { transformOrigin: 'top left', opacity: 0, scale: 0 }, delay);
+		});
+	}
+
+	gridScale();
 */
-
-/*
-import ScrollTrigger from 'scrolltrigger-classes';
-
-const triggerAnimations = () => {
-	document.addEventListener('DOMContentLoaded', () => {
-		const trigger = new ScrollTrigger({
-			toggle: {
-				visible: 'visibleClass',
-				hidden: 'hiddenClass'
-			},
-			offset: {
-				x: 0,
-				y: 100
-			},
-			addHeight: true,
-			once: false
-		}, document.body, window);
-	});
 };
-*/
 
-export default triggerAnimations;
+export default TriggerAnimations;

@@ -4,12 +4,17 @@
 
 =========================================================== */
 
+.c-sidebar-pager {
+	display: none;
+}
+
 @include respond-min( $mq-large ) {
 
 	.enhance {
 
 		.c-sidebar-pager {
 			width: 100%;
+			display: block;
 			position: absolute;
 			right: 0;
 			top: 9.4rem;

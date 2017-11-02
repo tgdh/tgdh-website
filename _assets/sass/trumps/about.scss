@@ -26,6 +26,12 @@
 	position: relative;
 }
 
+.s-about__footer-image {
+	position: relative;
+	z-index: 1;
+	background-color: $white;
+}
+
 @include respond-max( $mq-large ) {
 	.s-about__careers__plant {
 		opacity: .15;

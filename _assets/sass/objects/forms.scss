@@ -133,7 +133,7 @@ $line-height-half: $line-height / 2;
 
 			&:focus {
 
-				& + .o-form__label {
+				& ~ .o-form__label {
 					font-size: 1.2rem;
 					transform: translate(0,-100%);
 				}

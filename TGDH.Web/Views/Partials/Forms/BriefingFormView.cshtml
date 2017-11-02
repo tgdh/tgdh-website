@@ -54,24 +54,24 @@
 			</div>
 			<div class="o-wrap o-wrap--x-large">
 				<div class="c-brief u-clearfix js-brief">
-						@using (Html.BeginUmbracoForm("ProcessFormSubmission", "BriefForm", FormMethod.Post, new { data_persist="garlic", id = "briefing-form", @class = "c-proposal__form js-form" }))
+						@using (Html.BeginUmbracoForm("ProcessFormSubmission", "BriefForm", FormMethod.Post, new { data_persist="garlic", id = "briefing-form", @class = "c-proposal__form js-form", @data_validate = "" }))
 						{
 							@Html.AntiForgeryToken()
 
 	@* Start about fields *@
 	<section class="c-brief__section js-brief-section" data-brief-section-headline="About you" data-brief-section-subtitle="Who you are">
-		<div id="about" class="c-brief__slide js-brief-slide">
+		<fieldset id="about" class="c-brief__slide js-brief-slide">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 				Headline = "About you",
 				Subtitle = "How can we get in touch with you?"
 			})
 			<div class="o-form__row o-form__row--two u-clearfix">
-				<div class="o-form__field o-form__field--compact is-required">
+				<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
 					@Html.TextBoxFor(x => x.YourName, new { required = "required", @class="o-form__input" })
 					@Html.LabelFor(x => x.YourName, new { @class = "o-form__label" })
 					@Html.ValidationMessageFor(x => x.YourName)
 				</div>
-				<div class="o-form__field o-form__field--compact is-required">
+				<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
 					@Html.TextBoxFor(x => x.PhoneNumber, new { required = "required", @class = "o-form__tel" })
 					@Html.LabelFor(x => x.PhoneNumber, new { @class = "o-form__label" })
 					@Html.ValidationMessageFor(x => x.PhoneNumber)
@@ -79,13 +79,13 @@
 			</div>
 
 			<div class="o-form__row o-form__row--two u-clearfix">
-				<div class="o-form__field o-form__field--compact is-required">
+				<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
 					@Html.TextBoxFor(x => x.EmailAddress, new { required = "", type="email", @class="o-form__input" })
 					@Html.LabelFor(x => x.EmailAddress, new { @class = "o-form__label" })
 					@Html.ValidationMessageFor(x => x.EmailAddress)
 				</div>
 
-				<div class="o-form__field o-form__field--compact is-required">
+				<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
 					@Html.TextBoxFor(x => x.CompanyName, new { required = "required", @class="o-form__input" })
 					@Html.LabelFor(x => x.CompanyName, new { @class = "o-form__label" })
 					@Html.ValidationMessageFor(x => x.CompanyName)
@@ -94,7 +94,7 @@
 			<div class="c-brief__section-actions">
 				<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="theBrief">Next</button>
 			</div>
-		</div>
+		</fieldset>
 	</section>
 	@* End about fields *@
 

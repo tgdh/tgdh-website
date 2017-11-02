@@ -11,9 +11,12 @@ import carousel from './modules/Carousel';
 import tilt from './modules/Tilt';
 import GMap from './modules/GMaps';
 import StickyHeader from './modules/StickyHeader';
+import TriggerAnimations from './modules/TriggerAnimations';
+import InitHeadroom from './modules/InitHeadroom';
 import CharAllowance from './modules/CharAllowance';
 import Upload from './modules/Upload';
 import initTabs from './modules/Tabs';
+import EnhanceForms from './modules/EnhanceForms';
 import Brief from './modules/Brief';
 
 (() => {
@@ -33,7 +36,9 @@ import Brief from './modules/Brief';
 		if ($toggleButton) {
 			const toggleNavInstance = new ToggleNav($toggleButton);
 		}
+
 		const smoothScroll = new SmoothScroll('a[href^="#"]:not(.js-no-scroll)');
+		new InitHeadroom();
 		new StickyHeader($('.js-header-logo'));
 
 		const charLimitEls = $$('.js-char-limit');
@@ -41,21 +46,25 @@ import Brief from './modules/Brief';
 			const charLimitEl = new CharAllowance(item);
 		});
 
+		if (window.matchMedia('(max-width: 999px)').matches) {
+			const header = $('.js-header');
+			const headroom = new Headroom(header);
+			const headerHeight = window.getComputedStyle(header).height;
+			$('body').style.paddingTop = headerHeight;
+			headroom.init();
+		}
+
 		Array.from($$('.js-upload')).forEach((item) => {
 			const fileUpload = new Upload(item);
 		});
 
 		initTabs();
+
+		TriggerAnimations();
+		new EnhanceForms();
 	}
 	svg4everybody();
 
-	if (window.matchMedia('(max-width: 999px)').matches) {
-		const header = $('.js-header');
-		const headroom = new Headroom(header);
-		const headerHeight = window.getComputedStyle(header).height;
-		$('body').style.paddingTop = headerHeight;
-		headroom.init();
-	}
 })();
 
 if (window.matchMedia('(min-width: 1000px)').matches) {
