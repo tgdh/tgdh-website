@@ -1,9 +1,11 @@
+import SmoothScroll from 'smooth-scroll';
 import * as ValidityState from 'validate/dist/js/validityState-polyfill';
 import validate from 'validate/dist/js/validate';
 
 import whichTransitionEvent from './WhichTransition';
 
 const INPUTS_TO_VALIDATE = ['input[type="text"]:not([hidden])', 'input[type="email"]', 'textarea', 'input[type="radio"]', 'input[type="file"]'];
+const scroll = new SmoothScroll();
 
 class Brief {
 	constructor(el) {
@@ -59,11 +61,13 @@ class Brief {
 		Brief.showSlide(slide);
 		this.activeSlide = slide;
 		this.setFormHeight(this.activeSlide.offsetHeight);
+		scroll.animateScroll(slide);
+
 		setTimeout(function() {
 			const firstInput = slide.querySelector(INPUTS_TO_VALIDATE);
 			if (firstInput) firstInput.focus();
 			Brief.validateSlide(slide);
-		}, 100);
+		}, 501);
 	}
 
 	init() {
