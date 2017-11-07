@@ -11,6 +11,19 @@
 		overflow: hidden;
 		position: absolute;
 		z-index: -1;
+
+		&:disabled + .c-upload__label {
+			background-color: $light-1;
+			cursor: not-allowed;
+
+			&:hover {
+
+				&:after {
+					border-color: rgba($pri, 0.3);
+				}
+
+			}
+		}
 	}
 
 }
@@ -77,11 +90,19 @@
 
 	}
 
-
 	&.is-valid {
 
 		.c-upload__label:after {
 			border-color: $success !important;
+		}
+
+	}
+
+	&.has-file {
+
+		.c-upload__text {
+			opacity: 1;
+			font-weight: $bold;
 		}
 
 	}

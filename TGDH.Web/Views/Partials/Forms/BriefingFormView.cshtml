@@ -60,41 +60,43 @@
 
 	@* Start about fields *@
 	<section class="c-brief__section js-brief-section" data-brief-section-headline="About you" data-brief-section-subtitle="Who you are">
-		<fieldset id="about" class="c-brief__slide js-brief-slide">
+		<div id="about" class="c-brief__slide js-brief-slide">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 				Headline = "About you",
 				Subtitle = "How can we get in touch with you?"
 			})
-			<div class="o-form__row o-form__row--two u-clearfix">
-				<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
-					@Html.TextBoxFor(x => x.YourName, new { required = "required", @class="o-form__input" })
-					@Html.LabelFor(x => x.YourName, new { @class = "o-form__label" })
-					@Html.ValidationMessageFor(x => x.YourName)
-				</div>
-				<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
-					@Html.TextBoxFor(x => x.PhoneNumber, new { required = "required", @class = "o-form__tel" })
-					@Html.LabelFor(x => x.PhoneNumber, new { @class = "o-form__label" })
-					@Html.ValidationMessageFor(x => x.PhoneNumber)
-				</div>
-			</div>
-
-			<div class="o-form__row o-form__row--two u-clearfix">
-				<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
-					@Html.TextBoxFor(x => x.EmailAddress, new { required = "", type="email", @class="o-form__input" })
-					@Html.LabelFor(x => x.EmailAddress, new { @class = "o-form__label" })
-					@Html.ValidationMessageFor(x => x.EmailAddress)
+			<fieldset disabled>
+				<div class="o-form__row o-form__row--two u-clearfix">
+					<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
+						@Html.TextBoxFor(x => x.YourName, new { required = "required", @class="o-form__input" })
+						@Html.LabelFor(x => x.YourName, new { @class = "o-form__label" })
+						@Html.ValidationMessageFor(x => x.YourName)
+					</div>
+					<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
+						@Html.TextBoxFor(x => x.PhoneNumber, new { required = "required", @class = "o-form__tel" })
+						@Html.LabelFor(x => x.PhoneNumber, new { @class = "o-form__label" })
+						@Html.ValidationMessageFor(x => x.PhoneNumber)
+					</div>
 				</div>
 
-				<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
-					@Html.TextBoxFor(x => x.CompanyName, new { required = "required", @class="o-form__input" })
-					@Html.LabelFor(x => x.CompanyName, new { @class = "o-form__label" })
-					@Html.ValidationMessageFor(x => x.CompanyName)
+				<div class="o-form__row o-form__row--two u-clearfix">
+					<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
+						@Html.TextBoxFor(x => x.EmailAddress, new { required = "", type="email", @class="o-form__input" })
+						@Html.LabelFor(x => x.EmailAddress, new { @class = "o-form__label" })
+						@Html.ValidationMessageFor(x => x.EmailAddress)
+					</div>
+
+					<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
+						@Html.TextBoxFor(x => x.CompanyName, new { required = "required", @class="o-form__input" })
+						@Html.LabelFor(x => x.CompanyName, new { @class = "o-form__label" })
+						@Html.ValidationMessageFor(x => x.CompanyName)
+					</div>
 				</div>
-			</div>
+			</fieldset>
 			<div class="c-brief__section-actions">
 				<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="theBrief">Next</button>
 			</div>
-		</fieldset>
+		</div>
 	</section>
 	@* End about fields *@
 
@@ -117,6 +119,7 @@
 							data_storage="false",
 							tabindex="0",
 							required = "",
+							@checked = true,
 							id = budgetId1,
 							@class = "o-form__radio"
 						})
@@ -160,7 +163,7 @@
 					</li>
 					<li class="o-fieldset__item">
 						@{
-							var budgetId4 = "30k+";
+							var budgetId4 = "over30k";
 						}
 						@Html.RadioButtonFor(x => x.Budget, budgetId4, new {
 							data_storage="false",
@@ -177,7 +180,7 @@
 				</ul>
 			</fieldset>
 
-			<fieldset class="o-fieldset">
+			<fieldset class="o-fieldset js-brief-options">
 				<legend class="o-fieldset__legend">Your brief</legend>
 				<ul class="o-fieldset__list u-clearfix">
 					<li class="o-fieldset__item">
@@ -187,9 +190,8 @@
 						@Html.RadioButtonFor(x => x.BreifUploadOrCreation, briefChoiceId1, new {
 							data_storage = "false",
 							tabindex = "0",
-							required = "",
 							id = briefChoiceId1,
-							@class = "o-form__radio"
+							@class = "o-form__radio js-has-brief"
 						})
 						<label for="@briefChoiceId1" class="o-form__label o-form__label--alt">
 							<span class="o-form__radio-button"></span>
@@ -203,9 +205,9 @@
 						@Html.RadioButtonFor(x => x.BreifUploadOrCreation, briefChoiceId2, new {
 							data_storage = "false",
 							tabindex = "0",
-							required = "",
+							@checked = true,
 							id = briefChoiceId2,
-							@class = "o-form__radio"
+							@class = "o-form__radio js-create-brief"
 						})
 
 						<label for="@briefChoiceId2" class="o-form__label o-form__label--alt">
@@ -214,44 +216,42 @@
 						</label>
 					</li>
 				</ul>
+				@{
+					var fileUploadId = "file-upload";
+				}
+				<div class="c-upload js-upload c-brief__upload-field js-brief-upload-field is-hidden">
+					<div class="c-upload__inner">
+						@Html.TextBoxFor(x => x.Attachment, new {
+							data_storage="false",
+							type = "file",
+							tabindex="0",
+							@class = "c-upload__input",
+							@name = "brief-file",
+							@id = fileUploadId,
+							@accepts = "application/pdf, application/msword"
+						})
+						<label class="c-upload__label" for="@fileUploadId">
+							<svg class="c-upload__icon u-icon u-icon--24">
+								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#arrow-up"></use>
+							</svg>
+							<span class="c-upload__text js-upload-text">Choose a file&hellip;</span>
+						</label>
+					</div>
+					<div class="c-upload__note">*Max 2MB size</div>
+					@Html.ValidationMessageFor(x => x.Attachment)
+				</div>
 			</fieldset>
 
-			@{
-				var fileUploadId = "file-upload";
-			}
-			<div class="c-upload js-upload">
-				<div class="c-upload__inner">
-					@Html.TextBoxFor(x => x.Attachment, new {
-						data_storage="false",
-						type = "file",
-						tabindex="0",
-						@required = "",
-						@class = "c-upload__input",
-						@name = "brief-file",
-						@id = fileUploadId,
-						@accepts = "application/pdf, application/msword"
-					})
-					<label class="c-upload__label" for="@fileUploadId">
-						<svg class="c-upload__icon u-icon u-icon--24">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#arrow-up"></use>
-						</svg>
-						<span class="c-upload__text js-upload-text">Choose a file&hellip;</span>
-					</label>
-				</div>
-				<div class="c-upload__note">*Max 2MB size</div>
-				@Html.ValidationMessageFor(x => x.Attachment)
-			</div>
-
 			<div class="c-brief__section-actions">
-				<button class="c-brief__button--next c-button c-button--secondary js-brief-prev" type="button" data-target="about">Back</button>
-				<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields1">Next</button>
+				<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="about">Back</button>
+				<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields1" data-target-skip-brief="proposal">Next</button>
 			</div>
 		</section>
 		@* End  brief *@
 
 
 		@* Star brief - fields *@
-		<section>
+		<fieldset class="js-brief-create-brief-fields">
 			@* 1/7 *@
 			@{
 				var subHead1 = "Project summary";
@@ -263,7 +263,7 @@
 					Subtitle = "Answer the following questions as far as you are able. Please put don't know if you're not sure."
 				})
 				<div class="u-space-bottom">
-					<h3 class="u-delta">@subHead1 1</h3>
+					<h3 class="u-delta">@subHead1</h3>
 					<p>@subTitle1</p>
 				</div>
 				<div class="o-form__field">
@@ -296,7 +296,7 @@
 					})
 				</div>
 				<div class="c-brief__section-actions">
-					<button class="c-brief__button--next c-button c-button--secondary js-brief-prev" type="button" data-target="theBrief">Back</button>
+					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="theBrief">Back</button>
 					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields2">Next</button>
 				</div>
 			</div>
@@ -311,7 +311,7 @@
 					Subtitle = "Answer the following questions as far as you are able. Please put don't know if you're not sure."
 				})
 				<div class="u-space-bottom">
-					<h3 class="u-delta">@subHead2 2</h3>
+					<h3 class="u-delta">@subHead2</h3>
 					<p>@subTitle2</p>
 				</div>
 
@@ -343,7 +343,7 @@
 					})
 				</div>
 				<div class="c-brief__section-actions">
-					<button class="c-brief__button--next c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields1">Back</button>
+					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields1">Back</button>
 					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields3">Next</button>
 				</div>
 			</div>
@@ -358,7 +358,7 @@
 					Subtitle = "Answer the following questions as far as you are able. Please put don't know if you're not sure."
 				})
 				<div class="u-space-bottom">
-					<h3 class="u-delta">@subHead3 3</h3>
+					<h3 class="u-delta">@subHead3</h3>
 					<p>@subTitle3</p>
 				</div>
 				<div class="o-form__field">
@@ -398,7 +398,7 @@
 					})
 				</div>
 				<div class="c-brief__section-actions">
-					<button class="c-brief__button--next c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields2">Back</button>
+					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields2">Back</button>
 					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields4">Next</button>
 				</div>
 			</div>
@@ -413,7 +413,7 @@
 					Subtitle = "Answer the following questions as far as you are able. Please put don't know if you're not sure."
 				})
 				<div class="u-space-bottom">
-					<h3 class="u-delta">@subHead4 4</h3>
+					<h3 class="u-delta">@subHead4</h3>
 					<p>@subTitle4</p>
 				</div>
 				<div class="o-form__field">
@@ -435,7 +435,7 @@
 					})
 				</div>
 				<div class="c-brief__section-actions">
-					<button class="c-brief__button--next c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields3">Back</button>
+					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields3">Back</button>
 					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields5">Next</button>
 				</div>
 			</div>
@@ -450,7 +450,7 @@
 					Subtitle = "Answer the following questions as far as you are able. Please put don't know if you're not sure."
 				})
 				<div class="u-space-bottom">
-					<h3 class="u-delta">@subHead5 5</h3>
+					<h3 class="u-delta">@subHead5</h3>
 					<p>@subTitle5</p>
 				</div>
 				<div class="o-form__field">
@@ -499,7 +499,7 @@
 					})
 				</div>
 				<div class="c-brief__section-actions">
-					<button class="c-brief__button--next c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields4">Back</button>
+					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields4">Back</button>
 					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields6">Next</button>
 				</div>
 			</div>
@@ -514,7 +514,7 @@
 					Subtitle = "Answer the following questions as far as you are able. Please put don't know if you're not sure."
 				})
 				<div class="u-space-bottom">
-					<h3 class="u-delta">@subHead6 6</h3>
+					<h3 class="u-delta">@subHead6</h3>
 					<p>@subTitle6</p>
 				</div>
 				<div class="o-form__field">
@@ -527,7 +527,7 @@
 					})
 				</div>
 				<div class="c-brief__section-actions">
-					<button class="c-brief__button--next c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields5">Back</button>
+					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields5">Back</button>
 					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields7">Next</button>
 				</div>
 			</div>
@@ -541,7 +541,7 @@
 					Subtitle = "Answer the following questions as far as you are able. Please put don't know if you're not sure."
 				})
 				<div class="u-space-bottom">
-					<h3 class="u-delta">@subHead7 7</h3>
+					<h3 class="u-delta">@subHead7</h3>
 				</div>
 				<div class="o-form__field">
 					@Html.LabelFor(x => x.ConcicePhrase, new { @class = "o-form__label" })
@@ -553,16 +553,16 @@
 					})
 				</div>
 				<div class="c-brief__section-actions">
-					<button class="c-brief__button--next c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields6">Back</button>
+					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields6">Back</button>
 					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="proposal">Next</button>
 				</div>
 			</div>
-		</section>
+		</fieldset>
 		@* End brief - fields*@
 	</div>
 
 	@* Start about fields *@
-	<section class="c-brief__section js-brief-section" data-brief-section-headline="Build your proposal" data-brief-section-subtitle="Refine your requirements">
+	<section class="c-brief__section js-brief-section js-brief-section-proposal" data-brief-section-headline="Build your proposal" data-brief-section-subtitle="Refine your requirements">
 		<div id="proposal" class="c-brief__slide">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 				Headline = "Build your proposal",
@@ -571,29 +571,32 @@
 
 			@{
 				var tabName1 = "All about us";
-				var tabId1 = tabName1.ToUrlSegment();
+				var tabTargetId1 = tabName1.ToUrlSegment();
+				var tabId1 = tabTargetId1 + "Tab";
 
 				var tabName2 = "How we do things";
-				var tabId2 = tabName2.ToUrlSegment();
+				var tabTargetId2 = tabName2.ToUrlSegment();
+				var tabId2 = tabTargetId2 + "Tab";
 
 				var tabName3 = "Your project";
-				var tabId3 = tabName3.ToUrlSegment();
+				var tabTargetId3 = tabName3.ToUrlSegment();
+				var tabId3 = tabTargetId3 + "Tab";
 			}
 
 			<div class="c-tabs js-tabs">
 				<ul class="c-tabs__tablist js-tabs__tablist">
 					<li class="c-tabs__tablist-item">
-						<a class="c-tabs__tab js-no-scroll" id="tab1" href="#@tabId1">@tabName1</a>
+						<a class="c-tabs__tab js-no-scroll js-brief-tab" id="@tabId1" href="#@tabTargetId1">@tabName1</a>
 					</li>
 					<li class="c-tabs__tablist-item">
-						<a class="c-tabs__tab js-no-scroll" id="tab2" href="#@tabId2">@tabName2</a>
+						<a class="c-tabs__tab js-no-scroll js-brief-tab" id="@tabId2" href="#@tabTargetId2">@tabName2</a>
 					</li>
 					<li class="c-tabs__tablist-item">
-						<a class="c-tabs__tab js-no-scroll" id="tab3" href="#@tabId3">@tabName3</a>
+						<a class="c-tabs__tab js-no-scroll js-brief-tab" id="@tabId3" href="#@tabTargetId3">@tabName3</a>
 					</li>
 				</ul>
 				@* 1/3 *@
-				<section class="c-tabs__panel js-tabs__panel c-brief__section-page" id="@tabId1">
+				<section class="c-tabs__panel js-tabs__panel c-brief__section-page" id="@tabTargetId1">
 					@if( Model.Profiles != null ) {
 						<h3 class="u-zeta">The profiles</h3>
 
@@ -657,9 +660,13 @@
 							}
 						</div>
 					}
+					<div class="c-brief__section-actions">
+						<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields7">Back</button>
+						<button class="c-brief__button--next c-button c-button--secondary js-brief-next-tabs" type="button" data-target="@tabId2">Next</button>
+					</div>
 				</section>
 				@* 2/3 *@
-				<section class="c-tabs__panel js-tabs__panel c-brief__section-page" id="@tabId2">
+				<section class="c-tabs__panel js-tabs__panel c-brief__section-page" id="@tabTargetId2">
 					@if (Model.Workflow != null) {
 						<fieldset class="o-fieldset">
 							<legend class="o-fieldset__legend">Workflow</legend>
@@ -691,9 +698,13 @@
 							</ul>
 						</fieldset>
 					}
+					<div class="c-brief__section-actions">
+						<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev-tabs" type="button" data-target="@tabId1">Back</button>
+						<button class="c-brief__button--next c-button c-button--secondary js-brief-next-tabs" type="button" data-target="@tabId3">Next</button>
+					</div>
 				</section>
 				@* 3/3 *@
-				<section class="c-tabs__panel js-tabs__panel c-brief__section-page" id="@tabId3">
+				<section class="c-tabs__panel js-tabs__panel c-brief__section-page" id="@tabTargetId3">
 					@if (Model.ProjectSpecifics != null) {
 						<fieldset class="o-fieldset">
 							<legend class="o-fieldset__legend">Project specifics</legend>
@@ -724,12 +735,11 @@
 							</ul>
 						</fieldset>
 					}
-					<button class="c-button c-button--primary">Submit</button>
+					<div class="c-brief__section-actions">
+						<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev-tabs" type="button" data-target="@tabId2">Back</button>
+						<button class="c-brief__button--next c-button c-button--secondary c-button--submit">Submit</button>
+					</div>
 				</section>
-			</div>
-			<div class="c-brief__section-actions">
-				<button class="c-brief__button--next c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields7">Back</button>
-				<button class="c-brief__button--next c-button c-button--secondary is-disabled" type="button">Next</button>
 			</div>
 		</div>
 	</section>

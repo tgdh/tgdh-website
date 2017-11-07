@@ -25,6 +25,8 @@
 
 .c-brief--is-ready {
 	position: relative;
+	overflow-y: hidden;
+	overflow-x: visible;
 
 	.c-brief__section {
 		width: 100%;
@@ -47,6 +49,32 @@
 
 	.c-brief__section-actions {
 		margin-top: $line-height;
+	}
+
+	.c-brief__upload-field {
+		max-height: 22rem;
+		overflow: hidden;
+		transition: max-height $speed $ease;
+
+		&.is-hidden {
+			max-height: 0;
+		}
+	}
+
+	.c-brief__section-actions {
+		text-align: right;
+	}
+
+	.c-brief__button--next {
+		margin-left: auto;
+	}
+
+}
+
+.flexbox {
+
+	.c-brief__section-actions {
+		display: flex;
 	}
 
 }

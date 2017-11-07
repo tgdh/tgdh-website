@@ -11,7 +11,17 @@ class Upload {
 		this.labelText = this.label.querySelector('.js-upload-text');
 		this.labelVal = this.label.innerHTML;
 
+		this.hasFile = false;
+
 		this.bindEvents();
+	}
+
+	set hasFile(bool) {
+		if (bool === true) {
+			this.el.classList.add('has-file');
+		} else {
+			this.el.classList.remove('has-file');
+		}
 	}
 
 	updateLabel(e) {
@@ -25,8 +35,10 @@ class Upload {
 
 		if (fileName) {
 			this.label.querySelector('.js-upload-text').innerHTML = fileName;
+			this.hasFile = true;
 		} else {
 			this.label.innerHTML = this.labelVal;
+			this.hasFile = false;
 		}
 	}
 

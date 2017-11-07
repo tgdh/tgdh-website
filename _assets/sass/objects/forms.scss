@@ -259,6 +259,7 @@ $line-height-half: $line-height / 2;
 	vertical-align: middle;
 	transition: background-color $speed $ease;
 	position: absolute;
+	transition: box-shadow $speed $ease;
 
 	.no-enhance & {
 		display: none;
@@ -311,6 +312,14 @@ $line-height-half: $line-height / 2;
 
 }
 
+.o-form__checkbox:focus ~ .o-form__label {
+
+	.o-form__checkbox-button {
+		box-shadow: 0 0 0 6px rgba(0,0,0,0.2);
+	}
+
+}
+
 .o-form__checkbox-label-note {
 	opacity: 0.4;
 }
@@ -342,6 +351,14 @@ $line-height-half: $line-height / 2;
 
 	.o-form__radio-button:before {
 		opacity: 1;
+	}
+
+}
+
+.o-form__radio:focus ~ .o-form__label {
+
+	.o-form__radio-button {
+		box-shadow: 0 0 0 6px rgba(0,0,0,0.2);
 	}
 
 }

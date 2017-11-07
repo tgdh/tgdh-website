@@ -15,6 +15,11 @@ textarea {
 	transition: border $speed $ease;
 	width: 100%;
 
+	&:disabled {
+		background-color: $light-1;
+		cursor: not-allowed;
+	}
+
 	&:focus {
 		border-color: $pri;
 	}

@@ -34536,6 +34536,8 @@ var Upload = function () {
 		this.labelText = this.label.querySelector('.js-upload-text');
 		this.labelVal = this.label.innerHTML;
 
+		this.hasFile = false;
+
 		this.bindEvents();
 	}
 
@@ -34552,8 +34554,10 @@ var Upload = function () {
 
 			if (fileName) {
 				this.label.querySelector('.js-upload-text').innerHTML = fileName;
+				this.hasFile = true;
 			} else {
 				this.label.innerHTML = this.labelVal;
+				this.hasFile = false;
 			}
 		}
 	}, {
@@ -34572,6 +34576,15 @@ var Upload = function () {
 			this.input.addEventListener('blur', function () {
 				_this.input.classList.remove('has-focus');
 			});
+		}
+	}, {
+		key: 'hasFile',
+		set: function set$$1(bool) {
+			if (bool === true) {
+				this.el.classList.add('has-file');
+			} else {
+				this.el.classList.remove('has-file');
+			}
 		}
 	}]);
 	return Upload;
@@ -35611,7 +35624,7 @@ var EnhanceForms = function () {
 
 /* From Modernizr */
 
-var INPUTS_TO_VALIDATE = ['input[type="text"]', 'input[type="email"]', 'textarea'];
+var INPUTS_TO_VALIDATE = ['input[type="text"]:not([hidden])', 'input[type="email"]', 'textarea', 'input[type="radio"]', 'input[type="file"]'];
 
 var Brief = function () {
 	function Brief(el) {
@@ -35631,6 +35644,14 @@ var Brief = function () {
 
 		this.actionNext = Array.from(el.querySelectorAll('.js-brief-next'));
 		this.actionPrev = Array.from(el.querySelectorAll('.js-brief-prev'));
+
+		this.actionNextTabs = Array.from(el.querySelectorAll('.js-brief-next-tabs'));
+		this.actionPrevTabs = Array.from(el.querySelectorAll('.js-brief-prev-tabs'));
+
+		this.tabs = Array.from(el.querySelectorAll('.js-brief-tab'));
+
+		this.hasOwnBrief = false;
+		this.customBriefFields = this.el.querySelector('.js-brief-create-brief-fields');
 
 		this.init();
 	}
@@ -35657,6 +35678,11 @@ var Brief = function () {
 			Brief.showSlide(slide);
 			this.activeSlide = slide;
 			this.setFormHeight(this.activeSlide.offsetHeight);
+			setTimeout(function () {
+				var firstInput = slide.querySelector(INPUTS_TO_VALIDATE);
+				if (firstInput) firstInput.focus();
+				Brief.validateSlide(slide);
+			}, 100);
 		}
 	}, {
 		key: 'init',
@@ -35670,6 +35696,7 @@ var Brief = function () {
 			this.actionNext.forEach(function (next) {
 				return Brief.disableButton(next);
 			});
+			this.handleBriefMethod();
 		}
 	}, {
 		key: 'bindEvents',
@@ -35688,11 +35715,100 @@ var Brief = function () {
 				});
 			});
 
+			this.actionNextTabs.forEach(function (next) {
+				next.addEventListener('click', function () {
+					document.getElementById(next.dataset.target).click();
+					_this.setFormHeight(_this.activeSlide.offsetHeight);
+				});
+			});
+
+			this.actionPrevTabs.forEach(function (prev) {
+				prev.addEventListener('click', function () {
+					document.getElementById(prev.dataset.target).click();
+					_this.setFormHeight(_this.activeSlide.offsetHeight);
+				});
+			});
+
+			this.tabs.forEach(function (tab) {
+				tab.addEventListener('click', function () {
+					_this.setFormHeight(_this.activeSlide.offsetHeight);
+				});
+			});
+
 			this.inputs.forEach(function (input) {
 				input.addEventListener('keyup', function () {
 					var parentSlide = input.closest('.js-brief-slide');
 					Brief.validateSlide(parentSlide);
 				});
+				input.addEventListener('click', function () {
+					var parentSlide = input.closest('.js-brief-slide');
+					Brief.validateSlide(parentSlide);
+				});
+
+				input.addEventListener('change', function () {
+					var parentSlide = input.closest('.js-brief-slide');
+					Brief.validateSlide(parentSlide);
+				});
+			});
+		}
+	}, {
+		key: 'showUploadField',
+		value: function showUploadField(uploadField, uploadInput) {
+			this.hasOwnBrief = true;
+			uploadInput.setAttribute("required", "");
+			uploadField.classList.remove('is-hidden');
+
+			this.setFormHeight(this.activeSlide.offsetHeight + 300);
+
+			var parentSlide = uploadInput.closest('.js-brief-slide');
+			Brief.validateSlide(parentSlide);
+			this.disableCustomBriefFields();
+		}
+	}, {
+		key: 'hideUploadField',
+		value: function hideUploadField(uploadField, uploadInput) {
+			this.hasOwnBrief = false;
+			uploadInput.removeAttribute("required");
+			uploadField.classList.add('is-hidden');
+
+			var parentSlide = uploadInput.closest('.js-brief-slide');
+			Brief.validateSlide(parentSlide);
+			this.enableCustomBriefFields();
+		}
+	}, {
+		key: 'enableCustomBriefFields',
+		value: function enableCustomBriefFields() {
+			this.customBriefFields.disabled = false;
+		}
+	}, {
+		key: 'disableCustomBriefFields',
+		value: function disableCustomBriefFields() {
+			this.customBriefFields.disabled = true;
+		}
+	}, {
+		key: 'handleBriefMethod',
+		value: function handleBriefMethod() {
+			var _this2 = this;
+
+			var hasBriefOption = this.el.querySelector('.js-has-brief');
+			var createBriefOption = this.el.querySelector('.js-create-brief');
+			var uploadField = this.el.querySelector('.js-brief-upload-field');
+			var uploadInput = uploadField.querySelector('input[type="file"]');
+			var parent = uploadField.closest('.js-brief-slide');
+			var actionNext = parent.querySelector('.js-brief-next');
+
+			var proposalSection = this.el.querySelector('.js-brief-section-proposal');
+			var actionPrevProposal = proposalSection.querySelector('.js-brief-prev');
+
+			hasBriefOption.addEventListener('change', function () {
+				_this2.showUploadField(uploadField, uploadInput);
+				Brief.setActionTarget(actionNext, 'proposal');
+				Brief.setActionTarget(actionPrevProposal, 'theBrief');
+			});
+			createBriefOption.addEventListener('change', function () {
+				_this2.hideUploadField(uploadField, uploadInput);
+				Brief.setActionTarget(actionNext, 'briefFields1');
+				Brief.setActionTarget(actionPrevProposal, 'briefFields7');
 			});
 		}
 	}], [{
@@ -35731,11 +35847,7 @@ var Brief = function () {
 			var slideInputs = Brief.getSlideInputs(slide);
 			var inputValidity = [];
 			Array.from(slideInputs).forEach(function (input) {
-				if (validate.hasError(input)) {
-					inputValidity.push(false);
-				} else {
-					inputValidity.push(true);
-				}
+				inputValidity.push(input.checkValidity());
 			});
 			console.log(inputValidity);
 			return !inputValidity.includes(false);
@@ -35743,12 +35855,13 @@ var Brief = function () {
 	}, {
 		key: 'validateSlide',
 		value: function validateSlide(slide) {
+			var nextButton = slide.querySelector('.js-brief-next');
+			if (!nextButton) return;
+
 			if (Brief.isSlideInputsValid(slide)) {
-				// console.log('its valid, enable button');
-				Brief.enableButton(slide.querySelector('.js-brief-next'));
+				Brief.enableButton(nextButton);
 			} else {
-				// console.log('its not valid, disable button');
-				Brief.disableButton(slide.querySelector('.js-brief-next'));
+				Brief.disableButton(nextButton);
 			}
 		}
 	}, {
@@ -35759,6 +35872,21 @@ var Brief = function () {
 				console.log(validate.hasError(input));
 				validate.showError(input);
 			});
+		}
+	}, {
+		key: 'disableFieldset',
+		value: function disableFieldset(slide) {
+			slide.disabled = true;
+		}
+	}, {
+		key: 'enableFieldset',
+		value: function enableFieldset(slide) {
+			slide.disabled = false;
+		}
+	}, {
+		key: 'setActionTarget',
+		value: function setActionTarget(button, target) {
+			button.dataset.target = target;
 		}
 	}]);
 	return Brief;

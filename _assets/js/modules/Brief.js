@@ -3,7 +3,7 @@ import validate from 'validate/dist/js/validate';
 
 import whichTransitionEvent from './WhichTransition';
 
-const INPUTS_TO_VALIDATE = ['input[type="text"]', 'input[type="email"]', 'textarea'];
+const INPUTS_TO_VALIDATE = ['input[type="text"]:not([hidden])', 'input[type="email"]', 'textarea', 'input[type="radio"]', 'input[type="file"]'];
 
 class Brief {
 	constructor(el) {
@@ -21,6 +21,14 @@ class Brief {
 
 		this.actionNext = Array.from(el.querySelectorAll('.js-brief-next'));
 		this.actionPrev = Array.from(el.querySelectorAll('.js-brief-prev'));
+
+		this.actionNextTabs = Array.from(el.querySelectorAll('.js-brief-next-tabs'));
+		this.actionPrevTabs = Array.from(el.querySelectorAll('.js-brief-prev-tabs'));
+
+		this.tabs = Array.from(el.querySelectorAll('.js-brief-tab'));
+
+		this.hasOwnBrief = false;
+		this.customBriefFields = this.el.querySelector('.js-brief-create-brief-fields');
 
 		this.init();
 	}
@@ -51,6 +59,11 @@ class Brief {
 		Brief.showSlide(slide);
 		this.activeSlide = slide;
 		this.setFormHeight(this.activeSlide.offsetHeight);
+		setTimeout(function() {
+			const firstInput = slide.querySelector(INPUTS_TO_VALIDATE);
+			if (firstInput) firstInput.focus();
+			Brief.validateSlide(slide);
+		}, 100);
 	}
 
 	init() {
@@ -61,6 +74,7 @@ class Brief {
 
 		this.bindEvents();
 		this.actionNext.forEach(next => Brief.disableButton(next));
+		this.handleBriefMethod();
 	}
 
 	bindEvents() {
@@ -76,8 +90,37 @@ class Brief {
 			});
 		});
 
+		this.actionNextTabs.forEach((next) => {
+			next.addEventListener('click', () => {
+				document.getElementById(next.dataset.target).click();
+				this.setFormHeight(this.activeSlide.offsetHeight);
+			});
+		});
+
+		this.actionPrevTabs.forEach((prev) => {
+			prev.addEventListener('click', () => {
+				document.getElementById(prev.dataset.target).click();
+				this.setFormHeight(this.activeSlide.offsetHeight);
+			});
+		});
+
+		this.tabs.forEach((tab) => {
+			tab.addEventListener('click', () => {
+				this.setFormHeight(this.activeSlide.offsetHeight);
+			});
+		});
+
 		this.inputs.forEach(input => {
 			input.addEventListener('keyup', () => {
+				const parentSlide = input.closest('.js-brief-slide');
+				Brief.validateSlide(parentSlide);
+			});
+			input.addEventListener('click', () => {
+				const parentSlide = input.closest('.js-brief-slide');
+				Brief.validateSlide(parentSlide);
+			});
+
+			input.addEventListener('change', () => {
 				const parentSlide = input.closest('.js-brief-slide');
 				Brief.validateSlide(parentSlide);
 			});
@@ -104,23 +147,20 @@ class Brief {
 		const slideInputs = Brief.getSlideInputs(slide);
 		const inputValidity = [];
 		Array.from(slideInputs).forEach((input) => {
-			if (validate.hasError(input)) {
-				inputValidity.push(false);
-			} else {
-				inputValidity.push(true);
-			}
+			inputValidity.push(input.checkValidity());
 		});
 		console.log(inputValidity);
 		return !inputValidity.includes(false);
 	}
 
 	static validateSlide(slide) {
+		const nextButton = slide.querySelector('.js-brief-next');
+		if (!nextButton) return;
+
 		if (Brief.isSlideInputsValid(slide)) {
-			// console.log('its valid, enable button');
-			Brief.enableButton(slide.querySelector('.js-brief-next'));
+			Brief.enableButton(nextButton);
 		} else {
-			// console.log('its not valid, disable button');
-			Brief.disableButton(slide.querySelector('.js-brief-next'));
+			Brief.disableButton(nextButton);
 		}
 	}
 
@@ -129,6 +169,71 @@ class Brief {
 		Array.from(slideInputs).forEach((input) => {
 			console.log(validate.hasError(input));
 			validate.showError(input);
+		});
+	}
+
+	static disableFieldset(slide) {
+		slide.disabled = true;
+	}
+
+	static enableFieldset(slide) {
+		slide.disabled = false;
+	}
+
+	showUploadField(uploadField, uploadInput) {
+		this.hasOwnBrief = true;
+		uploadInput.setAttribute("required", "");
+		uploadField.classList.remove('is-hidden');
+
+		this.setFormHeight(this.activeSlide.offsetHeight + 300);
+
+		const parentSlide = uploadInput.closest('.js-brief-slide');
+		Brief.validateSlide(parentSlide);
+		this.disableCustomBriefFields();
+	}
+
+	hideUploadField(uploadField, uploadInput) {
+		this.hasOwnBrief = false;
+		uploadInput.removeAttribute("required");
+		uploadField.classList.add('is-hidden');
+
+		const parentSlide = uploadInput.closest('.js-brief-slide');
+		Brief.validateSlide(parentSlide);
+		this.enableCustomBriefFields();
+	}
+
+	enableCustomBriefFields() {
+		this.customBriefFields.disabled = false;
+	}
+
+	disableCustomBriefFields() {
+		this.customBriefFields.disabled = true;
+	}
+
+	static setActionTarget(button, target) {
+		button.dataset.target = target;
+	}
+
+	handleBriefMethod() {
+		const hasBriefOption = this.el.querySelector('.js-has-brief');
+		const createBriefOption = this.el.querySelector('.js-create-brief');
+		const uploadField = this.el.querySelector('.js-brief-upload-field');
+		const uploadInput = uploadField.querySelector('input[type="file"]');
+		const parent = uploadField.closest('.js-brief-slide');
+		const actionNext = parent.querySelector('.js-brief-next');
+
+		const proposalSection = this.el.querySelector('.js-brief-section-proposal');
+		const actionPrevProposal = proposalSection.querySelector('.js-brief-prev');
+
+		hasBriefOption.addEventListener('change', () => {
+			this.showUploadField(uploadField, uploadInput);
+			Brief.setActionTarget(actionNext, 'proposal');
+			Brief.setActionTarget(actionPrevProposal, 'theBrief');
+		});
+		createBriefOption.addEventListener('change', () => {
+			this.hideUploadField(uploadField, uploadInput);
+			Brief.setActionTarget(actionNext, 'briefFields1');
+			Brief.setActionTarget(actionPrevProposal, 'briefFields7');
 		});
 	}
 }
