@@ -24,6 +24,22 @@
 		margin-bottom: $line-height * 2;
 	}
 
+	.c-brief__slide__page {
+		display: none;
+	}
+
+}
+
+.c-brief__slide {
+
+	.o-heading {
+		margin-bottom: 3.6rem;
+	}
+
+	.o-heading__subtitle {
+		font-style: inherit;
+	}
+
 }
 
 .enhance {
@@ -100,6 +116,13 @@
 	.c-brief__button--next {
 		margin-left: auto;
 		float: right;
+	}
+
+	.c-brief__slide__page {
+		opacity: 0.4;
+		position: absolute;
+		top: $line-height / 4;
+		right: 0;
 	}
 
 }

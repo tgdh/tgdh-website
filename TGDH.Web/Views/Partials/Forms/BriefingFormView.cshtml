@@ -38,6 +38,9 @@
 					<p>We will take all of your requirements and get back to you shortly.</p>
 				</div>
 			</div>
+			<script>
+				localStorage.clear();
+			</script>
 		}
 		else
 		{
@@ -77,7 +80,7 @@
 </aside>
 
 <div class="c-brief__field-wrap">
-						@using (Html.BeginUmbracoForm("ProcessFormSubmission", "BriefForm", FormMethod.Post, new { data_persist="garlic", id = "briefing-form", @class = "js-form", @data_validate = "" }))
+						@using (Html.BeginUmbracoForm("ProcessFormSubmission", "BriefForm", FormMethod.Post, new { data_persist="garlic", data_destroy="false", id = "briefing-form", @class = "js-form", @data_validate = "" }))
 						{
 							@Html.AntiForgeryToken()
 
@@ -141,7 +144,6 @@
 						@Html.RadioButtonFor(x => x.Budget, budgetId1, new {
 							data_storage="false",
 							tabindex="0",
-							required = "",
 							@checked = true,
 							id = budgetId1,
 							@class = "o-form__radio"
@@ -159,7 +161,6 @@
 						@Html.RadioButtonFor(x => x.Budget, budgetId2, new {
 							data_storage="false",
 							tabindex="0",
-							required = "",
 							id = budgetId2,
 							@class = "o-form__radio"
 						})
@@ -175,7 +176,6 @@
 						@Html.RadioButtonFor(x => x.Budget, budgetId3, new {
 							data_storage="false",
 							tabindex="0",
-							required = "",
 							id = budgetId3,
 							@class = "o-form__radio"
 						})
@@ -191,7 +191,6 @@
 						@Html.RadioButtonFor(x => x.Budget, budgetId4, new {
 							data_storage="false",
 							tabindex="0",
-							required = "",
 							id = budgetId4,
 							@class = "o-form__radio",
 						})
@@ -272,6 +271,9 @@
 		</section>
 		@* End  brief *@
 
+		@{
+			var briefingFormSubtitle = "Answer the following questions as far as you are able. Please put <strong>&lsquo;don't know&rsquo;</strong> if you're not sure.";
+		}
 
 		@* Star brief - fields *@
 		<fieldset class="js-brief-create-brief-fields">
@@ -283,9 +285,10 @@
 			<div id="briefFields1" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 					Headline = "The briefing form",
-					Subtitle = "Answer the following questions as far as you are able. Please put don't know if you're not sure."
+					Subtitle = briefingFormSubtitle
 				})
-				<div class="u-space-bottom">
+				<div class="c-brief__slide__page">1/7</div>
+				<div class="u-space-bottom--large">
 					<h3 class="u-delta">@subHead1</h3>
 					<p>@subTitle1</p>
 				</div>
@@ -331,9 +334,10 @@
 			<div id="briefFields2" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 					Headline = "The briefing form",
-					Subtitle = "Answer the following questions as far as you are able. Please put don't know if you're not sure."
+					Subtitle = briefingFormSubtitle
 				})
-				<div class="u-space-bottom">
+				<div class="c-brief__slide__page">2/7</div>
+				<div class="u-space-bottom--large">
 					<h3 class="u-delta">@subHead2</h3>
 					<p>@subTitle2</p>
 				</div>
@@ -378,9 +382,10 @@
 			<div id="briefFields3" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 					Headline = "The briefing form",
-					Subtitle = "Answer the following questions as far as you are able. Please put don't know if you're not sure."
+					Subtitle = briefingFormSubtitle
 				})
-				<div class="u-space-bottom">
+				<div class="c-brief__slide__page">3/7</div>
+				<div class="u-space-bottom--large">
 					<h3 class="u-delta">@subHead3</h3>
 					<p>@subTitle3</p>
 				</div>
@@ -433,9 +438,10 @@
 			<div id="briefFields4" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 					Headline = "The briefing form",
-					Subtitle = "Answer the following questions as far as you are able. Please put don't know if you're not sure."
+					Subtitle = briefingFormSubtitle
 				})
-				<div class="u-space-bottom">
+				<div class="c-brief__slide__page">4/7</div>
+				<div class="u-space-bottom--large">
 					<h3 class="u-delta">@subHead4</h3>
 					<p>@subTitle4</p>
 				</div>
@@ -470,9 +476,10 @@
 			<div id="briefFields5" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 					Headline = "The briefing form",
-					Subtitle = "Answer the following questions as far as you are able. Please put don't know if you're not sure."
+					Subtitle = briefingFormSubtitle
 				})
-				<div class="u-space-bottom">
+				<div class="c-brief__slide__page">5/7</div>
+				<div class="u-space-bottom--large">
 					<h3 class="u-delta">@subHead5</h3>
 					<p>@subTitle5</p>
 				</div>
@@ -534,9 +541,10 @@
 			<div id="briefFields6" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 					Headline = "The briefing form",
-					Subtitle = "Answer the following questions as far as you are able. Please put don't know if you're not sure."
+					Subtitle = briefingFormSubtitle
 				})
-				<div class="u-space-bottom">
+				<div class="c-brief__slide__page">6/7</div>
+				<div class="u-space-bottom--large">
 					<h3 class="u-delta">@subHead6</h3>
 					<p>@subTitle6</p>
 				</div>
@@ -561,9 +569,10 @@
 			<div id="briefFields7" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 					Headline = "The briefing form",
-					Subtitle = "Answer the following questions as far as you are able. Please put don't know if you're not sure."
+					Subtitle = briefingFormSubtitle
 				})
-				<div class="u-space-bottom">
+				<div class="c-brief__slide__page">7/7</div>
+				<div class="u-space-bottom--large">
 					<h3 class="u-delta">@subHead7</h3>
 				</div>
 				<div class="o-form__field">
@@ -684,8 +693,8 @@
 						</div>
 					}
 					<div class="c-brief__section-actions">
-						<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields7">Back</button>
 						<button class="c-brief__button--next c-button c-button--secondary js-brief-next-tabs" type="button" data-target="@tabId2">Next</button>
+						<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields7">Back</button>
 					</div>
 				</section>
 				@* 2/3 *@
@@ -722,8 +731,8 @@
 						</fieldset>
 					}
 					<div class="c-brief__section-actions">
-						<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev-tabs" type="button" data-target="@tabId1">Back</button>
 						<button class="c-brief__button--next c-button c-button--secondary js-brief-next-tabs" type="button" data-target="@tabId3">Next</button>
+						<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev-tabs" type="button" data-target="@tabId1">Back</button>
 					</div>
 				</section>
 				@* 3/3 *@
@@ -759,8 +768,8 @@
 						</fieldset>
 					}
 					<div class="c-brief__section-actions">
-						<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev-tabs" type="button" data-target="@tabId2">Back</button>
 						<button class="c-brief__button--next c-button c-button--secondary c-button--submit">Submit</button>
+						<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev-tabs" type="button" data-target="@tabId2">Back</button>
 					</div>
 				</section>
 			</div>
