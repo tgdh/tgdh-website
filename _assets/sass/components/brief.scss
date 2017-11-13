@@ -4,6 +4,28 @@
 
 =========================================================== */
 
+.no-enhance {
+
+	.c-brief__button--prev,
+	.c-brief__button--next {
+		display: none;
+	}
+
+	.c-button--submit {
+		display: inline-block;
+		margin-top: $line-height;
+	}
+
+	.c-brief__section-actions {
+		text-align: right;
+	}
+
+	.c-brief__slide {
+		margin-bottom: $line-height * 2;
+	}
+
+}
+
 .enhance {
 
 	.c-brief {

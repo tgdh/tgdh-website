@@ -4,6 +4,19 @@
 
 =========================================================== */
 
+.no-enhance {
+
+	.c-image-checkbox {
+
+		input[type="checkbox"] {
+			position: relative;
+			z-index: 1;
+		}
+
+	}
+
+}
+
 .c-image-checkbox__image-wrap {
 	margin-bottom: 1.4rem;
 	max-width: 16rem;

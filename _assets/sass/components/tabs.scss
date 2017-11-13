@@ -5,13 +5,22 @@
 =========================================================== */
 
 /* Container */
-.c-tabs {
+.no-enhance {
+
+	.c-tabs__tablist {
+		border-left: 0.5rem solid $pri;
+		padding-left: 2rem;
+	}
+
+	.c-tabs__tablist-item {
+		list-style: none;
+		margin-left: 0;
+	}
 
 }
 
 /* Tablist */
 .c-tabs__tablist {
-	border-bottom: .1rem solid $pri;
 	margin-bottom: 2rem;
 }
 
@@ -20,6 +29,10 @@
 }
 
 .c-tabs--is-ready {
+
+	.c-tabs__tablist {
+		border-bottom: .1rem solid $pri;
+	}
 
 	.c-tabs__active-bar {
 		width: 0;
