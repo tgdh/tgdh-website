@@ -1,8 +1,8 @@
 import SmoothScroll from 'smooth-scroll';
 import * as ValidityState from 'validate/dist/js/validityState-polyfill';
 import validate from 'validate/dist/js/validate';
-
-import whichTransitionEvent from './WhichTransition';
+import animorph from 'animorph/dist/animorph';
+// import * as garlicjs from '../legacy/garlicjs/dist/garlic-standalone.min';
 
 const INPUTS_TO_VALIDATE = ['input[type="text"]:not([hidden])', 'input[type="email"]', 'textarea', 'input[type="radio"]', 'input[type="file"]'];
 const scroll = new SmoothScroll();
@@ -15,9 +15,10 @@ class Brief {
 
 		this.el = el;
 		this.sections = Array.from(el.querySelectorAll('.js-brief-section'));
-		this.activeSection = null;
+		this.activeSection = undefined;
 		this.slides = Array.from(el.querySelectorAll('.js-brief-slide'));
-		this.activeSlide = null;
+		this.previousActiveSlide = undefined;
+		this.activeSlide = undefined;
 
 		this.inputs = Array.from(el.querySelectorAll(INPUTS_TO_VALIDATE));
 
@@ -32,64 +33,175 @@ class Brief {
 		this.hasOwnBrief = false;
 		this.customBriefFields = this.el.querySelector('.js-brief-create-brief-fields');
 
+		this.pager = this.el.querySelector('.js-brief-section-pager');
+		this.pagerButtons = Array.from(this.pager.querySelectorAll('.js-brief-section-pager-button'));
+		this.pagerHeight = 0
+
+		this.pagerAbout = this.pager.querySelector('.js-brief-section-pager-about');
+		this.pagerBrief = this.pager.querySelector('.js-brief-section-pager-brief');
+		this.pagerPropsal = this.pager.querySelector('.js-brief-section-pager-proposal');
+
+		this.aboutValid = false;
+		this.briefValid = false;
+		this.proposalValid = false;
+
+		this.direction = 'right';
+
 		this.init();
 	}
 
+	set aboutValid(bool) {
+		if (bool === true) {
+			this.setActivePagerButton(this.pagerAbout);
+		} else {
+			Brief.disablePagerButton(this.pagerAbout);
+		}
+	}
+
+	set briefValid(bool) {
+		if (bool === true) {
+			this.setActivePagerButton(this.pagerBrief);
+		} else {
+			Brief.disablePagerButton(this.pagerBrief);
+		}
+	}
+
+	set proposalValid(bool) {
+		if (bool === true) {
+			this.setActivePagerButton(this.pagerPropsal);
+		} else {
+			Brief.disablePagerButton(this.pagerPropsal);
+		}
+	}
+
 	setFormHeight(height) {
-		this.el.style.height = `${height}px`;
+		if (height > this.pagerHeight) {
+			this.el.style.height = `${height}px`;
+		} else {
+			this.el.style.height = `${this.pagerHeight}px`;
+		}
 	}
 
 	setActiveSection(section) {
+		if (!section) return;
+
+		const ref = section.dataset.pagerButton;
+		const sectionButton = this.pager.querySelector(`.${ref}`);
+
+		this.setActivePagerButton(sectionButton);
+
 		this.activeSection = section;
-		this.setActiveSlide(section.querySelector('.js-brief-slide'));
-
-		this.setFormHeight(this.activeSlide.offsetHeight);
-	}
-
-	static hideSlide(slide) {
-		slide.classList.remove('is-active');
-	}
-
-	static showSlide(slide) {
-		slide.classList.add('is-active');
 	}
 
 	setActiveSlide(slide) {
-		if (this.activeSlide) {
-			Brief.hideSlide(this.activeSlide);
-		}
-		Brief.showSlide(slide);
+		if (!slide) return;
 		this.activeSlide = slide;
-		this.setFormHeight(this.activeSlide.offsetHeight);
-		scroll.animateScroll(slide);
+
+		if (this.previousActiveSlide) {
+			this.hideSlide(this.previousActiveSlide);
+		}
+		const slideSection = slide.closest('.js-brief-section');
+		if (this.activeSection !== slideSection) {
+			this.setActiveSection(slideSection);
+		}
+
+		this.showSlide(slide);
+		this.setFormHeight(slide.offsetHeight);
+		// scroll.animateScroll(slide);
 
 		setTimeout(function() {
 			const firstInput = slide.querySelector(INPUTS_TO_VALIDATE);
 			if (firstInput) firstInput.focus();
 			Brief.validateSlide(slide);
-		}, 501);
+		}, 301);
+
+		// this has to be called last
+		this.previousActiveSlide = slide;
+	}
+
+	hideSlide(slide) {
+		if (this.direction === 'left') {
+			slide.classList.add('anim-dir-left');
+		} else {
+			slide.classList.remove('anim-dir-left');
+		}
+		window.animorph.leave(slide).then(() => slide.classList.remove('is-active'));
+	}
+
+	showSlide(slide) {
+		if (this.direction === 'left') {
+			slide.classList.add('anim-dir-left');
+		} else {
+			slide.classList.remove('anim-dir-left');
+		}
+		window.animorph.enter(slide).then(() => slide.classList.add('is-active'));
 	}
 
 	init() {
 		this.el.classList.add('c-brief--is-ready');
 
+		this.pagerHeight = this.pager.offsetHeight;
+
 		if (this.sections.length === 0) return;
-		this.setActiveSection(this.sections[0]);
+		this.setActiveSlide(this.sections[0].querySelector('.js-brief-slide'));
 
 		this.bindEvents();
 		this.actionNext.forEach(next => Brief.disableButton(next));
 		this.handleBriefMethod();
+
+		this.pagerButtons.forEach((pagerButton, i) => {
+			if (i === 0) {
+				this.setActivePagerButton(pagerButton);
+			} else {
+				Brief.disablePagerButton(pagerButton);
+			}
+		});
+	}
+
+	static disablePagerButton(button) {
+		button.classList.remove('is-active');
+		button.disabled = true;
+	}
+
+	static enablePagerButton(button) {
+		button.disabled = false;
+	}
+
+	setActivePagerButton(button) {
+		this.pagerButtons.forEach((pagerButton) => {
+			if (button === pagerButton) {
+				pagerButton.classList.add('is-active');
+				Brief.enablePagerButton(pagerButton);
+			} else {
+				pagerButton.classList.remove('is-active');
+			}
+		});
 	}
 
 	bindEvents() {
 		this.actionNext.forEach((next) => {
 			next.addEventListener('click', () => {
+				this.direction = 'right';
+				switch (next.dataset.target) {
+				case 'about':
+					this.aboutValid = true;
+					break;
+				case 'theBrief':
+					this.briefValid = true;
+					break;
+				case 'proposal':
+					this.proposalValid = true;
+					break;
+				default:
+					break;
+				}
 				this.setActiveSlide(Brief.getTargetById(next));
 			});
 		});
 
 		this.actionPrev.forEach((prev) => {
 			prev.addEventListener('click', () => {
+				this.direction = 'left';
 				this.setActiveSlide(Brief.getTargetById(prev));
 			});
 		});
@@ -114,7 +226,7 @@ class Brief {
 			});
 		});
 
-		this.inputs.forEach(input => {
+		this.inputs.forEach((input) => {
 			input.addEventListener('keyup', () => {
 				const parentSlide = input.closest('.js-brief-slide');
 				Brief.validateSlide(parentSlide);
@@ -127,6 +239,12 @@ class Brief {
 			input.addEventListener('change', () => {
 				const parentSlide = input.closest('.js-brief-slide');
 				Brief.validateSlide(parentSlide);
+			});
+		});
+
+		this.pagerButtons.forEach((button) => {
+			button.addEventListener('click', () => {
+				this.setActiveSlide(document.getElementById(button.dataset.target));
 			});
 		});
 	}
@@ -153,7 +271,7 @@ class Brief {
 		Array.from(slideInputs).forEach((input) => {
 			inputValidity.push(input.checkValidity());
 		});
-		console.log(inputValidity);
+		// console.log(inputValidity);
 		return !inputValidity.includes(false);
 	}
 
@@ -168,14 +286,6 @@ class Brief {
 		}
 	}
 
-	static getSlideValidationErrors(slide) {
-		const slideInputs = Brief.getSlideInputs(slide);
-		Array.from(slideInputs).forEach((input) => {
-			console.log(validate.hasError(input));
-			validate.showError(input);
-		});
-	}
-
 	static disableFieldset(slide) {
 		slide.disabled = true;
 	}
@@ -186,9 +296,9 @@ class Brief {
 
 	showUploadField(uploadField, uploadInput) {
 		this.hasOwnBrief = true;
-		uploadInput.setAttribute("required", "");
+		uploadInput.setAttribute('required', '');
 		uploadField.classList.remove('is-hidden');
-
+console.log('=>', this.activeSlide);
 		this.setFormHeight(this.activeSlide.offsetHeight + 300);
 
 		const parentSlide = uploadInput.closest('.js-brief-slide');

@@ -10,8 +10,19 @@ class FloatingLabel {
 		this.input = el.querySelector('input');
 		this.isFocused = false;
 
-		this.checkInput();
 		this.bindEvents();
+
+		// setTimeout(() => {
+		// 	this.checkInput();
+		// }, 300);
+
+		this.checkInput();
+
+		window.addEventListener('load', () => {
+			setTimeout(() => {
+				this.checkInput();
+			}, 300);
+		});
 	}
 
 	activateFocus() {

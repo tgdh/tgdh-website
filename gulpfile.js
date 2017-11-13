@@ -159,6 +159,13 @@ gulp.task('js', function () {
 	});
 });
 
+gulp.task('copyScripts', function() {
+    gulp.src( paths.assetsFolder + '/js/legacy/garlicjs/dist/garlic-standalone.min.js')
+    .pipe( $.newer('.tmp/js/garlic-standalone.min.js') )
+    .pipe( gulp.dest('.tmp/js/garlic-standalone.min.js') )
+    .pipe( gulp.dest( paths.assetsBuildFolder + '/js') );
+});
+
 /*
 // JS
 gulp.task('js', function() {
@@ -324,12 +331,12 @@ gulp.task('refAssets', ['css','js','js-legacy'], function() {
 // gulp dev
 gulp.task('dev', ['clean'], function() {
     isProduction = false;
-    gulp.start('refAssets', 'images', 'watch', 'copyfonts', 'modernizr', 'icons');
+    gulp.start('refAssets', 'images', 'watch', 'copyfonts', 'modernizr', 'icons', 'copyScripts');
 });
 
 // gulp build
 gulp.task('build', ['clean'], function() {
     isProduction = true;
-    gulp.start('refAssets', 'images', 'copyfonts', 'modernizr', 'icons');
+    gulp.start('refAssets', 'images', 'copyfonts', 'modernizr', 'icons', 'copyScripts');
 });
 /* eslint-enable */
