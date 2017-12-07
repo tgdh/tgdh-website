@@ -65,8 +65,5 @@ import Brief from './modules/Brief';
 	}
 	svg4everybody();
 
-})();
-
-if (window.matchMedia('(min-width: 1000px)').matches) {
 	const brief = new Brief($('.js-brief'));
-}
+})();

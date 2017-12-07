@@ -28,6 +28,18 @@
 	font-weight: $bold;
 }
 
+.flexbox {
+
+	.c-tabs--is-ready {
+
+		.c-tabs__tablist {
+			display: flex;
+		}
+
+	}
+
+}
+
 .c-tabs--is-ready {
 
 	.c-tabs__tablist {

@@ -36936,9 +36936,7 @@ var Brief = function () {
 		new EnhanceForms();
 	}
 	svg4everybody();
-})();
 
-if (window.matchMedia('(min-width: 1000px)').matches) {
 	var brief = new Brief($('.js-brief'));
-}
+})();
 //# sourceMappingURL=main.js.map

@@ -4,40 +4,20 @@
 
 =========================================================== */
 
-.no-enhance {
+.c-brief__button--prev,
+.c-brief__button--next {
+	display: none;
+}
 
-	.c-brief__button--prev,
-	.c-brief__button--next {
-		display: none;
-	}
+.no-enhance {
 
 	.c-button--submit {
 		display: inline-block;
 		margin-top: $line-height;
 	}
 
-	.c-brief__section-actions {
-		text-align: right;
-	}
-
-	.c-brief__slide {
-		margin-bottom: $line-height * 2;
-	}
-
 	.c-brief__slide__page {
 		display: none;
-	}
-
-}
-
-.c-brief__slide {
-
-	.o-heading {
-		margin-bottom: 3.6rem;
-	}
-
-	.o-heading__subtitle {
-		font-style: inherit;
 	}
 
 }
@@ -50,15 +30,27 @@
 		transition: opacity $speed $ease;
 	}
 
-}
-
-.enhance {
-
 	.c-brief--is-ready {
 		opacity: 1;
 		pointer-events: inherit;
 	}
 
+}
+
+.c-brief__slide {
+	margin-bottom: $line-height * 2;
+
+	.o-heading {
+		margin-bottom: 3.6rem;
+	}
+
+	.o-heading__subtitle {
+		font-style: inherit;
+	}
+}
+
+.c-brief__section-actions {
+	text-align: right;
 }
 
 .c-brief__section-pager {
@@ -91,6 +83,7 @@
 
 	.c-brief__section-actions {
 		margin-top: $line-height;
+		@include clearfix();
 	}
 
 	.c-brief__upload-field {
@@ -103,10 +96,9 @@
 		}
 	}
 
-	.c-brief__section-actions {
-		text-align: right;
-
-		@include clearfix();
+	.c-brief__button--prev,
+	.c-brief__button--next {
+		display: inline-block;
 	}
 
 	.c-brief__button--prev {
@@ -139,6 +131,9 @@
 
 }
 
+@include respond-min-max( $mq-small, $mq-large ) {
+
+}
 
 @include respond-min( $mq-large ) {
 
