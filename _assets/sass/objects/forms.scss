@@ -105,6 +105,14 @@ $line-height-half: $line-height / 2;
 	}
 }
 
+input:disabled ~ .o-form__label {
+
+	&[for] {
+		cursor: not-allowed;
+	}
+
+}
+
 .o-form__label--alt {
 	font-weight: 500;
 }
@@ -299,6 +307,17 @@ $line-height-half: $line-height / 2;
 
 }
 
+.o-form__checkbox {
+
+	&:disabled ~ .o-form__label {
+
+		.o-form__checkbox-button {
+			opacity: 0.2;
+		}
+	}
+
+}
+
 .o-form__checkbox:checked + .o-form__label,
 .o-form__checkbox:checked + input[type="hidden"] + .o-form__label {
 
@@ -341,6 +360,17 @@ $line-height-half: $line-height / 2;
 		left: 50%;
 		transform: translate(-50%, -50%);
 	}
+}
+
+.o-form__radio {
+
+	&:disabled ~ .o-form__label {
+
+		.o-form__radio-button {
+			opacity: 0.2;
+		}
+	}
+
 }
 
 .o-form__radio:checked + .o-form__label {

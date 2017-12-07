@@ -298,7 +298,7 @@ class Brief {
 		this.hasOwnBrief = true;
 		uploadInput.setAttribute('required', '');
 		uploadField.classList.remove('is-hidden');
-console.log('=>', this.activeSlide);
+
 		this.setFormHeight(this.activeSlide.offsetHeight + 300);
 
 		const parentSlide = uploadInput.closest('.js-brief-slide');

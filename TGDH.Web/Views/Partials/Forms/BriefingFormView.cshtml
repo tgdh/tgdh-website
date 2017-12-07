@@ -595,183 +595,148 @@
 
 	@* Start about fields *@
 	<section id="proposalSection" class="c-brief__section js-brief-section js-brief-section-proposal" data-brief-section-headline="Build your proposal" data-brief-section-subtitle="Refine your requirements" data-pager-button="js-brief-section-pager-proposal">
-		<div id="proposal" class="c-brief__slide">
+		<div id="proposal" class="c-brief__slide js-brief-slide">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 				Headline = "Build your proposal",
 				Subtitle = "Make choices to tell us what content you would like included in your proposal."
 			})
+			@if( Model.Profiles != null ) {
+				<fieldset class="o-fieldset">
+					<legend class="o-fieldset__legend">The profiles</legend>
+					<ul class="o-fieldset__list o-grid--three u-clearfix">
+						@for ( var i = 0; i < Model.Profiles.Count(); i++ ) {
+							var inputId = "Profiles_" + i + "__Checked";
+							var imageName = Model.Profiles[i].Name.ToUrlSegment();
+							var imageUrl = "/assets/img/briefing-form/profiles/" + imageName + ".jpg?width=200";
 
-			@{
-				var tabName1 = "All about us";
-				var tabTargetId1 = tabName1.ToUrlSegment();
-				var tabId1 = tabTargetId1 + "Tab";
-
-				var tabName2 = "How we do things";
-				var tabTargetId2 = tabName2.ToUrlSegment();
-				var tabId2 = tabTargetId2 + "Tab";
-
-				var tabName3 = "Your project";
-				var tabTargetId3 = tabName3.ToUrlSegment();
-				var tabId3 = tabTargetId3 + "Tab";
+							<div class="c-image-checkbox o-grid__item">
+								@Html.CheckBoxFor(x => Model.Profiles[i].Checked, new {
+									@class = "o-form__checkbox"
+								})
+								<label for="@inputId" class="o-form__label o-form__label--alt">
+									<div class="c-image-checkbox__image-wrap o-aspect--1-1">
+										<img src="@imageUrl" alt="@Html.DisplayFor(x => Model.Profiles[i].Name)" class="c-image-checkbox__image">
+									</div>
+									<div class="c-image-checkbox__content">
+										<span class="o-form__checkbox-button">
+											<div class="o-form__checkbox-icon"></div>
+										<span class="o-form__checkbox-label-text">@Html.DisplayFor(x => Model.Profiles[i].Name)</span>
+										<div class="o-image-checkbox__subtitle u-font-sec">@Model.Profiles[i].Subtitle</div>
+									</div>
+									@Html.HiddenFor(x => Model.Profiles[i].Name)
+								</label>
+							</div>
+						}
+					</ul>
+				</fieldset>
 			}
+			@if( Model.CaseStudies != null ) {
+				<hr class="u-space-bottom">
+				<fieldset class="o-fieldset">
+					<legend class="o-fieldset__legend">Case studies</legend>
+					<ul class="o-fieldset__list o-grid--three u-clearfix">
+					@for ( var i = 0; i < Model.CaseStudies.Count(); i++ ) {
+						var inputId = "CaseStudies_" + i + "__Checked";
+						var imageName = Model.CaseStudies[i].Name.ToUrlSegment();
+						var imageUrl = "/assets/img/briefing-form/case-studies/" + imageName + ".jpg";
 
-			<div class="c-tabs js-tabs">
-				<ul class="c-tabs__tablist js-tabs__tablist">
-					<li class="c-tabs__tablist-item">
-						<a class="c-tabs__tab js-no-scroll js-brief-tab" id="@tabId1" href="#@tabTargetId1">@tabName1</a>
-					</li>
-					<li class="c-tabs__tablist-item">
-						<a class="c-tabs__tab js-no-scroll js-brief-tab" id="@tabId2" href="#@tabTargetId2">@tabName2</a>
-					</li>
-					<li class="c-tabs__tablist-item">
-						<a class="c-tabs__tab js-no-scroll js-brief-tab" id="@tabId3" href="#@tabTargetId3">@tabName3</a>
-					</li>
-				</ul>
-				@* 1/3 *@
-				<section class="c-tabs__panel js-tabs__panel c-brief__section-page" id="@tabTargetId1">
-					@if( Model.Profiles != null ) {
-						<h3 class="u-zeta">The profiles</h3>
-
-						<div class="o-grid--three u-clearfix u-space-top--large">
-							@for ( var i = 0; i < Model.Profiles.Count(); i++ ) {
-								var inputId = "Profiles_" + i + "__Checked";
-								var imageName = Model.Profiles[i].Name.ToUrlSegment();
-								var imageUrl = "/assets/img/briefing-form/profiles/" + imageName + ".jpg?width=200";
-
-								<div class="c-image-checkbox o-grid__item">
-									@Html.CheckBoxFor(x => Model.Profiles[i].Checked, new {
-										@class = "o-form__checkbox"
-									})
-									<label for="@inputId" class="o-form__label o-form__label--alt">
-										<div class="c-image-checkbox__image-wrap o-aspect--1-1">
-											<img src="@imageUrl" alt="@Html.DisplayFor(x => Model.Profiles[i].Name)" class="c-image-checkbox__image">
-										</div>
-										<div class="c-image-checkbox__content">
-											<span class="o-form__checkbox-button">
-												<div class="o-form__checkbox-icon"></div>
-											</span>
-											<span class="o-form__checkbox-label-text">@Html.DisplayFor(x => Model.Profiles[i].Name)</span>
-											<div class="o-image-checkbox__subtitle u-font-sec">@Model.Profiles[i].Subtitle</div>
-										</div>
-										@Html.HiddenFor(x => Model.Profiles[i].Name)
-									</label>
+						<li class="c-image-checkbox o-grid__item">
+							@Html.CheckBoxFor(x => Model.CaseStudies[i].Checked, new {
+								@class = "o-form__checkbox"
+							})
+							<label for="@inputId" class="o-form__label o-form__label--alt">
+								<div class="c-image-checkbox__image-wrap o-aspect--1-1">
+									<img src="@imageUrl" alt="@Html.DisplayFor(x => Model.CaseStudies[i].Name)" class="c-image-checkbox__image">
 								</div>
-							}
-						</div>
-					}
-
-					<hr>
-
-					@if( Model.CaseStudies != null ) {
-						<h3 class="u-zeta">Case studies</h3>
-
-						<div class="o-grid--three u-clearfix u-space-top--large">
-							@for ( var i = 0; i < Model.CaseStudies.Count(); i++ ) {
-								var inputId = "CaseStudies_" + i + "__Checked";
-								var imageName = Model.CaseStudies[i].Name.ToUrlSegment();
-								var imageUrl = "/assets/img/briefing-form/case-studies/" + imageName + ".jpg";
-
-								<div class="c-image-checkbox o-grid__item">
-									@Html.CheckBoxFor(x => Model.CaseStudies[i].Checked, new {
-										@class = "o-form__checkbox"
-									})
-									<label for="@inputId" class="o-form__label o-form__label--alt">
-										<div class="c-image-checkbox__image-wrap o-aspect--1-1">
-											<img src="@imageUrl" alt="@Html.DisplayFor(x => Model.CaseStudies[i].Name)" class="c-image-checkbox__image">
-										</div>
-										<div class="c-image-checkbox__content">
-											<span class="o-form__checkbox-button">
-												<div class="o-form__checkbox-icon"></div>
-											</span>
-											<span class="o-form__checkbox-label-text">@Html.DisplayFor(x => Model.CaseStudies[i].Name)</span>
-											<div class="o-image-checkbox__subtitle u-font-sec">@Model.CaseStudies[i].Subtitle</div>
-										</div>
-										@Html.HiddenFor(x => Model.CaseStudies[i].Name)
-									</label>
+								<div class="c-image-checkbox__content">
+									<span class="o-form__checkbox-button">
+										<div class="o-form__checkbox-icon"></div>
+									</span>
+									<span class="o-form__checkbox-label-text">@Html.DisplayFor(x => Model.CaseStudies[i].Name)</span>
+									<div class="o-image-checkbox__subtitle u-font-sec">@Model.CaseStudies[i].Subtitle</div>
 								</div>
-							}
-						</div>
+								@Html.HiddenFor(x => Model.CaseStudies[i].Name)
+							</label>
+						</li>
 					}
-					<div class="c-brief__section-actions">
-						<button class="c-brief__button--next c-button c-button--secondary js-brief-next-tabs" type="button" data-target="@tabId2">Next</button>
-						<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields7">Back</button>
-					</div>
-				</section>
-				@* 2/3 *@
-				<section class="c-tabs__panel js-tabs__panel c-brief__section-page" id="@tabTargetId2">
-					@if (Model.Workflow != null) {
-						<fieldset class="o-fieldset">
-							<legend class="o-fieldset__legend">Workflow</legend>
-							<ul class="o-fieldset__list o-fieldset__list--half u-clearfix">
-								@for ( var i = 0; i < Model.Workflow.Count(); i++ ) {
-									var inputId = "Workflow_" + i + "__Checked";
-									var note = Model.Workflow[i].Note;
+					</ul>
+				</fieldset>
+			}
+			<div class="c-brief__section-actions">
+				<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="proposal2">Next</button>
+				<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="theBrief">Back</button>
+			</div>
+		</div>
+		<div id="proposal2" class="c-brief__slide js-brief-slide">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+				Headline = "Build your proposal",
+				Subtitle = "Make choices to tell us what content you would like included in your proposal."
+			})
+			@if (Model.Workflow != null) {
+				<fieldset class="o-fieldset">
+					<legend class="o-fieldset__legend">Workflow</legend>
+					<ul class="o-fieldset__list o-fieldset__list--half u-clearfix">
+						@for ( var i = 0; i < Model.Workflow.Count(); i++ ) {
+							var inputId = "Workflow_" + i + "__Checked";
+							var note = Model.Workflow[i].Note;
 
 
-									<li class="o-fieldset__item">
-										@Html.CheckBoxFor(x => Model.Workflow[i].Checked, new {
-											@class = "o-form__checkbox"
-										})
-										<label for="@inputId" class="o-form__label o-form__label--alt">
-											<span class="o-form__checkbox-button">
-												<div class="o-form__checkbox-icon"></div>
-											</span>
-											<span class="o-form__checkbox-label-text">
-												@Html.DisplayFor(x => Model.Workflow[i].Name)
-												@if (!String.IsNullOrEmpty(note)) {
-													<span class="o-form__checkbox-label-note">(@note)</span>
-												}
-											</span>
-											@Html.HiddenFor(x => Model.Workflow[i].Name)
-										</label>
-									</li>
+							<li class="o-fieldset__item">
+								@Html.CheckBoxFor(x => Model.Workflow[i].Checked, new {
+									@class = "o-form__checkbox"
+								})
+								<label for="@inputId" class="o-form__label o-form__label--alt">
+									<span class="o-form__checkbox-button">
+										<div class="o-form__checkbox-icon"></div>
+									</span>
+									<span class="o-form__checkbox-label-text">
+										@Html.DisplayFor(x => Model.Workflow[i].Name)
+										@if (!String.IsNullOrEmpty(note)) {
+											<span class="o-form__checkbox-label-note">(@note)</span>
+										}
+									</span>
+									@Html.HiddenFor(x => Model.Workflow[i].Name)
+								</label>
+							</li>
 
-								}
-							</ul>
-						</fieldset>
-					}
-					<div class="c-brief__section-actions">
-						<button class="c-brief__button--next c-button c-button--secondary js-brief-next-tabs" type="button" data-target="@tabId3">Next</button>
-						<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev-tabs" type="button" data-target="@tabId1">Back</button>
-					</div>
-				</section>
-				@* 3/3 *@
-				<section class="c-tabs__panel js-tabs__panel c-brief__section-page" id="@tabTargetId3">
-					@if (Model.ProjectSpecifics != null) {
-						<fieldset class="o-fieldset">
-							<legend class="o-fieldset__legend">Project specifics</legend>
-							<ul class="o-fieldset__list o-fieldset__list--half u-clearfix">
-								@for ( var i = 0; i < Model.ProjectSpecifics.Count(); i++ ) {
-									var inputId = "ProjectSpecifics_" + i + "__Checked";
-									var note = Model.ProjectSpecifics[i].Note;
+						}
+					</ul>
+				</fieldset>
+			}
+			@if (Model.ProjectSpecifics != null) {
+				<hr class="u-space-top">
+				<fieldset class="o-fieldset u-space-top">
+					<legend class="o-fieldset__legend">Project specifics</legend>
+					<ul class="o-fieldset__list o-fieldset__list--half u-clearfix">
+						@for ( var i = 0; i < Model.ProjectSpecifics.Count(); i++ ) {
+							var inputId = "ProjectSpecifics_" + i + "__Checked";
+							var note = Model.ProjectSpecifics[i].Note;
 
-									<li class="o-fieldset__item">
-										@Html.CheckBoxFor(x => Model.ProjectSpecifics[i].Checked, new {
-											@class = "o-form__checkbox"
-										})
-										<label for="@inputId" class="o-form__label o-form__label--alt">
-											<span class="o-form__checkbox-button">
-												<div class="o-form__checkbox-icon"></div>
-											</span>
-											<span class="o-form__checkbox-label-text">
-												@Html.DisplayFor(x => Model.ProjectSpecifics[i].Name)
-												@if (!String.IsNullOrEmpty(note)) {
-													<span class="o-form__checkbox-label-note">(@note)</span>
-												}
-											</span>
-											@Html.HiddenFor(x => Model.ProjectSpecifics[i].Name)
-										</label>
-									</li>
+							<li class="o-fieldset__item">
+								@Html.CheckBoxFor(x => Model.ProjectSpecifics[i].Checked, new {
+									@class = "o-form__checkbox"
+								})
+								<label for="@inputId" class="o-form__label o-form__label--alt">
+									<span class="o-form__checkbox-button">
+										<div class="o-form__checkbox-icon"></div>
+									</span>
+									<span class="o-form__checkbox-label-text">
+										@Html.DisplayFor(x => Model.ProjectSpecifics[i].Name)
+										@if (!String.IsNullOrEmpty(note)) {
+											<span class="o-form__checkbox-label-note">(@note)</span>
+										}
+									</span>
+									@Html.HiddenFor(x => Model.ProjectSpecifics[i].Name)
+								</label>
+							</li>
 
-								}
-							</ul>
-						</fieldset>
-					}
-					<div class="c-brief__section-actions">
-						<button class="c-brief__button--next c-button c-button--secondary c-button--submit">Submit</button>
-						<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev-tabs" type="button" data-target="@tabId2">Back</button>
-					</div>
-				</section>
+						}
+					</ul>
+				</fieldset>
+			}
+			<div class="c-brief__section-actions">
+				<button class="c-brief__button--next c-button c-button--secondary c-button--submit">Submit</button>
+				<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="proposal">Back</button>
 			</div>
 		</div>
 	</section>
