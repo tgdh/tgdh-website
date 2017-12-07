@@ -1,5 +1,6 @@
 import * as ValidityState from 'validate/dist/js/validityState-polyfill';
-import validate from 'validate/dist/js/validate';
+// import validate from 'validate/dist/js/validate';
+import validate from '../lib/validate-custom'; // added `willValidate` check to `hasError`
 import FloatingLabel from './FloatingLabel';
 
 class EnhanceForms {

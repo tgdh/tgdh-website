@@ -4,7 +4,7 @@ import validate from 'validate/dist/js/validate';
 import animorph from 'animorph/dist/animorph';
 // import * as garlicjs from '../legacy/garlicjs/dist/garlic-standalone.min';
 
-const INPUTS_TO_VALIDATE = ['input[type="text"]:not([hidden])', 'input[type="email"]', 'textarea', 'input[type="radio"]', 'input[type="file"]'];
+const INPUTS_TO_VALIDATE = ['input[type="text"]:not([hidden])', 'input[type="email"]', 'textarea', 'input[type="radio"]', 'input[type="file"]', 'input[type="checkbox"]'];
 const scroll = new SmoothScroll();
 
 class Brief {

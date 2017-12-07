@@ -46,6 +46,7 @@ namespace TGDH.Core.Controllers
             TempData["BriefingFormValidationPasses"] = "The form has been validated successfully.";
             TempData["BriefingFormFormFolderId"] = FormFolderId;
 
+            // set selected checkbox values for later use
             try {
                 teamProfiles = GetResultsFromList(model.Profiles);
                 caseStudies = GetResultsFromList(model.CaseStudies);
@@ -59,13 +60,12 @@ namespace TGDH.Core.Controllers
 
             SaveUploadedFile(model);
 
+            // redirect page
             var formFolder = Umbraco.TypedContent(FormFolderId);
-
             if (formFolder != null && formFolder.HasValue("redirectPage"))
             {
                 return RedirectToUmbracoPage(formFolder.GetPropertyValue<int>("redirectPage"));
             }
-
             return RedirectToCurrentUmbracoPage();
         }
 
@@ -97,27 +97,19 @@ namespace TGDH.Core.Controllers
 
                     TempData["SavePassed"] = "File Upload Successful";
 
-                    //CreateProfileList(model);
-                    //CreateCaseStudyList(model);
-                  //  YourProjectList(model);
                     SaveBriefingFormSubmission(model);
                     SendEmailNotifications(model);
                     return "passed";
-
                 }
                 catch (Exception ex)
                 {
                     TempData["SaveFailed"] = ex.Message;
-
                     throw;
                 }
             }
             else
             {
                 //No brief uploaded so ignore upload stage
-            //    CreateProfileList(model);
-            //    CreateCaseStudyList(model);
-             //   YourProjectList(model);
                 SaveBriefingFormSubmission(model);
                 SendEmailNotifications(model);
                 return "passed";

@@ -131,7 +131,7 @@ gulp.task('js', function () {
 			commonjs({
 				// non-CommonJS modules will be ignored, but you can also
 				// specifically include/exclude files
-				include: 'node_modules/**',
+				include: ['node_modules/**', paths.assetsFolder + '/js/lib/validate-custom.js'],
 				//exclude: [ 'node_modules/foo/**', 'node_modules/bar/**' ],  // Default: undefined
 				extensions: ['.js'],
 				ignoreGlobal: false,
