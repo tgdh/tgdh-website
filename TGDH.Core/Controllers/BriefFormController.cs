@@ -19,12 +19,11 @@ namespace TGDH.Core.Controllers
     {
         public readonly MailHelper _mailHelper = new MailHelper();
         private const int FormFolderId = Constants.BriefingFormFolderId;
-        private string profiles = "";
+        private string teamProfiles = "";
         private string caseStudies = "";
-        private string howWeDoThings = "";
-        private string yourProject = "";
+        private string workflow = "";
+        private string projectSpecifics = "";
         private string fileUploadName = "";
-        private string HtmlProfiles = "";
 
         public ActionResult RenderBriefingForm()
         {
@@ -46,6 +45,17 @@ namespace TGDH.Core.Controllers
 
             TempData["BriefingFormValidationPasses"] = "The form has been validated successfully.";
             TempData["BriefingFormFormFolderId"] = FormFolderId;
+
+            try {
+                teamProfiles = GetResultsFromList(model.Profiles);
+                caseStudies = GetResultsFromList(model.CaseStudies);
+                workflow = GetResultsFromList(model.Workflow);
+                projectSpecifics = GetResultsFromList(model.ProjectSpecifics);
+            } catch(Exception ex) {
+                TempData["SaveFailed"] = ex.Message;
+                LogHelper.Warn(GetType(), "Briefing form saving failed with the exception: " + ex.Message);
+                throw;
+            }
 
             SaveUploadedFile(model);
 
@@ -145,11 +155,10 @@ namespace TGDH.Core.Controllers
                 formSubmission.SetValue("resourcesManageNewSite", model.ResourcesManageNewSite);
                 formSubmission.SetValue("concicePhrase", model.ConcicePhrase);
                 
-
-                formSubmission.SetValue("teamProfiles", GetResultsFromList(model.Profiles));
-                formSubmission.SetValue("caseStudies", GetResultsFromList(model.CaseStudies));
-                formSubmission.SetValue("workflow", GetResultsFromList(model.Workflow));
-                formSubmission.SetValue("projectSpecifics", GetResultsFromList(model.ProjectSpecifics));
+                formSubmission.SetValue("teamProfiles", teamProfiles);
+                formSubmission.SetValue("caseStudies", caseStudies);
+                formSubmission.SetValue("workflow", workflow);
+                formSubmission.SetValue("projectSpecifics", projectSpecifics);
                 
                 if (model.BreifUploadOrCreation == "already-have-brief")
                 {
@@ -358,10 +367,10 @@ namespace TGDH.Core.Controllers
                     HtmlResourcesManageNewSite + 
                     HtmlConcicePhrase +
                 "<br><h2>Build Your Proposal</h2>" +
-                "<p><strong>Staff Profiles:</strong> " + profiles + "</p>" +
+                "<p><strong>Team profiles:</strong> " + teamProfiles + "</p>" +
                 "<p><strong>Case Studies:</strong> " + caseStudies + "</p>" +
-                "<p><strong>The Workflow:</strong> " + howWeDoThings + "</p>" +
-                "<p><strong>Your Project:</strong> " + yourProject + "</p>" 
+                "<p><strong>The Workflow:</strong> " + workflow + "</p>" +
+                "<p><strong>Project specifics:</strong> " + projectSpecifics + "</p>" 
                 ;
             using(StreamReader reader = new StreamReader(Server.MapPath("~/App_Code/BriefTemplate.html")))
             {
