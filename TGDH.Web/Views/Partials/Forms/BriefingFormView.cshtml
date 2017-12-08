@@ -202,7 +202,7 @@
 				</ul>
 			</fieldset>
 
-			<fieldset class="o-fieldset js-brief-options">
+			<fieldset class="o-fieldset js-brief-options u-space-top">
 				<legend class="o-fieldset__legend">Your brief</legend>
 				<ul class="o-fieldset__list u-clearfix">
 					<li class="o-fieldset__item">
@@ -600,6 +600,10 @@
 				Headline = "Build your proposal",
 				Subtitle = "Make choices to tell us what content you would like included in your proposal."
 			})
+
+			<p>Our team creates wonderful things for our clients, and we have fun doing it. Please select relevant profiles and case studies to add information to your proposal about who we are, and what we do.<p>
+			<hr class="u-space-bottom">
+
 			@if( Model.Profiles != null ) {
 				<fieldset class="o-fieldset">
 					<legend class="o-fieldset__legend">The profiles</legend>
@@ -673,9 +677,11 @@
 				Headline = "Build your proposal",
 				Subtitle = "Make choices to tell us what content you would like included in your proposal."
 			})
+
 			@if (Model.Workflow != null) {
 				<fieldset class="o-fieldset">
-					<legend class="o-fieldset__legend">Workflow</legend>
+					<legend class="o-fieldset__legend u-space-bottom--small">Workflow</legend>
+					<p>It&#39;s good to know how we work. Here you can add information to your proposal about our methodology, systems we use, and working processes.</p>
 					<ul class="o-fieldset__list o-fieldset__list--half u-clearfix">
 						@for ( var i = 0; i < Model.Workflow.Count(); i++ ) {
 							var inputId = "Workflow_" + i + "__Checked";
@@ -707,7 +713,8 @@
 			@if (Model.ProjectSpecifics != null) {
 				<hr class="u-space-top">
 				<fieldset class="o-fieldset u-space-top">
-					<legend class="o-fieldset__legend">Project specifics</legend>
+					<legend class="o-fieldset__legend u-space-bottom--small">Project specifics</legend>
+					<p>Tailor the project scope making sure we price the parts you require.</p>
 					<ul class="o-fieldset__list o-fieldset__list--half u-clearfix">
 						@for ( var i = 0; i < Model.ProjectSpecifics.Count(); i++ ) {
 							var inputId = "ProjectSpecifics_" + i + "__Checked";

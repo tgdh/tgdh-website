@@ -28,6 +28,7 @@
 		opacity: 0;
 		pointer-events: none;
 		transition: opacity $speed $ease;
+		overflow-x: hidden;
 	}
 
 	.c-brief--is-ready {
@@ -87,7 +88,7 @@
 	}
 
 	.c-brief__upload-field {
-		max-height: 22rem;
+		max-height: 30rem;
 		overflow: hidden;
 		transition: max-height $speed $ease;
 

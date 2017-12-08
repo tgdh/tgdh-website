@@ -76,6 +76,11 @@
 		}
 
 	}
+
+	@include respond-min( $mq-large ) {
+		padding-top: 10rem;
+		padding-bottom: 10rem;
+	}
 }
 
 //

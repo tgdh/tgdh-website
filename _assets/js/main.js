@@ -15,7 +15,7 @@ import TriggerAnimations from './modules/TriggerAnimations';
 import InitHeadroom from './modules/InitHeadroom';
 import CharAllowance from './modules/CharAllowance';
 import Upload from './modules/Upload';
-import initTabs from './modules/Tabs';
+// import initTabs from './modules/Tabs';
 import EnhanceForms from './modules/EnhanceForms';
 import Brief from './modules/Brief';
 
@@ -58,7 +58,7 @@ import Brief from './modules/Brief';
 			const fileUpload = new Upload(item);
 		});
 
-		initTabs();
+		// initTabs();
 
 		TriggerAnimations();
 		new EnhanceForms();
