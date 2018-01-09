@@ -1,10 +1,14 @@
 ﻿@using Umbraco.Web
 @using TGDH.Core.Models
+@using TGDH.Core.Controllers
 @inherits UmbracoViewPage<IPublishedContent>
 @{
     Layout = "Master.cshtml";
 }
+@*
 @Html.Partial("~/Views/Partials/Forms/BriefingFormView.cshtml", new BriefForm{})
+*@
+@Html.Action("RenderBriefingForm", "BriefForm")
 
 @section Scripts {
 	@*

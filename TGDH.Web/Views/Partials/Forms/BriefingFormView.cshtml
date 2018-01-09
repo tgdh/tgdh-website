@@ -44,6 +44,25 @@
 		}
 		else
 		{
+			@*
+			var caseStudyFolder = Umbraco.TypedContent(3158);
+			var caseStudyOptions = caseStudyFolder != null ? caseStudyFolder.Children() : null;
+			if (caseStudyOptions != null && caseStudyOptions.Any()) {
+				var i = 0;
+				foreach (var item in caseStudyOptions) {
+					var name = item.Name;
+					var subtitle = item.GetPropertyValue<string>("subtitle");
+					var image = item.GetPropertyValue<IPublishedContent>("briefImage");
+					var imageUrl = image != null ? Url.GetCropUrl(image, cropAlias: "1:1", width: 146, upScale: false, htmlEncode: false).ToString() : "";
+
+					Model.CaseStudies.Add(
+						new CheckboxListItem {Id = i, Name = name, Subtitle = subtitle, ImageUrl = imageUrl, Checked = false}
+					);
+					i = i + 1;
+				}
+			}
+			*@
+
 			<div class="o-wrap o-wrap--x-large">
 				<header class="o-col--two-one u-clearfix c-cover__heading">
 					<h1>Digital proposal request</h1>
@@ -619,7 +638,7 @@
 								})
 								<label for="@inputId" class="o-form__label o-form__label--alt">
 									<div class="c-image-checkbox__image-wrap o-aspect--1-1">
-										<img src="@imageUrl" alt="@Html.DisplayFor(x => Model.Profiles[i].Name)" class="c-image-checkbox__image">
+										<img src="@Model.Profiles[i].ImageUrl" alt="@Html.DisplayFor(x => Model.Profiles[i].Name)" class="c-image-checkbox__image">
 									</div>
 									<div class="c-image-checkbox__content">
 										<span class="o-form__checkbox-button">
@@ -643,15 +662,16 @@
 					@for ( var i = 0; i < Model.CaseStudies.Count(); i++ ) {
 						var inputId = "CaseStudies_" + i + "__Checked";
 						var imageName = Model.CaseStudies[i].Name.ToUrlSegment();
+@*
 						var imageUrl = "/assets/img/briefing-form/case-studies/" + imageName + ".jpg";
-
+*@
 						<li class="c-image-checkbox o-grid__item">
 							@Html.CheckBoxFor(x => Model.CaseStudies[i].Checked, new {
 								@class = "o-form__checkbox"
 							})
 							<label for="@inputId" class="o-form__label o-form__label--alt">
 								<div class="c-image-checkbox__image-wrap o-aspect--1-1">
-									<img src="@imageUrl" alt="@Html.DisplayFor(x => Model.CaseStudies[i].Name)" class="c-image-checkbox__image">
+									<img src="@Model.CaseStudies[i].ImageUrl" alt="@Html.DisplayFor(x => Model.CaseStudies[i].Name)" class="c-image-checkbox__image">
 								</div>
 								<div class="c-image-checkbox__content">
 									<span class="o-form__checkbox-button">

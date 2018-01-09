@@ -27,7 +27,12 @@ namespace TGDH.Core.Controllers
 
         public ActionResult RenderBriefingForm()
         {
-            return PartialView("~/Views/Partials/Forms/BriefingFormView.cshtml", new BriefForm());
+            return PartialView("~/Views/Partials/Forms/BriefingFormView.cshtml", new BriefForm() {
+                CaseStudies = GetCaseStudyList(Umbraco),
+                Profiles = GetProfileList(Umbraco),
+                Workflow = GetWorkflowList(Umbraco),
+                ProjectSpecifics = GetProjectSpecsList(Umbraco),
+            });
         }
 
         [HttpPost]
@@ -67,6 +72,122 @@ namespace TGDH.Core.Controllers
                 return RedirectToUmbracoPage(formFolder.GetPropertyValue<int>("redirectPage"));
             }
             return RedirectToCurrentUmbracoPage();
+        }
+
+        public static List<CheckboxListItem> GetCaseStudyList(UmbracoHelper umbraco) {
+            var caseStudies = new List<CheckboxListItem>();
+
+            var caseStudyFolder = umbraco.TypedContent(3158);
+            if (caseStudyFolder == null) {
+                return caseStudies;
+            }
+			var caseStudyOptions = caseStudyFolder != null ? caseStudyFolder.Children() : null;
+            if (caseStudyOptions == null) {
+                return caseStudies;
+            }
+
+			if (caseStudyOptions != null && caseStudyOptions.Any()) {
+				var i = 0;
+				foreach (var item in caseStudyOptions) {
+					var name = item.Name;
+					var subtitle = item.GetPropertyValue<string>("subtitle");
+					var image = umbraco.TypedMedia(item.GetPropertyValue<int>("caseImage"));
+                    var imageUrl = image != null ? image.GetCropUrl(cropAlias: "1:1", width: 146, upScale: false).ToString() : "";
+                        
+                    caseStudies.Add(
+						new CheckboxListItem {Id = i, Name = name, Subtitle = subtitle, ImageUrl = imageUrl, Checked = false}
+					);
+					i = i + 1;
+				}
+			}
+
+            return caseStudies;
+        }
+
+        public static List<CheckboxListItem> GetProfileList(UmbracoHelper umbraco) {
+            var profiles = new List<CheckboxListItem>();
+
+            var profileFolder = umbraco.TypedContent(3167);
+            if (profileFolder == null) {
+                return profiles;
+            }
+			var profileOptions = profileFolder != null ? profileFolder.Children() : null;
+            if (profileOptions == null) {
+                return profiles;
+            }
+
+			if (profileOptions != null && profileOptions.Any()) {
+				var i = 0;
+				foreach (var item in profileOptions) {
+					var name = item.Name;
+					var subtitle = item.GetPropertyValue<string>("jobTitle");
+					var image = umbraco.TypedMedia(item.GetPropertyValue<int>("profileImage"));
+                    var imageUrl = image != null ? image.GetCropUrl(cropAlias: "1:1", width: 146, upScale: false).ToString() : "";
+                        
+                    profiles.Add(
+						new CheckboxListItem {Id = i, Name = name, Subtitle = subtitle, ImageUrl = imageUrl, Checked = false}
+					);
+					i = i + 1;
+				}
+			}
+
+            return profiles;
+        }
+
+        public static List<CheckboxListItem> GetWorkflowList(UmbracoHelper umbraco) {
+            var workflows = new List<CheckboxListItem>();
+
+            var workflowFolder = umbraco.TypedContent(3168);
+            if (workflowFolder == null) {
+                return workflows;
+            }
+			var workflowOptions = workflowFolder != null ? workflowFolder.Children() : null;
+            if (workflowOptions == null) {
+                return workflows;
+            }
+
+			if (workflowOptions != null && workflowOptions.Any()) {
+				var i = 0;
+				foreach (var item in workflowOptions) {
+					var name = item.Name;
+					var note = item.GetPropertyValue<string>("subtitle");
+					    
+                    workflows.Add(
+						new CheckboxListItem {Id = i, Name = name, Note = note, Checked = false}
+					);
+					i = i + 1;
+				}
+			}
+
+            return workflows;
+        }
+
+        public static List<CheckboxListItem> GetProjectSpecsList(UmbracoHelper umbraco) {
+            var projectSpecs = new List<CheckboxListItem>();
+
+            var projectSpecsFolder = umbraco.TypedContent(3169);
+            if (projectSpecsFolder == null) {
+                return projectSpecs;
+            }
+			var projectSpecsOptions = projectSpecsFolder != null ? projectSpecsFolder.Children() : null;
+            if (projectSpecsOptions == null) {
+                return projectSpecs;
+            }
+
+			if (projectSpecsOptions != null && projectSpecsOptions.Any()) {
+				var i = 0;
+				foreach (var item in projectSpecsOptions) {
+					var name = item.Name;
+					var note = item.GetPropertyValue<string>("note");
+                        
+                    projectSpecs.Add(
+						new CheckboxListItem {Id = i, Name = name, Note = note, Checked = false}
+					);
+					i = i + 1;
+				}
+			}
+
+            return projectSpecs;
         }
 
         private string SaveUploadedFile(BriefForm model)
@@ -192,7 +313,7 @@ namespace TGDH.Core.Controllers
 
             return stringToReturn.TrimEnd(", ");
         }
-
+        
         private void SendEmailNotifications(BriefForm model)
         {
             var formFolder = Umbraco.TypedContent(FormFolderId);
@@ -332,7 +453,7 @@ namespace TGDH.Core.Controllers
             
             string emailBody = string.Empty;
             string emailInnerBody = "" +
-                "<h2>About</h2>" + 
+                "<h2>About</h2>" +
                 "<p><strong>Name: </strong>{{Name}}</p>" +
                 "<p><strong>Phone Number: </strong>{{Number}}</p>" +
                 "<p><strong>Email Address: </strong>{{Email}}</p>" +

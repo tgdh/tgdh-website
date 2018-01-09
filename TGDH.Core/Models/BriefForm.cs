@@ -84,6 +84,12 @@ namespace TGDH.Core.Models
             // then the image name should be a urlSegment() of the name passed in - e.g. debbie-lawrenson
             //
 
+            // CaseStudies = new List<CheckboxListItem>();
+            // Profiles = new List<CheckboxListItem>();
+            // Workflow = new List<CheckboxListItem>();
+            // ProjectSpecifics = new List<CheckboxListItem>();
+
+            /*
             CaseStudies = new List<CheckboxListItem>() {
                 new CheckboxListItem {Id = 0, Name = "Evodia", Subtitle = "Recruitment", Checked = false},
                 new CheckboxListItem {Id = 1, Name = "Octagon", Subtitle = "Theatre", Checked = false},
@@ -91,7 +97,7 @@ namespace TGDH.Core.Models
                 new CheckboxListItem {Id = 3, Name = "Pole Star Global", Subtitle = "Technology", Checked = false},
                 new CheckboxListItem {Id = 4, Name = "St Wilfrid's Hospice", Subtitle = "Health Care", Checked = false},
             };
-
+            
             Profiles = new List<CheckboxListItem>() {
                 new CheckboxListItem {Id = 0, Name = "Dan Jubb", Subtitle = "Head of Brand and Strategy", Checked = false},
                 new CheckboxListItem {Id = 1, Name = "Debbie Lawrenson", Subtitle = "Head of Digital", Checked = false},
@@ -115,6 +121,7 @@ namespace TGDH.Core.Models
                 new CheckboxListItem {Id = 5, Name = "Pricing schedule", Checked = false},
                 new CheckboxListItem {Id = 6, Name = "Project agreement", Checked = false}
             };
+            */
 
         }
     }
