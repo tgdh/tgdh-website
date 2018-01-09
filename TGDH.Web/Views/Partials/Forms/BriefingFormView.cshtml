@@ -44,25 +44,6 @@
 		}
 		else
 		{
-			@*
-			var caseStudyFolder = Umbraco.TypedContent(3158);
-			var caseStudyOptions = caseStudyFolder != null ? caseStudyFolder.Children() : null;
-			if (caseStudyOptions != null && caseStudyOptions.Any()) {
-				var i = 0;
-				foreach (var item in caseStudyOptions) {
-					var name = item.Name;
-					var subtitle = item.GetPropertyValue<string>("subtitle");
-					var image = item.GetPropertyValue<IPublishedContent>("briefImage");
-					var imageUrl = image != null ? Url.GetCropUrl(image, cropAlias: "1:1", width: 146, upScale: false, htmlEncode: false).ToString() : "";
-
-					Model.CaseStudies.Add(
-						new CheckboxListItem {Id = i, Name = name, Subtitle = subtitle, ImageUrl = imageUrl, Checked = false}
-					);
-					i = i + 1;
-				}
-			}
-			*@
-
 			<div class="o-wrap o-wrap--x-large">
 				<header class="o-col--two-one u-clearfix c-cover__heading">
 					<h1>Digital proposal request</h1>
