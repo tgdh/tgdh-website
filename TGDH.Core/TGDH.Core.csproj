@@ -246,6 +246,7 @@
     <Compile Include="Models\CheckboxListItem.cs" />
     <Compile Include="Models\LinkPickerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\DisplayNameHelper.cs" />
     <Compile Include="Utility\MailHelper.cs" />
     <Compile Include="Utility\Paging.cs" />
   </ItemGroup>

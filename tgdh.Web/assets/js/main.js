@@ -36783,6 +36783,7 @@ var Brief = function () {
 		value: function setActiveSlide(slide) {
 			if (!slide) return;
 			this.activeSlide = slide;
+			Brief.enableFieldset(slide);
 
 			if (this.previousActiveSlide) {
 				this.hideSlide(this.previousActiveSlide);
@@ -36839,6 +36840,10 @@ var Brief = function () {
 			this.pagerHeight = this.pager.offsetHeight;
 
 			if (this.sections.length === 0) return;
+			// disable all slides to prevent tabbing further in the form
+			this.slides.forEach(function (slide) {
+				return Brief.disableFieldset(slide);
+			});
 			this.setActiveSlide(this.sections[0].querySelector('.js-brief-slide'));
 
 			this.bindEvents();

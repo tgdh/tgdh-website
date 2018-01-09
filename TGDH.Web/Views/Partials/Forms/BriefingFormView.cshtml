@@ -52,7 +52,7 @@
 					</div>
 				</header>
 				<div class="u-space-top u-epsilon c-proposal__copy u-space-bottom--large">
-					<p>Above form text: Please follow the steps below to complete the online briefing process.</p>
+					<p>Please follow the steps below to complete the online briefing process.</p>
 				</div>
 			</div>
 			<div class="o-wrap o-wrap--x-large">
@@ -74,7 +74,7 @@
 	<button type="button" class="c-brief__section-pager__item js-brief-section-pager-button js-brief-section-pager-proposal" data-target="proposal">
 		<h2 class="c-brief__section-pager__item__headline u-gamma">Build your proposal</h2>
 		<div class="c-brief__section-pager__item__subtitle u-font-sec">
-			<p>Refine your requirements</p>
+			<p>Select content which you want included</p>
 		</div>
 	</button>
 </aside>
@@ -86,12 +86,12 @@
 
 	@* Start about fields *@
 	<section id="aboutSection" class="c-brief__section js-brief-section" data-pager-button="js-brief-section-pager-about">
-		<div id="about" class="c-brief__slide js-brief-slide">
+		<fieldset id="about" class="c-brief__slide js-brief-slide">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 				Headline = "About you",
 				Subtitle = "How can we get in touch with you?"
 			})
-			<fieldset >
+			<div>
 				<div class="o-form__row o-form__row--two u-clearfix">
 					<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
 						@Html.TextBoxFor(x => x.YourName, new { required = "required", @class="o-form__input" })
@@ -118,20 +118,20 @@
 						@Html.ValidationMessageFor(x => x.CompanyName)
 					</div>
 				</div>
-			</fieldset>
+			</div>
 			<div class="c-brief__section-actions">
 				<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="theBrief">Next</button>
 			</div>
-		</div>
+		</fieldset>
 	</section>
 	@* End about fields *@
 
 
 	@* Start brief *@
 	<div id="briefSection" class="c-brief__section js-brief-section" data-brief-section-headline="The brief" data-brief-section-subtitle="What you need" data-pager-button="js-brief-section-pager-brief">
-		<section id="theBrief" class="c-brief__slide js-brief-slide">
+		<fieldset id="theBrief" class="c-brief__slide js-brief-slide">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-				Headline = "The brief",
+				Headline = "About you",
 				Subtitle = "Set a budget and supply or create a brief."
 			})
 			<fieldset class="o-fieldset">
@@ -268,23 +268,23 @@
 				<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields1" data-target-skip-brief="proposal">Next</button>
 				<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="about">Back</button>
 			</div>
-		</section>
+		</fieldset>
 		@* End  brief *@
 
 		@{
 			var briefingFormSubtitle = "Answer the following questions as far as you are able. Please put <strong>&lsquo;don't know&rsquo;</strong> if you're not sure.";
 		}
 
-		@* Star brief - fields *@
+		@* Start brief - fields *@
 		<fieldset class="js-brief-create-brief-fields">
 			@* 1/7 *@
 			@{
 				var subHead1 = "Project summary";
 				var subTitle1 = "State general project information";
 			}
-			<div id="briefFields1" class="c-brief__slide js-brief-slide">
+			<fieldset id="briefFields1" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-					Headline = "The briefing form",
+					Headline = "The brief",
 					Subtitle = briefingFormSubtitle
 				})
 				<div class="c-brief__slide__page">1/7</div>
@@ -325,15 +325,15 @@
 					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields2">Next</button>
 					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="theBrief">Back</button>
 				</div>
-			</div>
+			</fieldset>
 			@* 2/7 *@
 			@{
 				var subHead2 = "Audience profile";
 				var subTitle2 = "Profile the target audience. Provide enough detail to enhance everyones understanding of who the audience is. Include some audience demographic information. Your goal with this section is to answer the following: Who is the target? What do they care about? And what they do online on a daily basis?";
 			}
-			<div id="briefFields2" class="c-brief__slide js-brief-slide">
+			<fieldset id="briefFields2" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-					Headline = "The briefing form",
+					Headline = "The brief",
 					Subtitle = briefingFormSubtitle
 				})
 				<div class="c-brief__slide__page">2/7</div>
@@ -373,15 +373,15 @@
 					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields3">Next</button>
 					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields1">Back</button>
 				</div>
-			</div>
+			</fieldset>
 			@* 3/7 *@
 			@{
 				var subHead3 = "Perception/tone/guidelines";
 				var subTitle3 = "How should your target audience respond to your new online presence?";
 			}
-			<div id="briefFields3" class="c-brief__slide js-brief-slide">
+			<fieldset id="briefFields3" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-					Headline = "The briefing form",
+					Headline = "The brief",
 					Subtitle = briefingFormSubtitle
 				})
 				<div class="c-brief__slide__page">3/7</div>
@@ -429,15 +429,15 @@
 					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields4">Next</button>
 					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields2">Back</button>
 				</div>
-			</div>
+			</fieldset>
 			@* 4/7 *@
 			@{
 				var subHead4 = "Communication strategy";
 				var subTitle4 = "How will we convince them?";
 			}
-			<div id="briefFields4" class="c-brief__slide js-brief-slide">
+			<fieldset id="briefFields4" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-					Headline = "The briefing form",
+					Headline = "The brief",
 					Subtitle = briefingFormSubtitle
 				})
 				<div class="c-brief__slide__page">4/7</div>
@@ -467,15 +467,15 @@
 					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields5">Next</button>
 					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields3">Back</button>
 				</div>
-			</div>
+			</fieldset>
 			@* 5/7 *@
 			@{
 				var subHead5 = "Competitive positioning";
 				var subTitle5 = "How you are different from your competition. What are the factors that will make you a success?";
 			}
-			<div id="briefFields5" class="c-brief__slide js-brief-slide">
+			<fieldset id="briefFields5" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-					Headline = "The briefing form",
+					Headline = "The brief",
 					Subtitle = briefingFormSubtitle
 				})
 				<div class="c-brief__slide__page">5/7</div>
@@ -532,15 +532,15 @@
 					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields6">Next</button>
 					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields4">Back</button>
 				</div>
-			</div>
+			</fieldset>
 			@* 6/7 *@
 			@{
 				var subHead6 = "Resources";
 				var subTitle6 = "How you will be able to maintain the new site.";
 			}
-			<div id="briefFields6" class="c-brief__slide js-brief-slide">
+			<fieldset id="briefFields6" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-					Headline = "The briefing form",
+					Headline = "The brief",
 					Subtitle = briefingFormSubtitle
 				})
 				<div class="c-brief__slide__page">6/7</div>
@@ -561,14 +561,14 @@
 					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields7">Next</button>
 					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields5">Back</button>
 				</div>
-			</div>
+			</fieldset>
 			@* 7/7 *@
 			@{
 				var subHead7 = "Targeted message";
 			}
-			<div id="briefFields7" class="c-brief__slide js-brief-slide">
+			<fieldset id="briefFields7" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-					Headline = "The briefing form",
+					Headline = "The brief",
 					Subtitle = briefingFormSubtitle
 				})
 				<div class="c-brief__slide__page">7/7</div>
@@ -588,14 +588,14 @@
 					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="proposal">Next</button>
 					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields6">Back</button>
 				</div>
-			</div>
+			</fieldset>
 		</fieldset>
 		@* End brief - fields*@
 	</div>
 
 	@* Start about fields *@
 	<section id="proposalSection" class="c-brief__section js-brief-section js-brief-section-proposal" data-brief-section-headline="Build your proposal" data-brief-section-subtitle="Refine your requirements" data-pager-button="js-brief-section-pager-proposal">
-		<div id="proposal" class="c-brief__slide js-brief-slide">
+		<fieldset id="proposal" class="c-brief__slide js-brief-slide">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 				Headline = "Build your proposal",
 				Subtitle = "Make choices to tell us what content you would like included in your proposal."
@@ -671,8 +671,8 @@
 				<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="proposal2">Next</button>
 				<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="theBrief">Back</button>
 			</div>
-		</div>
-		<div id="proposal2" class="c-brief__slide js-brief-slide">
+		</fieldset>
+		<fieldset id="proposal2" class="c-brief__slide js-brief-slide">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
 				Headline = "Build your proposal",
 				Subtitle = "Make choices to tell us what content you would like included in your proposal."
@@ -746,7 +746,7 @@
 				<button class="c-brief__button--next c-button c-button--secondary c-button--submit">Submit</button>
 				<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="proposal">Back</button>
 			</div>
-		</div>
+		</fieldset>
 	</section>
 
 
