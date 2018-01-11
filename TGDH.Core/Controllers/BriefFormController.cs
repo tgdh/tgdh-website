@@ -1,5 +1,6 @@
 using System;
 using System.Web.Mvc;
+using System.Text;
 using TGDH.Core.Utility;
 using Umbraco.Core.Logging;
 using Umbraco.Web;
@@ -313,15 +314,103 @@ namespace TGDH.Core.Controllers
 
             return stringToReturn.TrimEnd(", ");
         }
+
+        public static string GenerateHtmlQuestionMessage(Type type, string propertyName) {
+            if (type == null) return "";
+            return "<p><strong>" + DisplayNameHelper.GetDisplayName(type, propertyName) + ": </strong><br>{{" + propertyName +"}}</p>";
+        }
+
+        private static string GenerateBriefFromAnswers(BriefForm model, Type modelType) {
+            if (model == null) return "";
+
+            StringBuilder html = new StringBuilder();
+
+            // 1
+            if (!string.IsNullOrWhiteSpace(model.PurposesOfTheNewSite)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "PurposesOfTheNewSite"));
+            }
+            if (!string.IsNullOrWhiteSpace(model.SecondaryGoalsOfTheNewSite)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "SecondaryGoalsOfTheNewSite"));
+            }
+            if (!string.IsNullOrWhiteSpace(model.ThreeYearsTime)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "ThreeYearsTime"));
+            }
+            
+            // 2
+            if (!string.IsNullOrWhiteSpace(model.CurrentTargetAudience)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "CurrentTargetAudience"));
+            }
+            if (!string.IsNullOrWhiteSpace(model.TypicalTask)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "TypicalTask"));
+            }
+            if (!string.IsNullOrWhiteSpace(model.CurrentVisitorInformation)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "CurrentVisitorInformation"));
+            }
+            
+            // 3
+            if (!string.IsNullOrWhiteSpace(model.TargetAudienceThinkAndFeel)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "TargetAudienceThinkAndFeel"));
+            }
+            if (!string.IsNullOrWhiteSpace(model.WhatYouWantAudienceThinkAndFeel)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "WhatYouWantAudienceThinkAndFeel"));
+            }
+            if (!string.IsNullOrWhiteSpace(model.ImproveWebsiteAchieve)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "ImproveWebsiteAchieve"));
+            }
+            if (!string.IsNullOrWhiteSpace(model.AdjectivesDescribePerceived)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "AdjectivesDescribePerceived"));
+            }
+            
+            // 4
+            if (!string.IsNullOrWhiteSpace(model.OverallMessage)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "OverallMessage"));
+            }
+            if (!string.IsNullOrWhiteSpace(model.MeasureSuccess)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "OverallMessage"));
+            }
+            
+            // 5
+            if (!string.IsNullOrWhiteSpace(model.DistinctiveFeatures)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "DistinctiveFeatures"));
+            }
+            if (!string.IsNullOrWhiteSpace(model.CurrentSiteSuccess)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "CurrentSiteSuccess"));
+            }
+            if (!string.IsNullOrWhiteSpace(model.CurrentSiteFlaws)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "CurrentSiteFlaws"));
+            }
+            if (!string.IsNullOrWhiteSpace(model.AdditionalFeatures)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "AdditionalFeatures"));
+            }
+            
+            // 6
+            if (!string.IsNullOrWhiteSpace(model.ResourcesManageNewSite)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "ResourcesManageNewSite"));
+            }
+            
+            // 7
+            if (!string.IsNullOrWhiteSpace(model.ConcicePhrase)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "ConcicePhrase"));
+            }
+
+            return html.ToString();
+        }
         
         private void SendEmailNotifications(BriefForm model)
         {
             var formFolder = Umbraco.TypedContent(FormFolderId);
             var briefUploaded = "";
+            var modelType = model.GetType();
 
             if(formFolder == null)
             {
                 return;
+            }
+
+            var senderName = formFolder.GetPropertyValue<string>("senderName");
+            var fromAddress = formFolder.GetPropertyValue<string>("fromAddress");
+            if (!String.IsNullOrWhiteSpace(fromAddress)) {
+                fromAddress = "noreply@tgdh.co.uk";
             }
 
             var to = formFolder.GetPropertyValue<string>("internalNotificationAddress");
@@ -334,7 +423,8 @@ namespace TGDH.Core.Controllers
             {
                 cc = to;
             }
-            var subj = "Briefing Form Submitted";
+            
+            var subj = formFolder.GetPropertyValue<string>("internalNotificationSubject");
             MailMessage mail = new MailMessage();
 
             foreach (var emailAddress in cc.Split(','))
@@ -360,125 +450,17 @@ namespace TGDH.Core.Controllers
             {
                 HtmlBrief = "<p><strong>Brief Upload: </strong>{{Brief}}</p>";
             }
-            var HtmlPurpose = "<p><strong>Briefing what are the purposes of the new site?: </strong>{{Purpose}}</p>";
-            if(string.IsNullOrWhiteSpace(model.PurposesOfTheNewSite))
-            {
-                HtmlPurpose = "";
-            }
-            var HtmlSecondaryGoals = "<p><strong>What are the secondary goals of the new site?: </strong>{{SecondaryGoals}}</p>";
-            if (string.IsNullOrWhiteSpace(model.SecondaryGoalsOfTheNewSite))
-            {
-                HtmlSecondaryGoals = "";
-            }
-            var HtmlThreeYears = "<p><strong>In 3 years' time, what are you hoping that the site will be doing for you?: </strong>{{ThreeYears}}</p>";
-            if (string.IsNullOrWhiteSpace(model.ThreeYearsTime))
-            {
-                HtmlThreeYears = "";
-            }
-            var HtmlTargetAudience = "<p><strong>Who is your target audience?: </strong>{{CurrentTargetAudience}}</p>";
-            if (string.IsNullOrWhiteSpace(model.CurrentTargetAudience))
-            {
-                HtmlTargetAudience = "";
-            }
-            var HtmlTypicalTask = "<p><strong>What is a typical task each of these visitors might perform on the new site?: </strong>{{TypicalTask}}</p>";
-            if (string.IsNullOrWhiteSpace(model.TypicalTask))
-            {
-                HtmlTypicalTask = "";
-            }
-            var HtmlLongQuestion = "<p><strong>What do these people care about? Why are they interested in what the site will be offering? What trigger would prompt them to visit the site, and why would they be enticed to return?: </strong>{{LongQuestion}}</p>";
-            if (string.IsNullOrWhiteSpace(model.CurrentVisitorInformation))
-            {
-                HtmlLongQuestion = "";
-            }
-            var HtmlTargetAudienceThinkAndFeel = "<p><strong>What does the target audience think and feel about the current website?: </strong>{{TargetAudienceThinkAndFeel}}</p>";
-            if (string.IsNullOrWhiteSpace(model.TypicalTask))
-            {
-                HtmlTargetAudienceThinkAndFeel = "";
-            }
-            var HtmlWhatYouWantAudienceThinkAndFeel = "<p><strong>What do we want them to think and feel?: </strong>{{HtmlWhatYouWantAudienceThinkAndFeel}}</p>";
-            if (string.IsNullOrWhiteSpace(model.WhatYouWantAudienceThinkAndFeel))
-            {
-                HtmlWhatYouWantAudienceThinkAndFeel = "";
-            }
-            var HtmlImproveWebsiteAchieve = "<p><strong>How would an improved website help to achieve this goal?: </strong>{{HtmlImproveWebsiteAchieve}}</p>";
-            if (string.IsNullOrWhiteSpace(model.ImproveWebsiteAchieve))
-            {
-                HtmlImproveWebsiteAchieve = "";
-            }
-            var HtmlAdjectivesDescribePerceived = "<p><strong>What adjectives can be used to describe the way the website should be perceived?: </strong>{{HtmlAdjectivesDescribePerceived}}</p>";
-            if (string.IsNullOrWhiteSpace(model.AdjectivesDescribePerceived))
-            {
-                HtmlAdjectivesDescribePerceived = "";
-            }
-            var HtmlOverallMessage = "<p><strong>What is the overall message you are trying to convey to your target audience?: </strong>{{HtmlOverallMessage}}</p>";
-            if (string.IsNullOrWhiteSpace(model.OverallMessage))
-            {
-                HtmlOverallMessage = "";
-            }
-            var HtmlSuccess = "<p><strong>How will you measure the success of the redesigned site?: </strong>{{HtmlSuccess}}</p>";
-            if (string.IsNullOrWhiteSpace(model.MeasureSuccess))
-            {
-                HtmlSuccess = "";
-            }
-            var HtmlDisFeature = "<p><strong>What are the distinctive features of this area of activity?: </strong>{{HtmlDisFeature}}</p>";
-            if (string.IsNullOrWhiteSpace(model.DistinctiveFeatures))
-            {
-                HtmlDisFeature = "";
-            }
-            var HtmlCurrentSiteSuccess = "<p><strong>What areas of the current site are successful and why?: </strong>{{HtmlCurrentSiteSuccess}}</p>";
-            if (string.IsNullOrWhiteSpace(model.CurrentSiteSuccess))
-            {
-                HtmlCurrentSiteSuccess = "";
-            }
-            var HtmlCurrentSiteFlaws = "<p><strong>What areas of the current site are not successful and why?: </strong>{{HtmlCurrentSiteFlaws}}</p>";
-            if (string.IsNullOrWhiteSpace(model.CurrentSiteFlaws))
-            {
-                HtmlCurrentSiteFlaws = "";
-            }
-            var HtmlAdditionalFeatures = "<p><strong>What additional features do you think the site requires?: </strong>{{HtmlAdditionalFeatures}}</p>";
-            if (string.IsNullOrWhiteSpace(model.AdditionalFeatures))
-            {
-                HtmlAdditionalFeatures = "";
-            }
-            var HtmlResourcesManageNewSite = "<p><strong>What resources are available to manage the new site?: </strong>{{HtmlResourcesManageNewSite}}</p>";
-            if (string.IsNullOrWhiteSpace(model.ResourcesManageNewSite))
-            {
-                HtmlResourcesManageNewSite = "";
-            }
-            var HtmlConcicePhrase = "<p><strong>State a concise phrase that will appropriately describe the site once it is launched?: </strong>{{HtmlConcicePhrase}}</p>";
-            if (string.IsNullOrWhiteSpace(model.ConcicePhrase))
-            {
-                HtmlConcicePhrase = "";
-            }
             
             string emailBody = string.Empty;
             string emailInnerBody = "" +
                 "<h2>About</h2>" +
-                "<p><strong>Name: </strong>{{Name}}</p>" +
-                "<p><strong>Phone Number: </strong>{{Number}}</p>" +
-                "<p><strong>Email Address: </strong>{{Email}}</p>" +
-                "<p><strong>Company: </strong>{{Company}}</p>" +
+                "<p><strong>" + DisplayNameHelper.GetDisplayName(modelType, "YourName") + ": </strong>{{YourName}}</p>" +
+                "<p><strong>" + DisplayNameHelper.GetDisplayName(modelType, "PhoneNumber") + ": </strong>{{PhoneNumber}}</p>" +
+                "<p><strong>" + DisplayNameHelper.GetDisplayName(modelType, "EmailAddress") + ": </strong>{{EmailAddress}}</p>" +
+                "<p><strong>" + DisplayNameHelper.GetDisplayName(modelType, "CompanyName") + ": </strong>{{CompanyName}}</p>" +
                 "<br><h2>Brief</h2>" +
-                "<p><strong>Budget: </strong>{{Budget}}</p>" +
-                    HtmlBrief +
-                    HtmlPurpose +
-                    HtmlSecondaryGoals + 
-                    HtmlThreeYears +
-                    HtmlTargetAudience +
-                    HtmlTypicalTask +
-                    HtmlLongQuestion +
-                    HtmlTargetAudienceThinkAndFeel +
-                    HtmlWhatYouWantAudienceThinkAndFeel +
-                    HtmlImproveWebsiteAchieve +
-                    HtmlAdjectivesDescribePerceived +
-                    HtmlOverallMessage +
-                    HtmlSuccess +
-                    HtmlDisFeature + 
-                    HtmlCurrentSiteSuccess + 
-                    HtmlCurrentSiteFlaws + 
-                    HtmlAdditionalFeatures +
-                    HtmlResourcesManageNewSite + 
-                    HtmlConcicePhrase +
+                "<p><strong>" + DisplayNameHelper.GetDisplayName(modelType, "Budget") + ": </strong>{{Budget}}</p>" +
+                    GenerateBriefFromAnswers(model, modelType) +
                 "<br><h2>Build Your Proposal</h2>" +
                 "<p><strong>Team profiles:</strong> " + teamProfiles + "</p>" +
                 "<p><strong>Case Studies:</strong> " + caseStudies + "</p>" +
@@ -489,34 +471,34 @@ namespace TGDH.Core.Controllers
             {
                 emailBody = reader.ReadToEnd();
             }
-            emailInnerBody = emailInnerBody.Replace("{{Name}}", model.YourName);
-            emailInnerBody = emailInnerBody.Replace("{{Number}}", model.PhoneNumber);
-            emailInnerBody = emailInnerBody.Replace("{{Email}}", model.EmailAddress);
-            emailInnerBody = emailInnerBody.Replace("{{Company}}", model.CompanyName);
+            emailInnerBody = emailInnerBody.Replace("{{YourName}}", model.YourName);
+            emailInnerBody = emailInnerBody.Replace("{{PhoneNumber}}", model.PhoneNumber);
+            emailInnerBody = emailInnerBody.Replace("{{EmailAddress}}", model.EmailAddress);
+            emailInnerBody = emailInnerBody.Replace("{{CompanyName}}", model.CompanyName);
             emailInnerBody = emailInnerBody.Replace("{{Budget}}", model.Budget);
             emailInnerBody = emailInnerBody.Replace("{{Brief}}", briefUploaded);
-            emailInnerBody = emailInnerBody.Replace("{{Purpose}}", model.PurposesOfTheNewSite);
-            emailInnerBody = emailInnerBody.Replace("{{SecondaryGoals}}", model.SecondaryGoalsOfTheNewSite);
-            emailInnerBody = emailInnerBody.Replace("{{ThreeYears}}", model.ThreeYearsTime);
+            emailInnerBody = emailInnerBody.Replace("{{PurposesOfTheNewSite}}", model.PurposesOfTheNewSite);
+            emailInnerBody = emailInnerBody.Replace("{{SecondaryGoalsOfTheNewSite}}", model.SecondaryGoalsOfTheNewSite);
+            emailInnerBody = emailInnerBody.Replace("{{ThreeYearsTime}}", model.ThreeYearsTime);
             emailInnerBody = emailInnerBody.Replace("{{CurrentTargetAudience}}", model.CurrentTargetAudience);
             emailInnerBody = emailInnerBody.Replace("{{TypicalTask}}", model.TypicalTask);
-            emailInnerBody = emailInnerBody.Replace("{{LongQuestion}}", model.CurrentVisitorInformation);
+            emailInnerBody = emailInnerBody.Replace("{{CurrentVisitorInformation}}", model.CurrentVisitorInformation);
             emailInnerBody = emailInnerBody.Replace("{{TargetAudienceThinkAndFeel}}", model.TargetAudienceThinkAndFeel);
-            emailInnerBody = emailInnerBody.Replace("{{HtmlWhatYouWantAudienceThinkAndFeel}}", model.WhatYouWantAudienceThinkAndFeel);
-            emailInnerBody = emailInnerBody.Replace("{{HtmlImproveWebsiteAchieve}}", model.ImproveWebsiteAchieve);
-            emailInnerBody = emailInnerBody.Replace("{{HtmlAdjectivesDescribePerceived}}", model.AdjectivesDescribePerceived);
-            emailInnerBody = emailInnerBody.Replace("{{HtmlOverallMessage}}", model.OverallMessage);
-            emailInnerBody = emailInnerBody.Replace("{{HtmlSuccess}}", model.MeasureSuccess);
-            emailInnerBody = emailInnerBody.Replace("{{HtmlDisFeature}}", model.DistinctiveFeatures);
-            emailInnerBody = emailInnerBody.Replace("{{HtmlCurrentSiteSuccess}}", model.CurrentSiteSuccess);
-            emailInnerBody = emailInnerBody.Replace("{{HtmlCurrentSiteFlaws}}", model.CurrentSiteFlaws);
-            emailInnerBody = emailInnerBody.Replace("{{HtmlAdditionalFeatures}}", model.AdditionalFeatures);
-            emailInnerBody = emailInnerBody.Replace("{{HtmlResourcesManageNewSite}}", model.ResourcesManageNewSite);
-            emailInnerBody = emailInnerBody.Replace("{{HtmlConcicePhrase}}", model.ConcicePhrase);
+            emailInnerBody = emailInnerBody.Replace("{{WhatYouWantAudienceThinkAndFeel}}", model.WhatYouWantAudienceThinkAndFeel);
+            emailInnerBody = emailInnerBody.Replace("{{ImproveWebsiteAchieve}}", model.ImproveWebsiteAchieve);
+            emailInnerBody = emailInnerBody.Replace("{{AdjectivesDescribePerceived}}", model.AdjectivesDescribePerceived);
+            emailInnerBody = emailInnerBody.Replace("{{OverallMessage}}", model.OverallMessage);
+            emailInnerBody = emailInnerBody.Replace("{{MeasureSuccess}}", model.MeasureSuccess);
+            emailInnerBody = emailInnerBody.Replace("{{DistinctiveFeatures}}", model.DistinctiveFeatures);
+            emailInnerBody = emailInnerBody.Replace("{{CurrentSiteSuccess}}", model.CurrentSiteSuccess);
+            emailInnerBody = emailInnerBody.Replace("{{CurrentSiteFlaws}}", model.CurrentSiteFlaws);
+            emailInnerBody = emailInnerBody.Replace("{{AdditionalFeatures}}", model.AdditionalFeatures);
+            emailInnerBody = emailInnerBody.Replace("{{ResourcesManageNewSite}}", model.ResourcesManageNewSite);
+            emailInnerBody = emailInnerBody.Replace("{{ConcicePhrase}}", model.ConcicePhrase);
 
             emailBody = emailBody.Replace("{{EmailBody}}", emailInnerBody);
 
-            mail.From = new MailAddress("noreply@tgdh.co.uk", "The Graphic Design House");
+            mail.From = new MailAddress(fromAddress, senderName);
             mail.To.Add(to);
             mail.Subject = subj;
             mail.Body = emailBody;
