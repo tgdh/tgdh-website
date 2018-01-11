@@ -44,15 +44,25 @@
 		}
 		else
 		{
+			var brief = Umbraco.TypedContent(1657);
+
+			var headline = brief.GetPropertyValue<string>("briefHeadline");
+			var subtitle = brief.GetPropertyValue<string>("briefSubtitle");
+			var copy = brief.GetPropertyValue<string>("briefCopy");
+
 			<div class="o-wrap o-wrap--x-large">
 				<header class="o-col--two-one u-clearfix c-cover__heading">
-					<h1>Digital proposal request</h1>
-					<div class="c-cover__subtitle u-font-sec">
-						<p>Tell us all about your project</p>
-					</div>
+					@if (!string.IsNullOrWhiteSpace(headline)) {
+						<h1>@headline</h1>
+					}
+					@if (!String.IsNullOrWhiteSpace(subtitle)) {
+						<div class="c-cover__subtitle u-font-sec">
+							<p>@subtitle</p>
+						</div>
+						}
 				</header>
 				<div class="u-space-top u-epsilon c-proposal__copy u-space-bottom--large">
-					<p>Please follow the steps below to complete the online briefing process.</p>
+					@Html.Raw(copy)
 				</div>
 			</div>
 			<div class="o-wrap o-wrap--x-large">
@@ -60,21 +70,21 @@
 
 <aside class="c-brief__section-pager js-brief-section-pager">
 	<button type="button" class="c-brief__section-pager__item js-brief-section-pager-button js-brief-section-pager-about" data-target="about">
-		<h2 class="c-brief__section-pager__item__headline u-gamma">About you</h2>
+		<h2 class="c-brief__section-pager__item__headline u-gamma">@brief.GetPropertyValue("aboutHeadlineLeft")</h2>
 		<div class="c-brief__section-pager__item__subtitle u-font-sec">
-			<p>Who you are</p>
+			<p>@brief.GetPropertyValue("aboutSubtitleLeft")</p>
 		</div>
 	</button>
 	<button type="button" class="c-brief__section-pager__item js-brief-section-pager-button js-brief-section-pager-brief" data-target="theBrief">
-		<h2 class="c-brief__section-pager__item__headline u-gamma">The brief</h2>
+		<h2 class="c-brief__section-pager__item__headline u-gamma">@brief.GetPropertyValue("briefHeadlineLeft")</h2>
 		<div class="c-brief__section-pager__item__subtitle u-font-sec">
-			<p>What you need</p>
+			<p>@brief.GetPropertyValue("briefSubtitleLeft")</p>
 		</div>
 	</button>
 	<button type="button" class="c-brief__section-pager__item js-brief-section-pager-button js-brief-section-pager-proposal" data-target="proposal">
-		<h2 class="c-brief__section-pager__item__headline u-gamma">Build your proposal</h2>
+		<h2 class="c-brief__section-pager__item__headline u-gamma">@brief.GetPropertyValue("proposalHeadlineLeft")</h2>
 		<div class="c-brief__section-pager__item__subtitle u-font-sec">
-			<p>Select content which you want included</p>
+			<p>@brief.GetPropertyValue("proposalSubtitleLeft")</p>
 		</div>
 	</button>
 </aside>
@@ -88,8 +98,8 @@
 	<section id="aboutSection" class="c-brief__section js-brief-section" data-pager-button="js-brief-section-pager-about">
 		<fieldset id="about" class="c-brief__slide js-brief-slide">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-				Headline = "About you",
-				Subtitle = "How can we get in touch with you?"
+				Headline = brief.GetPropertyValue<string>("aboutHeadlineMain"),
+				Subtitle = brief.GetPropertyValue<string>("aboutSubtitleMain")
 			})
 			<div>
 				<div class="o-form__row o-form__row--two u-clearfix">
@@ -131,8 +141,8 @@
 	<div id="briefSection" class="c-brief__section js-brief-section" data-brief-section-headline="The brief" data-brief-section-subtitle="What you need" data-pager-button="js-brief-section-pager-brief">
 		<fieldset id="theBrief" class="c-brief__slide js-brief-slide">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-				Headline = "About you",
-				Subtitle = "Set a budget and supply or create a brief."
+				Headline = brief.GetPropertyValue<string>("briefHeadlineMain"),
+				Subtitle = brief.GetPropertyValue<string>("briefSubtitleMain")
 			})
 			<fieldset class="o-fieldset">
 				<legend class="o-fieldset__legend">Your budget</legend>
@@ -272,25 +282,26 @@
 		@* End  brief *@
 
 		@{
-			var briefingFormSubtitle = "Answer the following questions as far as you are able. Please put <strong>&lsquo;don't know&rsquo;</strong> if you're not sure.";
+			var briefingFormHeadline = brief.GetPropertyValue<string>("briefHeadline2Main");
+			var briefingFormSubtitle = brief.GetPropertyValue<string>("briefSubtitle2Main");
 		}
 
 		@* Start brief - fields *@
 		<fieldset class="js-brief-create-brief-fields">
 			@* 1/7 *@
 			@{
-				var subHead1 = "Project summary";
-				var subTitle1 = "State general project information";
+				var subHead1 = brief.GetPropertyValue<string>("briefHeadline1");
+				var subTitle1 = brief.GetPropertyValue<string>("briefCopy1");
 			}
 			<fieldset id="briefFields1" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-					Headline = "The brief",
+					Headline = briefingFormHeadline,
 					Subtitle = briefingFormSubtitle
 				})
 				<div class="c-brief__slide__page">1/7</div>
 				<div class="u-space-bottom--large">
 					<h3 class="u-delta">@subHead1</h3>
-					<p>@subTitle1</p>
+					@Html.Raw(subTitle1)
 				</div>
 				<div class="o-form__field">
 					@Html.LabelFor(x => x.PurposesOfTheNewSite, new { @class = "o-form__label" })
@@ -328,18 +339,18 @@
 			</fieldset>
 			@* 2/7 *@
 			@{
-				var subHead2 = "Audience profile";
-				var subTitle2 = "Profile the target audience. Provide enough detail to enhance everyones understanding of who the audience is. Include some audience demographic information. Your goal with this section is to answer the following: Who is the target? What do they care about? And what they do online on a daily basis?";
+				var subHead2 = brief.GetPropertyValue<string>("briefHeadline2");
+				var subTitle2 = brief.GetPropertyValue<string>("briefCopy2");
 			}
 			<fieldset id="briefFields2" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-					Headline = "The brief",
+					Headline = briefingFormHeadline,
 					Subtitle = briefingFormSubtitle
 				})
 				<div class="c-brief__slide__page">2/7</div>
 				<div class="u-space-bottom--large">
 					<h3 class="u-delta">@subHead2</h3>
-					<p>@subTitle2</p>
+					@Html.Raw(subTitle2)
 				</div>
 
 				<div class="o-form__field">
@@ -376,18 +387,18 @@
 			</fieldset>
 			@* 3/7 *@
 			@{
-				var subHead3 = "Perception/tone/guidelines";
-				var subTitle3 = "How should your target audience respond to your new online presence?";
+				var subHead3 = brief.GetPropertyValue<string>("briefHeadline3");
+				var subTitle3 = brief.GetPropertyValue<string>("briefCopy3");
 			}
 			<fieldset id="briefFields3" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-					Headline = "The brief",
+					Headline = briefingFormHeadline,
 					Subtitle = briefingFormSubtitle
 				})
 				<div class="c-brief__slide__page">3/7</div>
 				<div class="u-space-bottom--large">
 					<h3 class="u-delta">@subHead3</h3>
-					<p>@subTitle3</p>
+					@Html.Raw(subTitle3)
 				</div>
 				<div class="o-form__field">
 					@Html.LabelFor(x => x.TargetAudienceThinkAndFeel, new { @class = "o-form__label" })
@@ -432,18 +443,18 @@
 			</fieldset>
 			@* 4/7 *@
 			@{
-				var subHead4 = "Communication strategy";
-				var subTitle4 = "How will we convince them?";
+				var subHead4 = brief.GetPropertyValue<string>("briefHeadline4");
+				var subTitle4 = brief.GetPropertyValue<string>("briefCopy4");
 			}
 			<fieldset id="briefFields4" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-					Headline = "The brief",
+					Headline = briefingFormHeadline,
 					Subtitle = briefingFormSubtitle
 				})
 				<div class="c-brief__slide__page">4/7</div>
 				<div class="u-space-bottom--large">
 					<h3 class="u-delta">@subHead4</h3>
-					<p>@subTitle4</p>
+					@Html.Raw(subTitle4)
 				</div>
 				<div class="o-form__field">
 					@Html.LabelFor(x => x.OverallMessage, new { @class = "o-form__label" })
@@ -470,18 +481,18 @@
 			</fieldset>
 			@* 5/7 *@
 			@{
-				var subHead5 = "Competitive positioning";
-				var subTitle5 = "How you are different from your competition. What are the factors that will make you a success?";
+				var subHead5 = brief.GetPropertyValue<string>("briefHeadline5");
+				var subTitle5 = brief.GetPropertyValue<string>("briefCopy5");
 			}
 			<fieldset id="briefFields5" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-					Headline = "The brief",
+					Headline = briefingFormHeadline,
 					Subtitle = briefingFormSubtitle
 				})
 				<div class="c-brief__slide__page">5/7</div>
 				<div class="u-space-bottom--large">
 					<h3 class="u-delta">@subHead5</h3>
-					<p>@subTitle5</p>
+					@Html.Raw(subTitle5)
 				</div>
 				<div class="o-form__field">
 					@Html.LabelFor(x => x.DistinctiveFeatures, new { @class = "o-form__label" })
@@ -535,18 +546,18 @@
 			</fieldset>
 			@* 6/7 *@
 			@{
-				var subHead6 = "Resources";
-				var subTitle6 = "How you will be able to maintain the new site.";
+				var subHead6 = brief.GetPropertyValue<string>("briefHeadline6");
+				var subTitle6 = brief.GetPropertyValue<string>("briefCopy6");
 			}
 			<fieldset id="briefFields6" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-					Headline = "The brief",
+					Headline = briefingFormHeadline,
 					Subtitle = briefingFormSubtitle
 				})
 				<div class="c-brief__slide__page">6/7</div>
 				<div class="u-space-bottom--large">
 					<h3 class="u-delta">@subHead6</h3>
-					<p>@subTitle6</p>
+					@Html.Raw(subTitle6)
 				</div>
 				<div class="o-form__field">
 					@Html.LabelFor(x => x.ResourcesManageNewSite, new { @class = "o-form__label" })
@@ -564,16 +575,18 @@
 			</fieldset>
 			@* 7/7 *@
 			@{
-				var subHead7 = "Targeted message";
+				var subHead7 = brief.GetPropertyValue<string>("briefHeadline7");
+				var subTitle7 = brief.GetPropertyValue<string>("briefCopy7");
 			}
 			<fieldset id="briefFields7" class="c-brief__slide js-brief-slide">
 				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-					Headline = "The brief",
+					Headline = briefingFormHeadline,
 					Subtitle = briefingFormSubtitle
 				})
 				<div class="c-brief__slide__page">7/7</div>
 				<div class="u-space-bottom--large">
 					<h3 class="u-delta">@subHead7</h3>
+					@Html.Raw(subTitle7)
 				</div>
 				<div class="o-form__field">
 					@Html.LabelFor(x => x.ConcicePhrase, new { @class = "o-form__label" })
@@ -597,11 +610,11 @@
 	<section id="proposalSection" class="c-brief__section js-brief-section js-brief-section-proposal" data-brief-section-headline="Build your proposal" data-brief-section-subtitle="Refine your requirements" data-pager-button="js-brief-section-pager-proposal">
 		<fieldset id="proposal" class="c-brief__slide js-brief-slide">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-				Headline = "Build your proposal",
-				Subtitle = "Make choices to tell us what content you would like included in your proposal."
+				Headline = brief.GetPropertyValue<string>("proposalHeadlineMain"),
+				Subtitle = brief.GetPropertyValue<string>("proposalSubtitleMain"),
 			})
 
-			<p>Our team creates wonderful things for our clients, and we have fun doing it. Please select relevant profiles and case studies to add information to your proposal about who we are, and what we do.<p>
+			@brief.GetPropertyValue("proposalCopy")
 			<hr class="u-space-bottom">
 
 			@if( Model.Profiles != null ) {
@@ -642,8 +655,8 @@
 					<ul class="o-fieldset__list o-grid--three u-clearfix">
 					@for ( var i = 0; i < Model.CaseStudies.Count(); i++ ) {
 						var inputId = "CaseStudies_" + i + "__Checked";
-						var imageName = Model.CaseStudies[i].Name.ToUrlSegment();
 @*
+						var imageName = Model.CaseStudies[i].Name.ToUrlSegment();
 						var imageUrl = "/assets/img/briefing-form/case-studies/" + imageName + ".jpg";
 *@
 						<li class="c-image-checkbox o-grid__item">
@@ -675,14 +688,14 @@
 		</fieldset>
 		<fieldset id="proposal2" class="c-brief__slide js-brief-slide">
 			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-				Headline = "Build your proposal",
-				Subtitle = "Make choices to tell us what content you would like included in your proposal."
+				Headline = brief.GetPropertyValue<string>("proposalHeadline2Main"),
+				Subtitle = brief.GetPropertyValue<string>("proposalSubtitle2Main"),
 			})
 
 			@if (Model.Workflow != null) {
 				<fieldset class="o-fieldset">
 					<legend class="o-fieldset__legend u-space-bottom--small">Workflow</legend>
-					<p>It&#39;s good to know how we work. Here you can add information to your proposal about our methodology, systems we use, and working processes.</p>
+					@brief.GetPropertyValue("proposalWorkflowCopy")
 					<ul class="o-fieldset__list o-fieldset__list--half u-clearfix">
 						@for ( var i = 0; i < Model.Workflow.Count(); i++ ) {
 							var inputId = "Workflow_" + i + "__Checked";
@@ -715,7 +728,7 @@
 				<hr class="u-space-top">
 				<fieldset class="o-fieldset u-space-top">
 					<legend class="o-fieldset__legend u-space-bottom--small">Project specifics</legend>
-					<p>Tailor the project scope making sure we price the parts you require.</p>
+					@brief.GetPropertyValue("proposalProjectSpecificsCopy")
 					<ul class="o-fieldset__list o-fieldset__list--half u-clearfix">
 						@for ( var i = 0; i < Model.ProjectSpecifics.Count(); i++ ) {
 							var inputId = "ProjectSpecifics_" + i + "__Checked";
