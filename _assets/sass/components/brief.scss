@@ -29,6 +29,10 @@
 		pointer-events: none;
 		transition: opacity $speed $ease;
 		overflow-x: hidden;
+
+		textarea {
+			resize: none;
+		}
 	}
 
 	.c-brief--is-ready {

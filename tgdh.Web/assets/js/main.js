@@ -36815,7 +36815,8 @@ var Brief = function () {
 			var scrollPos = window.scrollY;
 
 			if (scrollPos > this.slideOffsetTop) {
-				window.scrollTo(0, this.slideOffsetTop);
+				scroll.animateScroll(this.slideOffsetTop, { easing: 'easeOutQuad' });
+				// window.scrollTo(0, this.slideOffsetTop);
 			}
 		}
 	}, {
