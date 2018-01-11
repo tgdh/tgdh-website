@@ -47,6 +47,8 @@ class Brief {
 
 		this.direction = 'right';
 
+		this.slideOffsetTop = 0;
+
 		this.init();
 	}
 
@@ -108,6 +110,7 @@ class Brief {
 
 		this.showSlide(slide);
 		this.setFormHeight(slide.offsetHeight);
+		this.scrollTop();
 		// scroll.animateScroll(slide);
 
 		setTimeout(function() {
@@ -118,6 +121,14 @@ class Brief {
 
 		// this has to be called last
 		this.previousActiveSlide = slide;
+	}
+
+	scrollTop() {
+		const scrollPos = window.scrollY;
+
+		if (scrollPos > this.slideOffsetTop) {
+			window.scrollTo(0, this.slideOffsetTop);
+		}
 	}
 
 	hideSlide(slide) {
@@ -151,6 +162,10 @@ class Brief {
 		this.bindEvents();
 		this.actionNext.forEach(next => Brief.disableButton(next));
 		this.handleBriefMethod();
+
+		setTimeout(() => {
+			this.slideOffsetTop = this.el.offsetTop - 40;
+		}, 100);
 
 		this.pagerButtons.forEach((pagerButton, i) => {
 			if (i === 0) {

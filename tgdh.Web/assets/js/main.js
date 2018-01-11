@@ -36754,6 +36754,8 @@ var Brief = function () {
 
 		this.direction = 'right';
 
+		this.slideOffsetTop = 0;
+
 		this.init();
 	}
 
@@ -36795,6 +36797,7 @@ var Brief = function () {
 
 			this.showSlide(slide);
 			this.setFormHeight(slide.offsetHeight);
+			this.scrollTop();
 			// scroll.animateScroll(slide);
 
 			setTimeout(function () {
@@ -36805,6 +36808,15 @@ var Brief = function () {
 
 			// this has to be called last
 			this.previousActiveSlide = slide;
+		}
+	}, {
+		key: 'scrollTop',
+		value: function scrollTop() {
+			var scrollPos = window.scrollY;
+
+			if (scrollPos > this.slideOffsetTop) {
+				window.scrollTo(0, this.slideOffsetTop);
+			}
 		}
 	}, {
 		key: 'hideSlide',
@@ -36851,6 +36863,10 @@ var Brief = function () {
 				return Brief.disableButton(next);
 			});
 			this.handleBriefMethod();
+
+			setTimeout(function () {
+				_this.slideOffsetTop = _this.el.offsetTop - 40;
+			}, 100);
 
 			this.pagerButtons.forEach(function (pagerButton, i) {
 				if (i === 0) {
