@@ -254,13 +254,14 @@
 				<div class="c-upload js-upload c-brief__upload-field js-brief-upload-field is-hidden">
 					<div class="c-upload__inner">
 						@Html.TextBoxFor(x => x.Attachment, new {
-							data_storage="false",
+							data_storage = "false",
 							type = "file",
-							tabindex="0",
+							tabindex= "0",
 							@class = "c-upload__input",
 							@name = "brief-file",
 							@id = fileUploadId,
-							@accepts = "application/pdf, application/msword"
+							@accepts = "application/pdf, application/msword",
+							@disabled = "true"
 						})
 						<label class="c-upload__label" for="@fileUploadId">
 							<svg class="c-upload__icon u-icon u-icon--24">

@@ -36968,6 +36968,7 @@ var Brief = function () {
 		value: function showUploadField(uploadField, uploadInput) {
 			this.hasOwnBrief = true;
 			uploadInput.setAttribute('required', '');
+			uploadInput.disabled = false;
 			uploadField.classList.remove('is-hidden');
 
 			this.setFormHeight(this.activeSlide.offsetHeight + 300);
@@ -36980,7 +36981,8 @@ var Brief = function () {
 		key: 'hideUploadField',
 		value: function hideUploadField(uploadField, uploadInput) {
 			this.hasOwnBrief = false;
-			uploadInput.removeAttribute("required");
+			uploadInput.removeAttribute('required');
+			uploadInput.disabled = true;
 			uploadField.classList.add('is-hidden');
 
 			var parentSlide = uploadInput.closest('.js-brief-slide');

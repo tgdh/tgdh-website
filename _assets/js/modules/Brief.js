@@ -35,7 +35,7 @@ class Brief {
 
 		this.pager = this.el.querySelector('.js-brief-section-pager');
 		this.pagerButtons = Array.from(this.pager.querySelectorAll('.js-brief-section-pager-button'));
-		this.pagerHeight = 0
+		this.pagerHeight = 0;
 
 		this.pagerAbout = this.pager.querySelector('.js-brief-section-pager-about');
 		this.pagerBrief = this.pager.querySelector('.js-brief-section-pager-brief');
@@ -316,6 +316,7 @@ class Brief {
 	showUploadField(uploadField, uploadInput) {
 		this.hasOwnBrief = true;
 		uploadInput.setAttribute('required', '');
+		uploadInput.disabled = false;
 		uploadField.classList.remove('is-hidden');
 
 		this.setFormHeight(this.activeSlide.offsetHeight + 300);
@@ -327,7 +328,8 @@ class Brief {
 
 	hideUploadField(uploadField, uploadInput) {
 		this.hasOwnBrief = false;
-		uploadInput.removeAttribute("required");
+		uploadInput.removeAttribute('required');
+		uploadInput.disabled = true;
 		uploadField.classList.add('is-hidden');
 
 		const parentSlide = uploadInput.closest('.js-brief-slide');
