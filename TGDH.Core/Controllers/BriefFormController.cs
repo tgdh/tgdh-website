@@ -13,6 +13,7 @@ using System.IO;
 using TGDH.Core.ExtensionMethods;
 using System.Linq;
 using System.Collections.Generic;
+using Umbraco.Core.Models;
 
 namespace TGDH.Core.Controllers
 {
@@ -63,10 +64,8 @@ namespace TGDH.Core.Controllers
                 LogHelper.Warn(GetType(), "Briefing form saving failed with the exception: " + ex.Message);
                 throw;
             }
-
             SaveUploadedFile(model);
 
-            // redirect page
             var formFolder = Umbraco.TypedContent(FormFolderId);
             if (formFolder != null && formFolder.HasValue("redirectPage"))
             {
@@ -221,6 +220,7 @@ namespace TGDH.Core.Controllers
 
                     SaveBriefingFormSubmission(model);
                     SendEmailNotifications(model);
+                    CreateAndSendExternalNotification(model);
                     return "passed";
                 }
                 catch (Exception ex)
@@ -234,6 +234,7 @@ namespace TGDH.Core.Controllers
                 //No brief uploaded so ignore upload stage
                 SaveBriefingFormSubmission(model);
                 SendEmailNotifications(model);
+                CreateAndSendExternalNotification(model);
                 return "passed";
             }
         }
@@ -325,6 +326,10 @@ namespace TGDH.Core.Controllers
 
             StringBuilder html = new StringBuilder();
 
+            if (!string.IsNullOrWhiteSpace(model.Budget)) {
+                html.Append(GenerateHtmlQuestionMessage(modelType, "Budget"));
+            }
+
             // 1
             if (!string.IsNullOrWhiteSpace(model.PurposesOfTheNewSite)) {
                 html.Append(GenerateHtmlQuestionMessage(modelType, "PurposesOfTheNewSite"));
@@ -395,46 +400,9 @@ namespace TGDH.Core.Controllers
 
             return html.ToString();
         }
-        
-        private void SendEmailNotifications(BriefForm model)
-        {
-            var formFolder = Umbraco.TypedContent(FormFolderId);
+
+        private string GenerateEmailHtmlBody(BriefForm model, Type modelType) {
             var briefUploaded = "";
-            var modelType = model.GetType();
-
-            if(formFolder == null)
-            {
-                return;
-            }
-
-            var senderName = formFolder.GetPropertyValue<string>("senderName");
-            var fromAddress = formFolder.GetPropertyValue<string>("fromAddress");
-            if (!String.IsNullOrWhiteSpace(fromAddress)) {
-                fromAddress = "noreply@tgdh.co.uk";
-            }
-
-            var to = formFolder.GetPropertyValue<string>("internalNotificationAddress");
-            if(string.IsNullOrWhiteSpace(to))
-            {
-                return;
-            }
-            var cc = formFolder.GetPropertyValue<string>("internalNotificationCc");
-            if(string.IsNullOrWhiteSpace(cc))
-            {
-                cc = to;
-            }
-            
-            var subj = formFolder.GetPropertyValue<string>("internalNotificationSubject");
-            MailMessage mail = new MailMessage();
-
-            foreach (var emailAddress in cc.Split(','))
-            {
-                if(StringExtensionMethods.IsValidEmail(emailAddress))
-                {
-                    mail.CC.Add(emailAddress);
-                }
-            }
-
             if (model.BreifUploadOrCreation == "already-have-brief")
             {
                 string pattern = @"[^0-9a-zA-Z\.]+";
@@ -445,32 +413,27 @@ namespace TGDH.Core.Controllers
                 briefUploaded = "A brief named '" + fileUploadName + "' was uploaded to the media folder in Umbraco.";
             }
 
-            var HtmlBrief = "{{Brief}}";
+            var HtmlBrief = "";
             if(model.BreifUploadOrCreation == "already-have-brief")
             {
                 HtmlBrief = "<p><strong>Brief Upload: </strong>{{Brief}}</p>";
+            } else {
+                HtmlBrief = GenerateBriefFromAnswers(model, modelType);
             }
-            
-            string emailBody = string.Empty;
             string emailInnerBody = "" +
                 "<h2>About</h2>" +
                 "<p><strong>" + DisplayNameHelper.GetDisplayName(modelType, "YourName") + ": </strong>{{YourName}}</p>" +
                 "<p><strong>" + DisplayNameHelper.GetDisplayName(modelType, "PhoneNumber") + ": </strong>{{PhoneNumber}}</p>" +
                 "<p><strong>" + DisplayNameHelper.GetDisplayName(modelType, "EmailAddress") + ": </strong>{{EmailAddress}}</p>" +
                 "<p><strong>" + DisplayNameHelper.GetDisplayName(modelType, "CompanyName") + ": </strong>{{CompanyName}}</p>" +
-                "<br><h2>Brief</h2>" +
-                "<p><strong>" + DisplayNameHelper.GetDisplayName(modelType, "Budget") + ": </strong>{{Budget}}</p>" +
-                    GenerateBriefFromAnswers(model, modelType) +
-                "<br><h2>Build Your Proposal</h2>" +
+                "<h2>Brief</h2>" +
+                HtmlBrief +
+                "<h2>Build Your Proposal</h2>" +
                 "<p><strong>Team profiles:</strong> " + teamProfiles + "</p>" +
                 "<p><strong>Case Studies:</strong> " + caseStudies + "</p>" +
                 "<p><strong>The Workflow:</strong> " + workflow + "</p>" +
-                "<p><strong>Project specifics:</strong> " + projectSpecifics + "</p>" 
-                ;
-            using(StreamReader reader = new StreamReader(Server.MapPath("~/App_Code/BriefTemplate.html")))
-            {
-                emailBody = reader.ReadToEnd();
-            }
+                "<p><strong>Project specifics:</strong> " + projectSpecifics + "</p>";
+            
             emailInnerBody = emailInnerBody.Replace("{{YourName}}", model.YourName);
             emailInnerBody = emailInnerBody.Replace("{{PhoneNumber}}", model.PhoneNumber);
             emailInnerBody = emailInnerBody.Replace("{{EmailAddress}}", model.EmailAddress);
@@ -496,7 +459,49 @@ namespace TGDH.Core.Controllers
             emailInnerBody = emailInnerBody.Replace("{{ResourcesManageNewSite}}", model.ResourcesManageNewSite);
             emailInnerBody = emailInnerBody.Replace("{{ConcicePhrase}}", model.ConcicePhrase);
 
-            emailBody = emailBody.Replace("{{EmailBody}}", emailInnerBody);
+            return emailInnerBody;
+        }
+        
+        private void SendEmailNotifications(BriefForm model)
+        {
+            var formFolder = Umbraco.TypedContent(FormFolderId);
+            var modelType = model.GetType();
+
+            if(formFolder == null)
+            {
+                return;
+            }
+
+            var senderName = formFolder.GetPropertyValue<string>("senderName");
+            var fromAddress = formFolder.GetPropertyValue<string>("fromAddress");
+            if (!String.IsNullOrWhiteSpace(fromAddress)) {
+                fromAddress = "noreply@tgdh.co.uk";
+            }
+
+            var to = formFolder.GetPropertyValue<string>("internalNotificationAddress");
+            if(string.IsNullOrWhiteSpace(to))
+            {
+                return;
+            }
+            
+            var subj = formFolder.GetPropertyValue<string>("internalNotificationSubject");
+            MailMessage mail = new MailMessage();
+
+            var cc = formFolder.GetPropertyValue<string>("internalNotificationCc");
+            if (!string.IsNullOrWhiteSpace(cc)) {
+                foreach (var emailAddress in cc.Split(','))
+                {
+                    if(StringExtensionMethods.IsValidEmail(emailAddress))
+                    {
+                        mail.CC.Add(emailAddress);
+                    }
+                }
+            }
+
+            var emailBodyInner = GenerateEmailHtmlBody(model, modelType);
+            var emailBody = LoadEmailTemplate("BriefTemplate");
+            
+            emailBody = emailBody.Replace("{{EmailBody}}", emailBodyInner);
 
             mail.From = new MailAddress(fromAddress, senderName);
             mail.To.Add(to);
@@ -507,6 +512,56 @@ namespace TGDH.Core.Controllers
             SendMailMessage(mail);
         }
 
+        private void CreateAndSendExternalNotification(BriefForm model)
+        {
+            var formFolder = Umbraco.TypedContent(FormFolderId);
+            var modelType = model.GetType();
+
+            if(formFolder == null)
+            {
+                return;
+            }
+
+            var senderName = formFolder.GetPropertyValue<string>("senderName");
+            var fromAddress = formFolder.GetPropertyValue<string>("fromAddress");
+            if (!String.IsNullOrWhiteSpace(fromAddress)) {
+                fromAddress = "noreply@tgdh.co.uk";
+            }
+
+            var to = model.EmailAddress;
+            if(string.IsNullOrWhiteSpace(to))
+            {
+                return;
+            }
+            
+            var subj = formFolder.GetPropertyValue<string>("notificationTitle");
+            MailMessage mail = new MailMessage();
+
+            var emailBodyInner = formFolder.GetPropertyValue<string>("notificationMessage") + GenerateEmailHtmlBody(model, modelType);
+            var emailBody = LoadEmailTemplate("BriefTemplate");
+            
+            emailBody = emailBody.Replace("{{EmailBody}}", emailBodyInner);
+
+            mail.From = new MailAddress(fromAddress, senderName);
+            mail.To.Add(to);
+            mail.Subject = subj;
+            mail.Body = emailBody;
+            mail.IsBodyHtml = true;
+
+            SendMailMessage(mail);
+        }
+
+        private string LoadEmailTemplate(string emailtemplateName)
+        {
+            string emailTemplate;
+            using (StreamReader reader = new StreamReader(Server.MapPath("~/App_Code/" + emailtemplateName + ".html")))
+            {
+                emailTemplate = reader.ReadToEnd();
+            }
+
+            return emailTemplate;
+        }
+
         private void SendMailMessage(MailMessage mailMessage)
         {
             using (SmtpClient client = new SmtpClient())
@@ -515,5 +570,6 @@ namespace TGDH.Core.Controllers
                 mailMessage.Dispose();
             }
         }
+        
     }
 }
