@@ -34576,6 +34576,20 @@ var Upload = function () {
 			this.input.addEventListener('blur', function () {
 				_this.input.classList.remove('has-focus');
 			});
+
+			// drag/drop
+			this.input.addEventListener('dragenter', function () {
+				// console.log('=> dragover');
+				_this.el.classList.add('is-dragover');
+			});
+			this.input.addEventListener('dragleave', function () {
+				// console.log('=> end');
+				_this.el.classList.remove('is-dragover');
+			});
+			this.input.addEventListener('drop', function () {
+				// console.log('=> drop');
+				_this.el.classList.remove('is-dragover');
+			});
 		}
 	}, {
 		key: 'hasFile',

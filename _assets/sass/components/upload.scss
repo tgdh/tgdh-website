@@ -5,12 +5,21 @@
 .enhance {
 
 	.c-upload__input {
+		/*
 		width: 0.1px;
 		height: 0.1px;
 		opacity: 0;
 		overflow: hidden;
 		position: absolute;
 		z-index: -1;
+		*/
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		opacity: 0;
+		z-index: 1;
 
 		&:disabled + .c-upload__label {
 			background-color: $light-1;
@@ -24,6 +33,33 @@
 
 			}
 		}
+
+		&:hover {
+
+			& + .c-upload__label {
+				&:after {
+					border-color: $pri;
+				}
+			}
+
+		}
+
+	}
+
+	.c-upload {
+
+		&.is-dragover {
+
+			.c-upload__label {
+
+				&:after {
+					border-color: $pri;
+				}
+
+			}
+
+		}
+
 	}
 
 }
@@ -44,7 +80,7 @@
 	&:focus + .c-upload__label,
 	&.has-focus + .c-upload__label {
 		outline: 0.2rem solid $pri;
-		outline: -webkit-focus-ring-color auto 5px;
+		outline: -webkit-focus-ring-color auto 10px;
 	}
 
 }
@@ -65,7 +101,7 @@
 		right: 2.5rem;
 		bottom: 2.5rem;
 		left: 2.5rem;
-		border: .2rem dashed rgba($pri, 0.3);
+		border: .2rem dashed rgba($pri, 0.2);
 		transition: border $speed $ease;
 	}
 

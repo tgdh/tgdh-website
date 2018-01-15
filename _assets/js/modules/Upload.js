@@ -48,6 +48,20 @@ class Upload {
 		// Firefox bug fix
 		this.input.addEventListener('focus', () => { this.input.classList.add('has-focus'); });
 		this.input.addEventListener('blur', () => { this.input.classList.remove('has-focus'); });
+
+		// drag/drop
+		this.input.addEventListener('dragenter', () => {
+			// console.log('=> dragover');
+			this.el.classList.add('is-dragover');
+		});
+		this.input.addEventListener('dragleave', () => {
+			// console.log('=> end');
+			this.el.classList.remove('is-dragover');
+		});
+		this.input.addEventListener('drop', () => {
+			// console.log('=> drop');
+			this.el.classList.remove('is-dragover');
+		});
 	}
 }
 export default Upload;
