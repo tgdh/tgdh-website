@@ -370,9 +370,6 @@ namespace TGDH.Core.Controllers
             if (!string.IsNullOrWhiteSpace(model.OverallMessage)) {
                 html.Append(GenerateHtmlQuestionMessage(modelType, "OverallMessage"));
             }
-            if (!string.IsNullOrWhiteSpace(model.MeasureSuccess)) {
-                html.Append(GenerateHtmlQuestionMessage(modelType, "OverallMessage"));
-            }
             
             // 5
             if (!string.IsNullOrWhiteSpace(model.DistinctiveFeatures)) {
