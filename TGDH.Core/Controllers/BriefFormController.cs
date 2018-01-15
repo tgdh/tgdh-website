@@ -416,7 +416,10 @@ namespace TGDH.Core.Controllers
             var HtmlBrief = "";
             if(model.BreifUploadOrCreation == "already-have-brief")
             {
-                HtmlBrief = "<p><strong>Brief Upload: </strong>{{Brief}}</p>";
+                if (!string.IsNullOrWhiteSpace(model.Budget)) {
+                    HtmlBrief = HtmlBrief + GenerateHtmlQuestionMessage(modelType, "Budget");
+                }
+                HtmlBrief = HtmlBrief + "<p><strong>Brief Upload: </strong>{{Brief}}</p>";
             } else {
                 HtmlBrief = GenerateBriefFromAnswers(model, modelType);
             }

@@ -167,11 +167,13 @@
 			padding: 3.5rem 4.5rem;
 			transition: background-color $speed $ease;
 			position: relative;
+			overflow: visible;
 
 			&:after {
 				content: "";
 				width: 0;
 				height: 0;
+				display: inline-block;
 				border-style: solid;
 				border-width: 7.5px 0 7.5px 8px;
 				border-color: transparent transparent transparent $pri;
@@ -181,7 +183,7 @@
 				transform: translateY(-50%);
 				transition: border-color $speed $ease,
 					opacity $speed $ease;
-					opacity: 0;
+				opacity: 0;
 			}
 
 			&.is-active {
