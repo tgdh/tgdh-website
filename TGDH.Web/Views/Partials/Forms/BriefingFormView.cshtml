@@ -27,6 +27,11 @@
 		}
 		@if (success)
 		{
+			var briefingPage = Umbraco.TypedContent(1657);
+			var hasBriefPage = briefingPage != null;
+			var headline = hasBriefPage ? briefingPage.GetPropertyValue<string>("successHeadline") : "Thank you";
+			var subtitle = hasBriefPage ? briefingPage.GetPropertyValue<string>("successSubtitle") : "";
+
 			<div class="o-wrap o-wrap--x-large">
 				<header class="o-col--two-one u-clearfix c-cover__heading">
 					<h1>Thank you</h1>
@@ -35,7 +40,12 @@
 					</div>
 				</header>
 				<div class="u-space-top u-epsilon c-proposal__copy">
-					<p>We will take all of your requirements and get back to you shortly.</p>
+					@if (hasBriefPage) {
+						var briefingPageUrl = briefingPage.Url;
+
+						@Html.Raw(briefingPage.GetPropertyValue<string>("successCopy"))
+						<a href="@briefingPageUrl" class="c-button c-button--primary u-space-top">Request another digital proposal</a>
+					}
 				</div>
 			</div>
 			<script>
