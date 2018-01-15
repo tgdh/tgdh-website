@@ -178,3 +178,16 @@
 	font-weight: $bold;
 	margin-top: $line-height / 4;
 }
+
+@include respond-max( $mq-small ) {
+
+	.c-brief {
+
+		.c-brief__button--prev,
+		.c-brief__button--next {
+			margin-top: 0;
+		}
+
+	}
+
+}
