@@ -34,4 +34,32 @@
 		}
 	}
 
+	.c-button--secondary {
+		color: $pri;
+		background-color: $white;
+
+		&:hover,
+		&:focus {
+			color: $white;
+			background-color: $pri;
+			border-color: inherit;
+		}
+	}
+
+	.c-button--primary {
+		color: $white;
+		border-color: inherit;
+
+		&:hover,
+		&:focus {
+			color: $pri;
+			background-color: $white;
+		}
+	}
+
+	.c-mobile-frame,
+	.c-desktop-frame {
+		background-color: #f4f4f4;
+	}
+
 }

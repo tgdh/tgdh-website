@@ -1,0 +1,21 @@
+/* ===========================================================
+
+	# Two column text with component
+
+=========================================================== */
+
+@include respond-max($mq-medium) {
+
+	.m-two-col-text-component__card {
+		margin-top: $line-height * 2;
+	}
+
+}
+
+@include respond-min($mq-medium) {
+
+	.m-two-col-text-component__card {
+		margin-top: -($line-height * 2);
+	}
+
+}

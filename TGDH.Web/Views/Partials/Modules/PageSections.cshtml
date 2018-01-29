@@ -1,0 +1,208 @@
+@using TGDH.Core.Models
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var sections = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("pageSections");
+	if (sections == null || !sections.Any()) {
+		return;
+	}
+}
+
+@foreach (var item in sections) {
+	var components = item.GetPropertyValue<IEnumerable<IPublishedContent>>("pageComponents");
+	if (components == null || !components.Any()) {
+		return;
+	}
+
+	var sectionModifier = GetSectionModifierClass(item.GetPropertyValue<string>("backgroundColour"));
+	if (!item.GetPropertyValue<bool>("hidePadding")) {
+		sectionModifier = sectionModifier + " o-section";
+	}
+
+	<section class="c-section u-clearfix @sectionModifier">
+		@if (components != null) {
+			foreach (var component in components) {
+				switch (component.DocumentTypeAlias) {
+					case "colTextWithComponent":
+						@Html.Partial("~/Views/Partials/Modules/TwoColTextWithComponent.cshtml", component)
+						break;
+					case "quoteSimple":
+						@Html.Partial("~/Views/Partials/Components/QuoteSimple.cshtml", new QuoteViewModel{
+							Quote = component.GetPropertyValue<IHtmlString>("quoteMessage"),
+							Source = component.GetPropertyValue<string>("quoteSource"),
+						})
+						break;
+					case "logoGroup":
+						@Html.Partial("~/Views/Partials/Components/LogoListing.cshtml", new LogoListingViewModel {
+							LogoListing = component.GetPropertyValue<IEnumerable<IPublishedContent>>("logos"),
+							ModifierClass = "c-logo-grid u-clearfix o-wrap o-wrap--x-large"
+						});
+						break;
+					case "simpleImage":
+						@Html.Partial("~/Views/Partials/PageComponents/Image.cshtml", new ImageViewModel
+						{
+							ImageId = component.GetPropertyValue<int>("image"),
+							AspectRatio = component.GetPropertyValue<string>("aspectRatio"),
+							ImageWidth = 2000,
+							AdditionalClass = ""
+						})
+						break;
+					case "imageColumns":
+						@Html.Partial("~/Views/Partials/Components/ImageColumns.cshtml", new ImageColumnsViewModel {
+							FirstImageId = component.GetPropertyValue<int>("image1"),
+							LastImageId = component.GetPropertyValue<int>("image2"),
+							ModifierClass = ""
+						})
+						break;
+					case "simpleGallery":
+                		@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", new GalleryViewModel {
+							MediaIds = component.GetPropertyValue<string>("images"),
+							AspectRatio = component.GetPropertyValue<string>("aspectRatio"),
+							AdditionalClass = ""
+						})
+						break;
+					case "tiles":
+						@RenderTileGrid(component)
+						break;
+					case "thumbnailCardList":
+						@RenderThumbnailCardListing(component)
+						break;
+					case "heading":
+						@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+							Headline = component.GetPropertyValue<string>("headline"),
+							Subtitle = component.GetPropertyValue<string>("subtitle"),
+							IsCenter = component.GetPropertyValue<bool>("center"),
+							ModifierClass = "o-wrap o-wrap--x-large"
+						})
+						break;
+					case "colTextWithDevice":
+						@RenderTextWithDevice(component)
+						break;
+					default:
+						<p>No match for <strong>@component.DocumentTypeAlias</strong></p>
+						break;
+				}
+			}
+		}
+	</section>
+
+}
+
+@helper RenderThumbnailCardListing(IPublishedContent model) {
+	if (model == null) {
+		return;
+	}
+	var selection = model.GetPropertyValue<IEnumerable<IPublishedContent>>("thumbnailCards");
+	if (selection == null || !selection.Any()) {
+		return;
+	}
+
+	<div class="o-grid--three-small-gutter o-flex-grid u-clearfix o-wrap o-wrap--x-large">
+		@foreach (var item in selection) {
+			var button = new LinkPickerModel(item.GetPropertyValue<string>("link"));
+			@Html.Partial("~/Views/Partials/Components/ThumbnailCard.cshtml", new ThumbnailCardViewModel {
+				Url = !String.IsNullOrWhiteSpace(button.Url) ? button.Url : "",
+				CoverImage = Umbraco.TypedMedia(item.GetPropertyValue<int>("image")),
+				Label = item.GetPropertyValue<string>("label"),
+				Headline = item.GetPropertyValue<string>("headline"),
+				Copy = item.GetPropertyValue<IHtmlString>("copy"),
+				Target = "_blank",
+				ModifierClass = "o-grid__item"
+			})
+		}
+	</div>
+}
+
+@helper RenderTileGrid(IPublishedContent model) {
+	if (model == null) {
+		return;
+	}
+	var selection = model.GetPropertyValue<IEnumerable<IPublishedContent>>("tileLinks");
+	if (selection == null || !selection.Any()) {
+		return;
+	}
+
+	<div class="c-tile-wrap u-clearfix">
+		@foreach (var item in selection) {
+			var linkJson = item.GetPropertyValue<string>("link");
+
+			if (!String.IsNullOrWhiteSpace(linkJson)) {
+				var link = Json.Decode(linkJson);
+				if (link != null) {
+					var tileData = new TileViewModel {
+						Url = link.Url,
+						Headline = item.GetPropertyValue<string>("headline"),
+						ImageId = item.GetPropertyValue<int>("image")
+					};
+					@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
+				}
+			}
+		}
+	</div>
+}
+
+@helper RenderTextWithDevice(IPublishedContent model) {
+	if (model == null) {
+		return;
+	}
+	var images = model.GetPropertyValue<string>("images").Split(',');
+	var deviceType = model.GetPropertyValue<string>("deviceType");
+	var deviceModifier = deviceType == "Mobile x 2" ? "c-mobile-frame--wrap-two" : "";
+
+	var modifierClass = model.GetPropertyValue<bool>("alignLeft") ? "c-image-offset-column--reverse" : "";
+
+	<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix @modifierClass">
+		<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+			@{
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+					Headline = model.GetPropertyValue<string>("headline"),
+					Subtitle = model.GetPropertyValue<string>("subtitle")
+				})
+				@Html.Raw(model.GetPropertyValue<string>("text"))
+			}
+		</div>
+		<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image @deviceModifier">
+			@{
+				if (images != null && images.Any()) {
+					switch (deviceType) {
+						case "Mobile x 2":
+							foreach (var imageId in images) {
+								@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", new DeviceFrameViewModel {
+									ImageId = Int32.Parse(imageId),
+									Type = "mobile"
+								})
+							}
+							break;
+						default:
+							@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", new DeviceFrameViewModel {
+								ImageId = Int32.Parse(images.FirstOrDefault()),
+								Type = "desktop"
+							})
+							break;
+					}
+				}
+			}
+		</div>
+	</div>
+}
+
+@functions {
+
+	public string GetSectionModifierClass(string hex) {
+		var modifierClass = "";
+
+		switch (hex) {
+			case "f9f9f9":
+				modifierClass = "u-background--light";
+				break;
+			case "000000":
+				modifierClass = "u-background--pri";
+				break;
+			default:
+				modifierClass = "";
+				break;
+		}
+
+		return modifierClass;
+	}
+
+}

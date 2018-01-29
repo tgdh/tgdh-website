@@ -192,9 +192,15 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Our.Umbraco.InnerContent, Version=1.0.6286.21529, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Our.Umbraco.InnerContent.Core.1.0.3\lib\net45\Our.Umbraco.InnerContent.dll</HintPath>
+    </Reference>
     <Reference Include="Our.Umbraco.NestedContent, Version=0.3.6033.18955, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Our.Umbraco.NestedContent.0.3.0\lib\net45\Our.Umbraco.NestedContent.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Our.Umbraco.StackedContent, Version=1.0.6286.25615, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Our.Umbraco.StackedContent.1.0.4\lib\net45\Our.Umbraco.StackedContent.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -636,6 +642,13 @@
     <Content Include="App_Plugins\GibeLinkPicker\picker.controller.js" />
     <Content Include="App_Plugins\GibeLinkPicker\picker.css" />
     <Content Include="App_Plugins\GibeLinkPicker\picker.html" />
+    <Content Include="App_Plugins\InnerContent\css\innercontent.css" />
+    <Content Include="App_Plugins\InnerContent\js\innercontent.controllers.js" />
+    <Content Include="App_Plugins\InnerContent\js\innercontent.resources.js" />
+    <Content Include="App_Plugins\InnerContent\views\innercontent.dialog.html" />
+    <Content Include="App_Plugins\InnerContent\views\innercontent.doctypepicker.html" />
+    <Content Include="App_Plugins\InnerContent\views\innercontent.doctypetabpicker.html" />
+    <Content Include="App_Plugins\InnerContent\views\innercontent.overlay.html" />
     <Content Include="App_Plugins\NestedContent\Css\nestedcontent.css" />
     <Content Include="App_Plugins\NestedContent\Js\nestedcontent.controllers.js" />
     <Content Include="App_Plugins\NestedContent\Js\nestedcontent.directives.js" />
@@ -652,6 +665,10 @@
     <Content Include="App_Plugins\SEOChecker\seochecker\seoCheckerPropertyEditor.html" />
     <Content Include="App_Plugins\SEOChecker\seochecker\seoCheckerPropertyEditorController.js" />
     <Content Include="App_Plugins\SEOChecker\XMLSitemapEditor\xmlsitemapeditor.html" />
+    <Content Include="App_Plugins\StackedContent\css\stackedcontent.css" />
+    <Content Include="App_Plugins\StackedContent\js\stackedcontent.controllers.js" />
+    <Content Include="App_Plugins\StackedContent\js\stackedcontent.resources.js" />
+    <Content Include="App_Plugins\StackedContent\views\stackedcontent.html" />
     <Content Include="bin\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
     <Content Include="bin\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
     <Content Include="bin\amd64\sqlceca40.dll" />
@@ -2391,6 +2408,8 @@
     <Content Include="App_Data\umbraco.config" />
     <Content Include="App_Data\TEMP\SEOChecker\SEOChecker.config" />
     <Content Include="App_Code\PagingTemplate.cshtml" />
+    <Content Include="App_Plugins\InnerContent\package.manifest" />
+    <Content Include="App_Plugins\StackedContent\package.manifest" />
     <None Include="bin\TGDH.Web.dll.config" />
     <Content Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
