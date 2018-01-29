@@ -16,6 +16,9 @@
 		case "desktop":
 			@RenderDesktop(image)
 			break;
+		case "tablet":
+			@RenderTablet(image)
+			break;
 		default:
 			break;
 	}
@@ -26,6 +29,14 @@
 
 	<div class="c-mobile-frame @Model.ModifierClass">
 		<img src="@imageUrl" alt="" class="c-mobile-frame__image">
+	</div>
+}
+
+@helper RenderTablet( IPublishedContent image ) {
+	var imageUrl = image.Url + "?width=768&height=1024&mode=crop&anchor=top";
+
+	<div class="c-tablet-frame @Model.ModifierClass">
+		<img src="@imageUrl" alt="" class="c-tablet-frame__image">
 	</div>
 }
 

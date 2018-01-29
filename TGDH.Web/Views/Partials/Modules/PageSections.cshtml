@@ -172,6 +172,12 @@
 								})
 							}
 							break;
+						case "Tablet":
+							@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", new DeviceFrameViewModel {
+								ImageId = Int32.Parse(images.FirstOrDefault()),
+								Type = "tablet"
+							})
+							break;
 						default:
 							@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", new DeviceFrameViewModel {
 								ImageId = Int32.Parse(images.FirstOrDefault()),
