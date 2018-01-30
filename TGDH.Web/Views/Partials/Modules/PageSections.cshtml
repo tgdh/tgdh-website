@@ -5,6 +5,8 @@
 	if (sections == null || !sections.Any()) {
 		return;
 	}
+
+	var index = 0;
 }
 
 @foreach (var item in sections) {
@@ -18,7 +20,10 @@
 		sectionModifier = sectionModifier + " o-section";
 	}
 
-	<section class="c-section u-clearfix @sectionModifier">
+	var sectionId = "section" + index;
+	index = index + 1;
+
+	<section id="@sectionId" class="c-section u-clearfix @sectionModifier">
 		@if (components != null) {
 			foreach (var component in components) {
 				switch (component.DocumentTypeAlias) {
