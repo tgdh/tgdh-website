@@ -1,6 +1,6 @@
 @inherits UmbracoViewPage<IPublishedContent>
 @{
-	var selection = Model.Descendants().Where( x => x.IsVisible());
+	var selection = Model.Children().Where( x => x.IsVisible());
 	if( !selection.Any() ) {
 		return;
 	}

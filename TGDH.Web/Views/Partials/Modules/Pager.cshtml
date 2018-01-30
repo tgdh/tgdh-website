@@ -1,0 +1,53 @@
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	if (Model.GetPropertyValue<bool>("hidePager")) {
+		return;
+	}
+
+	var parent = Model.Ancestor();
+	if( parent == null || DocumentTypeIsNotIgnored(parent) ) {
+		return;
+	}
+
+	if (parent.GetPropertyValue<bool>("hidePager")) {
+		return;
+	}
+
+	var allPages = parent.Children().Where(x => x.IsVisible() && x.TemplateId > 0);
+
+	var previous = Model.Previous(x => x.IsVisible());
+	var next = Model.Next(x => x.IsVisible());
+
+	if( next == null ) {
+		next = allPages.FirstOrDefault();
+	}
+	if( previous == null ) {
+		previous = allPages.LastOrDefault();
+	}
+
+	var PagerModel = new PagerViewModel {
+		HeadlinePrevious = previous.Name,
+	    SubtitlePrevious = previous.GetPropertyValue<string>("coverSubtitle"),
+	    UrlPrevious = previous.Url,
+	    ImageIdPrevious = previous.GetPropertyValue<int>("pageImage", previous.GetPropertyValue<int>("coverImage")),
+	    HeadlineNext = next.Name,
+	    SubtitleNext = next.GetPropertyValue<string>("coverSubtitle"),
+	    UrlNext = next.Url,
+	    ImageIdNext = next.GetPropertyValue<int>("pageImage", next.GetPropertyValue<int>("coverImage")),
+	    HeadlineGateway = parent.Name,
+	    UrlGateway = parent.Url
+	};
+
+	@Html.Partial("~/Views/Partials/Components/Pager.cshtml", PagerModel)
+}
+
+@functions {
+
+    private static bool DocumentTypeIsNotIgnored(IPublishedContent arg)
+    {
+        const string ignoredDocTypes = "gatewayPage,caseStudies";
+
+        return ignoredDocTypes.Split(',').All(docType => docType != arg.DocumentTypeAlias);
+    }
+
+}
