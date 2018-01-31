@@ -74,6 +74,11 @@
 				<div class="u-space-top u-epsilon c-proposal__copy u-space-bottom--large">
 					@Html.Raw(copy)
 				</div>
+				@if (error) {
+					<div class="c-notify c-notify--error u-space-bottom">
+						<p>@Html.Raw(TempData["BriefingFormValidationFailed"])</p>
+					</div>
+				}
 			</div>
 			<div class="o-wrap o-wrap--x-large">
 				<div class="c-brief u-clearfix js-brief">

@@ -48,6 +48,24 @@ namespace TGDH.Core.Controllers
                 return CurrentUmbracoPage();
             }
 
+            if (model.BreifUploadOrCreation == "already-have-brief") {
+                if (model.Attachment == null || model.Attachment.ContentLength == 0) {
+                    TempData["BriefingFormValidationFailed"] = "Please upload a file for your brief or select <strong>Create your own brief</strong>.";
+                    return CurrentUmbracoPage();
+                }
+
+                string pattern = @"[^0-9a-zA-Z\.]+";
+                Regex rgx = new Regex(pattern);
+                var fileName = model.Attachment.FileName;
+                var ext = fileName.Substring(fileName.LastIndexOf('.') + 1).ToLower();
+                if (IsInvalidUploadFileType(ext)) {
+                    TempData["BriefingFormValidationFailed"] = "Please upload a valid document for your brief or select <strong>Create your own brief</strong>.";
+
+                    return CurrentUmbracoPage();
+                }
+            }
+
+
             LogHelper.Warn(GetType(), "Briefing form model name: " + model.YourName);
 
             TempData["BriefingFormValidationPasses"] = "The form has been validated successfully.";
@@ -194,6 +212,8 @@ namespace TGDH.Core.Controllers
         {
             if (model.BreifUploadOrCreation == "already-have-brief")
             {
+                if (model.Attachment == null || model.Attachment.ContentLength == 0) return "Please upload a file";
+
                 TempData["brief"] = "File Uploaded";
                 //Upload the breif as the input is filled in
                 try
@@ -204,6 +224,9 @@ namespace TGDH.Core.Controllers
                     var fileName = rgx.Replace(model.Attachment.FileName, "");
                     fileUploadName = fileName;
                     var ext = fileName.Substring(fileName.LastIndexOf('.') + 1).ToLower();
+                    if (IsInvalidUploadFileType(ext)) {
+                        return "Not valid file type";
+                    }
                     if(model.CompanyName != null)
                     {
                         companyName = model.CompanyName;
@@ -237,6 +260,13 @@ namespace TGDH.Core.Controllers
                 CreateAndSendExternalNotification(model);
                 return "passed";
             }
+        }
+
+        private static bool IsInvalidUploadFileType(string ext)
+        {
+            const string invalidFiles = "ashx,aspx,ascx,config,cshtml,vbhtml,asmx,air,axd,swf,xml,html,htm,php,htaccess,jpg,png,tiff,webp,gif,jpeg,bmp,svg";
+
+            return invalidFiles.Split(',').Any(x => x == ext);
         }
         
         private void SaveBriefingFormSubmission(BriefForm model)
