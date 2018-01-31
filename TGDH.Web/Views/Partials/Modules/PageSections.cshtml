@@ -82,6 +82,14 @@
 					case "colTextWithDevice":
 						@RenderTextWithDevice(component)
 						break;
+					case "beforeAfterImage":
+						<div class="o-wrap o-wrap--large">
+							@Html.Partial("~/Views/Partials/Components/ImageComparison.cshtml", new ImageComparisonViewModel {
+								BeforeImageId = component.GetPropertyValue<int>("beforeImage"),
+								AfterImageId = component.GetPropertyValue<int>("afterImage")
+							})
+						</div>
+						break;
 					default:
 						<p>No match for <strong>@component.DocumentTypeAlias</strong></p>
 						break;
