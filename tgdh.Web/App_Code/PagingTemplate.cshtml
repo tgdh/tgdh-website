@@ -26,14 +26,13 @@
 			<svg class="u-icon u-icon--24">
 				<use xlink:href="/assets/icons/icons.svg#arrow-left"></use>
 			</svg>
-			<span class="u-visually-hidden">Previous</span>
+			<span class="u-visually-hidden">Go to previous page</span>
         </a>
     } else {
 		<span class="c-pagination__link c-pagination__link--prev is-disabled" rel="prev">
 			<svg class="u-icon u-icon--24">
 				<use xlink:href="/assets/icons/icons.svg#arrow-left"></use>
 			</svg>
-			<span class="u-visually-hidden">Previous</span>
         </span>
 	}
 
@@ -42,14 +41,14 @@
         var activeClass = paging.CurrentPage == page ? "is-active" : "";
 
         <a href="@umbracoHelper.TypedContent(currentId).Url?page=@page@queryString@hashLink" class="c-pagination__link c-pagination__link--index @activeClass">
-            @page
+            <span class="u-visually-hidden">Go to page</span> @page
         </a>
     }
 
     if (paging.CurrentPage < paging.TotalPages)
     {
         <a href="@umbracoHelper.TypedContent(currentId).Url?page=@(paging.CurrentPage + 1)@queryString" class="c-pagination__link c-pagination__link--next" rel="next">
-            <span class="u-visually-hidden">Next</span>
+            <span class="u-visually-hidden">Go to next page</span>
 			<svg class="u-icon u-icon--24">
 				<use xlink:href="/assets/icons/icons.svg#arrow-right"></use>
 			</svg>
@@ -58,8 +57,7 @@
         <a href="@umbracoHelper.TypedContent(currentId).Url?page=@(paging.TotalPages)@hashLink">Last</a>
 		*@
     } else {
-		<span href="@umbracoHelper.TypedContent(currentId).Url?page=@(paging.CurrentPage + 1)@queryString" class="c-pagination__link c-pagination__link--next is-disabled" rel="next">
-            <span class="u-visually-hidden">Next</span>
+		<span class="c-pagination__link c-pagination__link--next is-disabled" rel="next">
 			<svg class="u-icon u-icon--24">
 				<use xlink:href="/assets/icons/icons.svg#arrow-right"></use>
 			</svg>
