@@ -93,6 +93,9 @@
 					case "colourSwatches":
 						@RenderSwatches(component)
 						break;
+					case "colFonts":
+						@RenderFonts(component)
+						break;
 					default:
 						<p>No match for <strong>@component.DocumentTypeAlias</strong></p>
 						break;
@@ -230,6 +233,42 @@
 					Subtitle = hex,
 					Hex = hex
 				})
+			}
+			</div>
+		}
+	</div>
+}
+
+@helper RenderFonts(IPublishedContent component) {
+	var headline = component.GetPropertyValue<string>("headline");
+	var fonts = component.GetPropertyValue<IEnumerable<IPublishedContent>>("fonts");
+
+	<div class="o-wrap o-wrap--x-large u-space-top c-col-fonts">
+		@if (!String.IsNullOrWhiteSpace(headline)) {
+			<h2 class="u-breakline u-gamma">@headline</h2>
+		}
+		@if (fonts != null && fonts.Any()) {
+			<div class="o-col--two u-clearfix u-space-bottom--large">
+			@foreach (var item in fonts) {
+				var fontHeadline = item.GetPropertyValue<string>("headline");
+				var fontSubtitle = item.GetPropertyValue<string>("subtitle");
+
+				var font = Umbraco.TypedMedia(item.GetPropertyValue<int>("image"));
+				var fontUrl = font != null ? font.Url : "";
+				<div class="o-col">
+					<div class="u-space-bottom">
+						@if (!String.IsNullOrWhiteSpace(fontHeadline)) {
+							<h4 style="padding-bottom: 0;">@fontHeadline</h4>
+						}
+						@if (!String.IsNullOrWhiteSpace(fontSubtitle)) {
+							<div class="u-font-sec u-small">@fontSubtitle</div>
+						}
+					</div>
+
+					@if(!String.IsNullOrWhiteSpace(fontUrl)) {
+						<img src="@fontUrl" alt="Font glyphs" class="c-col-fonts__image">
+					}
+				</div>
 			}
 			</div>
 		}
