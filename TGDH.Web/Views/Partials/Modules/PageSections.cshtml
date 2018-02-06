@@ -90,6 +90,9 @@
 							})
 						</div>
 						break;
+					case "colourSwatches":
+						@RenderSwatches(component)
+						break;
 					default:
 						<p>No match for <strong>@component.DocumentTypeAlias</strong></p>
 						break;
@@ -201,6 +204,35 @@
 				}
 			}
 		</div>
+	</div>
+}
+
+@helper RenderSwatches(IPublishedContent component) {
+	var headline = component.GetPropertyValue<string>("headline");
+	var swatches = component.GetPropertyValue<IEnumerable<IPublishedContent>>("swatches");
+
+	var swatch1 = new ColourSwatchViewModel {
+		Name = "Black",
+		Subtitle = "#171412",
+		Hex = "#171412"
+	};
+
+	<div class="o-wrap o-wrap--x-large u-space-top">
+		@if (!String.IsNullOrWhiteSpace(headline)) {
+			<h2 class="u-breakline u-gamma">@headline</h2>
+		}
+		@if (swatches != null && swatches.Any()) {
+			<div class="c-colour-swatch-wrap u-clearfix u-space-top">
+			@foreach (var item in swatches) {
+				var hex = item.GetPropertyValue<string>("hex");
+				@Html.Partial("~/Views/Partials/Components/ColourSwatch.cshtml", new ColourSwatchViewModel {
+					Name = item.GetPropertyValue<string>("colourName"),
+					Subtitle = hex,
+					Hex = hex
+				})
+			}
+			</div>
+		}
 	</div>
 }
 
