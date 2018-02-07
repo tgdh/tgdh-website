@@ -9,11 +9,27 @@
 	padding-top: $padding-small;
 }
 
+.o-section--top {
+	padding-top: $padding-small;
+}
+
+.o-section--bottom {
+	padding-bottom: $padding-small;
+}
+
 @include respond-min-max( $mq-small, $mq-medium ) {
 
 	.o-section {
 		padding-bottom: $padding-medium;
 		padding-top: $padding-medium;
+	}
+
+	.o-section--top {
+		padding-top: $padding-medium;
+	}
+
+	.o-section--bottom {
+		padding-bottom: $padding-medium;
 	}
 
 }
@@ -23,6 +39,14 @@
 	.o-section {
 		padding-bottom: $padding-large;
 		padding-top: $padding-large;
+	}
+
+	.o-section--top {
+		padding-top: $padding-large;
+	}
+
+	.o-section--bottom {
+		padding-bottom: $padding-large;
 	}
 
 }

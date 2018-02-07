@@ -16,14 +16,17 @@
 	}
 
 	var sectionModifier = GetSectionModifierClass(item.GetPropertyValue<string>("backgroundColour"));
+	var paddingModifier = GetPaddingModifierClass(item.GetPropertyValue<string>("padding"));
+	@*
 	if (!item.GetPropertyValue<bool>("hidePadding")) {
 		sectionModifier = sectionModifier + " o-section";
 	}
+	*@
 
 	var sectionId = "section" + index;
 	index = index + 1;
 
-	<section id="@sectionId" class="c-section u-clearfix @sectionModifier">
+	<section id="@sectionId" class="c-section u-clearfix @sectionModifier @paddingModifier">
 		@if (components != null) {
 			foreach (var component in components) {
 				switch (component.DocumentTypeAlias) {
@@ -289,6 +292,27 @@
 				break;
 			default:
 				modifierClass = "";
+				break;
+		}
+
+		return modifierClass;
+	}
+
+	public string GetPaddingModifierClass(string padding) {
+		var modifierClass = "";
+
+		switch (padding) {
+			case "None":
+				modifierClass = "";
+				break;
+			case "Bottom":
+				modifierClass = "o-section--bottom";
+				break;
+			case "Top":
+				modifierClass = "o-section--top";
+				break;
+			default:
+				modifierClass = "o-section";
 				break;
 		}
 
