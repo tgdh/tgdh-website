@@ -1,0 +1,29 @@
+/* ===========================================================
+
+	# Module page
+
+=========================================================== */
+
+@include respond-max( $mq-medium ) {
+
+	.t-module__text-component__mobile {
+		max-width: 20rem;
+		margin: $line-height auto 0;
+	}
+}
+
+@include respond-min( $mq-medium ) {
+
+	.t-module__text-component__mobile {
+		max-width: 28rem;
+		margin: -$padding-large - 2rem auto 0;
+	}
+}
+
+@include respond-min( $mq-large ) {
+
+	.t-module__text-component__mobile {
+		margin-top: -$padding-large - 4rem;
+		margin-bottom: -$padding-large - 6rem;
+	}
+}

@@ -57,6 +57,13 @@
 							ModifierClass = "m-two-col-text-component__card"
 						})
 						break;
+					case "mobileImage":
+						@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", new DeviceFrameViewModel {
+							ImageId = component.GetPropertyValue<int>("image"),
+							Type = "mobile",
+							ModifierClass = "t-module__text-component__mobile"
+						})
+						break;
 					default:
 						<p>No render for <strong>@component.DocumentTypeAlias</strong></p>
 						break;
