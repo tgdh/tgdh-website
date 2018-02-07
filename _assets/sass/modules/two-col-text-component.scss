@@ -10,12 +10,37 @@
 		margin-top: $line-height * 2;
 	}
 
+	.m-two-col-text-component__mobile {
+		max-width: 20rem;
+		margin: $line-height auto 0;
+	}
+
 }
 
 @include respond-min($mq-medium) {
 
 	.m-two-col-text-component__card {
+		max-width: 38rem;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.m-two-col-text-component__mobile {
+		max-width: 28rem;
+		margin: -$padding-large - 2rem auto 0;
+	}
+
+	.m-two-col-text-component__card,
+	.m-two-col-text-component__image {
 		margin-top: -($line-height * 2);
 	}
 
+}
+
+@include respond-min( $mq-large ) {
+
+	.m-two-col-text-component__mobile {
+		margin-top: -$padding-large - 4rem;
+		margin-bottom: -$padding-large - 6rem;
+	}
 }

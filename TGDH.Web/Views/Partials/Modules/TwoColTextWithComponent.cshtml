@@ -61,7 +61,16 @@
 						@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", new DeviceFrameViewModel {
 							ImageId = component.GetPropertyValue<int>("image"),
 							Type = "mobile",
-							ModifierClass = "t-module__text-component__mobile"
+							ModifierClass = "m-two-col-text-component__mobile"
+						})
+						break;
+					case "simpleImage":
+						@Html.Partial("~/Views/Partials/PageComponents/Image.cshtml", new ImageViewModel
+						{
+							ImageId = component.GetPropertyValue<int>("image"),
+							AspectRatio = component.GetPropertyValue<string>("aspectRatio"),
+							ImageWidth = 600,
+							AdditionalClass = "m-two-col-text-component__image"
 						})
 						break;
 					default:
