@@ -74,6 +74,7 @@
 	width: 100%;
 	position: relative;
 }
+
 .c-cover__image {
 	width: 100%;
 }
@@ -127,7 +128,6 @@
 			content: "";
 			display: block;
 			@include pad-top(33,6);
-
 		}
 	}
 
