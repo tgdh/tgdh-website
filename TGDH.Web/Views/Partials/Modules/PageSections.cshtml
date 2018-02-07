@@ -99,6 +99,21 @@
 					case "colFonts":
 						@RenderFonts(component)
 						break;
+					case "colTextWithImage5050":
+						var button = new LinkPickerModel(component.GetPropertyValue<string>("button"));
+						var hasButton = !String.IsNullOrWhiteSpace(button.Url);
+
+						@Html.Partial("~/Views/Partials/Components/TextWithImage.cshtml", new TextWithImageViewModel {
+							Headline = component.GetPropertyValue<string>("headline"),
+							Subtitle = component.GetPropertyValue<string>("subtitle"),
+							Text = component.GetPropertyValue<string>("text"),
+							ImageId = component.GetPropertyValue<int>("image"),
+							AlignLeft = component.GetPropertyValue<bool>("alignLeft"),
+							Url = hasButton ? button.Url : "",
+							ButtonText = hasButton ? button.Name : "",
+							Target = hasButton ? button.Target : ""
+						})
+						break;
 					default:
 						<p>No match for <strong>@component.DocumentTypeAlias</strong></p>
 						break;
