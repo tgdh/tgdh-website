@@ -3,7 +3,7 @@
     Layout = "Master.cshtml";
 }
 <main id="main" class="o-page__content" role="main">
-	@Html.CachedPartial("~/Views/Partials/Page/ContactCover.cshtml", Model, 43200, true)
+	@Html.Partial("~/Views/Partials/Page/ContactCover.cshtml", Model)
 
 	<section>
 		<h2 class="u-visually-hidden">Map location</h2>

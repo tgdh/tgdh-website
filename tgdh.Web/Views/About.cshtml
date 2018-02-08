@@ -14,7 +14,7 @@
 			Cta = Model.GetPropertyValue<string>("coverCta")
 	    };
 
-	    @Html.CachedPartial("~/Views/Partials/Components/Cover.cshtml", cover, 43200, true);
+	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
 	}
 
 	@RenderIntro()

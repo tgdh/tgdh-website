@@ -14,6 +14,6 @@
 
 <main id="main" class="o-page__content" role="main">
 	@* cache for 12 hours per page *@
-	@Html.CachedPartial("~/Views/Partials/Components/Cover.cshtml", cover, 43200, true)
+	@Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
 	@Html.CachedPartial("~/Views/Partials/Modules/PageSections.cshtml", Model, 43200, true)
 </main>
