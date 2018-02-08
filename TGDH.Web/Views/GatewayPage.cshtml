@@ -13,7 +13,6 @@
 }
 
 <main id="main" class="o-page__content" role="main">
-	@Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
-
-	@Html.Partial("~/Views/Partials/Modules/GatewayListing.cshtml", Model)
+	@Html.CachedPartial("~/Views/Partials/Components/Cover.cshtml", cover, 43200, true)
+	@Html.CachedPartial("~/Views/Partials/Modules/GatewayListing.cshtml", Model, 43200, true)
 </main>

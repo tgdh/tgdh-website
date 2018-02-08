@@ -14,22 +14,21 @@
 			Cta = Model.GetPropertyValue<string>("coverCta")
 	    };
 
-	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover);
+	    @Html.CachedPartial("~/Views/Partials/Components/Cover.cshtml", cover, 43200, true);
 	}
-
 
 	@RenderIntro()
 	@RenderTeam()
 	@RenderCareers()
 
-	@Html.Partial("~/Views/Partials/Components/Image.cshtml", new ImageViewModel
+	@Html.CachedPartial("~/Views/Partials/Components/Image.cshtml", new ImageViewModel
 	{
 		ImageId = Model.GetPropertyValue<int>("footerImage"),
 		Alignment = "Full width",
 		AspectRatio = "16:9",
 		ImageWidth = 1600,
 		AdditionalClass = "s-about__footer-image"
-	})
+	}, 43200, true)
 </main>
 
 @helper RenderIntro() {
@@ -63,7 +62,7 @@
 					LogoListing = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("introLogos"),
 					ModifierClass = "c-logo-grid u-clearfix u-space-top--large"
 				};
-				@Html.Partial("~/Views/Partials/Components/LogoListing.cshtml", logos);
+				@Html.CachedPartial("~/Views/Partials/Components/LogoListing.cshtml", logos, 43200, true);
 			}
 		</div>
 	</section>
@@ -80,7 +79,7 @@
 			<div class="u-space-bottom--large">
 				@Model.GetPropertyValue("teamCopy")
 			</div>
-			@Html.Partial("~/Views/Partials/Team/TeamListing.cshtml")
+			@Html.CachedPartial("~/Views/Partials/Team/TeamListing.cshtml", Model, 43200)
 		</div>
 	</section>
 }
@@ -104,7 +103,7 @@
 				@Model.GetPropertyValue("careersCopy")
 			</div>
 			<div class="o-wrap--small">
-				@Html.Partial("~/Views/Partials/Careers/VacancyListing.cshtml")
+				@Html.CachedPartial("~/Views/Partials/Careers/VacancyListing.cshtml", Model, 43200)
 			</div>
 		</div>
 	</section>

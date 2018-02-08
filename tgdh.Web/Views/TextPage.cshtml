@@ -16,13 +16,13 @@
 			Cta = Model.GetPropertyValue<string>("coverCta")
 	    };
 
-	    @Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
+	    @Html.CachedPartial("~/Views/Partials/Components/Cover.cshtml", cover, 43200, true)
 	}
 	<div class="o-page__content__wrap u-clearfix s-free-content">
 		@if( String.IsNullOrWhiteSpace(coverImageIds) ) {
 			<h1 class="o-wrap o-wrap--small">@headline</h1>
 		}
-	    @Html.Partial("~/Views/Partials/Page/PageComponents.cshtml")
+	    @Html.CachedPartial("~/Views/Partials/Page/PageComponents.cshtml", Model, 43200, true)
     </div>
 </main>
 

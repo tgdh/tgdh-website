@@ -6,7 +6,7 @@
 	<div class="o-page__content__wrap o-wrap o-wrap--small">
 		<h1>@Model.Name</h1>
 		<div class="o-wrap--small">
-			@Html.Partial("~/Views/Partials/Careers/VacancyListing.cshtml")
+			@Html.CachedPartial("~/Views/Partials/Careers/VacancyListing.cshtml", Model, 43200)
 		</div>
 	</div>
 </main>

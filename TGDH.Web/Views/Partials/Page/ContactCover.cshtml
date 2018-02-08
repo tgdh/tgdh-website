@@ -1,0 +1,41 @@
+@using System.Text
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var homePage = Model.Site();
+	var settings = homePage.Children("globalSettings").FirstOrDefault();
+	var phoneNumber = settings.GetPropertyValue<string>("phoneNumber");
+	var emailAddress = settings.GetPropertyValue<string>("emailAddress");
+
+	var hasEmail = !String.IsNullOrWhiteSpace(emailAddress);
+	var hasPhoneNumber = !String.IsNullOrWhiteSpace(phoneNumber);
+	var hasEmailOrPhone = hasEmail || hasPhoneNumber ? true : false;
+
+	StringBuilder sb = new StringBuilder();
+	if( hasEmailOrPhone ) {
+		sb.Append("<ul class='o-list--inline'>");
+		if( hasEmail ) {
+			sb.Append("<li class='o-list__item u-strong'><a href='mailto:"+ emailAddress +"'>" + emailAddress + "</a></li>");
+		}
+		if(hasPhoneNumber) {
+			sb.Append("<li class='o-list__item'>" + phoneNumber + "</li>");
+		}
+		sb.Append("</ul>");
+	}
+	sb.Append(Model.GetPropertyValue<string>("coverCopy"));
+	if( Model.HasValue("ctaDescription") ) {
+		sb.Append("<div class='c-cover__cta-description u-font-sec u-epsilon'>");
+			sb.Append(Model.GetPropertyValue<string>("ctaDescription"));
+		sb.Append("</div>");
+	}
+
+	var contactDetails =
+	"<div class='c-cover__cta-description u-font-sec u-space-top--large'>" + Model.GetPropertyValue<string>("ctaDescription") + "</div>";
+}
+@Html.Partial("~/Views/Partials/Components/Cover.cshtml", new CoverViewModel {
+	ImageIds = Model.GetPropertyValue<string>("coverImage"),
+	Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
+	Subtitle = Model.GetPropertyValue<IHtmlString>("coverSubtitle"),
+	SubtitleLabel = Model.GetPropertyValue<string>("coverSubtitleLabel"),
+	Copy = @Html.Raw(sb),
+	Cta = Model.GetPropertyValue<string>("coverCta")
+})
