@@ -1,0 +1,289 @@
+/* ===========================================================
+
+	# Briefing form
+
+=========================================================== */
+
+.c-brief__button--prev,
+.c-brief__button--next {
+	display: none;
+}
+
+.no-enhance {
+
+	.c-button--submit {
+		display: inline-block;
+		margin-top: $line-height;
+	}
+
+	.c-brief__slide__page {
+		display: none;
+	}
+
+}
+
+.enhance {
+
+	.c-brief {
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity $speed $ease;
+		overflow-x: hidden;
+
+		textarea {
+			resize: none;
+		}
+	}
+
+	.c-brief--is-ready {
+		opacity: 1;
+		pointer-events: inherit;
+	}
+
+}
+
+.c-brief__slide {
+	margin-bottom: $line-height * 2;
+
+	.o-heading {
+		margin-bottom: 3.6rem;
+	}
+
+	.o-heading__subtitle {
+		font-style: inherit;
+	}
+}
+
+.c-brief__section-actions {
+	text-align: right;
+}
+
+.c-brief__section-pager {
+	display: none;
+}
+
+.c-brief--is-ready {
+	position: relative;
+	overflow-y: hidden;
+	overflow-x: visible;
+
+	.c-brief__section {
+		width: 100%;
+		position: absolute;
+		top: 0;
+	}
+
+	.c-brief__slide {
+		width: 100%;
+		opacity: 0;
+		pointer-events: none;
+		position: absolute;
+		top: 0;
+
+		&.is-active {
+			opacity: 1;
+			pointer-events: inherit;
+		}
+	}
+
+	.c-brief__section-actions {
+		margin-top: $line-height;
+		@include clearfix();
+	}
+
+	.c-brief__upload-field {
+		max-height: 30rem;
+		overflow: hidden;
+		transition: max-height $speed $ease;
+
+		&.is-hidden {
+			max-height: 0;
+		}
+	}
+
+	.c-brief__button--prev,
+	.c-brief__button--next {
+		display: inline-block;
+	}
+
+	.c-brief__button--prev {
+		float: left;
+	}
+
+	.c-brief__button--next {
+		margin-left: auto;
+		float: right;
+	}
+
+	.c-brief__slide__page {
+		opacity: 0.4;
+		position: absolute;
+		top: $line-height / 4;
+		right: 0;
+	}
+
+}
+
+.flexbox {
+
+	.c-brief__section-actions {
+		display: flex;
+	}
+
+	.c-brief__button--next {
+		order: 1;
+	}
+
+}
+
+@include respond-min-max( $mq-small, $mq-large ) {
+
+}
+
+@include respond-min( $mq-large ) {
+
+	.c-brief__field-wrap {
+		position: relative;
+		@include column(3/4);
+	}
+
+	.c-brief--is-ready {
+
+		.c-brief__section-pager {
+			display: block;
+			@include span(4/12);
+		}
+
+		.c-brief__field-wrap {
+			@include span(7/12, $offset: 1/12);
+		}
+
+		.c-brief__section-pager__item {
+			width: 100%;
+			display: block;
+			color: $white;
+			background-color: $pri;
+			text-align: left;
+			padding: 3.5rem 4.5rem;
+			transition: background-color $speed $ease;
+			position: relative;
+			overflow: visible;
+
+			&:after {
+				content: "";
+				width: 0;
+				height: 0;
+				display: inline-block;
+				border-style: solid;
+				border-width: 7.5px 0 7.5px 8px;
+				border-color: transparent transparent transparent $pri;
+				position: absolute;
+				top: 50%;
+				right: -8px;
+				transform: translateY(-50%);
+				transition: border-color $speed $ease,
+					opacity $speed $ease;
+				opacity: 0;
+			}
+
+			&.is-active {
+
+				&:after {
+					opacity: 1;
+				}
+
+				&:hover,
+				&:focus {
+
+					&:after {
+						border-right-color: $sec;
+					}
+				}
+			}
+
+			& + .c-brief__section-pager__item {
+				margin-top: 1px;
+			}
+
+			&:hover,
+			&:focus {
+				background-color: $sec;
+			}
+
+			.c-brief__section-pager__item__headline {
+				color: inherit;
+			}
+
+			.c-brief__section-pager__item__subtitle {
+				font-size: 1.4rem;
+				font-style: italic;
+				opacity: 0.65;
+
+				&:after {
+					content: "";
+					display: block;
+					width: 2.7rem;
+					height: 0.1rem;
+					margin-top: 1rem;
+					background-color: currentColor;
+				}
+			}
+
+			&:disabled,
+			&.is-disabled {
+				background: $light-2;
+				border-color: $light-2;
+				color: $border-colour;
+				cursor: not-allowed;
+
+				&:hover,
+				&:focus {
+					color: $border-colour;
+					background: $light-2;
+					border-color: $light-2;
+				}
+			}
+		}
+
+	}
+
+}
+
+
+
+// enter
+
+.am-enter.am-enter.am-enter  {
+	opacity: 0;
+	transform: translateX(-4rem);
+	transition: opacity $ease $speed,
+				transform $ease $speed;
+
+	&.anim-dir-left {
+		transform: translateX(4rem);
+	}
+}
+
+//
+.am-enter-active.am-enter-active.am-enter-active {
+	opacity: 1;
+	transform: translateX(0) !important;
+}
+
+// leave
+.am-leave.am-leave.am-leave {
+	opacity: 1;
+	transform: translateX(0);
+	transition: opacity $ease $speed,
+		transform $ease $speed;
+}
+
+//
+.am-leave-active.am-leave-active.am-leave-active {
+	opacity: 0;
+	transform: translateX(4rem);
+
+	&.anim-dir-left {
+		transform: translateX(-4rem) !important;
+	}
+}

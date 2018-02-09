@@ -275,6 +275,7 @@
     <Compile Include="Models\ThumbnailCardViewModel.cs" />
     <Compile Include="Models\TileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\DisplayNameHelper.cs" />
     <Compile Include="Utility\MailHelper.cs" />
     <Compile Include="Utility\Paging.cs" />
   </ItemGroup>

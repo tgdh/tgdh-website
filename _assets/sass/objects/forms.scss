@@ -105,6 +105,14 @@ $line-height-half: $line-height / 2;
 	}
 }
 
+input:disabled ~ .o-form__label {
+
+	&[for] {
+		cursor: not-allowed;
+	}
+
+}
+
 .o-form__label--alt {
 	font-weight: 500;
 }
@@ -133,7 +141,7 @@ $line-height-half: $line-height / 2;
 
 			&:focus {
 
-				& + .o-form__label {
+				& ~ .o-form__label {
 					font-size: 1.2rem;
 					transform: translate(0,-100%);
 				}
@@ -219,6 +227,7 @@ $line-height-half: $line-height / 2;
 
 .o-fieldset__item {
 	margin: 0 0 1rem;
+	position: relative;
 }
 
 .o-fieldset__list--half {
@@ -252,15 +261,23 @@ $line-height-half: $line-height / 2;
 	width: 2.2rem;
 	height: 2.2rem;
 	border: .2rem solid $pri;
-	display: inline-block;
+	display: block;
 	margin-right: 1rem;
 	position: relative;
 	vertical-align: middle;
 	transition: background-color $speed $ease;
+	position: absolute;
+	transition: box-shadow $speed $ease;
 
 	.no-enhance & {
 		display: none;
 	}
+}
+
+.o-form__checkbox-label-text,
+.o-form__radio-label-text {
+	padding-left: 3.2rem;
+	display: block;
 }
 
 .o-form__checkbox-icon {
@@ -290,7 +307,19 @@ $line-height-half: $line-height / 2;
 
 }
 
-.o-form__checkbox:checked + .o-form__label {
+.o-form__checkbox {
+
+	&:disabled ~ .o-form__label {
+
+		.o-form__checkbox-button {
+			opacity: 0.2;
+		}
+	}
+
+}
+
+.o-form__checkbox:checked + .o-form__label,
+.o-form__checkbox:checked + input[type="hidden"] + .o-form__label {
 
 	.o-form__checkbox-button {
 		background-color: $pri;
@@ -300,6 +329,18 @@ $line-height-half: $line-height / 2;
 		opacity: 1;
 	}
 
+}
+
+.o-form__checkbox:focus ~ .o-form__label {
+
+	.o-form__checkbox-button {
+		box-shadow: 0 0 0 6px rgba(0,0,0,0.2);
+	}
+
+}
+
+.o-form__checkbox-label-note {
+	opacity: 0.4;
 }
 
 .o-form__radio-button {
@@ -321,6 +362,17 @@ $line-height-half: $line-height / 2;
 	}
 }
 
+.o-form__radio {
+
+	&:disabled ~ .o-form__label {
+
+		.o-form__radio-button {
+			opacity: 0.2;
+		}
+	}
+
+}
+
 .o-form__radio:checked + .o-form__label {
 
 	.o-form__radio-button {
@@ -329,6 +381,14 @@ $line-height-half: $line-height / 2;
 
 	.o-form__radio-button:before {
 		opacity: 1;
+	}
+
+}
+
+.o-form__radio:focus ~ .o-form__label {
+
+	.o-form__radio-button {
+		box-shadow: 0 0 0 6px rgba(0,0,0,0.2);
 	}
 
 }

@@ -12,6 +12,6 @@
 <header class="o-heading @Model.ModifierClass">
 	<h2 class="o-heading__headline u-beta">@Model.Headline</h2>
 	@if(!String.IsNullOrEmpty(subtitle)) {
-		<span class="o-heading__subtitle u-font-sec">@subtitle</span>
+		<span class="o-heading__subtitle u-font-sec">@Html.Raw(subtitle)</span>
 	}
 </header>

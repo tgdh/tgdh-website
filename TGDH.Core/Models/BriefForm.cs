@@ -79,43 +79,6 @@ namespace TGDH.Core.Models
 
         public BriefForm()
         {
-            //
-            // If the list is going to be displayed with an image
-            // then the image name should be a urlSegment() of the name passed in - e.g. debbie-lawrenson
-            //
-
-            CaseStudies = new List<CheckboxListItem>() {
-                new CheckboxListItem {Id = 0, Name = "Evodia", Subtitle = "Recruitment", Checked = false},
-                new CheckboxListItem {Id = 1, Name = "Octagon", Subtitle = "Theatre", Checked = false},
-                new CheckboxListItem {Id = 2, Name = "Mayer Brown", Subtitle = "Transform", Checked = false},
-                new CheckboxListItem {Id = 3, Name = "Pole Star Global", Subtitle = "Technology", Checked = false},
-                new CheckboxListItem {Id = 4, Name = "St Wilfrid's Hospice", Subtitle = "Health Care", Checked = false},
-            };
-
-            Profiles = new List<CheckboxListItem>() {
-                new CheckboxListItem {Id = 0, Name = "Dan Jubb", Subtitle = "Head of Brand and Strategy", Checked = false},
-                new CheckboxListItem {Id = 1, Name = "Debbie Lawrenson", Subtitle = "Head of Digital", Checked = false},
-                new CheckboxListItem {Id = 2, Name = "Kev Simpson", Subtitle = "Head of Development", Checked = false},
-                new CheckboxListItem {Id = 3, Name = "Luke Gibson", Subtitle = "Developer", Checked = false},
-                new CheckboxListItem {Id = 4, Name = "Maureen Doolan", Subtitle = "Social and Content Manager", Checked = false},
-                new CheckboxListItem {Id = 5, Name = "Sam McGuire", Subtitle = "Web Designer", Checked = false}
-            };
-
-            Workflow = new List<CheckboxListItem>() {
-                new CheckboxListItem {Id = 0, Name = "Approach and Methodology", Checked = false},
-                new CheckboxListItem {Id = 1, Name = "Browser Support & Testing", Checked = false},
-                new CheckboxListItem {Id = 2, Name = "About Umbraco (The CMS)", Checked = false}
-            };
-
-            ProjectSpecifics = new List<CheckboxListItem>() {
-                new CheckboxListItem {Id = 0, Name = "Our understanding of your requirements", Checked = false},
-                new CheckboxListItem {Id = 1, Name = "Main project deliverables", Checked = false},
-                new CheckboxListItem {Id = 2, Name = "Copywriting addition", Checked = false},
-                new CheckboxListItem {Id = 3, Name = "Content & social strategy addition", Checked = false},
-                new CheckboxListItem {Id = 4, Name = "Hosting addition", Checked = false},
-                new CheckboxListItem {Id = 5, Name = "Pricing schedule", Checked = false},
-                new CheckboxListItem {Id = 6, Name = "Project agreement", Checked = false}
-            };
 
         }
     }

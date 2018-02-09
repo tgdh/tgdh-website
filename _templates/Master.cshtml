@@ -55,7 +55,7 @@
         @Html.CachedPartial("~/Views/Partials/Page/Breadcrumbs.cshtml", Model, 43200, true)
 		@Html.CachedPartial("~/Views/Partials/Page/Footer.cshtml", Model, 43200)
 
-		<script src="https://cdn.polyfill.io/v2/polyfill.js?features=default,Element.prototype.dataset"></script>
+		<script src="https://cdn.polyfill.io/v2/polyfill.js?features=default,MutationObserver,Element.prototype.dataset,Array.prototype.includes"></script>
 
         <!--[if gte IE 9]><!-->
             <script src="/assets/js/main.js"></script>

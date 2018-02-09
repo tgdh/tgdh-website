@@ -1,3 +1,4 @@
+import Headroom from 'headroom.js';
 import whatInput from 'what-input';
 import svg4everybody from 'svg4everybody';
 import SmoothScroll from 'smooth-scroll';
@@ -13,6 +14,10 @@ import StickyHeader from './modules/StickyHeader';
 import TriggerAnimations from './modules/TriggerAnimations';
 import InitHeadroom from './modules/InitHeadroom';
 import CharAllowance from './modules/CharAllowance';
+import Upload from './modules/Upload';
+// import initTabs from './modules/Tabs';
+import EnhanceForms from './modules/EnhanceForms';
+import Brief from './modules/Brief';
 
 (() => {
 	const enhance = 'querySelector' in document
@@ -40,8 +45,25 @@ import CharAllowance from './modules/CharAllowance';
 		Array.from(charLimitEls).forEach((item) => {
 			const charLimitEl = new CharAllowance(item);
 		});
+
+		if (window.matchMedia('(max-width: 999px)').matches) {
+			const header = $('.js-header');
+			const headroom = new Headroom(header);
+			const headerHeight = window.getComputedStyle(header).height;
+			$('body').style.paddingTop = headerHeight;
+			headroom.init();
+		}
+
+		Array.from($$('.js-upload')).forEach((item) => {
+			const fileUpload = new Upload(item);
+		});
+
+		// initTabs();
+
 		TriggerAnimations();
+		new EnhanceForms();
 	}
 	svg4everybody();
 
+	const brief = new Brief($('.js-brief'));
 })();
