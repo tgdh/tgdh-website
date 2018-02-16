@@ -131,7 +131,7 @@ gulp.task('js', function () {
 			commonjs({
 				// non-CommonJS modules will be ignored, but you can also
 				// specifically include/exclude files
-				include: 'node_modules/**',
+				include: ['node_modules/**', paths.assetsFolder + '/js/lib/validate-custom.js'],
 				//exclude: [ 'node_modules/foo/**', 'node_modules/bar/**' ],  // Default: undefined
 				extensions: ['.js'],
 				ignoreGlobal: false,
@@ -142,7 +142,10 @@ gulp.task('js', function () {
 //                }
 			}),
 			babel({
-                exclude: 'node_modules/**/!(image-comparison/ImageComparison.js)'
+                exclude: [
+					'node_modules/**/!(image-comparison/ImageComparison.js)',
+					'node_modules/**/!(bunnyjs)',
+				]
             })
 		],
 	})
@@ -154,6 +157,13 @@ gulp.task('js', function () {
 			sourceMap: true
 		});
 	});
+});
+
+gulp.task('copyScripts', function() {
+    gulp.src( paths.assetsFolder + '/js/legacy/garlicjs/dist/garlic-standalone.min.js')
+    .pipe( $.newer('.tmp/js/garlic-standalone.min.js') )
+    .pipe( gulp.dest('.tmp/js/garlic-standalone.min.js') )
+    .pipe( gulp.dest( paths.assetsBuildFolder + '/js') );
 });
 
 /*
@@ -254,13 +264,13 @@ gulp.task( 'ie', function() {
 
 // Optimize images
 gulp.task('images', function() {
-    return gulp.src( paths.assetsFolder + '/img/**/*')
-        .pipe( $.cache( $.imagemin({
-            progressive: true,
-            interlaced: true
-        })))
+	return gulp.src( paths.assetsFolder + '/img/**/*')
+		.pipe( $.cache( $.imagemin({
+			progressive: true,
+			interlaced: true
+		})))
         .pipe( gulp.dest( paths.assetsBuildFolder + '/img') )
-        .pipe( $.size({title: 'images'}) );
+        .pipe( $.size({title: 'images'}) )
 //        .pipe( $.notify({ message: 'images task complete' }) );
 });
 
@@ -321,12 +331,12 @@ gulp.task('refAssets', ['css','js','js-legacy'], function() {
 // gulp dev
 gulp.task('dev', ['clean'], function() {
     isProduction = false;
-    gulp.start('refAssets', 'images', 'watch', 'copyfonts', 'modernizr', 'icons');
+    gulp.start('refAssets', 'images', 'watch', 'copyfonts', 'modernizr', 'icons', 'copyScripts');
 });
 
 // gulp build
 gulp.task('build', ['clean'], function() {
     isProduction = true;
-    gulp.start('refAssets', 'images', 'copyfonts', 'modernizr', 'icons');
+    gulp.start('refAssets', 'images', 'copyfonts', 'modernizr', 'icons', 'copyScripts');
 });
 /* eslint-enable */

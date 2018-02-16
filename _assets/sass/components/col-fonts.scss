@@ -1,0 +1,22 @@
+/* ===========================================================
+
+  # Col fonts
+
+=========================================================== */
+
+@include respond-max( $mq-medium ) {
+
+	.c-col-fonts__image {
+		max-width: 90%;
+	}
+
+}
+
+
+@include respond-min( $mq-medium ) {
+
+	.c-col-fonts__image {
+		max-width: 75%;
+	}
+
+}

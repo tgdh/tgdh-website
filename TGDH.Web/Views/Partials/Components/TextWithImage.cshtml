@@ -1,0 +1,31 @@
+@inherits UmbracoViewPage<TextWithImageViewModel>
+@{
+	var image = Umbraco.TypedMedia(Model.ImageId);
+	var imageUrl = "";
+	if (image != null) {
+		imageUrl = Url.GetCropUrl(image, cropAlias: "4:3", width: 1200, upScale: false, htmlEncode: false).ToString();
+	}
+
+	if (Model.AlignLeft) {
+		Model.ModifierClass = Model.ModifierClass + " c-text-with-image--reverse";
+	}
+}
+
+<section class="c-text-with-image u-clearfix @Model.ModifierClass">
+	<div class="c-text-with-image__col c-text-with-image__col--content">
+		<div class="c-text-with-image__content">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+				Headline = Model.Headline,
+				Subtitle = Model.Subtitle
+			})
+			@Html.Raw(Model.Text)
+			@if (!String.IsNullOrWhiteSpace(Model.Url)) {
+				var buttonText = !String.IsNullOrWhiteSpace(Model.ButtonText) ? Model.ButtonText : "Find out more";
+				<a href="@Model.Url" class="c-button c-button--primary u-space-top" target="@Model.Target">@buttonText</a>
+			}
+		</div>
+	</div>
+	<div class="c-text-with-image__col c-text-with-image__col--image">
+		<div class="c-text-with-image__image" style="background-image: url(@imageUrl);"></div>
+	</div>
+</section>

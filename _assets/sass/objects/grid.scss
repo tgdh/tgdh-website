@@ -6,10 +6,18 @@
 
 @include respond-max( $mq-small ) {
 
+	.o-grid__item + .o-grid__item {
+		margin-top: $line-height;
+	}
+
 	.o-grid--three {
 
 		.o-grid__item {
 			@include column( 1/2, $cycle: 2 );
+
+			+ .o-grid__item {
+				margin-top: 0;
+			}
 		}
 
 	}
@@ -38,14 +46,6 @@
 			margin-bottom: 2rem;
 		}
 
-	}
-
-}
-
-@include respond-max( $mq-small ) {
-
-	.o-grid__item + .o-grid__item {
-		margin-top: $line-height;
 	}
 
 }

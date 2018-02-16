@@ -25,7 +25,7 @@
     "gulp-cssnano": "^2.1.2",
     "gulp-file-include": "^1.0.0",
     "gulp-if": "^2.0.1",
-    "gulp-imagemin": "^3.3.0",
+    "gulp-imagemin": "^3.4.0",
     "gulp-jshint": "^2.0.1",
     "gulp-load-plugins": "^1.2.4",
     "gulp-modernizr": "1.0.0-alpha",
@@ -51,8 +51,11 @@
     "run-sequence": "^1.2.2"
   },
   "dependencies": {
+    "animorph": "0.0.13",
     "aos": "^2.1.1",
+    "bunnyjs": "^0.14.37",
     "fontfaceobserver": "^2.0.8",
+    "fr-tabs": "^1.0.6",
     "google-maps-api-loader": "^0.3.0",
     "gsap": "^1.19.1",
     "headroom.js": "^0.9.3",
@@ -66,6 +69,7 @@
     "smooth-scroll": "^12.1.5",
     "svg4everybody": "^2.1.7",
     "swiper": "^3.4.1",
+    "validate": "github:cferdinandi/validate",
     "vanilla-tilt": "git+https://github.com/micku7zu/vanilla-tilt.js.git",
     "velocity-animate": "^1.4.2",
     "waypoints": "^4.0.1",

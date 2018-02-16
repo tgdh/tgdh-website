@@ -79,7 +79,7 @@
     var caption = image.GetPropertyValue<string>("caption");
     var altText = image.GetPropertyValue<string>("altText");
 
-    <a href="@imageUrl" target="_blank" class="c-carousel__item">
+    <a href="@imageUrl" target="_blank" rel="noopener" class="c-carousel__item">
         <img src="@imageCropUrl" class="c-carousel__image" alt="@altText"/>
 
         @if (!string.IsNullOrEmpty(caption))

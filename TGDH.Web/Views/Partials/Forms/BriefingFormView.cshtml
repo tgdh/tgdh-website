@@ -21,12 +21,17 @@
 					</div>
 				</header>
 				<div class="u-space-top u-epsilon c-proposal__copy">
-					<p>We're having a few issues at the moment, why not call us on <a href="tel:02392334971">023 9233 4971</a>.</p>
+					<p>We&#39;re having a few issues at the moment, why not call us on <a href="tel:02392334971">023 9233 4971</a>.</p>
 				</div>
 			</div>
 		}
 		@if (success)
 		{
+			var briefingPage = Umbraco.TypedContent(1657);
+			var hasBriefPage = briefingPage != null;
+			var headline = hasBriefPage ? briefingPage.GetPropertyValue<string>("successHeadline") : "Thank you";
+			var subtitle = hasBriefPage ? briefingPage.GetPropertyValue<string>("successSubtitle") : "";
+
 			<div class="o-wrap o-wrap--x-large">
 				<header class="o-col--two-one u-clearfix c-cover__heading">
 					<h1>Thank you</h1>
@@ -35,503 +40,740 @@
 					</div>
 				</header>
 				<div class="u-space-top u-epsilon c-proposal__copy">
-					<p>We will take all of your requirements and get back to you shortly.</p>
+					@if (hasBriefPage) {
+						var briefingPageUrl = briefingPage.Url;
+
+						@Html.Raw(briefingPage.GetPropertyValue<string>("successCopy"))
+						<a href="@briefingPageUrl" class="c-button c-button--primary u-space-top">Request another digital proposal</a>
+					}
 				</div>
 			</div>
+			<script>
+				localStorage.clear();
+			</script>
 		}
 		else
 		{
+			var brief = Umbraco.TypedContent(1657);
+
+			var headline = brief.GetPropertyValue<string>("briefHeadline");
+			var subtitle = brief.GetPropertyValue<string>("briefSubtitle");
+			var copy = brief.GetPropertyValue<string>("briefCopy");
+
 			<div class="o-wrap o-wrap--x-large">
 				<header class="o-col--two-one u-clearfix c-cover__heading">
-					<h1>Digital proposal request</h1>
-					<div class="c-cover__subtitle u-font-sec">
-						<p>Tell us all about your project</p>
-					</div>
+					@if (!string.IsNullOrWhiteSpace(headline)) {
+						<h1>@headline</h1>
+					}
+					@if (!String.IsNullOrWhiteSpace(subtitle)) {
+						<div class="c-cover__subtitle u-font-sec">
+							<p>@subtitle</p>
+						</div>
+						}
 				</header>
-				<div class="u-space-top u-epsilon c-proposal__copy">
-					<p>Above form text: Please follow the steps below to complete the online briefing process.</p>
+				<div class="u-space-top u-epsilon c-proposal__copy u-space-bottom--large">
+					@Html.Raw(copy)
 				</div>
+				@if (error) {
+					<div class="c-notify c-notify--error u-space-bottom">
+						<p>@Html.Raw(TempData["BriefingFormValidationFailed"])</p>
+					</div>
+				}
 			</div>
-			<div class="c-proposal__wrapper o-wrap o-wrap--x-large u-clearfix c-proposal__about">
-				@*
-                <aside class="c-proposal__sidebar first--active">
-                    <div class="c-proposal__title c-cover__heading js-sidebar-link js-active js-about-you showing--pip" id="1">
-                        <h2 class="u-gamma">About you</h2>
-                        <div class="c-cover__subtitle u-font-sec">
-                            <p>Who you are</p>
-                        </div>
-                    </div>
-                    <div class="c-proposal__title c-cover__heading js-sidebar-link js-the-brief" id="2">
-                        <h2 class="u-gamma">The brief</h2>
-                        <div class="c-cover__subtitle u-font-sec">
-                            <p>What you need</p>
-                        </div>
-                    </div>
-                    <div class="c-proposal__title c-cover__heading js-sidebar-link js-build-your-proposal" id="10">
-                        <h2 class="u-gamma">Build your proposal</h2>
-                        <div class="c-cover__subtitle u-font-sec">
-                            <p>Select content which you want included</p>
-                        </div>
-                    </div>
-                </aside>
-				*@
-				<div class="c-proposal__content slide-one">
-                    <div class="c-proposal__span c-proposal__about">
-						@using (Html.BeginUmbracoForm("ProcessFormSubmission", "BriefForm", FormMethod.Post, new { data_persist="garlic", id = "briefing-form", @class = "c-proposal__form js-form" }))
+			<div class="o-wrap o-wrap--x-large">
+				<div class="c-brief u-clearfix js-brief">
+
+<aside class="c-brief__section-pager js-brief-section-pager">
+	<button type="button" class="c-brief__section-pager__item js-brief-section-pager-button js-brief-section-pager-about" data-target="about">
+		<h2 class="c-brief__section-pager__item__headline u-gamma">@brief.GetPropertyValue("aboutHeadlineLeft")</h2>
+		<div class="c-brief__section-pager__item__subtitle u-font-sec">
+			<p>@brief.GetPropertyValue("aboutSubtitleLeft")</p>
+		</div>
+	</button>
+	<button type="button" class="c-brief__section-pager__item js-brief-section-pager-button js-brief-section-pager-brief" data-target="theBrief">
+		<h2 class="c-brief__section-pager__item__headline u-gamma">@brief.GetPropertyValue("briefHeadlineLeft")</h2>
+		<div class="c-brief__section-pager__item__subtitle u-font-sec">
+			<p>@brief.GetPropertyValue("briefSubtitleLeft")</p>
+		</div>
+	</button>
+	<button type="button" class="c-brief__section-pager__item js-brief-section-pager-button js-brief-section-pager-proposal" data-target="proposal">
+		<h2 class="c-brief__section-pager__item__headline u-gamma">@brief.GetPropertyValue("proposalHeadlineLeft")</h2>
+		<div class="c-brief__section-pager__item__subtitle u-font-sec">
+			<p>@brief.GetPropertyValue("proposalSubtitleLeft")</p>
+		</div>
+	</button>
+</aside>
+
+<div class="c-brief__field-wrap">
+						@using (Html.BeginUmbracoForm("ProcessFormSubmission", "BriefForm", FormMethod.Post, new { data_persist="garlic", data_destroy="false", id = "briefing-form", @class = "js-form", @data_validate = "" }))
 						{
 							@Html.AntiForgeryToken()
 
 	@* Start about fields *@
-	<section class="o-section">
-		@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-			Headline = "About you",
-			Subtitle = "How can we get in touch with you?"
-		})
-		<div class="o-form__row o-form__row--two u-clearfix">
-			<div class="o-form__field o-form__field--compact is-required">
-				@Html.TextBoxFor(x => x.YourName, new { required = "required", @class="o-form__input" })
-				@Html.LabelFor(x => x.YourName, new { @class = "o-form__label" })
-				@Html.ValidationMessageFor(x => x.YourName)
-			</div>
-			<div class="o-form__field o-form__field--compact is-required">
-				@Html.TextBoxFor(x => x.PhoneNumber, new { required = "required", @class = "o-form__tel" })
-				@Html.LabelFor(x => x.PhoneNumber, new { @class = "o-form__label" })
-				@Html.ValidationMessageFor(x => x.PhoneNumber)
-			</div>
-		</div>
+	<section id="aboutSection" class="c-brief__section js-brief-section" data-pager-button="js-brief-section-pager-about">
+		<fieldset id="about" class="c-brief__slide js-brief-slide">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+				Headline = brief.GetPropertyValue<string>("aboutHeadlineMain"),
+				Subtitle = brief.GetPropertyValue<string>("aboutSubtitleMain")
+			})
+			<div>
+				<div class="o-form__row o-form__row--two u-clearfix">
+					<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
+						@Html.TextBoxFor(x => x.YourName, new { required = "required", @class="o-form__input" })
+						@Html.LabelFor(x => x.YourName, new { @class = "o-form__label" })
+						@Html.ValidationMessageFor(x => x.YourName)
+					</div>
+					<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
+						@Html.TextBoxFor(x => x.PhoneNumber, new { required = "required", type="tel", @class = "o-form__tel" })
+						@Html.LabelFor(x => x.PhoneNumber, new { @class = "o-form__label" })
+						@Html.ValidationMessageFor(x => x.PhoneNumber)
+					</div>
+				</div>
 
-		<div class="o-form__row o-form__row--two u-clearfix">
-			<div class="o-form__field o-form__field--compact is-required">
-				@Html.TextBoxFor(x => x.EmailAddress, new { required = "", type="email", @class="o-form__input" })
-				@Html.LabelFor(x => x.EmailAddress, new { @class = "o-form__label" })
-				@Html.ValidationMessageFor(x => x.EmailAddress)
-			</div>
+				<div class="o-form__row o-form__row--two u-clearfix">
+					<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
+						@Html.TextBoxFor(x => x.EmailAddress, new { required = "", type="email", @class="o-form__input" })
+						@Html.LabelFor(x => x.EmailAddress, new { @class = "o-form__label" })
+						@Html.ValidationMessageFor(x => x.EmailAddress)
+					</div>
 
-			<div class="o-form__field o-form__field--compact is-required">
-				@Html.TextBoxFor(x => x.CompanyName, new { required = "required", @class="o-form__input" })
-				@Html.LabelFor(x => x.CompanyName, new { @class = "o-form__label" })
-				@Html.ValidationMessageFor(x => x.CompanyName)
+					<div class="o-form__field o-form__field--compact js-floating-label-input is-required">
+						@Html.TextBoxFor(x => x.CompanyName, new { required = "required", @class="o-form__input" })
+						@Html.LabelFor(x => x.CompanyName, new { @class = "o-form__label" })
+						@Html.ValidationMessageFor(x => x.CompanyName)
+					</div>
+				</div>
 			</div>
-		</div>
+			<div class="c-brief__section-actions">
+				<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="theBrief">Next</button>
+			</div>
+		</fieldset>
 	</section>
 	@* End about fields *@
 
 
 	@* Start brief *@
-	<section class="o-section">
-		@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-			Headline = "The brief",
-			Subtitle = "Set a budget and supply or create a brief."
-		})
-		<fieldset class="o-fieldset">
-			<legend class="o-fieldset__legend">Your budget</legend>
-			<ul class="o-fieldset__list o-fieldset__list--half u-clearfix">
-				<li class="o-fieldset__item">
-					@{
-						var budgetId1 = "5-10k";
-					}
-					@Html.RadioButtonFor(x => x.Budget, budgetId1, new {
-						data_storage="false",
-						tabindex="0",
-						required = "",
-						id = budgetId1,
-						@class = "o-form__radio"
-					})
-					<label for="@budgetId1" class="o-form__label o-form__label--alt">
-						<span class="o-form__radio-button"></span>
-						<span class="o-form__radio-label-text">&pound;5k - &pound;10k</span>
-					</label>
-
-				</li>
-				<li class="o-fieldset__item">
-					@{
-						var budgetId2 = "10-20k";
-					}
-					@Html.RadioButtonFor(x => x.Budget, budgetId2, new {
-						data_storage="false",
-						tabindex="0",
-						required = "",
-						id = budgetId2,
-						@class = "o-form__radio"
-					})
-					<label for="@budgetId2" class="o-form__label o-form__label--alt">
-						<span class="o-form__radio-button"></span>
-						<span class="o-form__radio-label-text">&pound;10k - &pound;20k</span>
-					</label>
-				</li>
-				<li class="o-fieldset__item">
-					@{
-						var budgetId3 = "20-30k";
-					}
-					@Html.RadioButtonFor(x => x.Budget, budgetId3, new {
-						data_storage="false",
-						tabindex="0",
-						required = "",
-						id = budgetId3,
-						@class = "o-form__radio"
-					})
-					<label for="@budgetId3" class="o-form__label o-form__label--alt">
-						<span class="o-form__radio-button"></span>
-						<span class="o-form__radio-label-text">&pound;20k - &pound;30k</span>
-					</label>
-				</li>
-				<li class="o-fieldset__item">
-					@{
-						var budgetId4 = "30k+";
-					}
-					@Html.RadioButtonFor(x => x.Budget, budgetId4, new {
-						data_storage="false",
-						tabindex="0",
-						required = "",
-						id = budgetId4,
-						@class = "o-form__radio",
-					})
-					<label for="@budgetId4" class="o-form__label o-form__label--alt">
-						<span class="o-form__radio-button"></span>
-						<span class="o-form__radio-label-text">Over &pound;30k</span>
-					</label>
-				</li>
-			</ul>
-		</fieldset>
-
-		<fieldset class="o-fieldset">
-			<legend class="o-fieldset__legend">Your brief</legend>
-			<ul class="o-fieldset__list u-clearfix">
-				<li class="o-fieldset__item">
-					@{
-						var briefChoiceId1 = "already-have-brief";
-					}
-					@Html.RadioButtonFor(x => x.BreifUploadOrCreation, briefChoiceId1, new {
-						data_storage = "false",
-						tabindex = "0",
-						required = "",
-						id = briefChoiceId1,
-						@class = "o-form__radio"
-					})
-					<label for="@briefChoiceId1" class="o-form__label o-form__label--alt">
-						<span class="o-form__radio-button"></span>
-						<span class="o-form__radio-label-text">Already have a brief</span>
-					</label>
-				</li>
-				<li class="o-fieldset__item">
-					@{
-						var briefChoiceId2 = "create-a-brief";
-					}
-					@Html.RadioButtonFor(x => x.BreifUploadOrCreation, briefChoiceId2, new {
-						data_storage = "false",
-						tabindex = "0",
-						required = "",
-						id = briefChoiceId2,
-						@class = "o-form__radio"
-					})
-					<label for="@briefChoiceId2" class="o-form__label o-form__label--alt">
-						<span class="o-form__radio-button"></span>
-						<span class="o-form__radio-label-text">Create your own brief</span>
-					</label>
-				</li>
-			</ul>
-		</fieldset>
-
-		@* upload *@
-		<div class="">
-			@Html.TextBoxFor(x => x.Attachment, new {
-				data_storage="false",
-				type = "file",
-				tabindex="0",
-				@required = "",
-				@class = "",
-				@name = "brief-file",
-				@id = "file-upload",
-				@accepts = "application/pdf, application/msword"
+	<div id="briefSection" class="c-brief__section js-brief-section" data-brief-section-headline="The brief" data-brief-section-subtitle="What you need" data-pager-button="js-brief-section-pager-brief">
+		<fieldset id="theBrief" class="c-brief__slide js-brief-slide">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+				Headline = brief.GetPropertyValue<string>("briefHeadlineMain"),
+				Subtitle = brief.GetPropertyValue<string>("briefSubtitleMain")
 			})
-			<div style="display: none;">
-				<svg class="u-icon u-icon--32">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#arrow-up"></use>
-				</svg>
-				<span>Drag & Drop<br> to upload</span>
-				<p><span>Click here</span> to change upload</p>
-				<p>*Max 2MB size</p>
-			</div>
-		</div>
+			<fieldset class="o-fieldset">
+				<legend class="o-fieldset__legend">Your budget</legend>
+				<ul class="o-fieldset__list o-fieldset__list--half u-clearfix">
+					<li class="o-fieldset__item">
+						@{
+							var budgetId1 = "5-10k";
+						}
+						@Html.RadioButtonFor(x => x.Budget, budgetId1, new {
+							data_storage="false",
+							tabindex="0",
+							@checked = true,
+							id = budgetId1,
+							@class = "o-form__radio"
+						})
+						<label for="@budgetId1" class="o-form__label o-form__label--alt">
+							<span class="o-form__radio-button"></span>
+							<span class="o-form__radio-label-text">&pound;5k - &pound;10k</span>
+						</label>
 
-	</section>
-	@* End  brief *@
+					</li>
+					<li class="o-fieldset__item">
+						@{
+							var budgetId2 = "10-20k";
+						}
+						@Html.RadioButtonFor(x => x.Budget, budgetId2, new {
+							data_storage="false",
+							tabindex="0",
+							id = budgetId2,
+							@class = "o-form__radio"
+						})
+						<label for="@budgetId2" class="o-form__label o-form__label--alt">
+							<span class="o-form__radio-button"></span>
+							<span class="o-form__radio-label-text">&pound;10k - &pound;20k</span>
+						</label>
+					</li>
+					<li class="o-fieldset__item">
+						@{
+							var budgetId3 = "20-30k";
+						}
+						@Html.RadioButtonFor(x => x.Budget, budgetId3, new {
+							data_storage="false",
+							tabindex="0",
+							id = budgetId3,
+							@class = "o-form__radio"
+						})
+						<label for="@budgetId3" class="o-form__label o-form__label--alt">
+							<span class="o-form__radio-button"></span>
+							<span class="o-form__radio-label-text">&pound;20k - &pound;30k</span>
+						</label>
+					</li>
+					<li class="o-fieldset__item">
+						@{
+							var budgetId4 = "over30k";
+						}
+						@Html.RadioButtonFor(x => x.Budget, budgetId4, new {
+							data_storage="false",
+							tabindex="0",
+							id = budgetId4,
+							@class = "o-form__radio",
+						})
+						<label for="@budgetId4" class="o-form__label o-form__label--alt">
+							<span class="o-form__radio-button"></span>
+							<span class="o-form__radio-label-text">Over &pound;30k</span>
+						</label>
+					</li>
+				</ul>
+			</fieldset>
 
+			<fieldset class="o-fieldset js-brief-options u-space-top">
+				<legend class="o-fieldset__legend">Your brief</legend>
+				<ul class="o-fieldset__list u-clearfix">
+					<li class="o-fieldset__item">
+						@{
+							var briefChoiceId1 = "already-have-brief";
+						}
+						@Html.RadioButtonFor(x => x.BreifUploadOrCreation, briefChoiceId1, new {
+							data_storage = "false",
+							tabindex = "0",
+							id = briefChoiceId1,
+							@class = "o-form__radio js-has-brief"
+						})
+						<label for="@briefChoiceId1" class="o-form__label o-form__label--alt">
+							<span class="o-form__radio-button"></span>
+							<span class="o-form__radio-label-text">Already have a brief</span>
+						</label>
+					</li>
+					<li class="o-fieldset__item">
+						@{
+							var briefChoiceId2 = "create-a-brief";
+						}
+						@Html.RadioButtonFor(x => x.BreifUploadOrCreation, briefChoiceId2, new {
+							data_storage = "false",
+							tabindex = "0",
+							@checked = true,
+							id = briefChoiceId2,
+							@class = "o-form__radio js-create-brief"
+						})
 
-	@* Star brief - fields *@
-	<section class="o-section">
-		@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-			Headline = "The briefing form",
-			Subtitle = "Answer the following questions as far as you are able. Please put don't know if you're not sure."
-		})
-		@* 1/7 *@
-		@{
-			var subHead1 = "Project summary";
-			var subTitle1 = "State general project information";
-		}
-		<div class="o-section">
-			<div class="u-space-bottom">
-				<h3 class="u-delta">@subHead1</h3>
-				<p>@subTitle1</p>
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.PurposesOfTheNewSite, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.PurposesOfTheNewSite, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
+						<label for="@briefChoiceId2" class="o-form__label o-form__label--alt">
+							<span class="o-form__radio-button"></span>
+							<span class="o-form__radio-label-text">Create your own brief</span>
+						</label>
+					</li>
+				</ul>
+				@{
+					var fileUploadId = "file-upload";
+				}
+				<div class="c-upload js-upload c-brief__upload-field js-brief-upload-field is-hidden">
+					<div class="c-upload__inner">
+						@Html.TextBoxFor(x => x.Attachment, new {
+							data_storage = "false",
+							type = "file",
+							tabindex= "0",
+							@class = "c-upload__input",
+							@name = "brief-file",
+							@id = fileUploadId,
+							@accepts = "application/pdf, application/msword",
+							@disabled = "true"
+						})
+						<label class="c-upload__label" for="@fileUploadId">
+							<svg class="c-upload__icon u-icon u-icon--24">
+								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#arrow-up"></use>
+							</svg>
+							<span class="c-upload__text js-upload-text">Choose a file&hellip;</span>
+						</label>
+					</div>
+					<div class="c-upload__note">*Max 2MB size</div>
+					@Html.ValidationMessageFor(x => x.Attachment)
+				</div>
+			</fieldset>
 
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.SecondaryGoalsOfTheNewSite, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.SecondaryGoalsOfTheNewSite, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
+			<div class="c-brief__section-actions">
+				<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields1" data-target-skip-brief="proposal">Next</button>
+				<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="about">Back</button>
 			</div>
+		</fieldset>
+		@* End  brief *@
 
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.ThreeYearsTime, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.ThreeYearsTime, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-		</div>
-		@* 2/7 *@
 		@{
-			var subHead2 = "Audience profile";
-			var subTitle2 = "Profile the target audience. Provide enough detail to enhance everyones understanding of who the audience is. Include some audience demographic information. Your goal with this section is to answer the following: Who is the target? What do they care about? And what they do online on a daily basis?";
+			var briefingFormHeadline = brief.GetPropertyValue<string>("briefHeadline2Main");
+			var briefingFormSubtitle = brief.GetPropertyValue<string>("briefSubtitle2Main");
 		}
-		<div class="o-section">
-			<div class="u-space-bottom">
-				<h3 class="u-delta">@subHead2</h3>
-				<p>@subTitle2</p>
-			</div>
 
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.CurrentTargetAudience, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.CurrentTargetAudience, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
+		@* Start brief - fields *@
+		<fieldset class="js-brief-create-brief-fields">
+			@* 1/7 *@
+			@{
+				var subHead1 = brief.GetPropertyValue<string>("briefHeadline1");
+				var subTitle1 = brief.GetPropertyValue<string>("briefCopy1");
+			}
+			<fieldset id="briefFields1" class="c-brief__slide js-brief-slide">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+					Headline = briefingFormHeadline,
+					Subtitle = briefingFormSubtitle
 				})
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.TypicalTask, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.TypicalTask, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.CurrentVisitorInformation, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.CurrentVisitorInformation, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-		</div>
-		@* 3/7 *@
-		@{
-			var subHead3 = "Perception/tone/guidelines";
-			var subTitle3 = "How should your target audience respond to your new online presence?";
-		}
-		<div class="o-section">
-			<div class="u-space-bottom">
-				<h3 class="u-delta">@subHead3</h3>
-				<p>@subTitle3</p>
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.TargetAudienceThinkAndFeel, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.TargetAudienceThinkAndFeel, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.WhatYouWantAudienceThinkAndFeel, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.WhatYouWantAudienceThinkAndFeel, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.ImproveWebsiteAchieve, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.ImproveWebsiteAchieve, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.AdjectivesDescribePerceived, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.AdjectivesDescribePerceived, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-		</div>
-		@* 4/7 *@
-		@{
-			var subHead4 = "Communication strategy";
-			var subTitle4 = "How will we convince them?";
-		}
-		<div class="o-section">
-			<div class="u-space-bottom">
-				<h3 class="u-delta">@subHead4</h3>
-				<p>@subTitle4</p>
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.OverallMessage, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.OverallMessage, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.MeasureSuccess, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.MeasureSuccess, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-		</div>
-		@* 5/7 *@
-		@{
-			var subHead5 = "Competitive positioning";
-			var subTitle5 = "How you are different from your competition. What are the factors that will make you a success?";
-		}
-		<div class="o-section">
-			<div class="u-space-bottom">
-				<h3 class="u-delta">@subHead5</h3>
-				<p>@subTitle5</p>
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.DistinctiveFeatures, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.DistinctiveFeatures, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.DistinctiveFeatures, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.DistinctiveFeatures, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.CurrentSiteSuccess, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.CurrentSiteSuccess, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.CurrentSiteFlaws, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.CurrentSiteFlaws, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.AdditionalFeatures, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.AdditionalFeatures, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-		</div>
-		@* 6/7 *@
-		@{
-			var subHead6 = "Resources";
-			var subTitle6 = "How you will be able to maintain the new site.";
-		}
-		<div class="o-section">
-			<div class="u-space-bottom">
-				<h3 class="u-delta">@subHead6</h3>
-				<p>@subTitle6</p>
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.ResourcesManageNewSite, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.ResourcesManageNewSite, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-		</div>
-		@* 7/7 *@
-		@{
-			var subHead7 = "Targeted message";
-		}
-		<div class="o-section">
-			<div class="u-space-bottom">
-				<h3 class="u-delta">@subHead7</h3>
-			</div>
-			<div class="o-form__field">
-				@Html.LabelFor(x => x.ConcicePhrase, new { @class = "o-form__label" })
-				@Html.TextAreaFor(x => x.ConcicePhrase, new {
-					tabindex="0",
-					required="",
-					@class = "o-form__textarea",
-					@placeholder = "Enter your text..."
-				})
-			</div>
-		</div>
-	</section>
-	@* End brief - fields*@
+				<div class="c-brief__slide__page">1/7</div>
+				<div class="u-space-bottom--large">
+					<h3 class="u-delta">@subHead1</h3>
+					@Html.Raw(subTitle1)
+				</div>
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.PurposesOfTheNewSite, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.PurposesOfTheNewSite, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
 
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.SecondaryGoalsOfTheNewSite, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.SecondaryGoalsOfTheNewSite, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.ThreeYearsTime, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.ThreeYearsTime, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="c-brief__section-actions">
+					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields2">Next</button>
+					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="theBrief">Back</button>
+				</div>
+			</fieldset>
+			@* 2/7 *@
+			@{
+				var subHead2 = brief.GetPropertyValue<string>("briefHeadline2");
+				var subTitle2 = brief.GetPropertyValue<string>("briefCopy2");
+			}
+			<fieldset id="briefFields2" class="c-brief__slide js-brief-slide">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+					Headline = briefingFormHeadline,
+					Subtitle = briefingFormSubtitle
+				})
+				<div class="c-brief__slide__page">2/7</div>
+				<div class="u-space-bottom--large">
+					<h3 class="u-delta">@subHead2</h3>
+					@Html.Raw(subTitle2)
+				</div>
+
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.CurrentTargetAudience, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.CurrentTargetAudience, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.TypicalTask, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.TypicalTask, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.CurrentVisitorInformation, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.CurrentVisitorInformation, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="c-brief__section-actions">
+					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields3">Next</button>
+					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields1">Back</button>
+				</div>
+			</fieldset>
+			@* 3/7 *@
+			@{
+				var subHead3 = brief.GetPropertyValue<string>("briefHeadline3");
+				var subTitle3 = brief.GetPropertyValue<string>("briefCopy3");
+			}
+			<fieldset id="briefFields3" class="c-brief__slide js-brief-slide">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+					Headline = briefingFormHeadline,
+					Subtitle = briefingFormSubtitle
+				})
+				<div class="c-brief__slide__page">3/7</div>
+				<div class="u-space-bottom--large">
+					<h3 class="u-delta">@subHead3</h3>
+					@Html.Raw(subTitle3)
+				</div>
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.TargetAudienceThinkAndFeel, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.TargetAudienceThinkAndFeel, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.WhatYouWantAudienceThinkAndFeel, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.WhatYouWantAudienceThinkAndFeel, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.ImproveWebsiteAchieve, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.ImproveWebsiteAchieve, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.AdjectivesDescribePerceived, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.AdjectivesDescribePerceived, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="c-brief__section-actions">
+					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields4">Next</button>
+					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields2">Back</button>
+				</div>
+			</fieldset>
+			@* 4/7 *@
+			@{
+				var subHead4 = brief.GetPropertyValue<string>("briefHeadline4");
+				var subTitle4 = brief.GetPropertyValue<string>("briefCopy4");
+			}
+			<fieldset id="briefFields4" class="c-brief__slide js-brief-slide">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+					Headline = briefingFormHeadline,
+					Subtitle = briefingFormSubtitle
+				})
+				<div class="c-brief__slide__page">4/7</div>
+				<div class="u-space-bottom--large">
+					<h3 class="u-delta">@subHead4</h3>
+					@Html.Raw(subTitle4)
+				</div>
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.OverallMessage, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.OverallMessage, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.MeasureSuccess, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.MeasureSuccess, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="c-brief__section-actions">
+					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields5">Next</button>
+					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields3">Back</button>
+				</div>
+			</fieldset>
+			@* 5/7 *@
+			@{
+				var subHead5 = brief.GetPropertyValue<string>("briefHeadline5");
+				var subTitle5 = brief.GetPropertyValue<string>("briefCopy5");
+			}
+			<fieldset id="briefFields5" class="c-brief__slide js-brief-slide">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+					Headline = briefingFormHeadline,
+					Subtitle = briefingFormSubtitle
+				})
+				<div class="c-brief__slide__page">5/7</div>
+				<div class="u-space-bottom--large">
+					<h3 class="u-delta">@subHead5</h3>
+					@Html.Raw(subTitle5)
+				</div>
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.DistinctiveFeatures, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.DistinctiveFeatures, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.CurrentSiteSuccess, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.CurrentSiteSuccess, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.CurrentSiteFlaws, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.CurrentSiteFlaws, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.AdditionalFeatures, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.AdditionalFeatures, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="c-brief__section-actions">
+					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields6">Next</button>
+					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields4">Back</button>
+				</div>
+			</fieldset>
+			@* 6/7 *@
+			@{
+				var subHead6 = brief.GetPropertyValue<string>("briefHeadline6");
+				var subTitle6 = brief.GetPropertyValue<string>("briefCopy6");
+			}
+			<fieldset id="briefFields6" class="c-brief__slide js-brief-slide">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+					Headline = briefingFormHeadline,
+					Subtitle = briefingFormSubtitle
+				})
+				<div class="c-brief__slide__page">6/7</div>
+				<div class="u-space-bottom--large">
+					<h3 class="u-delta">@subHead6</h3>
+					@Html.Raw(subTitle6)
+				</div>
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.ResourcesManageNewSite, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.ResourcesManageNewSite, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="c-brief__section-actions">
+					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="briefFields7">Next</button>
+					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields5">Back</button>
+				</div>
+			</fieldset>
+			@* 7/7 *@
+			@{
+				var subHead7 = brief.GetPropertyValue<string>("briefHeadline7");
+				var subTitle7 = brief.GetPropertyValue<string>("briefCopy7");
+			}
+			<fieldset id="briefFields7" class="c-brief__slide js-brief-slide">
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+					Headline = briefingFormHeadline,
+					Subtitle = briefingFormSubtitle
+				})
+				<div class="c-brief__slide__page">7/7</div>
+				<div class="u-space-bottom--large">
+					<h3 class="u-delta">@subHead7</h3>
+					@Html.Raw(subTitle7)
+				</div>
+				<div class="o-form__field">
+					@Html.LabelFor(x => x.ConcicePhrase, new { @class = "o-form__label" })
+					@Html.TextAreaFor(x => x.ConcicePhrase, new {
+						tabindex="0",
+						required="",
+						@class = "o-form__textarea",
+						@placeholder = "Enter your text..."
+					})
+				</div>
+				<div class="c-brief__section-actions">
+					<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="proposal">Next</button>
+					<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="briefFields6">Back</button>
+				</div>
+			</fieldset>
+		</fieldset>
+		@* End brief - fields*@
+	</div>
 
 	@* Start about fields *@
-	<section class="o-section">
-		@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
-			Headline = "Build your proposal",
-			Subtitle = "Make choices to tell us what content you would like included in your proposal."
-		})
+	<section id="proposalSection" class="c-brief__section js-brief-section js-brief-section-proposal" data-brief-section-headline="Build your proposal" data-brief-section-subtitle="Refine your requirements" data-pager-button="js-brief-section-pager-proposal">
+		<fieldset id="proposal" class="c-brief__slide js-brief-slide">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+				Headline = brief.GetPropertyValue<string>("proposalHeadlineMain"),
+				Subtitle = brief.GetPropertyValue<string>("proposalSubtitleMain"),
+			})
+
+			@brief.GetPropertyValue("proposalCopy")
+			<hr class="u-space-bottom">
+
+			@if( Model.Profiles != null ) {
+				<fieldset class="o-fieldset">
+					<legend class="o-fieldset__legend">The profiles</legend>
+					<ul class="o-fieldset__list o-grid--three u-clearfix">
+						@for ( var i = 0; i < Model.Profiles.Count(); i++ ) {
+							var inputId = "Profiles_" + i + "__Checked";
+							var imageName = Model.Profiles[i].Name.ToUrlSegment();
+							var imageUrl = "/assets/img/briefing-form/profiles/" + imageName + ".jpg?width=200";
+
+							<div class="c-image-checkbox o-grid__item">
+								@Html.CheckBoxFor(x => Model.Profiles[i].Checked, new {
+									@class = "o-form__checkbox"
+								})
+								<label for="@inputId" class="o-form__label o-form__label--alt">
+									<div class="c-image-checkbox__image-wrap o-aspect--1-1">
+										<img src="@Model.Profiles[i].ImageUrl" alt="@Html.DisplayFor(x => Model.Profiles[i].Name)" class="c-image-checkbox__image">
+									</div>
+									<div class="c-image-checkbox__content">
+										<span class="o-form__checkbox-button">
+											<div class="o-form__checkbox-icon"></div>
+										</span>
+										<span class="o-form__checkbox-label-text">@Html.DisplayFor(x => Model.Profiles[i].Name)</span>
+										<div class="o-image-checkbox__subtitle u-font-sec">@Model.Profiles[i].Subtitle</div>
+									</div>
+									@Html.HiddenFor(x => Model.Profiles[i].Name)
+								</label>
+							</div>
+						}
+					</ul>
+				</fieldset>
+			}
+			@if( Model.CaseStudies != null ) {
+				<hr class="u-space-bottom">
+				<fieldset class="o-fieldset">
+					<legend class="o-fieldset__legend">Case studies</legend>
+					<ul class="o-fieldset__list o-grid--three u-clearfix">
+					@for ( var i = 0; i < Model.CaseStudies.Count(); i++ ) {
+						var inputId = "CaseStudies_" + i + "__Checked";
+@*
+						var imageName = Model.CaseStudies[i].Name.ToUrlSegment();
+						var imageUrl = "/assets/img/briefing-form/case-studies/" + imageName + ".jpg";
+*@
+						<li class="c-image-checkbox o-grid__item">
+							@Html.CheckBoxFor(x => Model.CaseStudies[i].Checked, new {
+								@class = "o-form__checkbox"
+							})
+							<label for="@inputId" class="o-form__label o-form__label--alt">
+								<div class="c-image-checkbox__image-wrap o-aspect--1-1">
+									<img src="@Model.CaseStudies[i].ImageUrl" alt="@Html.DisplayFor(x => Model.CaseStudies[i].Name)" class="c-image-checkbox__image">
+								</div>
+								<div class="c-image-checkbox__content">
+									<span class="o-form__checkbox-button">
+										<div class="o-form__checkbox-icon"></div>
+									</span>
+									<span class="o-form__checkbox-label-text">@Html.DisplayFor(x => Model.CaseStudies[i].Name)</span>
+									<div class="o-image-checkbox__subtitle u-font-sec">@Model.CaseStudies[i].Subtitle</div>
+								</div>
+								@Html.HiddenFor(x => Model.CaseStudies[i].Name)
+							</label>
+						</li>
+					}
+					</ul>
+				</fieldset>
+			}
+			<div class="c-brief__section-actions">
+				<button class="c-brief__button--next c-button c-button--secondary js-brief-next" type="button" data-target="proposal2">Next</button>
+				<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="theBrief">Back</button>
+			</div>
+		</fieldset>
+		<fieldset id="proposal2" class="c-brief__slide js-brief-slide">
+			@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+				Headline = brief.GetPropertyValue<string>("proposalHeadline2Main"),
+				Subtitle = brief.GetPropertyValue<string>("proposalSubtitle2Main"),
+			})
+
+			@if (Model.Workflow != null) {
+				<fieldset class="o-fieldset">
+					<legend class="o-fieldset__legend u-space-bottom--small">Workflow</legend>
+					@brief.GetPropertyValue("proposalWorkflowCopy")
+					<ul class="o-fieldset__list o-fieldset__list--half u-clearfix">
+						@for ( var i = 0; i < Model.Workflow.Count(); i++ ) {
+							var inputId = "Workflow_" + i + "__Checked";
+							var note = Model.Workflow[i].Note;
+
+							<li class="o-fieldset__item">
+								@Html.CheckBoxFor(x => Model.Workflow[i].Checked, new {
+									@class = "o-form__checkbox"
+								})
+								<label for="@inputId" class="o-form__label o-form__label--alt">
+									<span class="o-form__checkbox-button">
+										<div class="o-form__checkbox-icon"></div>
+									</span>
+									<span class="o-form__checkbox-label-text">
+										@Html.DisplayFor(x => Model.Workflow[i].Name)
+										@if (!String.IsNullOrEmpty(note)) {
+											<span class="o-form__checkbox-label-note">(@note)</span>
+										}
+									</span>
+									@Html.HiddenFor(x => Model.Workflow[i].Name)
+								</label>
+							</li>
+
+						}
+					</ul>
+				</fieldset>
+			}
+			@if (Model.ProjectSpecifics != null) {
+				<hr class="u-space-top">
+				<fieldset class="o-fieldset u-space-top">
+					<legend class="o-fieldset__legend u-space-bottom--small">Project specifics</legend>
+					@brief.GetPropertyValue("proposalProjectSpecificsCopy")
+					<ul class="o-fieldset__list o-fieldset__list--half u-clearfix">
+						@for ( var i = 0; i < Model.ProjectSpecifics.Count(); i++ ) {
+							var inputId = "ProjectSpecifics_" + i + "__Checked";
+							var note = Model.ProjectSpecifics[i].Note;
+
+							<li class="o-fieldset__item">
+								@Html.CheckBoxFor(x => Model.ProjectSpecifics[i].Checked, new {
+									@class = "o-form__checkbox"
+								})
+								<label for="@inputId" class="o-form__label o-form__label--alt">
+									<span class="o-form__checkbox-button">
+										<div class="o-form__checkbox-icon"></div>
+									</span>
+									<span class="o-form__checkbox-label-text">
+										@Html.DisplayFor(x => Model.ProjectSpecifics[i].Name)
+										@if (!String.IsNullOrEmpty(note)) {
+											<span class="o-form__checkbox-label-note">(@note)</span>
+										}
+									</span>
+									@Html.HiddenFor(x => Model.ProjectSpecifics[i].Name)
+								</label>
+							</li>
+
+						}
+					</ul>
+				</fieldset>
+			}
+			<div class="c-brief__section-actions">
+				<button class="c-brief__button--next c-button c-button--secondary c-button--submit">Submit</button>
+				<button class="c-brief__button--prev c-button c-button--secondary js-brief-prev" type="button" data-target="proposal">Back</button>
+			</div>
+		</fieldset>
 	</section>
 
 
-							<button class="c-button c-button--primary">Submit</button>
-
 						}
+	</div>
 					</div>
 				</div>
-			</div>
 		}
 	</div>
 </main>

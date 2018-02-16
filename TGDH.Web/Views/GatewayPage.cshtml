@@ -1,0 +1,18 @@
+﻿@inherits UmbracoViewPage<IPublishedContent>
+@{
+    Layout = "Master.cshtml";
+
+	var cover = new CoverViewModel {
+		ImageIds = Model.GetPropertyValue<string>("coverImage"),
+		Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
+		Subtitle = Model.GetPropertyValue<IHtmlString>("coverSubtitle"),
+		SubtitleLabel = Model.GetPropertyValue<string>("coverSubtitleLabel"),
+		Copy = Model.GetPropertyValue<IHtmlString>("coverCopy"),
+		Cta = Model.GetPropertyValue<string>("coverCta")
+	};
+}
+
+<main id="main" class="o-page__content" role="main">
+	@Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
+	@Html.CachedPartial("~/Views/Partials/Modules/GatewayListing.cshtml", Model, 43200, true)
+</main>

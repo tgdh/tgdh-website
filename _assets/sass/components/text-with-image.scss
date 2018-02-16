@@ -1,0 +1,115 @@
+/* ===========================================================
+
+	# Text with image
+
+=========================================================== */
+
+.c-text-with-image__col--image {
+	display: flex;
+}
+
+.c-text-with-image__image {
+	width: 100%;
+	background-color: $placeholder-colour;
+	background-size: cover;
+	@include pad-top(40,30);
+}
+
+.c-text-with-image__content {
+	padding: 4rem 2rem;
+}
+
+@include respond-min-max( $mq-small, $mq-medium ) {
+
+	.c-text-with-image__content {
+		padding-left: 3rem;
+		padding-right: 3rem;
+	}
+
+}
+
+@include respond-min( $mq-medium ) {
+
+	.c-text-with-image__content {
+		max-width: $wrap-x-large / 2;
+		margin-left: auto;
+		padding: $padding-medium $padding-medium $padding-medium 4rem;
+	}
+
+	.c-text-with-image__col {
+		width: 50%;
+		float: left;
+		margin: 0;
+	}
+
+	.flexbox {
+
+		.c-text-with-image--reverse {
+
+			.c-text-with-image__content {
+				margin-right: auto;
+				margin-left: inherit;
+				padding-left: $padding-medium;
+				padding-right: 4rem;
+			}
+
+			.c-text-with-image__col--image {
+				order: -1;
+			}
+
+		}
+
+		.c-text-with-image {
+			display: flex;
+		}
+
+		.c-text-with-image__image {
+			flex: 1 1 auto;
+		}
+
+		.c-text-with-image__col--content {
+			display: flex;
+			align-items: center;
+		}
+
+	}
+
+	.no-flexbox {
+
+		.c-text-with-image {
+			position: relative;
+		}
+
+		.c-text-with-image__image {
+			width: 50%;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			padding-top: 0;
+		}
+
+	}
+
+}
+
+@include respond-min($mq-x-large) {
+
+	.c-text-with-image__content {
+		padding-top: $padding-large;
+		padding-bottom: $padding-large;
+		padding-right: $padding-large;
+	}
+
+	.flexbox {
+
+		.c-text-with-image--reverse {
+
+			.c-text-with-image__content {
+				padding-left: $padding-large;
+			}
+
+		}
+
+	}
+
+}

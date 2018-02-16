@@ -1,0 +1,110 @@
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var heading = new HeadingViewModel {
+        Headline = Model.GetPropertyValue<string>("headline"),
+        Subtitle = Model.GetPropertyValue<string>("subtitle")
+    };
+
+	var componentSelection = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("pod");
+	var buttonJson = Model.GetPropertyValue<string>("button");
+}
+
+<div class="o-section__inner o-wrap o-wrap--x-large m-two-col-text-component">
+	@Html.Partial("~/Views/Partials/Components/Heading.cshtml", heading)
+	<div class="o-col--two-one u-clearfix">
+		<div class="o-col o-col--first">
+			@Model.GetPropertyValue("text")
+
+			@if(!String.IsNullOrWhiteSpace(buttonJson)) {
+				var button = Json.Decode(buttonJson);
+				if( button != null ) {
+					<a href="@button.Url" target="@button.Target" class="c-button c-button--primary u-space-top--large">@button.Name</a>
+				}
+			}
+		</div>
+		<div class="o-col o-col--last">
+			@if (componentSelection != null) {
+				var component = componentSelection.FirstOrDefault();
+				switch (component.DocumentTypeAlias) {
+					case "headlineWithList":
+						@RenderHeadlineWithList(component)
+						break;
+					case "textarea":
+						@component.GetPropertyValue("text")
+						break;
+					case "results":
+						@Html.Partial("~/Views/Partials/Components/Stats.cshtml", new StatsViewModel {
+							Stats = component.GetPropertyValue<IEnumerable<IPublishedContent>>("results")
+						})
+						break;
+					case "card":
+						var linkJson = component.GetPropertyValue<string>("link");
+						var hasLinkJson = !String.IsNullOrWhiteSpace(linkJson);
+						var linkUrl = "";
+						if (hasLinkJson) {
+							var link = Json.Decode(linkJson);
+							if( link != null ) {
+								linkUrl = link.Url;
+							}
+						}
+
+						@Html.Partial("~/Views/Partials/Components/Card.cshtml", new CardViewModel {
+							Category = component.GetPropertyValue<string>("label"),
+							Headline = component.GetPropertyValue<string>("headline"),
+							CoverImage = Umbraco.TypedMedia(component.GetPropertyValue<int>("coverImage")),
+							Thumbnail = Umbraco.TypedMedia(component.GetPropertyValue<int>("thumbnailImage")),
+							Url = linkUrl,
+							ModifierClass = "m-two-col-text-component__card"
+						})
+						break;
+					case "mobileImage":
+						@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", new DeviceFrameViewModel {
+							ImageId = component.GetPropertyValue<int>("image"),
+							Type = "mobile",
+							ModifierClass = "m-two-col-text-component__mobile"
+						})
+						break;
+					case "simpleImage":
+						@Html.Partial("~/Views/Partials/PageComponents/Image.cshtml", new ImageViewModel
+						{
+							ImageId = component.GetPropertyValue<int>("image"),
+							AspectRatio = component.GetPropertyValue<string>("aspectRatio"),
+							ImageWidth = 600,
+							AdditionalClass = "m-two-col-text-component__image"
+						})
+						break;
+					default:
+						<p>No render for <strong>@component.DocumentTypeAlias</strong></p>
+						break;
+				}
+			}
+		</div>
+	</div>
+</div>
+
+@helper RenderHeadlineWithList(IPublishedContent item) {
+	if (item == null) {
+		return;
+	}
+	var headline = item.GetPropertyValue<string>("headline");
+	var list = item.GetPropertyValue<string[]>("listItems").Where(x => !String.IsNullOrWhiteSpace(x));
+	var listStyle = "";
+	switch (item.GetPropertyValue<string>("listStyle")) {
+		case "2 columns":
+			listStyle = "o-list--col-two";
+			break;
+		default:
+			listStyle = "o-list--simple";
+			break;
+	}
+	if (!String.IsNullOrWhiteSpace(headline)) {
+		<h3 class="u-zeta">@headline</h3>
+	}
+	if (list.Any()) {
+		<ul class="@listStyle u-font-sec u-font--small">
+			@foreach(var listItem in list) {
+				<li>@listItem</li>
+			}
+		</ul>
+	}
+}

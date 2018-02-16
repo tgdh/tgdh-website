@@ -11,7 +11,7 @@
 	var paging = Paging.GetPages(filteredPosts.Count);
 	var selection = filteredPosts.Skip(paging.Skip).Take(paging.Take).ToList();
 
-	var coverModel = new CoverViewModel {
+	var cover = new CoverViewModel {
 		ImageIds = Model.GetPropertyValue<string>("coverImage"),
 		Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
 		Subtitle = Model.GetPropertyValue<IHtmlString>("coverSubtitle"),
@@ -22,8 +22,8 @@
 }
 
 <main id="main" class="o-page__content" role="main">
-	@Html.Partial("~/Views/Partials/Components/Cover.cshtml", coverModel)
-	@Html.Partial("~/Views/Partials/Journal/FeaturedPost.cshtml")
+	@Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
+	@Html.CachedPartial("~/Views/Partials/Journal/FeaturedPost.cshtml", Model, 43200)
 
 	<div id="posts" class="o-wrap o-wrap--x-large o-section o-col--two-one u-clearfix">
 		<h2 class="u-font-sec u-zeta u-em-style u-beta">All articles</h2>
@@ -53,7 +53,7 @@
 			}
 		</div>
 		<div class="o-col o-col--last">
-			@Html.Partial("~/Views/Partials/Journal/Categories.cshtml")
+			@Html.CachedPartial("~/Views/Partials/Journal/Categories.cshtml", Model, 43200, true)
 		</div>
 
 	</div>

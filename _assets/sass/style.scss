@@ -81,8 +81,17 @@
 		'components/profile-card',
 		'components/desktop-frame',
 		'components/mobile-frame',
+		'components/tablet-frame',
 		'components/offset-image-column',
-		'components/logos';
+		'components/logos',
+		'components/col-fonts',
+		'components/text-with-image',
+		'components/image-checkbox',
+		'components/tabs',
+		'components/upload',
+		'components/brief';
+
+@import 'modules/two-col-text-component';
 
 @import 'utility/overrides',
 		'utility/hide',

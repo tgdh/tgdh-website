@@ -2,7 +2,6 @@
 @{
     Layout = "Master.cshtml";
 
-
 	var cover = new CoverViewModel {
 		ImageIds = Model.GetPropertyValue<string>("coverImage"),
 		Headline = Model.HasValue("coverHeadline") ? Model.GetPropertyValue<string>("coverHeadline") : Model.Name,
@@ -15,5 +14,5 @@
 
 <main id="main" class="o-page__content" role="main">
 	@Html.Partial("~/Views/Partials/Components/Cover.cshtml", cover)
-	@Html.Partial("~/Views/Partials/CaseStudies/CaseStudyListing.cshtml")
+	@Html.CachedPartial("~/Views/Partials/CaseStudies/CaseStudyListing.cshtml", Model, 43200)
 </main>

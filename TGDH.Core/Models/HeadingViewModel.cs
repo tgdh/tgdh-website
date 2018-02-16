@@ -6,4 +6,6 @@ public class HeadingViewModel
     public string Subtitle { get; set; }
 
     public bool IsCenter { get; set; }
+
+    public string ModifierClass { get; set; }
 }

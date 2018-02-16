@@ -17,3 +17,11 @@
 .u-space-bottom--large {
 	margin-bottom: $line-height * 2;
 }
+
+.u-space-bottom--small {
+	margin-bottom: $line-height / 2;
+}
+
+.u-space-top--small {
+	margin-top: $line-height / 2;
+}

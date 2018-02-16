@@ -9,6 +9,6 @@
 		<div class="u-font-sec u-space-bottom">
 			@Model.GetPropertyValue("pageDescription")
 		</div>
-		@Html.Partial("~/Views/Partials/Page/PageComponents.cshtml")
+		@Html.CachedPartial("~/Views/Partials/Page/PageComponents.cshtml", Model, 43200, true)
 	</div>
 </main>

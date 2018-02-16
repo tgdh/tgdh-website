@@ -13,12 +13,16 @@
 	}
 }
 
-.o-list--col-two {
-	columns: 2;
+.o-list--col-two,
+.o-list--simple {
 	list-style: none;
 	opacity: .65;
 
 	li {
 		margin-left: 0;
 	}
+}
+
+.o-list--col-two {
+	columns: 2;
 }

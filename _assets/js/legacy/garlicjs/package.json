@@ -1,0 +1,88 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "https://github.com/guillaumepotier/Garlic.js.git",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "https://github.com/guillaumepotier/Garlic.js.git",
+        "spec": "git+https://github.com/guillaumepotier/Garlic.js.git",
+        "type": "hosted",
+        "hosted": {
+          "type": "github",
+          "ssh": "git@github.com:guillaumepotier/Garlic.js.git",
+          "sshUrl": "git+ssh://git@github.com/guillaumepotier/Garlic.js.git",
+          "httpsUrl": "git+https://github.com/guillaumepotier/Garlic.js.git",
+          "gitUrl": "git://github.com/guillaumepotier/Garlic.js.git",
+          "shortcut": "github:guillaumepotier/Garlic.js",
+          "directUrl": "https://raw.githubusercontent.com/guillaumepotier/Garlic.js/master/package.json"
+        }
+      },
+      "/Users/kev/Sites/_tgdh/tgdh-website"
+    ]
+  ],
+  "_from": "git+https://github.com/guillaumepotier/Garlic.js.git",
+  "_id": "Garlic.js@1.3.0",
+  "_inCache": true,
+  "_location": "/Garlic.js",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "https://github.com/guillaumepotier/Garlic.js.git",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "https://github.com/guillaumepotier/Garlic.js.git",
+    "spec": "git+https://github.com/guillaumepotier/Garlic.js.git",
+    "type": "hosted",
+    "hosted": {
+      "type": "github",
+      "ssh": "git@github.com:guillaumepotier/Garlic.js.git",
+      "sshUrl": "git+ssh://git@github.com/guillaumepotier/Garlic.js.git",
+      "httpsUrl": "git+https://github.com/guillaumepotier/Garlic.js.git",
+      "gitUrl": "git://github.com/guillaumepotier/Garlic.js.git",
+      "shortcut": "github:guillaumepotier/Garlic.js",
+      "directUrl": "https://raw.githubusercontent.com/guillaumepotier/Garlic.js/master/package.json"
+    }
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "git+https://github.com/guillaumepotier/Garlic.js.git#295c5ebebacf84a739230fe94206e2b30bf3baa3",
+  "_shasum": "9b58a30da75f62d0514c868933a9e83320eb25aa",
+  "_shrinkwrap": null,
+  "_spec": "https://github.com/guillaumepotier/Garlic.js.git",
+  "_where": "/Users/kev/Sites/_tgdh/tgdh-website",
+  "author": {
+    "name": "Guillaume Potier"
+  },
+  "bugs": {
+    "url": "https://github.com/guillaumepotier/Garlic.js/issues"
+  },
+  "dependencies": {},
+  "description": "Automatically persist your forms' text and select field values locally, until the form is submitted.",
+  "devDependencies": {
+    "expect.js": "*",
+    "mocha": "*",
+    "mocha-phantomjs": "*"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "gitHead": "295c5ebebacf84a739230fe94206e2b30bf3baa3",
+  "homepage": "https://github.com/guillaumepotier/Garlic.js",
+  "license": "MIT",
+  "main": "garlic.js",
+  "name": "Garlic.js",
+  "optionalDependencies": {},
+  "readme": "# Garlic.js\r\n\r\n[![Build Status](https://secure.travis-ci.org/guillaumepotier/Garlic.js.png?branch=master)](https://travis-ci.org/guillaumepotier/Garlic.js)\r\n\r\nGarlic.js allows you to automatically persist your forms' text and select field values locally, until the form is submitted. This way, your users don't lose any precious data if they accidentally close their tab or browser.\r\n\r\n# Demonstration / Documentation\r\n\r\nhttp://garlicjs.org/\r\n\r\n# Version\r\n\r\n1.3.0\r\n\r\nSee CHANGELOG for more info.\r\n\r\n# TODO\r\n\r\n* Improve doc and api;\r\n* Refactorize some code;\r\n* Work on inputs radio and textarea where there are conflicts;\r\n* And much more, for fun!\r\n\r\n# Run tests\r\n\r\n* In your browser: go to `tests/index.html`\r\n* Headless tests: `npm install && npm test`\r\n\r\n# Make production minified versions\r\n\r\nYou'll need ruby, and Google Closure compiler: `gem install closure-compiler`. Then, just call:\r\n\r\n`./bin/build.sh version` where version is the build release. eg: `./bin/build.sh 1.1.2`\r\n\r\nThey'll be created and dumped in the dist/ directory\r\n\r\n# Contributors\r\n\r\n* @cdmoyer\r\n* @johnrees\r\n* @Marfa\r\n* @leondewey\r\n* @willdurand\r\n* @nashby\r\n\r\n# Used / Inspiration\r\n\r\n* localStorageshim for IE browsers: https://github.com/mattpowell/localstorageshim by @mattpowell\r\n* minify ruby script https://gist.github.com/765432 by @benpickles\r\n\r\n# Licence\r\n\r\nMIT - See LICENCE.md\r\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guillaumepotier/Garlic.js.git"
+  },
+  "scripts": {
+    "test": "bin/test-suite.sh"
+  },
+  "version": "1.3.0"
+}

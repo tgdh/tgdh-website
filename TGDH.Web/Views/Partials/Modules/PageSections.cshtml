@@ -1,0 +1,337 @@
+@using TGDH.Core.Models
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var sections = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("pageSections");
+	if (sections == null || !sections.Any()) {
+		return;
+	}
+
+	var index = 0;
+}
+
+@foreach (var item in sections) {
+	var components = item.GetPropertyValue<IEnumerable<IPublishedContent>>("pageComponents");
+	if (components == null || !components.Any()) {
+		return;
+	}
+
+	var sectionModifier = GetSectionModifierClass(item.GetPropertyValue<string>("backgroundColour"));
+	var paddingModifier = GetPaddingModifierClass(item.GetPropertyValue<string>("padding"));
+	@*
+	if (!item.GetPropertyValue<bool>("hidePadding")) {
+		sectionModifier = sectionModifier + " o-section";
+	}
+	*@
+
+	var sectionId = "section" + index;
+	index = index + 1;
+
+	<section id="@sectionId" class="c-section u-clearfix @sectionModifier @paddingModifier">
+		@if (components != null) {
+			foreach (var component in components) {
+				switch (component.DocumentTypeAlias) {
+					case "colTextWithComponent":
+						@Html.Partial("~/Views/Partials/Modules/TwoColTextWithComponent.cshtml", component)
+						break;
+					case "quoteSimple":
+						@Html.Partial("~/Views/Partials/Components/QuoteSimple.cshtml", new QuoteViewModel{
+							Quote = component.GetPropertyValue<IHtmlString>("quoteMessage"),
+							Source = component.GetPropertyValue<string>("quoteSource"),
+						})
+						break;
+					case "logoGroup":
+						@Html.Partial("~/Views/Partials/Components/LogoListing.cshtml", new LogoListingViewModel {
+							LogoListing = component.GetPropertyValue<IEnumerable<IPublishedContent>>("logos"),
+							ModifierClass = "c-logo-grid u-clearfix o-wrap o-wrap--x-large"
+						});
+						break;
+					case "simpleImage":
+						@Html.Partial("~/Views/Partials/PageComponents/Image.cshtml", new ImageViewModel
+						{
+							ImageId = component.GetPropertyValue<int>("image"),
+							AspectRatio = component.GetPropertyValue<string>("aspectRatio"),
+							ImageWidth = 2000,
+							AdditionalClass = ""
+						})
+						break;
+					case "imageColumns":
+						@Html.Partial("~/Views/Partials/Components/ImageColumns.cshtml", new ImageColumnsViewModel {
+							FirstImageId = component.GetPropertyValue<int>("image1"),
+							LastImageId = component.GetPropertyValue<int>("image2"),
+							ModifierClass = ""
+						})
+						break;
+					case "simpleGallery":
+                		@Html.Partial("~/Views/Partials/PageComponents/Gallery.cshtml", new GalleryViewModel {
+							MediaIds = component.GetPropertyValue<string>("images"),
+							AspectRatio = component.GetPropertyValue<string>("aspectRatio"),
+							AdditionalClass = ""
+						})
+						break;
+					case "tiles":
+						@RenderTileGrid(component)
+						break;
+					case "thumbnailCardList":
+						@RenderThumbnailCardListing(component)
+						break;
+					case "heading":
+						@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+							Headline = component.GetPropertyValue<string>("headline"),
+							Subtitle = component.GetPropertyValue<string>("subtitle"),
+							IsCenter = component.GetPropertyValue<bool>("center"),
+							ModifierClass = "o-wrap o-wrap--x-large"
+						})
+						break;
+					case "colTextWithDevice":
+						@RenderTextWithDevice(component)
+						break;
+					case "beforeAfterImage":
+						<div class="o-wrap o-wrap--large">
+							@Html.Partial("~/Views/Partials/Components/ImageComparison.cshtml", new ImageComparisonViewModel {
+								BeforeImageId = component.GetPropertyValue<int>("beforeImage"),
+								AfterImageId = component.GetPropertyValue<int>("afterImage")
+							})
+						</div>
+						break;
+					case "colourSwatches":
+						@RenderSwatches(component)
+						break;
+					case "colFonts":
+						@RenderFonts(component)
+						break;
+					case "colTextWithImage5050":
+						var button = new LinkPickerModel(component.GetPropertyValue<string>("button"));
+						var hasButton = !String.IsNullOrWhiteSpace(button.Url);
+
+						@Html.Partial("~/Views/Partials/Components/TextWithImage.cshtml", new TextWithImageViewModel {
+							Headline = component.GetPropertyValue<string>("headline"),
+							Subtitle = component.GetPropertyValue<string>("subtitle"),
+							Text = component.GetPropertyValue<string>("text"),
+							ImageId = component.GetPropertyValue<int>("image"),
+							AlignLeft = component.GetPropertyValue<bool>("alignLeft"),
+							Url = hasButton ? button.Url : "",
+							ButtonText = hasButton ? button.Name : "",
+							Target = hasButton ? button.Target : ""
+						})
+						break;
+					default:
+						<p>No match for <strong>@component.DocumentTypeAlias</strong></p>
+						break;
+				}
+			}
+		}
+	</section>
+
+}
+
+@helper RenderThumbnailCardListing(IPublishedContent model) {
+	if (model == null) {
+		return;
+	}
+	var selection = model.GetPropertyValue<IEnumerable<IPublishedContent>>("thumbnailCards");
+	if (selection == null || !selection.Any()) {
+		return;
+	}
+
+	<div class="o-grid--three-small-gutter o-flex-grid u-clearfix o-wrap o-wrap--x-large">
+		@foreach (var item in selection) {
+			var button = new LinkPickerModel(item.GetPropertyValue<string>("link"));
+			@Html.Partial("~/Views/Partials/Components/ThumbnailCard.cshtml", new ThumbnailCardViewModel {
+				Url = !String.IsNullOrWhiteSpace(button.Url) ? button.Url : "",
+				CoverImage = Umbraco.TypedMedia(item.GetPropertyValue<int>("image")),
+				Label = item.GetPropertyValue<string>("label"),
+				Headline = item.GetPropertyValue<string>("headline"),
+				Copy = item.GetPropertyValue<IHtmlString>("copy"),
+				Target = "_blank",
+				ModifierClass = "o-grid__item"
+			})
+		}
+	</div>
+}
+
+@helper RenderTileGrid(IPublishedContent model) {
+	if (model == null) {
+		return;
+	}
+	var selection = model.GetPropertyValue<IEnumerable<IPublishedContent>>("tileLinks");
+	if (selection == null || !selection.Any()) {
+		return;
+	}
+
+	<div class="c-tile-wrap u-clearfix">
+		@foreach (var item in selection) {
+			var linkJson = item.GetPropertyValue<string>("link");
+
+			if (!String.IsNullOrWhiteSpace(linkJson)) {
+				var link = Json.Decode(linkJson);
+				if (link != null) {
+					var tileData = new TileViewModel {
+						Url = link.Url,
+						Headline = item.GetPropertyValue<string>("headline"),
+						ImageId = item.GetPropertyValue<int>("image")
+					};
+					@Html.Partial("~/Views/Partials/Components/Tile.cshtml", tileData)
+				}
+			}
+		}
+	</div>
+}
+
+@helper RenderTextWithDevice(IPublishedContent model) {
+	if (model == null) {
+		return;
+	}
+	var images = model.GetPropertyValue<string>("images").Split(',');
+	var deviceType = model.GetPropertyValue<string>("deviceType");
+	var deviceModifier = deviceType == "Mobile x 2" ? "c-mobile-frame--wrap-two" : "";
+
+	var modifierClass = model.GetPropertyValue<bool>("alignLeft") ? "c-image-offset-column--reverse" : "";
+
+	<div class="o-wrap o-wrap--x-large c-image-offset-column u-clearfix @modifierClass">
+		<div class="c-image-offset-column__col c-image-offset-column__col--first c-image-offset-column__col--content">
+			@{
+				@Html.Partial("~/Views/Partials/Components/Heading.cshtml", new HeadingViewModel {
+					Headline = model.GetPropertyValue<string>("headline"),
+					Subtitle = model.GetPropertyValue<string>("subtitle")
+				})
+				@Html.Raw(model.GetPropertyValue<string>("text"))
+			}
+		</div>
+		<div class="c-image-offset-column__col c-image-offset-column__col--last c-image-offset-column__col--image @deviceModifier">
+			@{
+				if (images != null && images.Any()) {
+					switch (deviceType) {
+						case "Mobile x 2":
+							foreach (var imageId in images) {
+								@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", new DeviceFrameViewModel {
+									ImageId = Int32.Parse(imageId),
+									Type = "mobile"
+								})
+							}
+							break;
+						case "Tablet":
+							@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", new DeviceFrameViewModel {
+								ImageId = Int32.Parse(images.FirstOrDefault()),
+								Type = "tablet"
+							})
+							break;
+						default:
+							@Html.Partial("~/Views/Partials/Components/DeviceFrame.cshtml", new DeviceFrameViewModel {
+								ImageId = Int32.Parse(images.FirstOrDefault()),
+								Type = "desktop"
+							})
+							break;
+					}
+				}
+			}
+		</div>
+	</div>
+}
+
+@helper RenderSwatches(IPublishedContent component) {
+	var headline = component.GetPropertyValue<string>("headline");
+	var swatches = component.GetPropertyValue<IEnumerable<IPublishedContent>>("swatches");
+
+	var swatch1 = new ColourSwatchViewModel {
+		Name = "Black",
+		Subtitle = "#171412",
+		Hex = "#171412"
+	};
+
+	<div class="o-wrap o-wrap--x-large u-space-top">
+		@if (!String.IsNullOrWhiteSpace(headline)) {
+			<h2 class="u-breakline u-gamma">@headline</h2>
+		}
+		@if (swatches != null && swatches.Any()) {
+			<div class="c-colour-swatch-wrap u-clearfix u-space-top">
+			@foreach (var item in swatches) {
+				var hex = item.GetPropertyValue<string>("hex");
+				@Html.Partial("~/Views/Partials/Components/ColourSwatch.cshtml", new ColourSwatchViewModel {
+					Name = item.GetPropertyValue<string>("colourName"),
+					Subtitle = hex,
+					Hex = hex
+				})
+			}
+			</div>
+		}
+	</div>
+}
+
+@helper RenderFonts(IPublishedContent component) {
+	var headline = component.GetPropertyValue<string>("headline");
+	var fonts = component.GetPropertyValue<IEnumerable<IPublishedContent>>("fonts");
+
+	<div class="o-wrap o-wrap--x-large u-space-top c-col-fonts">
+		@if (!String.IsNullOrWhiteSpace(headline)) {
+			<h2 class="u-breakline u-gamma">@headline</h2>
+		}
+		@if (fonts != null && fonts.Any()) {
+			<div class="o-col--two u-clearfix u-space-bottom--large">
+			@foreach (var item in fonts) {
+				var fontHeadline = item.GetPropertyValue<string>("headline");
+				var fontSubtitle = item.GetPropertyValue<string>("subtitle");
+
+				var font = Umbraco.TypedMedia(item.GetPropertyValue<int>("image"));
+				var fontUrl = font != null ? font.Url : "";
+				<div class="o-col">
+					<div class="u-space-bottom">
+						@if (!String.IsNullOrWhiteSpace(fontHeadline)) {
+							<h4 style="padding-bottom: 0;">@fontHeadline</h4>
+						}
+						@if (!String.IsNullOrWhiteSpace(fontSubtitle)) {
+							<div class="u-font-sec u-small">@fontSubtitle</div>
+						}
+					</div>
+
+					@if(!String.IsNullOrWhiteSpace(fontUrl)) {
+						<img src="@fontUrl" alt="Font glyphs" class="c-col-fonts__image">
+					}
+				</div>
+			}
+			</div>
+		}
+	</div>
+}
+
+@functions {
+
+	public string GetSectionModifierClass(string hex) {
+		var modifierClass = "";
+
+		switch (hex) {
+			case "f9f9f9":
+				modifierClass = "u-background--light";
+				break;
+			case "000000":
+				modifierClass = "u-background--pri";
+				break;
+			default:
+				modifierClass = "";
+				break;
+		}
+
+		return modifierClass;
+	}
+
+	public string GetPaddingModifierClass(string padding) {
+		var modifierClass = "";
+
+		switch (padding) {
+			case "None":
+				modifierClass = "";
+				break;
+			case "Bottom":
+				modifierClass = "o-section--bottom";
+				break;
+			case "Top":
+				modifierClass = "o-section--top";
+				break;
+			default:
+				modifierClass = "o-section";
+				break;
+		}
+
+		return modifierClass;
+	}
+
+}

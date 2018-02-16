@@ -22,6 +22,7 @@
 		@if( String.IsNullOrWhiteSpace(coverImageIds) ) {
 			<h1 class="o-wrap o-wrap--small">@headline</h1>
 		}
-	    @Html.Partial("~/Views/Partials/Page/PageComponents.cshtml")
+	    @Html.CachedPartial("~/Views/Partials/Page/PageComponents.cshtml", Model, 43200, true)
     </div>
 </main>
+

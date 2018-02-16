@@ -1,0 +1,105 @@
+/* ===========================================================
+
+	# Tabs
+
+=========================================================== */
+
+/* Container */
+.no-enhance {
+
+	.c-tabs__tablist {
+		border-left: 0.5rem solid $pri;
+		padding-left: 2rem;
+	}
+
+	.c-tabs__tablist-item {
+		list-style: none;
+		margin-left: 0;
+	}
+
+}
+
+/* Tablist */
+.c-tabs__tablist {
+	margin-bottom: 2rem;
+}
+
+.c-tabs__tab {
+	font-weight: $bold;
+}
+
+.flexbox {
+
+	.c-tabs--is-ready {
+
+		.c-tabs__tablist {
+			display: flex;
+		}
+
+	}
+
+}
+
+.c-tabs--is-ready {
+
+	.c-tabs__tablist {
+		border-bottom: .1rem solid $pri;
+	}
+
+	.c-tabs__active-bar {
+		width: 0;
+		height: 0.4rem;
+		display: block;
+		background-color: $pri;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		transition: width $speed $ease;
+	}
+
+	.c-tabs__tablist {
+		position: relative;
+
+		&::after {
+			content: "";
+			width: 0;
+			height: 0.4rem;
+			display: block;
+			background-color: $pri;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			transition: opacity $speed $ease;
+		}
+	}
+
+	.c-tabs__tablist-item {
+		display: inline-block;
+		margin: 0;
+	}
+
+	.c-tabs__tab {
+		font-size: 2.4rem;
+		padding: 1.5rem 0;
+		margin-right: 5rem;
+		display: inline-block;
+		position: relative;
+	}
+
+}
+
+/* active tab */
+.c-tabs__tab {
+
+	&[tabindex="0"] {
+
+	}
+}
+/* Tabpanel */
+.c-tabs__panel {
+
+	&[aria-hidden="true"] {
+		display: none;
+	}
+
+}
