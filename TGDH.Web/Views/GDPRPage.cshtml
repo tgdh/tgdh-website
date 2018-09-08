@@ -1,0 +1,59 @@
+﻿@inherits UmbracoViewPage<IPublishedContent>
+@{
+	Layout = "Master.cshtml";
+
+	var headline = Model.HasValue("headline") ? Model.GetPropertyValue<string>("headline") : Model.Name;
+}
+
+<main id="main" class="o-page__content" role="main">
+	<div class="o-page__content__wrap u-clearfix s-free-content">
+		<h1 class="o-wrap o-wrap--small">@headline</h1>
+		@Html.CachedPartial("~/Views/Partials/Page/PageComponents.cshtml", Model, 43200, true)
+		
+		<div class="o-page-component o-wrap o-wrap--small o-page-component--form">
+			<form id="subForm" class="o-form js-form js-cm-form" action="https://www.createsend.com/t/subscribeerror?description=" method="post" data-id="2BE4EF332AA2E32596E38B640E905619E5A44C8CD25734B5650B2FD856EEC4E863E2241B2669085EBB3C33DED74AC6018E9C6E38E546754AB3ABD1845A0D0938">
+				<div class="o-form__row u-clearfix">
+					<div class="o-form__field o-form__field--compact js-floating-label-input">
+						<input class="o-form__input" id="fieldName" name="cm-name" type="text" />
+						<label class="o-form__label" for="fieldName">Name</label>
+					</div>
+				</div>
+				<div class="o-form__row u-clearfix">
+					<div class="o-form__field o-form__field--compact js-floating-label-input">
+						<input class="o-form__input" id="fieldetuxd" name="cm-f-etuxd" type="text" />
+						<label class="o-form__label" for="fieldetuxd">Company name</label>
+					</div>
+				</div>
+				<div class="o-form__row u-clearfix">
+					<div class="o-form__field o-form__field--compact is-required js-floating-label-input">
+						<input id="fieldEmail" class="o-form__input js-cm-email-input" name="cm-zcvl-zcvl" type="email" required />
+						<label class="o-form__label" for="fieldEmail">Email</label>
+					</div>
+				</div>
+				<div class="o-form__row u-clearfix">
+					<div class="o-form__field o-form__select select2">
+						@*<label class="o-form__label" for="fieldetuxh">Sector</label>*@
+						<select class="js-select" id="fieldetuxh" name="cm-fo-etuxh">
+							<option value="">Select sector</option>
+							<option value="1981643">Education</option>
+							<option value="1981644">Charity</option>
+							<option value="1981645">Theatre</option>
+							<option value="1981646">Business (other)</option>
+						</select>
+					</div>
+				</div>
+				<div class="o-form__row o-form__row--submit">
+					<button class="c-button c-button--primary js-cm-submit-button" type="submit">Subscribe</button>
+				</div>
+			</form>
+		</div>
+		<script type="text/javascript" src="https://js.createsend1.com/javascript/copypastesubscribeformlogic.js"></script>
+	</div>
+</main>
+<style>
+						.select2-dropdown { 
+-webkit-box-shadow: 0px 0px 15px -5px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 15px -5px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 15px -5px rgba(0,0,0,0.75);
+						}
+</style>

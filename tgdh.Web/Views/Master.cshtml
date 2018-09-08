@@ -1,4 +1,4 @@
-@using Umbraco.Web
+﻿@using Umbraco.Web
 @using Umbraco.Web.Mvc
 @using System.Text.RegularExpressions
 @inherits UmbracoViewPage<IPublishedContent>
@@ -18,7 +18,7 @@
         @Html.CachedPartial("~/Views/Partials/Page/SEO.cshtml", Model, 43200, true)
 		<link rel="shortcut icon" href="/favicon.ico" />
 		<link rel="manifest" href="/manifest.json" />
-		<link rel="stylesheet" href="/assets/css/style.6c70d9f6.css" />
+		<link rel="stylesheet" href="/assets/css/style.5f8c4b44.css" />
         <!--[if lt IE 9]>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
         <![endif]-->
@@ -57,10 +57,37 @@
 
 		<script src="https://cdn.polyfill.io/v2/polyfill.js?features=default,MutationObserver,Element.prototype.dataset,Array.prototype.includes"></script>
 
-        <!--[if gte IE 9]><!-->
-            <script src="/assets/js/main.js"></script>
+		<!--[if gte IE 9]><!-->
+			<script
+				src="https://code.jquery.com/jquery-3.3.1.min.js"
+				integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+				crossorigin="anonymous"></script>
+			<script src="/assets/js/main.min.4.js"></script>
+			<script src="/assets/js/select2.js"></script>
+			<script src="/assets/js/legacy.4507dfe5.js"></script>
         <!--<![endif]-->
-
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+		<script>
+			window.cookieconsent.initialise({
+				"palette": {
+					"popup": {
+						"background": "#ffffff",
+						"text": "#000000"
+					},
+					"button": {
+						"background": "#000000",
+						"text": "#ffffff"
+					}
+				},
+				"content": {
+					"dismiss": 'I accept',
+					"href": '/cookie-policy/',
+					"link": 'find out more about our cookies.',
+					"message": 'This website uses cookies to ensure you get the best experience on our website. Please accept to remove this banner or '
+				}
+			});
+		</script>
 		@Html.Partial("~/Views/Partials/Page/Analytics.cshtml")
 		@RenderSection("Scripts", required: false)
 
