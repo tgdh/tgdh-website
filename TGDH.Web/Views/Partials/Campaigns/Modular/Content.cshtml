@@ -1,0 +1,108 @@
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+
+}
+<main id="main" role="main">
+	@Html.Partial("~/Views/Partials/Campaigns/Modular/Cover.cshtml")
+	@foreach (var block in Model.GetPropertyValue<IEnumerable<IPublishedContent>>("contentBlocks").ToContentSet())
+	{
+		var sectionColour = "u-background--white";
+
+		if (block.HasValue("backgroundColour") && block.GetPropertyValue<string>("backgroundColour") == "Light grey")
+		{
+			sectionColour = "u-background--light";
+		}
+
+		if (block.IsFirst())
+		{
+			<div>Cover angle</div>
+		}
+
+		switch (block.DocumentTypeAlias)
+		{
+			case "clientsBlock":
+				var clientsBlockHeading = new HeadingViewModel
+				{
+					Headline = block.GetPropertyValue<string>("title"),
+					Subtitle = block.GetPropertyValue<string>("subtitle")
+				};
+
+				<section class="o-section @sectionColour">
+					<div class="o-wrap o-wrap--x-large">
+						@Html.Partial("~/Views/Partials/Components/Heading.cshtml", clientsBlockHeading)
+						@{
+							var logos = new LogoListingViewModel
+							{
+								LogoListing = block.GetPropertyValue<IEnumerable<IPublishedContent>>("clientLogos"),
+								ModifierClass = "c-logo-grid u-clearfix u-space-top--large"
+							};
+							@Html.Partial("~/Views/Partials/Components/LogoListing.cshtml", logos);
+						}
+					</div>
+				</section>
+
+				break;
+			case "galleryBlock":
+				var galleryBlockHeading = new HeadingViewModel
+				{
+					Headline = block.GetPropertyValue<string>("title"),
+					Subtitle = block.GetPropertyValue<string>("subtitle")
+				};
+
+				<section class="o-section @sectionColour">
+					<div class="o-wrap o-wrap--x-large">
+						@Html.Partial("~/Views/Partials/Components/Heading.cshtml", galleryBlockHeading)
+
+					</div>
+				</section>
+				break;
+			case "textWithList":
+				var textWithListHeading = new HeadingViewModel
+				{
+					Headline = block.GetPropertyValue<string>("title"),
+					Subtitle = block.GetPropertyValue<string>("subtitle")
+				};
+				var lists = block.GetPropertyValue<IEnumerable<IPublishedContent>>("list");
+
+				<section class="o-section @sectionColour">
+					<div class="o-wrap o-wrap--x-large">
+						@Html.Partial("~/Views/Partials/Components/Heading.cshtml", textWithListHeading)
+						<div class="o-col--two-one u-clearfix">
+							<div class="o-col o-col--first">
+								@block.GetPropertyValue("text")
+							</div>
+							<div class="o-col o-col--last">
+								@if (lists != null)
+								{
+									foreach (var list in lists)
+									{
+										var services = list.GetPropertyValue<string[]>("list");
+
+										<div class="u-clearfix u-space-top">
+											<h3 class="u-zeta">@(list.GetPropertyValue<string>("title"))</h3>
+											@if (services != null)
+											{
+												<ul class="o-list--col-two u-font-sec u-font--small">
+													@foreach (var item in services)
+													{
+														<li>@item</li>
+													}
+												</ul>
+											}
+										</div>
+									}
+								}
+							</div>
+						</div>
+					</div>
+				</section>
+
+				break;
+		}
+
+		if (block.IsLast())
+		{
+			<div>CTA angle</div>
+		}
+	}
+</main>

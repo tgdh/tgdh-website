@@ -1,0 +1,14 @@
+﻿@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var backgroundImageUrl = string.Empty;
+
+	if (Umbraco.TypedMedia(Model.GetPropertyValue<string>("footerCTABackgroundImage")) != null)
+	{
+		backgroundImageUrl = Umbraco.TypedMedia(Model.GetPropertyValue<string>("footerCTABackgroundImage")).Url;
+	}
+
+}
+<div style="background-image: url(@backgroundImageUrl);">
+	<h1>CTA</h1>
+</div>
+

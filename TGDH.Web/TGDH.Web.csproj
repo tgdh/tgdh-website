@@ -2230,7 +2230,9 @@
     <Content Include="Umbraco\Webservices\TreeDataService.ashx" />
     <Content Include="Umbraco\Webservices\UltimatePickerAutoCompleteHandler.ashx" />
     <Content Include="Umbraco\Xslt\Web.config" />
-    <Content Include="config\ConnectionStrings.config" />
+    <Content Include="config\connectionStrings.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\About.cshtml" />
     <Content Include="Views\BriefingForm.cshtml" />
     <Content Include="Views\Careers.cshtml" />
@@ -2318,6 +2320,12 @@
     <Content Include="Views\Vacancy.cshtml" />
     <Content Include="Views\WebPPC.cshtml" />
     <Content Include="Views\XMLSitemap.cshtml" />
+    <Content Include="Views\ModularCampaign.cshtml" />
+    <Content Include="Views\Partials\Campaigns\Modular\Header.cshtml" />
+    <Content Include="Views\Partials\Campaigns\Modular\Footer.cshtml" />
+    <Content Include="Views\Partials\Campaigns\Modular\Content.cshtml" />
+    <Content Include="Views\Partials\Campaigns\Modular\Cover.cshtml" />
+    <Content Include="Views\Partials\Campaigns\Modular\CampaignCTA.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2369,6 +2377,12 @@
   <ItemGroup>
     <Folder Include="App_Data\Logs\" />
     <Folder Include="Views\MacroPartials\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TGDH.Core\TGDH.Core.csproj">
+      <Project>{66d1884d-e6e2-4d19-aa10-da7ca2595da2}</Project>
+      <Name>TGDH.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

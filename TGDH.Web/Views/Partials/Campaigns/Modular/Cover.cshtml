@@ -1,0 +1,131 @@
+@using TGDH.Core.Models
+@using TGDH.Core.ExtensionMethods
+@inherits UmbracoViewPage<IPublishedContent>
+@{
+	var imageId = Model.GetPropertyValue<string>("coverImage");
+	var image = Umbraco.TypedMedia(imageId);
+
+	if (image == null)
+	{
+		return;
+	}
+
+	var headline = Model.GetPropertyValue<string>("headline");
+	var subtitle = Model.GetPropertyValue<string>("subtitle");
+
+	var backgroundImageUrl = "";
+
+	if (Umbraco.TypedMedia(Model.GetPropertyValue<string>("coverBackgroundImage")) != null)
+	{
+		backgroundImageUrl = Umbraco.TypedMedia(Model.GetPropertyValue<string>("coverBackgroundImage")).Url;
+	}
+}
+
+<section class="c-cover u-clearfix" style="background-image: url(@backgroundImageUrl);">
+	<div class="c-cover__content o-wrap">
+		<div class="c-cover__copy">
+			<header class="c-cover__heading">
+				@if (!string.IsNullOrWhiteSpace(headline))
+				{
+					<h1 class="c-cover__headline">@headline</h1>
+				}
+				@if (!string.IsNullOrEmpty(subtitle))
+				{
+					<div class="c-cover__subtitle u-font-sec">
+						<p>@subtitle</p>
+					</div>
+				}
+			</header>
+			@if (Model.HasValue("copy"))
+			{
+				<div class="c-cover__body u-space-top u-space-bottom">
+					@Model.GetPropertyValue("copy")
+				</div>
+			}
+			@{
+				var buttonAJson = Model.GetPropertyValue<string>("buttonA");
+				var buttonBJson = Model.GetPropertyValue<string>("buttonB");
+				if (!string.IsNullOrWhiteSpace(buttonAJson))
+				{
+					var button = Json.Decode(buttonAJson);
+					if (button != null)
+					{
+						<a href="@button.Url" target="@button.Target" class="c-button c-button--secondary">
+							<span>@button.Name</span>
+						</a>
+					}
+				}
+				if (!string.IsNullOrWhiteSpace(buttonBJson))
+				{
+					var button = Json.Decode(buttonBJson);
+					if (button != null)
+					{
+						<a href="@button.Url" target="@button.Target" class="c-button c-button--secondary">
+							<span>@button.Name</span>
+						</a>
+					}
+				}
+			}
+		</div>
+	</div>
+	@RenderImage(image)
+</section>
+
+
+@helper RenderImage(IPublishedContent image) {
+	var altText = image.GetPropertyValue<string>("altText");
+
+	string smallImageUrl = Url.GetCropUrl(
+		image,
+		cropAlias: "1:1",
+		width: 800,
+		htmlEncode: false
+	).ToString();
+
+	string mediumImageUrl = Url.GetCropUrl(
+		image,
+		cropAlias: "16:9",
+		width: 800,
+		htmlEncode: false
+	).ToString();
+
+	string largeImageUrl = Url.GetCropUrl(image,
+		cropAlias: "5:54",
+		width: 600,
+		htmlEncode: false
+	).ToString();
+
+	string xLargeImageUrl = Url.GetCropUrl(
+		image,
+		cropAlias: "5:54",
+		width: 700,
+		htmlEncode: false
+	).ToString();
+
+	string xxLargeImageUrl = Url.GetCropUrl(image,
+		cropAlias: "5:54",
+		width: 900,
+		htmlEncode: false
+	).ToString();
+
+	string xxxLargeImageUrl = Url.GetCropUrl(
+		image,
+		cropAlias: "5:54",
+		width: 1200,
+		htmlEncode: false
+	).ToString();
+
+	<div class="c-cover__media">
+		<picture class="c-cover__media-wrap">
+			<!--[if IE 9]><video style="display: none;"><![endif]-->
+			<source srcset="@xxxLargeImageUrl" data-srcset="@xxxLargeImageUrl" media="(min-width: 1800px)">
+			<source srcset="@xxLargeImageUrl" data-srcset="@xxLargeImageUrl" media="(min-width: 1500px)">
+			<source srcset="@xLargeImageUrl" data-srcset="@xLargeImageUrl" media="(min-width: 1280px)">
+			<source srcset="@largeImageUrl" data-srcset="@largeImageUrl" media="(min-width: 800px)">
+			<source srcset="@mediumImageUrl" data-srcset="@mediumImageUrl" media="(min-width: 600px)">
+			<source srcset="@smallImageUrl" data-srcset="@smallImageUrl" media="(max-width: 599px)">
+			<!--[if IE 9]></video><![endif]-->
+			<img src="@xLargeImageUrl&quality=18" data-src="@xLargeImageUrl" alt="@altText" class="c-cover__image js-lazyload" alt="@altText">
+		</picture>
+	</div>
+}
