@@ -4,7 +4,8 @@
 
 =========================================================== */
 
-.s-webPPC {
+.s-webPPC,
+.s-modularCampaign {
 
 	.o-page {
 		padding-right: 0 !important;
@@ -22,7 +23,8 @@
 
 @include respond-min( $mq-large ) {
 
-	.s-webPPC {
+	.s-webPPC,
+	.s-modularCampaign {
 
 		.c-cover__headline {
 			font-size: 	4.8rem;

@@ -1,0 +1,59 @@
+@using Umbraco.Web
+@using TGDH.Core.Models
+@inherits UmbracoViewPage<CampaignCallbackForm>
+@{
+    var success = TempData["CampaignCallbackFormValidationPasses"] != null;
+    var error = TempData["CampaignCallbackFormValidationFailed"] != null;
+    var folderId = TempData["CampaignCallbackFormFormFolderId"];
+}
+
+@if (success)
+{
+    if (folderId != null)
+    {
+        var folder = Umbraco.TypedContent(folderId);
+        var message = folder.GetPropertyValue<IHtmlString>("submissionMessage");
+
+		<div class="c-notify c-notify--info c-notify--fixed o-wrap--medium o-wrap--center" style="top: 10rem;">
+        	@message
+		</div>
+    }
+}
+else
+{
+	@*
+    if (error)
+    {
+        @Html.ValidationSummary()
+    }
+	*@
+
+    using (Html.BeginUmbracoForm("ProcessFormSubmission", "CampaignCallbackForm", FormMethod.Post, new { id = "campaign-callback-form", @class = "o-form js-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.PageName)
+		<legend class="o-legend u-hide-text">Callback request form</legend>
+	    <div class="o-form__row o-form__row--two u-clearfix">
+		    <div class="o-form__field o-form__field--compact is-required">
+			    @Html.TextBoxFor(x => x.Name, new {required = "required", @class = "o-form__input"})
+			    @Html.LabelFor(x => x.Name, new {@class = "o-form__label"})
+			    @Html.ValidationMessageFor(x => x.Name)
+		    </div>
+		    <div class="o-form__field o-form__field--compact is-required">
+			    @Html.TextBoxFor(x => x.PhoneNumber, new { required = "required", @class = "o-form__tel" })
+			    @Html.LabelFor(x => x.PhoneNumber, new { @class = "o-form__label" })
+			    @Html.ValidationMessageFor(x => x.PhoneNumber)
+		    </div>
+	    </div>
+	    <div class="o-form__row u-clearfix">
+		    <div class="o-form__field o-form__field--compact is-required">
+			    @Html.TextBoxFor(x => x.EmailAddress, new {required = "required", @class = "o-form__input"})
+			    @Html.LabelFor(x => x.EmailAddress, new {@class = "o-form__label"})
+			    @Html.ValidationMessageFor(x => x.EmailAddress)
+		    </div>
+	    </div>
+        <div class="o-form__row o-form__row--submit">
+            <button type="submit" class="c-button c-button--primary">Call me back</button>
+        </div>
+    }
+}

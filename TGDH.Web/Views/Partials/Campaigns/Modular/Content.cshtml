@@ -4,18 +4,13 @@
 }
 <main id="main" role="main">
 	@Html.Partial("~/Views/Partials/Campaigns/Modular/Cover.cshtml")
-	@foreach (var block in Model.GetPropertyValue<IEnumerable<IPublishedContent>>("contentBlocks").ToContentSet())
+	@foreach (var block in Model.GetPropertyValue<IEnumerable<IPublishedContent>>("contentBlocks"))
 	{
 		var sectionColour = "u-background--white";
 
 		if (block.HasValue("backgroundColour") && block.GetPropertyValue<string>("backgroundColour") == "Light grey")
 		{
 			sectionColour = "u-background--light";
-		}
-
-		if (block.IsFirst())
-		{
-			<div>Cover angle</div>
 		}
 
 		switch (block.DocumentTypeAlias)
@@ -52,6 +47,18 @@
 				<section class="o-section @sectionColour">
 					<div class="o-wrap o-wrap--x-large">
 						@Html.Partial("~/Views/Partials/Components/Heading.cshtml", galleryBlockHeading)
+						@if (!string.IsNullOrEmpty(block.GetPropertyValue<string>("gallery")))
+						{
+							var galleryIds = block.GetPropertyValue<string>("gallery").Split(new []{","}, StringSplitOptions.RemoveEmptyEntries);
+							var galleryImages = Umbraco.TypedMedia(galleryIds);
+
+							<div class="c-masonry-gallery my-shuffle" id="masonry-gallery">
+								@foreach (var image in galleryImages)
+								{
+									<img src="@image.Url" alt="@(image.GetPropertyValue<string>("altText"))" />
+								}
+							</div>
+						}
 
 					</div>
 				</section>
@@ -98,11 +105,6 @@
 				</section>
 
 				break;
-		}
-
-		if (block.IsLast())
-		{
-			<div>CTA angle</div>
 		}
 	}
 </main>

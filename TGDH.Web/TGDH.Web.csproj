@@ -2255,8 +2255,6 @@
     <Content Include="Views\HullTruckCaseStudy.cshtml" />
     <Content Include="Views\Master.cshtml" />
     <Content Include="Views\ModulePage.cshtml" />
-    <Content Include="Views\Partials\.DS_Store" />
-    <Content Include="Views\Partials\Campaigns\.DS_Store" />
     <Content Include="Views\Partials\Campaigns\Demo17\DemoForm.cshtml" />
     <Content Include="Views\Partials\Campaigns\PPCWeb\Clients.cshtml" />
     <Content Include="Views\Partials\Campaigns\PPCWeb\Content.cshtml" />
@@ -2326,6 +2324,7 @@
     <Content Include="Views\Partials\Campaigns\Modular\Content.cshtml" />
     <Content Include="Views\Partials\Campaigns\Modular\Cover.cshtml" />
     <Content Include="Views\Partials\Campaigns\Modular\CampaignCTA.cshtml" />
+    <Content Include="Views\Partials\Forms\CampaignCallbackFormView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

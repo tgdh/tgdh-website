@@ -193,9 +193,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="TGDH.Web">
-      <HintPath>..\TGDH.Web\bin\TGDH.Web.dll</HintPath>
-    </Reference>
     <Reference Include="TidyNet">
       <HintPath>..\TGDH.Web\bin\TidyNet.dll</HintPath>
     </Reference>
@@ -233,6 +230,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\BriefFormController.cs" />
+    <Compile Include="Controllers\CampaignCallbackFormController.cs" />
     <Compile Include="Controllers\CallbackFormController.cs" />
     <Compile Include="Data\CareerRepository.cs" />
     <Compile Include="Data\CaseStudyRepository.cs" />
@@ -245,6 +243,7 @@
     <Compile Include="Models\AuthorViewModel.cs" />
     <Compile Include="Models\BriefForm.cs" />
     <Compile Include="Models\CallbackForm.cs" />
+    <Compile Include="Models\CampaignCallbackForm.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\CheckboxListItem.cs" />
     <Compile Include="Models\CheckboxViewModel.cs" />

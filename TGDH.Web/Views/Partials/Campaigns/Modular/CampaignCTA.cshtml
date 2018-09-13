@@ -1,4 +1,5 @@
-﻿@inherits UmbracoViewPage<IPublishedContent>
+﻿@using TGDH.Core.Models
+@inherits UmbracoViewPage<IPublishedContent>
 @{
 	var backgroundImageUrl = string.Empty;
 
@@ -8,7 +9,46 @@
 	}
 
 }
-<div style="background-image: url(@backgroundImageUrl);">
-	<h1>CTA</h1>
+<div class="edge--top" style="background-image: url(@backgroundImageUrl);">
+	<section class="o-section c-campaign-cta">
+		<div class="o-wrap o-wrap--x-large">
+			<div class="u-clearfix">
+				<div class="c-campaign-cta__col c-campaign-cta__col--first">
+					@{
+						var galleryBlockHeading = new HeadingViewModel
+						{
+							Headline = Model.GetPropertyValue<string>("footerCTATitle"),
+							Subtitle = Model.GetPropertyValue<string>("footerCTASubtitle")
+						};
+
+						@Html.Partial("~/Views/Partials/Components/Heading.cshtml", galleryBlockHeading)
+
+						<div class="u-space-top">
+							@Model.GetPropertyValue("footerCTACopy")
+
+							<div class="u-space-top">
+								@Html.Partial("~/Views/Partials/Forms/CampaignCallbackFormView.cshtml", new CampaignCallbackForm
+								{
+									PageName = Model.Name
+								})
+							</div>
+						</div>
+					}
+				</div>
+				<div class="c-campaign-cta__col c-campaign-cta__col--last">
+					@{
+						var supportImage = Umbraco.TypedMedia(Model.GetPropertyValue<string>("supportImage"));
+
+						if (supportImage != null)
+						{
+							<div class="c-campaign-cta__image-wrap">
+								<img class="c-campaign-cta__image" src="@supportImage.Url" alt="Artwork" />
+							</div>
+						}
+					}
+				</div>
+			</div>
+		</div>
+	</section>
 </div>
 
