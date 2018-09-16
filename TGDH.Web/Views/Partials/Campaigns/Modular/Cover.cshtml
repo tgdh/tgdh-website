@@ -22,54 +22,56 @@
 }
 
 <section class="c-cover u-clearfix edge--bottom" style="background-image: url(@backgroundImageUrl);">
-	<div class="o-wrap o-wrap--x-large">
-		<div class="c-cover__content o-wrap">
-			<div class="c-cover__copy">
-				<header class="c-cover__heading">
-					@if (!string.IsNullOrWhiteSpace(headline))
+	<div class="c-cover__inner">
+		<div class="o-wrap o-wrap--x-large">
+			<div class="c-cover__content o-wrap">
+				<div class="c-cover__copy">
+					<header class="c-cover__heading">
+						@if (!string.IsNullOrWhiteSpace(headline))
+						{
+							<h1 class="c-cover__headline">@headline</h1>
+						}
+						@if (!string.IsNullOrEmpty(subtitle))
+						{
+							<div class="c-cover__subtitle u-font-sec">
+								<p>@subtitle</p>
+							</div>
+						}
+					</header>
+					@if (Model.HasValue("copy"))
 					{
-						<h1 class="c-cover__headline">@headline</h1>
-					}
-					@if (!string.IsNullOrEmpty(subtitle))
-					{
-						<div class="c-cover__subtitle u-font-sec">
-							<p>@subtitle</p>
+						<div class="c-cover__body u-space-top u-space-bottom">
+							@Model.GetPropertyValue("copy")
 						</div>
 					}
-				</header>
-				@if (Model.HasValue("copy"))
-				{
-					<div class="c-cover__body u-space-top u-space-bottom">
-						@Model.GetPropertyValue("copy")
-					</div>
-				}
-				@{
-					var buttonAJson = Model.GetPropertyValue<string>("buttonA");
-					var buttonBJson = Model.GetPropertyValue<string>("buttonB");
-					if (!string.IsNullOrWhiteSpace(buttonAJson))
-					{
-						var button = Json.Decode(buttonAJson);
-						if (button != null)
+					@{
+						var buttonAJson = Model.GetPropertyValue<string>("buttonA");
+						var buttonBJson = Model.GetPropertyValue<string>("buttonB");
+						if (!string.IsNullOrWhiteSpace(buttonAJson))
 						{
-							<a href="@button.Url" target="@button.Target" class="c-button c-button--secondary">
-								<span>@button.Name</span>
-							</a>
+							var button = Json.Decode(buttonAJson);
+							if (button != null)
+							{
+								<a href="@button.Url" target="@button.Target" class="c-button c-button--secondary">
+									<span>@button.Name</span>
+								</a>
+							}
+						}
+						if (!string.IsNullOrWhiteSpace(buttonBJson))
+						{
+							var button = Json.Decode(buttonBJson);
+							if (button != null)
+							{
+								<a href="@button.Url" target="@button.Target" class="c-button c-button--secondary">
+									<span>@button.Name</span>
+								</a>
+							}
 						}
 					}
-					if (!string.IsNullOrWhiteSpace(buttonBJson))
-					{
-						var button = Json.Decode(buttonBJson);
-						if (button != null)
-						{
-							<a href="@button.Url" target="@button.Target" class="c-button c-button--secondary">
-								<span>@button.Name</span>
-							</a>
-						}
-					}
-				}
+				</div>
 			</div>
+			@RenderImage(image)
 		</div>
-		@RenderImage(image)
 	</div>
 </section>
 

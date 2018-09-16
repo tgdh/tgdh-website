@@ -74,11 +74,28 @@
 	@Html.Partial("~/Views/Partials/Campaigns/Modular/Footer.cshtml")
 	<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 	<!--[if gte IE 9]><!-->
-	<script src="/assets/js/main.min.4.js"></script>
+	<script src="/assets/js/main.js"></script>
 	<!--<![endif]-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
 	<script src="https://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js"></script>
+	<script type="text/javascript">
+		var $header = $('.c-header');
+
+		function checkHeaderStyle() {
+			if ($(this).scrollTop() > 150) { // this refers to window
+				$header.addClass('c-header--dark');
+			} else {
+				$header.removeClass('c-header--dark');
+			}
+		};
+
+		checkHeaderStyle();
+
+		$(window).scroll(function () {
+			checkHeaderStyle();
+		});
+	</script>
 	<script>
 		var ValidateForms = (function ($) {
 			'use strict';

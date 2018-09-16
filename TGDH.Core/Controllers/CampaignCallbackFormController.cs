@@ -50,7 +50,7 @@ namespace TGDH.Core.Controllers
             try
             {
                 var contentService = Services.ContentService;
-                var formSubmission = contentService.CreateContent(model.Name + ", " + model.PhoneNumber + " - " + DateTime.Now.ToShortDateString(), FormFolderId, "campaignCallbackForm");
+                var formSubmission = contentService.CreateContent(model.PageName + ", " + model.Name + ", " + " - " + DateTime.Now.ToShortDateString(), FormFolderId, "campaignCallbackForm");
 
                 formSubmission.SetValue("pageName", model.PageName);
                 formSubmission.SetValue("personName", model.Name);

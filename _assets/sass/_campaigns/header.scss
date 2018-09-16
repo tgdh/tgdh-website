@@ -12,6 +12,40 @@
 	top: 0;
 	left: 0;
 	right: 0;
+	transition: background $speed $ease;
+
+	&--dark {
+		background-color: $black !important;
+
+		svg {
+			fill: $white !important;
+		}
+
+		.c-header__cta__item {
+			color: $white;
+		}
+
+		.c-header__cta--button {
+			background-color: $white;
+			color: $black;
+
+			svg {
+				fill: $black !important;
+			}
+		}
+	}
+}
+
+.c-header__cta__item {
+	transition: color $speed $ease;
+}
+
+.c-header__cta--button {
+	transition: color $speed $ease, background $speed $ease;
+
+	svg {
+		transition: fill $speed $ease;
+	}
 }
 
 .c-header__logo {

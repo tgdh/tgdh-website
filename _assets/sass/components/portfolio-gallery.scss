@@ -1,0 +1,26 @@
+.c-portfolio-gallery {
+    @include clearfix();
+}
+
+.c-portfolio-gallery__item {
+    + .c-portfolio-gallery__item {
+        margin-top: 0.5%;
+    }
+}
+
+.c-portfolio-gallery__image {
+}
+
+@include respond-min($mq-medium) {
+    .c-portfolio-gallery__item {
+        @include col(1/2, $gutter: .25, $cycle: 2);
+
+        + .c-portfolio-gallery__item {
+            margin-top: 0;
+        }
+
+        &:nth-child(1n + 3) {
+            margin-top: 0.25%;
+        }
+    }
+}

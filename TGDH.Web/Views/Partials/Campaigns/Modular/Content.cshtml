@@ -4,7 +4,7 @@
 }
 <main id="main" role="main">
 	@Html.Partial("~/Views/Partials/Campaigns/Modular/Cover.cshtml")
-	@foreach (var block in Model.GetPropertyValue<IEnumerable<IPublishedContent>>("contentBlocks"))
+	@foreach (var block in Model.GetPropertyValue<IEnumerable<IPublishedContent>>("contentBlocks").ToContentSet())
 	{
 		var sectionColour = "u-background--white";
 
@@ -22,7 +22,7 @@
 					Subtitle = block.GetPropertyValue<string>("subtitle")
 				};
 
-				<section class="o-section @sectionColour">
+				<section class="o-section @(Umbraco.If(block.IsFirst(), "o-section--first")) @(Umbraco.If(block.IsLast(), "o-section--last")) @sectionColour">
 					<div class="o-wrap o-wrap--x-large">
 						@Html.Partial("~/Views/Partials/Components/Heading.cshtml", clientsBlockHeading)
 						@{
@@ -44,22 +44,23 @@
 					Subtitle = block.GetPropertyValue<string>("subtitle")
 				};
 
-				<section class="o-section @sectionColour">
+				<section class="o-section @(Umbraco.If(block.IsFirst(), "o-section--first")) @(Umbraco.If(block.IsLast(), "o-section--last")) @sectionColour">
 					<div class="o-wrap o-wrap--x-large">
 						@Html.Partial("~/Views/Partials/Components/Heading.cshtml", galleryBlockHeading)
 						@if (!string.IsNullOrEmpty(block.GetPropertyValue<string>("gallery")))
 						{
-							var galleryIds = block.GetPropertyValue<string>("gallery").Split(new []{","}, StringSplitOptions.RemoveEmptyEntries);
+							var galleryIds = block.GetPropertyValue<string>("gallery").Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 							var galleryImages = Umbraco.TypedMedia(galleryIds);
 
-							<div class="c-masonry-gallery my-shuffle" id="masonry-gallery">
+							<div class="c-portfolio-gallery">
 								@foreach (var image in galleryImages)
 								{
-									<img src="@image.Url" alt="@(image.GetPropertyValue<string>("altText"))" />
+									<div class="c-portfolio-gallery__item o-aspect--1-1">
+										<img class="c-portfolio-gallery__image" src="@image.Url.GetCropUrl(width: 800)" alt="@(image.GetPropertyValue<string>("altText"))" />
+									</div>
 								}
 							</div>
 						}
-
 					</div>
 				</section>
 				break;
@@ -71,7 +72,7 @@
 				};
 				var lists = block.GetPropertyValue<IEnumerable<IPublishedContent>>("list");
 
-				<section class="o-section @sectionColour">
+				<section class="o-section @(Umbraco.If(block.IsFirst(), "o-section--first")) @(Umbraco.If(block.IsLast(), "o-section--last")) @sectionColour">
 					<div class="o-wrap o-wrap--x-large">
 						@Html.Partial("~/Views/Partials/Components/Heading.cshtml", textWithListHeading)
 						<div class="o-col--two-one u-clearfix">
