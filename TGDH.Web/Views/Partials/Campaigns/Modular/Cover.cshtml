@@ -50,9 +50,17 @@
 						if (!string.IsNullOrWhiteSpace(buttonAJson))
 						{
 							var button = Json.Decode(buttonAJson);
+
 							if (button != null)
 							{
-								<a href="@button.Url" target="@button.Target" class="c-button c-button--secondary">
+								var link = button.Url;
+
+								if (button.HashTarget != null)
+								{
+									link = link + "#" + button.HashTarget;
+								}
+
+								<a href="@link" target="@button.Target" class="c-button c-button--secondary js-smooth-scroll">
 									<span>@button.Name</span>
 								</a>
 							}
@@ -62,7 +70,14 @@
 							var button = Json.Decode(buttonBJson);
 							if (button != null)
 							{
-								<a href="@button.Url" target="@button.Target" class="c-button c-button--secondary">
+								var link = button.Url;
+
+								if (button.HashTarget != null)
+								{
+									link = link + "#" + button.HashTarget;
+								}
+
+								<a href="@link" target="@button.Target" class="c-button c-button--secondary js-smooth-scroll">
 									<span>@button.Name</span>
 								</a>
 							}

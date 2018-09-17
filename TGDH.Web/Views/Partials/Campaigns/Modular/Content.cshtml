@@ -1,18 +1,26 @@
 @inherits UmbracoViewPage<IPublishedContent>
 @{
-
+	var blocks = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("contentBlocks").ToContentSet();
 }
 <main id="main" role="main">
 	@Html.Partial("~/Views/Partials/Campaigns/Modular/Cover.cshtml")
-	@foreach (var block in Model.GetPropertyValue<IEnumerable<IPublishedContent>>("contentBlocks").ToContentSet())
+	@foreach (var block in blocks)
 	{
 		var sectionColour = "u-background--white";
+		var bgColour = "ffffff";
+		var blockId = "section-" + (blocks.IndexOf(block) + 1);
 
 		if (block.HasValue("backgroundColour") && block.GetPropertyValue<string>("backgroundColour") == "Light grey")
 		{
 			sectionColour = "u-background--light";
+			bgColour = "f9f9f9";
 		}
 
+		if (block.HasValue("hashTarget") && !string.IsNullOrEmpty(block.GetPropertyValue<string>("hashTarget").Trim()))
+		{
+			blockId = block.GetPropertyValue<string>("hashTarget").Trim();
+		}
+		
 		switch (block.DocumentTypeAlias)
 		{
 			case "clientsBlock":
@@ -22,18 +30,22 @@
 					Subtitle = block.GetPropertyValue<string>("subtitle")
 				};
 
-				<section class="o-section @(Umbraco.If(block.IsFirst(), "o-section--first")) @(Umbraco.If(block.IsLast(), "o-section--last")) @sectionColour">
+				<section id="@blockId" class="o-section @(Umbraco.If(block.IsFirst(), "o-section--first")) @(Umbraco.If(block.IsLast(), "o-section--last")) @sectionColour">
 					<div class="o-wrap o-wrap--x-large">
 						@Html.Partial("~/Views/Partials/Components/Heading.cshtml", clientsBlockHeading)
 						@{
-							var logos = new LogoListingViewModel
-							{
-								LogoListing = block.GetPropertyValue<IEnumerable<IPublishedContent>>("clientLogos"),
-								ModifierClass = "c-logo-grid u-clearfix u-space-top--large"
-							};
-							@Html.Partial("~/Views/Partials/Components/LogoListing.cshtml", logos);
+				var logos = new LogoListingViewModel
+				{
+					LogoListing = block.GetPropertyValue<IEnumerable<IPublishedContent>>("clientLogos"),
+					ModifierClass = "c-logo-grid u-clearfix u-space-top--large"
+				};
+				@Html.Partial("~/Views/Partials/Components/LogoListing.cshtml", logos);
 						}
 					</div>
+					@if (block.IsLast())
+					{
+						<div id="get-in-touch"></div>
+					}
 				</section>
 
 				break;
@@ -44,7 +56,7 @@
 					Subtitle = block.GetPropertyValue<string>("subtitle")
 				};
 
-				<section class="o-section @(Umbraco.If(block.IsFirst(), "o-section--first")) @(Umbraco.If(block.IsLast(), "o-section--last")) @sectionColour">
+				<section id="@blockId" class="o-section @(Umbraco.If(block.IsFirst(), "o-section--first")) @(Umbraco.If(block.IsLast(), "o-section--last")) @sectionColour">
 					<div class="o-wrap o-wrap--x-large">
 						@Html.Partial("~/Views/Partials/Components/Heading.cshtml", galleryBlockHeading)
 						@if (!string.IsNullOrEmpty(block.GetPropertyValue<string>("gallery")))
@@ -56,12 +68,16 @@
 								@foreach (var image in galleryImages)
 								{
 									<div class="c-portfolio-gallery__item o-aspect--1-1">
-										<img class="c-portfolio-gallery__image" src="@image.Url.GetCropUrl(width: 800)" alt="@(image.GetPropertyValue<string>("altText"))" />
+										<img class="c-portfolio-gallery__image" src="@image.Url.GetCropUrl(width: 800, furtherOptions: "&format=jpg&bgcolor=" + bgColour)" alt="@(image.GetPropertyValue<string>("altText"))" />
 									</div>
 								}
 							</div>
 						}
 					</div>
+					@if (block.IsLast())
+					{
+						<div id="get-in-touch"></div>
+					}
 				</section>
 				break;
 			case "textWithList":
@@ -72,7 +88,7 @@
 				};
 				var lists = block.GetPropertyValue<IEnumerable<IPublishedContent>>("list");
 
-				<section class="o-section @(Umbraco.If(block.IsFirst(), "o-section--first")) @(Umbraco.If(block.IsLast(), "o-section--last")) @sectionColour">
+				<section id="@blockId" class="o-section @(Umbraco.If(block.IsFirst(), "o-section--first")) @(Umbraco.If(block.IsLast(), "o-section--last")) @sectionColour">
 					<div class="o-wrap o-wrap--x-large">
 						@Html.Partial("~/Views/Partials/Components/Heading.cshtml", textWithListHeading)
 						<div class="o-col--two-one u-clearfix">
@@ -103,6 +119,11 @@
 							</div>
 						</div>
 					</div>
+
+					@if (block.IsLast())
+					{
+						<div id="get-in-touch"></div>
+					}
 				</section>
 
 				break;
